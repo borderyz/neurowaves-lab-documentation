@@ -9,6 +9,15 @@ Status of the documentation build
     :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
 
+[![Automated Testing Action](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml)
+
+
+[![ReadTheDocs Daily Build Trigger](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml)
+
+.. image:: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg
+   :target: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml
+
+
 .. include:: ../../README.rst
 
 

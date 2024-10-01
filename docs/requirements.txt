@@ -10,3 +10,4 @@ mne
 pandas
 boxsdk[jwt]
 python-dotenv
+recommonmark
