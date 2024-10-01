@@ -35,7 +35,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx_togglebutton",
     "sphinx_panels",
-    "recommonmark",
+    "myst-parser"
 ]
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
