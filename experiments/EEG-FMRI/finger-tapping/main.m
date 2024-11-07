@@ -130,6 +130,14 @@ for   tc =  1 : parameters.numberOfBlocks
     % according to Putti: we should correct for the MRI artifact (causing higher signal amplitudes with time) that has an upward trend with time (this is done by adding a linear drift vector at the end of the design matrix)
     % Add a first vector of constant values in order to take the average of the BOLD signals from all fingers as a baseline
     % In the paper the block duration is 3 seconds, however we can then take 12 seconds per finger
+    
+% For the phase-encoding is basically fitting a since wave into the HRF
+% (the stimulus can be a small-time one like a pulse stimulus for a frame,
+% or a longer in time stimulus, (in this case the sequence of the fingers
+% should be the same all the time and not random), all voxels will have a
+% different shift but the average will be the same
+
+
 
     timingsReport(:,tc).trial = tc;
     timingsReport(:,tc).startTime =  blockStartTime;
