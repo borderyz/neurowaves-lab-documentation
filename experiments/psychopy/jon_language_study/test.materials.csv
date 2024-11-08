@@ -1,0 +1,326 @@
+sentence,trigger,taskQuestion,correctAnswer
+This is your first practice sentence.,201,,
+And here is another practice sentence.,201,,
+The trick is to keep as still as possible during this sentence.,201,Here is where a question will be. Press yes to continue.,j
+Even something as small as a blink can be a problem.,201,This could be another question. Press no to continue.,f
+Try to keep your eyes in the center of the screen.,201,,
+You should also try to relax as much as possible.,201,,
+Tension in your face can disrupt the EEG.,201,Maybe another question here. Press yes to continue.,j
+We are almost finished with the practice.,201,,
+Take a moment to ask any questions you might have.,201,And another question here. Press no to continue.,f
+This is the last example sentence. ,201,,
+break,,,
+"I don't know its title, but April reported that she forgot a book in the classroom.",211,Did April forget the book?,j
+Austin wondered if the advice about the weather surprised the campers.,41, ,
+Did the auction for the land destroy the community?,21, ,
+"I don't know her name, but Vince said that he wrote a representative in the government.",211, ,
+"I don't know its name, but Dave says that he photographed something from the airplane.",131, ,
+My cat is covered with white fur.,71, ,
+What did the advertisement for the show interrupt?,11, ,
+Did the arrest by the police frighten the community?,21, ,
+"I don't know who, but Pete claims that he scared someone in the woods.",111, ,
+A female chicken is called a hen.,71,Is a hen a female chicken?,j
+After being robbed the victim called the mile.,181, ,
+"I didn't watch anything, but Aaron said that he watched a movie on the internet.",231,Did Aaron watch a movie?,j
+"I didn't race anyone, but Veronica said that she raced a neighbor down the street.",231, ,
+Kevin wondered who the advice from the consultant assisted.,31, ,
+Michael wondered if the arrest of the politician caused the protest.,41,Did Michael wonder about the game?,f
+Joshua wondered what the article about the scandal revealed.,31,Did Joshua wonder about the cat?,f
+Joan warmed the baby's bottle of work.,171, ,
+Who did the advertisement by the company disappoint?,11, ,
+"I didn't compliment anyone, but Abbie claims that she complimented someone at the event.",131, ,
+"I don't know what, but Mary said that she found something at the park.",111, ,
+break,,,
+"I don't know its meaning, but Ken claimed that he overheard a hint about the test.",211, ,
+"I didn't assist anyone, but George says that he assisted someone in the garage.",131, ,
+Christopher wondered if the blueprints by the engineers described the ship.,41, ,
+Who did the article by the journalist torture?,11, ,
+What did the blackmail by the mistress threaten?,11,Was there blackmail?,j
+John filled the pen with milk.,161, ,
+After dinner they washed the park.,161,Did they wash the park?,j
+Thomas wondered who the book by the teacher entertained.,31, ,
+"I didn't buy anything, but John claims that he bought a computer at the mall.",231, ,
+"I don't know who, but Adam said that he pestered someone at the company.",111, ,
+"I didn't wound anyone, but Sarah claimed that she wounded a soldier in the battle.",231, ,
+"I didn't read anything, but Mark claimed that he read something before the meeting.",131,Did Mark eat the pizza?,f
+Andrew wondered what the blueprints for the building revealed.,31, ,
+Did the comment about the bribe surprise the reporter?,21, ,
+"I don't know what, but Eliza said that she left something at the shop.",111,Did Eliza read a book?,f
+Abby brushed her teeth after every meal.,71, ,
+New York is a very busy city.,71, ,
+Robert wondered if the book about the wizard captivated the children.,41, ,
+Did the bribe from the lobbyist cause the congressional hearing?,21,Was there a bribe?,j
+"I don't know her name, but Dave said that he upset a waitress at the bar.",211, ,
+break,,,
+Who did the comment by the principal hurt?,11, ,
+Did the compliment about the food please the restaurant owner?,21, ,
+"I don't know who, but Josh claimed that he tripped someone in the mall.",111, ,
+William wondered if the consultation with the lawyers achieved the deal.,41, ,
+"I didn't buy anything, but Ned claimed that he bought a vase from the website.",231, ,
+"I don't know her name, but Jason says that he recruited a volunteer on the street.",211,Did Jason sell a t-shirt?,f
+Jack wondered if the complaint about the testimony worried the lawyer.,41,Was there testimony?,j
+"I don't know what, but Molly claims that she found something on the street.",111, ,
+Hunter wondered who the complaint by the worker criticized.,31,Was there a complaint?,j
+"I don't know its size, but Sarah claimed that she chased a dog in the park.",211, ,
+Anthony wondered what the cousin of the bride crashed.,31, ,
+Pam weighed herself on the bathroom scale.,71,Did Pam brush her teeth?,f
+John swept the floor with a meeting.,171, ,
+Did the decision by the teacher settle the argument?,21, ,
+Before exercising Jack always stretches his muscles.,71, ,
+"I didn't guide anyone, but Alexis says that she guided a tourist in the cave.",231,Did Alexis play tennis?,f
+"I didn't sell anything, but Shane claims that he sold something at the fair.",131, ,
+What did the campaign about the environment save?,11, ,
+All the planets circle around the number.,171, ,
+"I didn't copy anyone, but Sharon says that she copied someone on the email.",131, ,
+break,,,
+Did the documentary by the director confuse the audience?,21,Was there a rollercoaster?,f
+Ray fell down and skinned his knee.,71, ,
+Isaiah wondered if the decision about the regulations dissatisfied the environmental groups.,41, ,
+Did the drawing by the artist depict the battle?,21, ,
+"I didn't borrow anything, but Cindy said that she borrowed something from the babysitter.",131, ,
+"I didn't interview anyone, but Gary said that he interviewed someone from the newspaper.",131,Was someone fired?,f
+"I don't know what, but Toby claims that he ate something at the restaurant.",111, ,
+"I didn't accept anything, but Marcy said that she accepted a box from the driver.",231, ,
+She put on her high heeled stamp.,171,Did she put something on?,j
+Evan wondered who the discovery of the ruins astounded.,31, ,
+Who did the compliment from the bartender embarrass?,11,Was there a compliment?,j
+Ryan wondered what the documentary about the war affected.,31, ,
+What did the diplomacy by the general avert? ,11, ,
+"I don't know his name, but Emily said that she detained a criminal in the airport.",211, ,
+Nicholas wondered if the discovery by the scientist benefited the military.,41, ,
+Betsy could never tell a lie.,61, ,
+"I don't know its flavor, but Eric said that he baked a cake for the party.",211, ,
+Brian poured some sauce on his rare disease.,181, ,
+"I didn't teach anyone, but David claims that he taught a student in the class.",231, ,
+"I don't know who, but Matt claims that he selected someone from the list.",111,Was someone deleted from the list?,f
+break,,,
+Did the excuse by the student frustrate the professor?,21, ,
+She was named after her mother.,61, ,
+"I don't know what, but Doug said that he captured something in the trap.",111, ,
+"I don't know its content, but Larry claims that he circulated a note during the class.",211,Did Larry circulate a note?,j
+"I don't know who, but Lisa claims that she surprised someone with the horn. ",111, ,
+Who did the drawing of the king please?,11, ,
+Jonathan wondered what the feedback from the buyers changed.,31,Was there feedback from the buyers?,j
+John wondered if the exhibition by the painter celebrated the city.,41, ,
+"I didn't collect anything, but Erica said that she collected something during the fundraiser. ",131, ,
+Jayden wondered who the excuse about the grade annoyed.,31, ,
+Did the inquiry by the mayor assist the police investigation?,21, ,
+Cathy is liked by all of her light.,181, ,
+Dick wrote a chapter in the book.,71, ,
+Mason wondered if the email about the fundraiser surprised the philanthropist.,41,Did the charity close down?,f
+What did the email from the accountant criticize?,11,Was the email from the lawyer?,f
+"I didn't help anyone, but Carl says that he helped a relative at the hospital.",231,Did Carl help a relative?,j
+"I don't know his name, but Lindsay says that she tracked a thief on the phone.",211, ,
+"I didn't distract anyone, but Katie claims that she distracted someone during the play. ",131, ,
+She seasoned the steak with black bags.,171, ,
+"I didn't catch anything, but Elise claims that she caught a bug with the net.",231, ,
+break,,,
+"I didn't bake anything, but Leslie said that she baked a pie before the party.",231, ,
+Aaron wondered if the experiment about the bacteria intrigued the scientist.,41, ,
+The academic year began in the bridge.,171, ,
+Did the lecture by the professor cover the exam questions?,21, ,
+The attendant filled the car with gas.,71, ,
+Connor wondered who the experiment by the doctors deceived.,31,Was the experiment by the military?,f
+"I didn't hit anything, but Rebecca claims that she hit something with the lawnmower.",131, ,
+"During the volley, Joe twisted his money.",171,Did Joe break his leg?,f
+Christian wondered if the invitation to the fundraiser excited the young actress.,41, ,
+"I don't know its contents, but Michael said that he deleted an email from the phone.",211, ,
+"I didn't hire anyone, but Harry said that he hired someone from the agency.",131,Did Harry hire someone?,j
+During the movie we ate buttered popcorn.,71, ,
+"I don't know what, but Nick claims that he cooked something for the banquet.",111,Did Nick cook something?,j
+Who did the exhibition of the sculptures excite?,11,Was there a sculpture exhibition?,j
+"I don't know who, but Ben says that he met someone at the club.",111, ,
+"I don't know his name, but Erin said that she visited a doctor at the hospital.",211, ,
+What did the invention by the professor deserve?,11, ,
+Dylan wondered what the joke about the election revealed.,31, ,
+"I didn't interview anyone, but Beth claimed that she interviewed an agent from the government.",231, ,
+Did the feedback about the sale upset the manager?,21, ,
+break,,,
+Zachary wondered what the meeting with the donors delayed.,31, ,
+Every Monday the gardener mows the safe.,171, ,
+Emily poured cereal in a bowl.,61,Did Emily cook eggs?,f
+"I didn't train anyone, but Jen claimed that she trained an employee for the project. ",231, ,
+"I didn't copy anything, but Heather claims that she copied something from the phone.",131, ,
+"I don't know its purpose, but Trent said that he built a shed in the yard.",211,Did Trent build a cabin?,f
+"I don't know who, but Jane says that she fired someone at the company.",111, ,
+The boys helped Jane wax her car.,71, ,
+Nathan wondered if the meeting about the embargo incited the protest.,41,Was the meeting about the trial?,f
+Did the movie by the student win the award?,21, ,
+Kyle wondered if the film by the journalist offended the critic.,41, ,
+What did the letter from the president praise?,11,Was the letter from the president?,j
+Juan wondered who the guest of the speaker insulted.,31, ,
+"I didn't disqualify anyone, but Matt claims that he disqualified someone during the game.",131, ,
+Who did the film about the recession enlighten?,11, ,
+"I didn't draw anything, but Tina said that she drew a portrait for the show.",231, ,
+"I don't know what, but Ryan said that he delivered something to the house.",111,Did Ryan deliver something?,j
+"I don't know his name, but Julia says that she treated a patient at the hospital.",211, ,
+The bathroom faucet sprung a library.,161, ,
+Did the hypothesis about the climate frustrate the scientist?,21, ,
+break,,,
+Emily wondered what the painting by the monk settled.,31, ,
+"I didn't knit anything, but Derek claims that he knit something for the party.",131, ,
+Gabriel wondered if the objection by the attorney delayed the trial.,41, ,
+"I didn't prosecute anyone, but Tess claims that she prosecuted someone for the theft.",131,Did Tess eat a sandwich?,f
+The new fertilizer enriched the soil.,61, ,
+Father carved the turkey with a road.,171, ,
+"I don't know his name, but Sue said that she detained a criminal at the airport.",211, ,
+Hal wrote her a love letter.,61, ,
+The boat passed easily under the hour.,171,Did the boat sink?,f
+"I don't know what, but Harry claims that he found something in the attic.",111, ,
+Did the invention of the algorithm interest the investors?,21,Was the invention patented?,f
+"I don't know its purpose, but Sam said that he installed a program on the computer.",211, ,
+What did the objection against the war start?,11, ,
+Morgan wondered who the inquiry about the company distracted.,31,Was there an inquiry about the company?,j
+Who did the incompetence of the doctors injure?,11, ,
+Did the pamphlet about the disease suggest the vaccine? ,21, ,
+Adam wondered if the information about the stocks deceived the investors.,41, ,
+"I didn't see anyone, but Stacey says that she saw a squatter in the house.",231,Did Stacey see someone?,j
+"I don't know who, but Neil says that he apprehended someone for the crime.",111, ,
+"I didn't hide anything, but Sarah says that she hid a coat in the closet.",231, ,
+break,,,
+Fred put the worm on a dictionary.,171, ,
+Kaitlyn wondered who the lecture about the painting captivated.,31, ,
+The mother fed the newborn baby.,61, ,
+He bought a wall to wall carpet.,71,Did he buy a desk?,f
+"I don't know her name, but Scott claims that he tutored a student at the school.",211, ,
+Did the letter about the attack disturb the president?,21, ,
+"I didn't leave anything, but Ann says that she left something in the cave.",131, ,
+"I don't know its meaning, but Jeff says that he drew a symbol on the wall.",211,Did Jeff draw a symbol?,j
+Did the poll about the debate uncover the winner?,21,Was the debate canceled?,f
+Ella wondered if the joke by the comedian insulted the prime minister.,41,Did the comedian tell a joke?,j
+What did the performance by the children receive?,11, ,
+Olivia wondered if the picture of the couple accompanied the wedding invitation.,41, ,
+"I didn't organize anything, but Nate claims that he organized a fundraiser in the office.",231, ,
+Who did the invitation of the actor thrill?,11, ,
+"I don't know what, but Mandy says that she memorized something from the file.",111, ,
+"I didn't admire anyone, but Mandy said that she admired an executive from the company.",231, ,
+"I don't know who, but Thomas said that he offended someone at the bar.",111, ,
+Hannah wondered what the poem by the singer won.,31, ,
+The careless smoker caused a forest thunder.,171, ,
+"I didn't reprimand anyone, but Laura says that she reprimanded someone at the office.",131,Did Laura reprimand someone?,j
+break,,,
+"I didn't wash anything, but Clark claims that he washed something for the neighbor.",131, ,
+He bought them in the candy pressure.,171, ,
+"I don't know its title, but Audrey says that she traded a DVD for the book.",211, ,
+"I don't know who, but Kyle says that he befriended someone from the facility.",111, ,
+"I didn't smuggle anything, but Duke says that he smuggled an artifact into the country.",231,Did Duke eat the pie?,f
+Samantha wondered if the presentation by the architects facilitated the new contract.,41, ,
+Did the picture of the victim impress the editor?,21, ,
+I added my name to the list.,71, ,
+What did the presentation about the climate predict?,11,Was there a presentation about the climate?,j
+"I didn't search anyone, but Erin says that she searched someone at the airport.",131, ,
+Jennifer wondered who the performance of the play electrified.,31, ,
+Did the protest against the government interrupt the annual conference?,21,Was there a protest?,j
+"I don't know what, but Breanne claims that she rented something from the company.",111, ,
+The lecture should last about one space.,171, ,
+"I didn't caution anyone, but Kristin claims that she cautioned a pedestrian near the pothole.",231,Did Kristin buy a car?,f
+Who did the movie about the genocide scare?,11, ,
+The organist accompanied the church choir.,61, ,
+Elizabeth wondered what the problem with the engine prevented.,31,Was there a problem with the book?,f
+"I don't know her name, but Tim claims that he briefed a prosecutor about the case.",211, ,
+Savannah wondered if the painting of the wreckage startled the visitor.,41, ,
+break,,,
+The pigs wallowed in the drawer.,161, ,
+"I don't know who, but Troy says that he escorted someone to the fundraiser.",111,Did Troy escort someone to the fundraiser?,j
+"I don't know its size, but Diane says that she repaired a truck after the meeting.",211, ,
+Maria wondered who the portrait of the clowns scared.,31, ,
+"I didn't design anything, but Emma said that she designed something for the show.",131,Did Emmay design something for the show?,j
+"I don't know her name, but Brandon says that he quoted a poet in the report.",211, ,
+The racing cars received the checkered flag.,71, ,
+"I didn't rescue anyone, but Brenda said that she rescued someone from the elevator.",131, ,
+Sarah wondered if the question from the chemist revealed the error.,41,Was the question from the lawyer?,f
+What did the protest by the workers challenge?,11, ,
+"I didn't build anything, but Dan said that he built a model over the break.",231, ,
+Did the poster of the championship inspire the team?,21,Was there a poster?,j
+Sophia wondered what the recipe by the farmer required.,31,Was the recipe by the chef?,f
+"I didn't impress anyone, but Melissa claims that she impressed a comedian with the impersonations.",231, ,
+"I don't know what, but Bill said that he lost something after the party.",111, ,
+Did the rejection of the treaty hurt the trade agreements?,21, ,
+I like hot fudge with ice cream.,71, ,
+He loosened the tie around his horses.,171, ,
+Who did the plan for the battle dissatisfy?,11, ,
+Haley wondered if the poem about the pond confused the students.,41, ,
+break,,,
+The sprinter ran the last quarter hunt.,171, ,
+Did the statement about the investigation complicate the election?,21, ,
+Taylor wondered what the speech about the law incited.,31,Was the speech about the law?,j
+"I don't know what, but Hector claims that he guards something near the campus.",111, ,
+Did the report about the hearing anger the president?,21,Was the president re-elected?,f
+"I don't know his name, but Linda said that she corrected a student during the speech.",211,Did Linda record the show?,f
+"I didn't recognize anyone, but Karen says that she recognized someone at the party.",131, ,
+I ordered a ham and cheese sandwich.,71, ,
+He mailed the letter without a ladder.,171, ,
+"I didn't endorse anyone, but Susan claims that she endorsed a candidate at the rally.",231, ,
+"I didn't read anything, but Lauren claims that she read something in the library.",131,Did Lauren read something?,j
+Who did the proof of the theorem fascinate?,11, ,
+Makayla wondered if the question about the equation stumped the students.,41, ,
+"I don't know its location, but Laura says that she restored a house outside of town.",211, ,
+What did the report by the investigator influence?,11, ,
+Ava wondered if the review by the critic affected the ticket sales.,41,Was the critic fired?,f
+The ship disappeared into the thick fog.,71, ,
+Brooke wondered who the rejection by the judge infuriated.,31, ,
+"I don't know who, but Dennis said that he congratulated someone at the banquet.",111, ,
+"I didn't bury anything, but Henry says that he buried a box near the river.",231, ,
+break,,,
+The winter was very harsh this water.,171,Was the winter harsh?,j
+"I don't know its title, but Pete claims that he sang a song at the show.",211, ,
+"I didn't protest anything, but Sally says that she protested something during the break.",131, ,
+Natalie wondered what the survey about the debate revealed.,31,Was the survey about the movie?,f
+Jack ordered a hamburger and french fries.,71, ,
+What did the statue of the president block?,11, ,
+Addison wondered if the rumor about the governor amused the reporter.,41, ,
+"I don't know who, but John said that he assigned someone to the project.",111,Did John assign someone to the project?,j
+Who did the review of the book interest?,11, ,
+Chloe wondered if the story by the reporter uncovered the scandal.,41,Was the story about the parade?,f
+"I didn't email anyone, but Brittany said that she emailed someone about the job.",131, ,
+Stephanie wondered who the sketch of the building offended.,31, ,
+"I didn't kiss anyone, but Merissa claims that she kissed a guy at the formal.",231, ,
+"I didn't learn anything, but Lisa says that she learned an equation at the conference.",231,Did Lisa learn an equation?,j
+Did the testimony by the victim allege the coverup?,21, ,
+Her new shoes were the wrong year.,171, ,
+"I don't know her name, but Joe said that he sketched a model for the class.",211, ,
+The young boy punted the football.,61, ,
+Did the song about the competition inspire the composer?,21, ,
+"I don't know what, but Lee said that he drank something before the game.",111, ,
+break,,,
+Zoe wondered if the speech by the candidate energized the volunteers.,41,Did the candidate drop out of the race?,f
+Karen awoke after a bad dream.,61, ,
+"I don't know its value, but Kelsey claims that she won a scholarship in the contest.",211, ,
+Their picnic was ruined by the broom.,171, ,
+Who did the song about the puppies amuse?,11, ,
+"I didn't inherit anything, but Steve said that he inherited a painting from the estate.",231, ,
+"I don't know what, but Sam said that he ordered something from the internet. ",111, ,
+They raised pigs on their farm.,61,Did they raise pigs?,j
+Faith wondered who the statue of the president amazed.,31, ,
+Did the tutorial by the engineer save the project?,21, ,
+"I didn't chase anyone, but Jennifer said that she chased a tenant down the hall.",231,Did Jennifer purchase a book?,f
+Victoria wondered what the trial of the senator proved.,31, ,
+What did the theory about the comet reveal?,11,Was the theory about the comet?,j
+Anna wondered if the theory by the physicists deserved the Nobel Prize.,41, ,
+"I don't know her name, but Oliver claimed that he debated a professor at the conference.",211, ,
+"I don't know who, but Chris said that he identified someone in the lineup.",111, ,
+Did the story about the dancers entertain the girls?,21,Was there a story about ghosts?,f
+"I didn't counsel anyone, but Megan said that she counseled someone at the office.",131, ,
+I generally smoke filtered menthol energy.,161, ,
+"I didn't buy anything, but Laurel says that she bought something after the show.",131, ,
+break,,,
+It's unlucky to walk under a ship.,171, ,
+"I didn't notify anyone, but Kevin claimed that he notified an instructor about the computer.",231,Did Kevin buy a video game?,f
+"I didn't unload anything, but Mara said that she unloaded something at the warehouse.",131,Did Mara unload something at the warehouse?,j
+"I don't know who, but Cory said that he despised someone at the agency.",111, ,
+"I don't know its purpose, but Jack said that he investigated a cabin in the woods.",211, ,
+Did the video of the riot record the arrests?,21, ,
+Sydney wondered if the tweet by the actress mocked the movie.,41,Was there a tweet by an actress?,j
+"I don't know his name, but Holly says that she informed an attorney about the lawsuit. ",211,Did Holly inform an attorney?,j
+Motorcycles can create a lot of noise.,71, ,
+Alexa wondered if the thesis by the student impressed the committee members.,41, ,
+"I didn't book anyone, but Justin said that he booked someone for the festival.",131, ,
+"I don't know what, but Frank said that he lost something in the city. ",111,Did Frank photograph the mountain?,f
+Who did the testimony about the weapon convince?,11, ,
+"I didn't plant anything, but Madison claimed that she planted a flower in the field.",231, ,
+They heated the pool with solar pepper.,171, ,
+Jasmine wondered what the verdict from the judge caused.,31, ,
+Did the video about the accident educate the young drivers?,21, ,
+Katelyn wondered who the tweet about the protest offended.,31, ,
+What did the tutorial on the internet teach?,11, ,
+Yesterday they canoed down the river.,61, ,
