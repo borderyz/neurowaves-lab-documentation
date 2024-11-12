@@ -1,3 +1,5 @@
+:orphan:
+
 ###################################
 MEG/EEG-pipeline documentation page
 ###################################
@@ -5,9 +7,11 @@ MEG/EEG-pipeline documentation page
 
 Status of the documentation build
 
-.. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
-    :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
+.. only:: html
+
+   .. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
+      :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+      :alt: Documentation Status
 
 [![Automated Testing Action](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml)
 
@@ -50,8 +54,9 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :maxdepth: 2
    :caption: Operation Protocol
 
-   2-operationprotocol/participant_document
-   2-operationprotocol/meg-operationprotocol
+   2-operationprotocol/training_meg
+   2-operationprotocol/kit-operationalprotocol
+   2-operationprotocol/opm-operationalprotocol
    2-operationprotocol/eeg-fmri-protocol
 
 .. toctree::

@@ -109,6 +109,16 @@ Vpixx system (New system)
 Screen width 65 cm
 
 
+Electronic lag times between visual stimulus and KIT trigger box
+----------------------------------------------------------------
+
+A trigger signal, representing a visual stimulus sent from the Vpixx system to the KIT DAQ computers arrives on average -8.5 ms with a variance of 0.4 before the person has seen the stimulus.
+This result has been deeply investigated by Gayathri Satheesh after performing a photodiode experiment with 1000 trial.
+
+Therefore, when processing the MEG data that requires 1 millisecond precision, the user can correct the visual stimulus trigger signals by adding an 8.5 ms shift in the increasing order of time.
+
+
+
 MEG-Channels
 ############
 

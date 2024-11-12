@@ -35,21 +35,37 @@ Empty room data is recorded from the KIT system every couple of days, then for e
 The results are displayed automatically in the following dashboards.
 
 
+.. dropdown:: Metric computation for KIT empty-room data
 
-
-.. csv-table:: Metric computation for KIT empty-room data
-   :file: ../data/kit-con-files-statistics.csv
-   :header-rows: 1
+    .. csv-table:: Metric computation for KIT empty-room data
+       :file: ../data/kit-con-files-statistics.csv
+       :header-rows: 1
 
 *Plot of Average and Variance Over Time*
 
+.. dropdown:: KIT average metric plot
 
-.. raw:: html
+    .. raw:: html
 
-    <iframe src="../_static/2-data-quality-dashboards/kit_average_plot.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="../_static/2-data-quality-dashboards/kit_variance_plot.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="../_static/2-data-quality-dashboards/kit_max_plot.html" width="100%" height="600px" frameborder="0"></iframe>
-    <iframe src="../_static/2-data-quality-dashboards/kit_fft_plot.html" width="100%" height="600px" frameborder="0"></iframe>
+        <iframe src="../_static/2-data-quality-dashboards/kit_average_plot.html" width="100%" height="600px" frameborder="0"></iframe>
+
+.. dropdown:: KIT variance plot
+
+    .. raw:: html
+
+        <iframe src="../_static/2-data-quality-dashboards/kit_variance_plot.html" width="100%" height="600px" frameborder="0"></iframe>
+
+.. dropdown:: KIT max value plot
+
+    .. raw:: html
+
+        <iframe src="../_static/2-data-quality-dashboards/kit_max_plot.html" width="100%" height="600px" frameborder="0"></iframe>
+
+.. dropdown:: KIT FFT plot
+
+    .. raw:: html
+
+        <iframe src="../_static/2-data-quality-dashboards/kit_fft_plot.html" width="100%" height="600px" frameborder="0"></iframe>
     
 
 

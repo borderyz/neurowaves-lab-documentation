@@ -58,7 +58,14 @@ of static field data for the movement artifacts.
 Data acquisition protocol
 -------------------------
 
-NA
+- Open the BrainVision recorder software in administrative mode
+- File -> Open Workspace, choose a workspace
+
+To choose a simulated environment for EEG signals
+
+- Configuration -> Select Amplifier -> Simulated Amplifier
+- Then Test Signal, This should show you sinusoidal test signals
+
 
 
 

@@ -1,4 +1,4 @@
-function [startTime, endTime] = showBlockWindow(text)
+function [startTime, endTime] = showBlockWindow(text, blocktype)
     global screen;
     global parameters;
     global isTerminationKeyPressed;
@@ -11,13 +11,38 @@ function [startTime, endTime] = showBlockWindow(text)
         numFrames = round(parameters.blockDuration/screen.ifi);
         for frame = 1:numFrames
             white = screen.white;
+            black = screen.black;
+      
             Screen('TextSize', screen.win, parameters.textSize);
-            DrawFormattedText(screen.win, text, 'center', 'center',white);
+            
+            % blocktype ==0 means eyes closed
+            % blocktype ==1 means eyes open
+            
+            if blocktype == 0
+                Screen('FillRect', screen.win, black);
+                DrawFormattedText(screen.win, text, 'center', 'center',white);
+            elseif blocktype == 1
+                Screen('FillRect', screen.win, white);
+                DrawFormattedText(screen.win, text, 'center', 'center',black);
+            end
+               
             if frame == 1
                 [vbl, startTime, tstamp, miss_check]=Screen('Flip', screen.win);
+                % This is the first frame of the block, so we can just send
+                % one marker on the EEG data here
+                
+                % Sending an S1 marker on the EEG data
+                if ~parameters.isDemoMode
+                    
+                    Datapixx('SetDoutValues', 2^2);
+                    Datapixx('RegWrRd');
+                    
+                end
+                toc
             else
                 if frame == numFrames
                     [vbl, t, tstamp, miss_check]=Screen('Flip', screen.win);
+                    %
                     endTime = t+screen.ifi;
                 else
                     Screen('Flip', screen.win);

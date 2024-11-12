@@ -22,6 +22,10 @@ OPM_CSV_LOCAL_SAVE_PATH = 'data/opm-fif-files-statistics.csv'
 KIT_CON_FILE_DOWNLOAD_LIMIT = 5
 OPM_FIF_FILE_DOWNLOAD_LIMIT = 10000
 
+# Metrics
+
+METRICS_CSV_PATH = '9-dashboard/data/data-quality-dashboard/noise_metrics.csv'
+
 
 #Processing vars
 

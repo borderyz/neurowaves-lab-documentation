@@ -51,6 +51,9 @@ def process_con_file(file_path):
         # add other matrices here
         s_fft = 10
 
+
+        #metrics = pd.read_csv(file_path)
+
         logging.info(f"Processing file: {file_path}")
         # Load the .con file using MNE
         raw = mne.io.read_raw_kit(file_path, preload=False, verbose=False)
@@ -708,9 +711,8 @@ def authenticate_box():
     client_secret = os.getenv("BOX_CLIENT_SECRET")
     # print(client_secret)
     enterprise_id = os.getenv("BOX_ENTERPRISE_ID")
-    # print(enterprise_id)
+
     public_key_id = os.getenv("BOX_PUBLIC_KEY_ID")
-    # print(public_key_id)
 
     private_key = os.getenv("BOX_PRIVATE_KEY")
 

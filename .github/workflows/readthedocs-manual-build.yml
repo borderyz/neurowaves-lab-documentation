@@ -1,6 +1,7 @@
 name: ReadTheDocs Manual Build Trigger
 
-# This allows you to trigger the workflow manually via the "Actions" tab
+# Triggers the ReadTheDocs build manually
+
 on:
   workflow_dispatch:
 

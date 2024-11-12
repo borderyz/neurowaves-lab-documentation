@@ -14,9 +14,8 @@ function loadParameters()
     parameters.transparency = 0.8;
     
     %   to make screen background darker (close to 0) or lighter (close to 1)
-    parameters.greyFactor = 0.6; 
-    
- 
+    parameters.greyFactor = 0.6;
+     
     parameters.viewDistance = 60;%default
     
     %---------------------------------------------------------------------%
@@ -53,14 +52,23 @@ function loadParameters()
 
     
     %   set the number of blocks in your experiment
-    parameters.numberOfBlocks = 20;
+    %parameters.numberOfBlocks = 20;
+    % 10 blocks for each finger tapping alternated by 10 blocks of no-tapping
     
+    % To regenerate the finger stimulus sequence
     
+    [~,idx] = sort(rand(5,5));
+    parameters.blocktype = idx(:);
+
+    %parameters.blocktype = temp.dsm;
+    
+    parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
     %---------------------------------------------------------------------%
     
     %   sample task duration
+    %parameters.blockDuration = 12;
     parameters.blockDuration = 12;
     
     %   eoe task duration
@@ -73,8 +81,11 @@ function loadParameters()
     parameters.welcomeMsg = sprintf('Please wait until the experimenter sets up parameters.');
     parameters.ttlMsg = sprintf('Initializing Scanner...');
     parameters.thankYouMsg = sprintf('Thank you for your participation!!!');
-    parameters.blockOneMsg = sprintf('Stop');
-    parameters.blockTwoMsg = sprintf('Tap finger');
+    parameters.blockOneMsg = sprintf('Keep Tapping thumb');
+    parameters.blockTwoMsg = sprintf('Keep Tapping index');
+    parameters.blockThreeMsg = sprintf('Keep Tapping middle');
+    parameters.blockFourMsg = sprintf('Keep Tapping ring');
+    parameters.blockFiveMsg = sprintf('Keep Tapping pinkie');
 
     %---------------------------------------------------------------------%
     % Some geometry parameters

@@ -15,9 +15,21 @@ function [startTime, endTime] = showBlockWindow(text)
             DrawFormattedText(screen.win, text, 'center', 'center',white);
             if frame == 1
                 [vbl, startTime, tstamp, miss_check]=Screen('Flip', screen.win);
+                % This is the first frame of the block, so we can just send
+                % one marker on the EEG data here
+                
+                % Sending an S1 marker on the EEG data
+                if ~parameters.isDemoMode
+                    
+                    Datapixx('SetDoutValues', 2^2);
+                    Datapixx('RegWrRd');
+                    
+                end
+                toc
             else
                 if frame == numFrames
                     [vbl, t, tstamp, miss_check]=Screen('Flip', screen.win);
+                    %
                     endTime = t+screen.ifi;
                 else
                     Screen('Flip', screen.win);

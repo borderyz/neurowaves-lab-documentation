@@ -1,24 +1,33 @@
-% Trigger test for EEG-FMRI
+% Trigger test for EEG-FMRI BrainProducts system
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 
-%fingertapping- this one for haidee only stop and tap 
-% big font
 
 clear all
 close all
 
-global parameters;
+
 global screen;
 global tc;
 global isTerminationKeyPressed;
 global resReport;
 global totalTime;
-global datapixx;
-global PSYCHTOOLBOX;
+
+
 global VPIXX_USE;
 
-VPIXX_USE = false;
-PSYCHTOOLBOX = false;
+
+VPIXX_USE = true;
+
+%%
+
+% To make a marker S2 appear on the EEG data we must activate pin number 3
+% on the 25-pin D-Sub as in Table 1 below
+% To activate the pin number 3, we need to activate the Digital Out 4 on
+% the Datapixx
+% To activate the Digital Out 4, we need to send this combination 00000100 -> 4
+
+% Using Datapixx('SetDoutValues', 4);
+
 
 % Pinout of the trigger socket (digital port) on USB2 Adapter on the
 % EEG-FMRI trigger box
@@ -57,7 +66,6 @@ PSYCHTOOLBOX = false;
 % +-----------------------------------------------------+
 
 
-
 % Table 3: Digital output pin assignment from Vpixx system towards EEG-FMRI
 % trigger Box
 
@@ -82,104 +90,549 @@ PSYCHTOOLBOX = false;
 % * Shield is tied to the GND by a 0 Ohm resistor inside the DATAPixx system.
 
 
+%% Disable Vpixx Pixel Model incase it is already enabled
 
-if PSYCHTOOLBOX
-    Screen('Preference', 'SkipSyncTests', 1);
-    Screen('Preference', 'Verbosity', 0);
-end
-timingsReport = {};
-
-clear map
-map = struct('block',0,...
-    'startTime',0,...
-    'endTime',0,...
-    'totalBlockDuration',0);
-
-timingsReport=cell2mat(timingsReport);
-addpath('supportFiles');   
-%   Load parameters
-%--------------------------------------------------------------------------------------------------------------------------------------%
-loadParameters();
- 
-%   Initialize the subject info
-%--------------------------------------------------------------------------------------------------------------------------------------%
-initSubjectInfo();
-
-% %  Hide Mouse Cursor
-
-if PSYCHTOOLBOX
-    if parameters.hideCursor
-        HideCursor()
-    end
-
-%   Initialize screen
-%--------------------------------------------------------------------------------------------------------------------------------------%
-initScreen(); %change transparency of screen from here
+Datapixx('Open')
+Datapixx('SetPropixxDlpSequenceProgram', 0)
+Datapixx('DisablePixelMode')
+Datapixx('RegWr')
 
 
-%   Convert values from visual degrees to pixels
-%--------------------------------------------------------------------------------------------------------------------------------------%
-visDegrees2Pix();
-end
-%   Initialize Datapixx
-%-------------------------------------------------------------------------- ------------------------------------------------------------%
+%%
+
+
 
 if VPIXX_USE
-    if ~parameters.isDemoMode
+
         % datapixx init
         datapixx = 1;               
         AssertOpenGL;   % We use PTB-3;
         isReady =  Datapixx('Open');
         Datapixx('StopAllSchedules');
         Datapixx('RegWrRd');    % Synchronize DATAPixx registers to local register cache
-    end
+
 end
 
+
+
+
+
+
+
+%% Get TTL number of bits it should be 24 bits
+
 % Show how many TTL output bits are in the Datapixx
+HitKeyToContinue('Press any key to see the Datapixx TTL output number of bits');
 nBits = Datapixx('GetDoutNumBits');
 fprintf('\nDATAPixx has %d TTL output bits\n\n', nBits);
 
-% Bring 1 output high
-HitKeyToContinue('\nHit any key to bring digital output bit 0 high:');
-Datapixx('SetDoutValues', 1);
+Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
 
-% According to BrainProducts datasheet:
-% +-----------------------------------------------------+
-% | Pin on 26-pin HD D-Sub    | Function   | 25-pin D-Sub/LPT on  | BNC connector on |
-% | trigger socket (digital   |            | trigger cable        | trigger cable     |
-% | port)                     |            |                      |                  |
-% +-----------------------------------------------------+
-% |  2                        | D01 (S 2)  | 3                    |                  |
-% |  3                        | D03 (S 8)  | 5                    |                  |
-% |  4                        | D05 (S 32) | 7                    |                  |
-% |  5                        | D07 (S128) | 9                    |                  |
-% | 14                        | D00 (S 1)  | 2                    |                  |
-% | 15                        | D02 (S 4)  | 4                    |                  |
-% | 16                        | D04 (S 16) | 6                    |                  |
-% | 17                        | D06 (S 64) | 8                    |                  |
+
+%% All Triggers test
+
+% Bring 1 output high
+HitKeyToContinue('Hit any key to bring all digital output to 1:');
+
+Datapixx('SetDoutValues', (2^nBits) - 1);
+Datapixx('RegWrRd');
+
+
+% Bring 1 output high
+HitKeyToContinue('Hit any key to bring all digital output to 0:');
+
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
 
 
 % In MRI we have a 25-pin D-Sub cable so we care about this column
 % Trigger S2 marker by activating the 3rd pin of the 25-pin D-sub cable
 % The 3rd pin corresponds to digital output 4 on the vpixx system
 % 4 in binary is 0100
+    % In MRI we have a 25-pin D-Sub cable so we care about this column
+    % Trigger S2 marker by activating the 3rd pin of the 25-pin D-sub cable
+    % The 3rd pin corresponds to digital output 4 on the vpixx system
+    % 4 in binary is 0100
+    
 
-% Should trigger S2 marker on EEG
-HitKeyToContinue('\nHit any key to bring the EEG S2 marker on:');
-Datapixx('SetDoutValues', (2^nBits) - 1);
+
+    % Binary numbers with a single 1 over 8 bits and their decimal equivalents:
+% 00000001 -> 1
+% 00000010 -> 2
+% 00000100 -> 4
+% 00001000 -> 8
+% 00010000 -> 16
+% 00100000 -> 32
+% 01000000 -> 64
+% 10000000 -> 128
+
+
+
+% EEG Marker trigger script
+
+
+
+% DOUTValues = 0
+% DOUTValues = 1
+% DOUTValues = 2 --> nothing active
+% DOUTValues = 4 --> bit number 0 is activated
+% DOUTValues = 5 --> bit number 0 is activated coz 5 = 101
+% DOUTValues = 8 --> nothing active
+% DOUTVALUES = 16 --> bit 1 is activated
+
+
+% Bits on Vpixx
+% Bit 0 on BP needs bit 2 on Vpixx
+% Bit 1 on BP needs bit 4 on Vpixx
+% Bit 2 on BP needs bit 6 on Vpixx
+% Bit 3 on BP needs bit 8 on Vpixx
+% Bit 4 on BP needs bit 10 on Vpixx
+% Bit 5 on BP needs bit 12 on Vpixx
+% Bit 6 on BP needs bit 14 on Vpixx
+% Bit 7 on BP needs bit 16 on Vpixx
+
+%% Bit testing 0-7 markers
+
+%% Bit 0 Test WORKS
+
+% Should trigger bit 0 on EEG recorder from the digital out menu
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+HitKeyToContinue('Hit any key to bring the bit 0 on:');
+Datapixx('SetDoutValues', 2^2);
 Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
 
-
-% Bring all the outputs high
-HitKeyToContinue('\nHit any key to bring all the digital outputs high:');
-Datapixx('SetDoutValues', (2^nBits) - 1);
-Datapixx('RegWrRd');
-
-% Bring all the outputs low
-HitKeyToContinue('\nHit any key to bring all the digital outputs low:');
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 0 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+%% Bit 1 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 1 on:');
+Datapixx('SetDoutValues', 2^4);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 1 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+
+%% Bit 2 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 2 on:');
+Datapixx('SetDoutValues', 2^6);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 2 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+%% Bit 3 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 3 on:');
+Datapixx('SetDoutValues', 2^8);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 3 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+
+%% Bit 4 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 4 on:');
+Datapixx('SetDoutValues', 2^10);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 4 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+
+%% Bit 5 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 5 on:');
+Datapixx('SetDoutValues', 2^12);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 5 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+
+%% Bit 6 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 6 on:');
+Datapixx('SetDoutValues', 2^14);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 6 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+%% Bit 7 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 7 on:');
+Datapixx('SetDoutValues', 2^16);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 7 off:');
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
+
+
+
+
+
+
+
+
+
+
+%% Marker test
+
+
+% Set total duration (in seconds) to run the loop
+totalDuration = 10; % e.g., 30 seconds
+
+% Set pause duration (in seconds) between each instruction
+pauseDuration = 2; % e.g., 2 seconds
+
+%% S1 Marker Works
+
+% Should trigger S1 marker on EEG
+%HitKeyToContinue('\nHit any key to bring the EEG S2 marker on:');
+
+
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^2);
+    Datapixx('RegWrRd');
+    disp('S1 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+%% S2 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^4);
+    Datapixx('RegWrRd');
+    disp('S2 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+%% S4 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^6);
+    Datapixx('RegWrRd');
+    disp('S4 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+%% S8 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^8);
+    Datapixx('RegWrRd');
+    disp('S8 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+%% S8 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^8);
+    Datapixx('RegWrRd');
+    disp('S8 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+%% S16 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^10);
+    Datapixx('RegWrRd');
+    disp('S16 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+%% S32 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^12);
+    Datapixx('RegWrRd');
+    disp('S32 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+%% S32 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^14);
+    Datapixx('RegWrRd');
+    disp('S32 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+%% S128 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^16);
+    Datapixx('RegWrRd');
+    disp('S128 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
+
 
 
 if VPIXX_USE
@@ -189,4 +642,10 @@ if VPIXX_USE
         Datapixx('StopAllSchedules');
         Datapixx('Close');
     end
+        if ~parameters.isDemoMode
+            % datapixx shutdown
+            Datapixx('RegWrRd');
+            Datapixx('StopAllSchedules');
+            Datapixx('Close');
+        end
 end
