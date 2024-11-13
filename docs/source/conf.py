@@ -22,6 +22,19 @@ author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
 release = "0.1"
 version = "0.1.0"
 
+PDF_GENERATION_INDEX = os.getenv('PDF_GENERATION_INDEX', 'ALL_WEBSITE')
+
+master_doc = 'index'
+
+print('Global variable', PDF_GENERATION_INDEX)
+if PDF_GENERATION_INDEX == 'LABMANUAL':
+    master_doc = 'index_lab_manual'
+
+elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
+    master_doc = 'index'
+
+
+
 # -- General configuration
 
 extensions = [
@@ -77,7 +90,6 @@ html_css_files = [
 html_static_path = ["_static"]
 # -- Options for EPUB output
 epub_show_urls = "footnote"
-
 
 
 def run_generate_system_status_dashboards_script(app: Sphinx):

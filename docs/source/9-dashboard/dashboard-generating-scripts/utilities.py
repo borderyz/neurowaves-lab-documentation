@@ -711,9 +711,8 @@ def authenticate_box():
     client_secret = os.getenv("BOX_CLIENT_SECRET")
     # print(client_secret)
     enterprise_id = os.getenv("BOX_ENTERPRISE_ID")
-    # print(enterprise_id)
+
     public_key_id = os.getenv("BOX_PUBLIC_KEY_ID")
-    # print(public_key_id)
 
     private_key = os.getenv("BOX_PRIVATE_KEY")
 
