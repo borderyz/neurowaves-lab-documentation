@@ -14,7 +14,7 @@ stimuliFont = 'Arial'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18
+wordOn = 30
 wordOff = 12
 lastWordOn = 60
 
