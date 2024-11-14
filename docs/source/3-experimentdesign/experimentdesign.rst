@@ -85,3 +85,7 @@ If your experiment uses Pixel Mode (i.e., you are using the color of the top lef
 Find the script under  `experiments/psychtoolbox/general/enablepixelmode.m <https://github.com/hzaatiti-NYU/meg-pipeline/blob/main/experiments/psychtoolbox/general/enablepixelmode.m>`_
 
 
+"PsychoPy" based experiments
+----------------------------
+
+Ideally, use Pycharm to pull your code. Set the project interpreter to the PsychoPy Python interpreter found int C:/Program Files/PsychoPy
