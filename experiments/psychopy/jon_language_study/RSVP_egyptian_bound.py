@@ -2,6 +2,11 @@ import os, sys
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
+SCREEN_NUMBER = 2
+#Try 1 or 2 as screen_number
+#SCREEN_NUMBER = 1
+
+
 #os.chdir('/Users/jsprouse/Desktop')
 trialList = data.importConditions('egyptian_bound.csv')
 
@@ -109,7 +114,7 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')
+win = visual.Window(screen =SCREEN_NUMBER, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')
 
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=stimuliFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))

@@ -58,12 +58,22 @@ dp.DPxOpen()
 dp.DPxEnableDoutPixelMode()
 dp.DPxWriteRegCache()
 
+# win = visual.Window(
+#     screen=1,  # change here to 1 to display on second screen!
+#     monitor=None,
+#     size=[1920, 1080],  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
+#     # fullscr=False,      # therefore, top-left pixel was drawn with incorrect color.
+#     fullscr=True,  # using a full screen window resolved this issue
+#     pos=[0, 0],
+#     color='black',
+#     units="pix"
+# )
+
 win = visual.Window(
     screen=1,  # change here to 1 to display on second screen!
     monitor=None,
-    size=[1920, 1080],  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
+    size=[1910, 1070],  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
     # fullscr=False,      # therefore, top-left pixel was drawn with incorrect color.
-    fullscr=True,  # using a full screen window resolved this issue
     pos=[0, 0],
     color='black',
     units="pix"
