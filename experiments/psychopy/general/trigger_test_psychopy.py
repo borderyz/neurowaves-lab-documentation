@@ -2,7 +2,8 @@ from psychopy import visual, core
 from pypixxlib import _libdpx as dp
 
 
-
+# To install pypixxlib, download the vpixx software then find it under
+# the vpixx software directory, then install it into the python environment using pip . after navigating to the extracted files
 
 # Define trigger pixels for all usable MEG channels
 #trig.ch224 = [4  0  0]; %224 meg channel
