@@ -10,15 +10,15 @@ trialList = data.importConditions('egyptian_bound.csv')
 clock = core.Clock()
 
 backgroundColor = 'black'
-stimuliFont = 'Calibri'
+stimuliFont = 'Times New Roman'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18
-wordOff = 12
-lastWordOn = 60
+wordOn = 10 ##### change 2 (was 18)
+wordOff = 10
+lastWordOn = 10
 
-boxHeight = stimuliSize + .5
+boxHeight = stimuliSize + 1.5
 boxWidth = 11
 
 longestWordCount = 0
@@ -109,7 +109,7 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(size=[1910, 1070], fullscr=False, color=backgroundColor, monitor='testMonitor')
+win = visual.Window(screen =1, size=[1910, 1070], fullscr=False, color=backgroundColor, monitor='testMonitor')
 
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=stimuliFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
@@ -205,7 +205,8 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
+                               font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
         if wordIndex == max(range(numWords)):
