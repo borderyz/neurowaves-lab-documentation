@@ -18,9 +18,9 @@ stimuliFont = 'Arial' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 30 ##### change 2 (was 18)
-wordOff = 12
-lastWordOn = 60
+wordOn = 5 ##### change 2 (was 18)
+wordOff = 5
+lastWordOn = 5
 
 boxHeight = stimuliSize + 1
 boxWidth = 11
