@@ -2,8 +2,8 @@ from psychopy import visual, core, event
 
 # Set up the window
 #win = visual.Window(size=(1920, 1080), fullscr=False, color=(1, 1, 1), units="pix")
-#win = visual.Window(size=(800, 600), fullscr=False, color=(1, 1, 1), units="pix")
-win = visual.Window(size=(1910, 1070), fullscr=False, color=(1, 1, 1), units="pix")
+win = visual.Window(size=(800, 600), fullscr=False, color=(1, 1, 1), units="pix")
+#win = visual.Window(size=(1910, 1070), fullscr=False, color=(1, 1, 1), units="pix")
 
 # Define the stimuli
 instructions = visual.TextStim(win, text="Press any key to begin.", color=(-1, -1, -1))
