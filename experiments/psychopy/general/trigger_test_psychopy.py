@@ -1,6 +1,7 @@
-from psychopy import visual, core
+from psychopy import visual, core, monitors
 from pypixxlib import _libdpx as dp
 
+monitor = monitors.Monitor("testMonitor")
 
 # To install pypixxlib, download the vpixx software then find it under
 # the vpixx software directory, then install it into the python environment using pip . after navigating to the extracted files
@@ -71,13 +72,12 @@ dp.DPxWriteRegCache()
 # )
 
 win = visual.Window(
-    screen=1,  # change here to 1 to display on second screen!
-    monitor=None,
-    size=[1910, 1070],  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
-    # fullscr=False,      # therefore, top-left pixel was drawn with incorrect color.
+    monitor=monitor,
+    size=(1920, 1080),  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
+    fullscr=True,      # therefore, top-left pixel was drawn with incorrect color.
     pos=[0, 0],
     color='black',
-    units="pix"
+    units="pix",
 )
 
 testvals = [0, 64, 128, 191, 255]
@@ -108,11 +108,23 @@ for i in range(5):
             print('Testing channel', channel_names[index])
             drawPixelModeTrigger(win, color)
             win.flip()
+            core.wait(0.5)
+            dp.DPxUpdateRegCache()
             color = black
             drawPixelModeTrigger(win, color)
             win.flip()
-            core.wait(5)
             dp.DPxUpdateRegCache()
+            core.wait(0.5)
+            #dp.DPxUpdateRegCache()
+
+
+# New test with digital out settings
+#dp.DPxSetDoutValue()
+#dp.DPxUpdateRegCache()
+
+# try this https://www.vpixx.com/manuals/python/html/digitalOut.html
+
+
 
 win.close()
 dp.DPxDisableDoutPixelMode()
