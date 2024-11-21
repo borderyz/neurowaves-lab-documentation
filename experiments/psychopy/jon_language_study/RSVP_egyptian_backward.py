@@ -2,6 +2,43 @@ import os, sys
 import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
+from pypixxlib import _libdpx as dp
+
+# Setup the connection with the Vpixx systems and disable Pixel Mode
+dp.DPxOpen()
+dp.DPxDisableDoutPixelMode()
+dp.DPxWriteRegCache()
+
+# KIT MEG Channels triggered via Pixel Model by setting top left pixel to a specific color
+#trig.ch224 = [4  0  0]; %224 meg channel
+#trig.ch225 = [16  0  0];  %225 meg channel
+#trig.ch226 = [64 0 0]; % 226 meg channel
+#trig.ch227 = [0  1 0]; % 227 meg channel
+#trig.ch228 = [0  4 0]; % 228 meg channel
+#trig.ch229 = [0 16 0]; % 229 meg channel
+#trig.ch230 = [0 64 0]; % 230 meg channel
+#trig.ch231 = [0 0  1]; % 231 meg channel
+
+# Define the RGB code for each channel on the KIT machine and their name
+trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
+black = [0, 0, 0]
+
+
+# Use the following code to trigger a channel with a pulse (replace i with the number of the channel from 0 to 8)
+
+# dp.DPxSetDoutValue(RGB2Trigger(trigger[i]), 0xFFFFFF)
+# dp.DPxUpdateRegCache()
+#
+# dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+# dp.DPxUpdateRegCache()
+# core.wait(2)
+
+
+# add the following at the end of the experiment to close the connection with vpixx
+
+#dp.DPxClose()
+
 SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
@@ -322,3 +359,5 @@ results.to_csv(filename)
 
 win.close()
 core.quit()
+
+dp.DPxClose()
