@@ -1,7 +1,10 @@
 from psychopy import visual, core, monitors
 from pypixxlib import _libdpx as dp
 
+from pyglet.gl import Config
+
 monitor = monitors.Monitor("testMonitor")
+MONITOR_INDEX = 0 # 1 Indicates second screen and 0 indicates the first screen
 
 # To install pypixxlib, download the vpixx software then find it under
 # the vpixx software directory, then install it into the python environment using pip . after navigating to the extracted files
@@ -73,11 +76,13 @@ dp.DPxWriteRegCache()
 
 win = visual.Window(
     monitor=monitor,
-    size=(1920, 1080),  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
-    fullscr=True,      # therefore, top-left pixel was drawn with incorrect color.
+    screen = MONITOR_INDEX,
+    size=(1910, 1070),  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
+    fullscr=False,      # therefore, top-left pixel was drawn with incorrect color.
     pos=[0, 0],
     color='black',
     units="pix",
+    multiSample=False
 )
 
 testvals = [0, 64, 128, 191, 255]
@@ -118,11 +123,7 @@ for i in range(5):
             #dp.DPxUpdateRegCache()
 
 
-# New test with digital out settings
-#dp.DPxSetDoutValue()
-#dp.DPxUpdateRegCache()
 
-# try this https://www.vpixx.com/manuals/python/html/digitalOut.html
 
 
 
