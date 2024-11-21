@@ -3,6 +3,7 @@ import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
+from utilities import *
 
 from experiments.psychopy.general.trigger_test_psychopy_digital_out_combination import trigger_channels_dictionary
 
@@ -73,6 +74,18 @@ def RGB2Trigger(color):
 # add the following at the end of the experiment to close the connection with vpixx
 
 #dp.DPxClose()
+
+
+
+# Responsebox
+
+# When you need to use it add thisline
+#responses = [] # Add this at the beginning of your script
+#response = getbutton() #listen to a button
+#responses.append(response) #everytime we get a response we add it to the table
+
+
+# Save the responses in a variable responses = [] then responses.append(response) then save it to your .csv
 
 SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
