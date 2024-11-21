@@ -4,6 +4,8 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
 
+from experiments.psychopy.general.trigger_test_psychopy_digital_out_combination import trigger_channels_dictionary
+
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
@@ -24,11 +26,44 @@ trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], 
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
 
+def RGB2Trigger(color):
+    # helper function determines expected trigger from a given RGB 255 colour value
+    # operates by converting individual colours into binary strings and stitching them together
+    # and interpreting the result as an integer
+
+    # return triggerVal
+    return int((color[2] << 16) + (color[1] << 8) + color[0])  # dhk
 
 # Use the following code to trigger a channel with a pulse (replace i with the number of the channel from 0 to 8)
 
 # dp.DPxSetDoutValue(RGB2Trigger(trigger[i]), 0xFFFFFF)
 # dp.DPxUpdateRegCache()
+#
+# dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+# dp.DPxUpdateRegCache()
+# core.wait(2)
+
+
+# If you would like to combine the use of multiple channels at once for a trigger
+# Define this dictionary
+# trigger_channels_dictionary = {
+#     224: 4,
+#     225: 16,
+#     226: 64,
+#     227: 256,
+#     228: 1024,
+#     229: 4096,
+#     230: 16384,
+#     231: 65536
+# }
+
+#Then use the combination of one or more channels together (in combined mode its best to have a small delay between setting it on and off, to detect correctly
+# the combination (it should be small to not affect trials coming one after the other
+
+# print('Testing channel', 224, ' combined with ', 228)
+# dp.DPxSetDoutValue(trigger_channels_dictionary[224]+trigger_channels_dictionary[228], 0xFFFFFF)
+# dp.DPxUpdateRegCache()
+# core.wait(0.2)
 #
 # dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
 # dp.DPxUpdateRegCache()

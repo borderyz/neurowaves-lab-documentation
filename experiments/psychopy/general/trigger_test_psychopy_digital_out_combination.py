@@ -58,9 +58,22 @@ dp.DPxWriteRegCache()
 #trig.ch230 = [0 64 0]; % 230 meg channel
 #trig.ch231 = [0 0  1]; % 231 meg channel
 
-trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger_rgb_code = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger_decimal_code = [4, 16, 64, 256, 1024, 4096, 16384, 65536]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
+
 black = [0, 0, 0]
+
+trigger_channels_dictionary = {
+    224: 4,
+    225: 16,
+    226: 64,
+    227: 256,
+    228: 1024,
+    229: 4096,
+    230: 16384,
+    231: 65536
+}
 
 
 
@@ -69,19 +82,15 @@ print('\nStarting Pixel Mode Test\n\nTest#\tRGB225 Color\t    Expected Dout    R
 
 value = RGB2Trigger([256, 256, 256])
 
-for i in range(8):
-    # New test with digital out settings
-    print('Testing channel', channel_names[i])
-    dp.DPxSetDoutValue(RGB2Trigger(trigger[i]), 0xFFFFFF)
-    dp.DPxUpdateRegCache()
-    core.wait(1)
+# Test for combining channels 224 and 228
+print('Testing channel', 224, ' combined with ', 228)
+dp.DPxSetDoutValue(trigger_channels_dictionary[224]+trigger_channels_dictionary[228], 0xFFFFFF)
+dp.DPxUpdateRegCache()
+core.wait(1)
 
-
-    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-    dp.DPxUpdateRegCache()
-    core.wait(2)
-
-    print('Iteration ', i)
+dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+dp.DPxUpdateRegCache()
+core.wait(2)
 
 dp.DPxClose()
 
