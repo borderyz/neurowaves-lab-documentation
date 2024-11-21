@@ -6,8 +6,8 @@ from pypixxlib import _libdpx as dp
 from utilities import *
 
 from experiments.psychopy.general.trigger_test_psychopy_digital_out_combination import trigger_channels_dictionary
-
 # Setup the connection with the Vpixx systems and disable Pixel Mode
+
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
 dp.DPxWriteRegCache()
@@ -35,28 +35,30 @@ def RGB2Trigger(color):
     # return triggerVal
     return int((color[2] << 16) + (color[1] << 8) + color[0])  # dhk
 
-# Use the following code to trigger a channel with a pulse (replace i with the number of the channel from 0 to 8)
-
-# dp.DPxSetDoutValue(RGB2Trigger(trigger[i]), 0xFFFFFF)
-# dp.DPxUpdateRegCache()
-#
-# dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-# dp.DPxUpdateRegCache()
-# core.wait(2)
-
-
 # If you would like to combine the use of multiple channels at once for a trigger
 # Define this dictionary
-# trigger_channels_dictionary = {
-#     224: 4,
-#     225: 16,
-#     226: 64,
-#     227: 256,
-#     228: 1024,
-#     229: 4096,
-#     230: 16384,
-#     231: 65536
-# }
+trigger_channels_dictionary = {
+    224: 4,
+    225: 16,
+    226: 64,
+    227: 256,
+    228: 1024,
+    229: 4096,
+    230: 16384,
+    231: 65536
+}
+
+# Use the following code to trigger a channel with a pulse (replace i with the number of the channel from 0 to 8)
+# for i in range(8):
+#
+#     dp.DPxSetDoutValue(trigger_channels_dictionary[224+i], 0xFFFFFF)
+#     dp.DPxUpdateRegCache()
+#     #
+#     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+#     dp.DPxUpdateRegCache()
+#     core.wait(2)
+
+
 
 #Then use the combination of one or more channels together (in combined mode its best to have a small delay between setting it on and off, to detect correctly
 # the combination (it should be small to not affect trials coming one after the other
@@ -80,10 +82,11 @@ def RGB2Trigger(color):
 # Responsebox
 
 # When you need to use it add thisline
-#responses = [] # Add this at the beginning of your script
+responses = [] # Add this at the beginning of your script
+
+#Copy/Paste these two lines everytime the participant should input a button
 #response = getbutton() #listen to a button
 #responses.append(response) #everytime we get a response we add it to the table
-
 
 # Save the responses in a variable responses = [] then responses.append(response) then save it to your .csv
 
@@ -205,6 +208,7 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
+
 pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
 
 if pauseResponse[-1] == quitKey:
@@ -311,7 +315,17 @@ for trialIndex in range(startItem - 1, totalTrials):
         else:
             for frameN in range(wordOn):
                 stim.draw()
-                win.flip()
+
+                win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
+                            # add code for trigger under condition (wordIndex==0 and frameN==0)
+                if wordIndex==0 and frameN==0:
+
+                    dp.DPxSetDoutValue(trigger_channels_dictionary[trialList[trialIndex]['trigger']], 0xFFFFFF) # add trigger to channel here
+                    dp.DPxUpdateRegCache()
+                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                    dp.DPxUpdateRegCache()
+                    core.wait(2)
+
                 if frameN == 0:
                     clock.reset()
                     #port.setData(triggerList[wordIndex])
@@ -320,7 +334,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
         for frameN in range(wordOff - 2):
-            win.flip()
+            win.flip()      # Word is gone
         win.flip()
 
     box.setAutoDraw(False)
