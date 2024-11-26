@@ -1,23 +1,44 @@
 % Read the environment variable to NYU BOX
 MEG_DATA_FOLDER = getenv('MEG_DATA');
 
-TASK_NAME = 'audio-visual-motor\';
+
+% Define paths
+TASK_NAME = 'audio-visual-motor';
+SYSTEM = 'meg-kit';
+SUB_ID = 'sub-001';
+LASER_DEVICE = 'laser-scan';
 
 
-% Set path to KIT .con file of sub-03
-DATASET_PATH = [MEG_DATA_FOLDER, TASK_NAME];
+% Construct the directory path
+DATA_FOLDER_PATH = fullfile(MEG_DATA_FOLDER, TASK_NAME, SUB_ID, SYSTEM);
 
-% 
+% List all .con files with the prefix 'sub-001'
+filePattern = fullfile(DATA_FOLDER_PATH, [SUB_ID,'*.con']);
+conFiles = dir(filePattern);
 
-SYSTEM  = 'meg-kit2\';
-SUB_ID = 'sub-01\';
 
-% Set path to KIT .con file of sub-03
-DATASET_PATH = [MEG_DATA_FOLDER,'oddball\sub-03\meg-kit\sub-03-raw-kit.con'];
+% Display the file names
+disp('Found .con files:');
+for k = 1:length(conFiles)
+    disp(conFiles(k).name);
+end
 
-% Set path to computed .mat variables, these has been obtained by executing this pipeline and
-% will allow you to skip steps if you wish to execute a particular cell
-LOAD_PATH = [MEG_DATA_FOLDER, 'oddball\derivatives\kit_oddball_pipeline_fieldtrip\sub-03\'];
+%%
+
+% Construct the directory path
+DATA_FOLDER_PATH_LASER = fullfile(MEG_DATA_FOLDER, TASK_NAME, SUB_ID, LASER_DEVICE);
+
+filePattern_laser_surface = fullfile(DATA_FOLDER_PATH,  [SUB_ID,'*basic-surface.txt']);
+filePattern_laser_stylus = fullfile(DATA_FOLDER_PATH,  [SUB_ID,'*stylus-points.txt']);
+laser_points = dir(filePattern);
+
+
+laser_surf = dir()
+
+laser_points    = [MEG_DATA_FOLDER, 'oddball\sub-03\anat\digitized-headshape\sub-03-stylus-cleaned.txt'];
+mrkfile1        = [MEG_DATA_FOLDER,'oddball\sub-03\meg-kit\240524-1.mrk'];
+mrkfile2        = [MEG_DATA_FOLDER, 'oddball\sub-03\meg-kit\240524-2.mrk'];
+
 
 % Experiment your own test and save your variables in a folder of your choice, choose the folder where to save your variables
 % We will also use it to copy variables from LOAD_PATH and use them in the notebook if needed
