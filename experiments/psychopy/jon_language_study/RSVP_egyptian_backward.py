@@ -201,7 +201,7 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(screen =1, size=[1910, 1070], fullscr=False, color=backgroundColor, monitor='testMonitor')
+win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor', borderColor=(0, 0, 0))  # Set the border color to black)
 
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=stimuliFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
@@ -330,7 +330,10 @@ for trialIndex in range(startItem - 1, totalTrials):
                     # win.flip()
                     #
                     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
-
+                    # TODO:  trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224]
+                    #           + trialList[trialIndex]['trigger225']*trigger_channels_dictionary[225]
+                    #            + ...
+                    #            + trialList[trialIndex]['trigger231']*trigger_channels_dictionary[231]
                     dp.DPxSetDoutValue(trigger_channels_dictionary[trialList[trialIndex]['trigger']], 0xFFFFFF) # add trigger to channel here
                     dp.DPxUpdateRegCache()
                     core.wait(0.1)
