@@ -44,6 +44,8 @@ laser_points = dir(filePattern_laser_surface);
 laser_surf = dir(filePattern_laser_stylus);
 
 
+APPLY_FILTERS = false;
+
 %%
 
 % Initialize FieldTrip configuration
@@ -97,3 +99,33 @@ end
 
 
 
+%% Define trials and segmentation of the data
+
+
+previewTrigger = combinedData.trial{1}(225, :);
+
+threshold = (max(previewTrigger) + min(previewTrigger)) / 2;
+    
+trigger_channels = [225, 226, 227];
+
+for fileIdx = 1:length(conFiles)
+
+    for chIdx = 1:length(trigger_channels)
+        cfg = [];
+        cfg.dataset  = conFiles(fileIdx);
+        cfg.trialdef.eventvalue = 1; % placeholder for the conditions
+        cfg.trialdef.prestim    = 0.5; % 1s before stimulus onset
+        cfg.trialdef.poststim   = 1.2; % 1s after stimulus onset
+        cfg.trialfun = 'ft_trialfun_general';
+        cfg.trialdef.chanindx = trigger_channels(chIdx);
+        cfg.trialdef.threshold = threshold;
+        cfg.trialdef.eventtype = 'combined_binary_trigger'; % this will be the type of the event if combinebinary = true
+        cfg.trialdef.combinebinary = 1;
+        cfg.preproc.baselinewindow = [-0.2 0];
+        cfg.preproc.demean     = 'yes';
+    
+        TRIALS_DEF = ft_definetrial(cfg);
+    
+        TRIALS = ft_preprocessing(TRIALS_AL_TR);
+    end
+end
