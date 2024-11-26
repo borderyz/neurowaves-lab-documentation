@@ -1,3 +1,9 @@
+%% FieldTrip pipeline for audio-visual-motor experiment
+% Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
+
+
+clear;
+
 % Read the environment variable to NYU BOX
 MEG_DATA_FOLDER = getenv('MEG_DATA');
 
@@ -23,38 +29,71 @@ for k = 1:length(conFiles)
     disp(conFiles(k).name);
 end
 
-%%
+
+filePattern_mrk = fullfile(DATA_FOLDER_PATH, '*.mrk');
+
+mrkFiles = dir(filePattern_mrk);
 
 % Construct the directory path
 DATA_FOLDER_PATH_LASER = fullfile(MEG_DATA_FOLDER, TASK_NAME, SUB_ID, LASER_DEVICE);
 
-filePattern_laser_surface = fullfile(DATA_FOLDER_PATH,  [SUB_ID,'*basic-surface.txt']);
-filePattern_laser_stylus = fullfile(DATA_FOLDER_PATH,  [SUB_ID,'*stylus-points.txt']);
-laser_points = dir(filePattern);
+filePattern_laser_surface = fullfile(DATA_FOLDER_PATH_LASER,  [SUB_ID,'*basic-surface.txt']);
+filePattern_laser_stylus = fullfile(DATA_FOLDER_PATH_LASER,  [SUB_ID,'*stylus-points.txt']);
+
+laser_points = dir(filePattern_laser_surface);
+laser_surf = dir(filePattern_laser_stylus);
 
 
-laser_surf = dir()
+%%
 
-laser_points    = [MEG_DATA_FOLDER, 'oddball\sub-03\anat\digitized-headshape\sub-03-stylus-cleaned.txt'];
-mrkfile1        = [MEG_DATA_FOLDER,'oddball\sub-03\meg-kit\240524-1.mrk'];
-mrkfile2        = [MEG_DATA_FOLDER, 'oddball\sub-03\meg-kit\240524-2.mrk'];
+% Initialize FieldTrip configuration
+cfg = [];
+cfg.coilaccuracy = 0;
 
+% Cell array to store preprocessed data
+dataList = {};
 
-% Experiment your own test and save your variables in a folder of your choice, choose the folder where to save your variables
-% We will also use it to copy variables from LOAD_PATH and use them in the notebook if needed
-SAVE_PATH = 'docs\source\5-pipeline\notebooks\fieldtrip\fieldtrip_oddball_kit_data\';
-
-% It is important that you use T1.mgz instead of orig.mgz as T1.mgz is normalized to [255,255,255] dimension
-MRI_FILE         = fullfile([MEG_DATA_FOLDER,'oddball\sub-03\anat\sub-003\sub-003\mri\T1.mgz']);
-
-laser_surf      = fullfile([MEG_DATA_FOLDER,'oddball\sub-03\anat\digitized-headshape\sub-03-basic-surface.txt']);
-%The cleaned stylus points removes the last three columns (dx, dx, dz) and
-%keeps only x,y,z
-laser_points    = [MEG_DATA_FOLDER, 'oddball\sub-03\anat\digitized-headshape\sub-03-stylus-cleaned.txt'];
-mrkfile1        = [MEG_DATA_FOLDER,'oddball\sub-03\meg-kit\240524-1.mrk'];
-mrkfile2        = [MEG_DATA_FOLDER, 'oddball\sub-03\meg-kit\240524-2.mrk'];
-
-try
-    cd(SAVE_PATH)
-catch
+% Loop through all .con files
+for k = 1:length(conFiles)
+    % Construct the full path for the current .con file
+    conFile = fullfile(DATA_FOLDER_PATH, conFiles(k).name);
+    
+    % Set the dataset in the configuration
+    cfg.dataset = conFile;
+    
+    % Preprocess the MEG data
+    fprintf('Processing file: %s\n', conFiles(k).name);
+    dataList{k} = ft_preprocessing(cfg); % Store preprocessed data in the list
 end
+
+% Concatenate all preprocessed data
+fprintf('Concatenating all preprocessed data...\n');
+combinedData = ft_appenddata([], dataList{:});
+
+% Display a message when concatenation is complete
+disp('Data concatenation complete.');
+
+
+
+
+%% Filtering data
+
+if APPLY_FILTERS
+    % Notch filter the data at 50 Hz
+    cfg = [];
+    cfg.bsfilter = 'yes';
+    cfg.bsfreq = [49 51]; % Notch filter range
+    combinedData = ft_preprocessing(cfg, combinedData);
+
+    % Band-pass filter the data
+    cfg = [];
+    cfg.bpfilter = 'yes';
+    cfg.bpfreq = [4 40]; % Band-pass filter range
+    cfg.bpfiltord = 4;   % Filter order
+    combinedData = ft_preprocessing(cfg, combinedData);
+    
+    disp('Filtering operations complete on combined data.');
+end
+
+
+
