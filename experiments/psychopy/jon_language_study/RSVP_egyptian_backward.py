@@ -222,6 +222,8 @@ for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
 
+
+# this is a loop on each trial
 for trialIndex in range(startItem - 1, totalTrials):
     pauseResponse = []
     responses = []
@@ -319,12 +321,21 @@ for trialIndex in range(startItem - 1, totalTrials):
                 win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
                 if wordIndex==0 and frameN==0:
+                    # trigger_text = 'Trigger of first word in sentence.'+str(wordIndex)
+                    # stim = visual.TextStim(win,
+                    #                        text= trigger_text, font=stimuliFont, units=breakUnits, height=breakSize,
+                    #                        color=breakColor)
+                    # stim.setPos((0, 0))
+                    # stim.draw()
+                    # win.flip()
+                    #
+                    # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
 
                     dp.DPxSetDoutValue(trigger_channels_dictionary[trialList[trialIndex]['trigger']], 0xFFFFFF) # add trigger to channel here
                     dp.DPxUpdateRegCache()
+                    core.wait(0.1)
                     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                     dp.DPxUpdateRegCache()
-                    core.wait(2)
 
                 if frameN == 0:
                     clock.reset()
