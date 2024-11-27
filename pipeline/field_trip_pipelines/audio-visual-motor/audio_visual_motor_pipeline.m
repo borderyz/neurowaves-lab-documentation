@@ -4,6 +4,12 @@
 
 clear;
 
+% Reminder of stimulus types:
+
+% 1 is visual stimulus = ch224
+% 2 is auditory stimulus = ch225
+% 3 is motor button = ch226
+
 % Read the environment variable to NYU BOX
 MEG_DATA_FOLDER = getenv('MEG_DATA');
 
@@ -146,10 +152,65 @@ for chIdx = 1:length(trigger_channels)
 end
 
 
-    %% Visual Inspection ALTL
 
+
+
+
+
+
+%% Visual Inspection ALTL
+
+TRIALS_STIM_REJ = cell( length(trigger_channels),1);
+
+for tr = 1:length(TRIALS_STIM)
+    
     cfg = [];
     cfg.method='summary';
     cfg.channel = {'AG*'};
-    dataALTL_rej = ft_rejectvisual(cfg, SG_AL_TL);
+    TRIALS_STIM_REJ{tr} = ft_rejectvisual(cfg, TRIALS_STIM{tr});
 
+end
+
+save TRIALS_STIM_REJ TRIALS_STIM_REJ
+
+
+
+%% Averaging
+
+AVG_TRIALS = cell( length(trigger_channels),1);
+
+for tr = 1:length(AVG_TRIALS)
+
+    cfg = [];
+
+    AVG_TRIALS{tr} = ft_timelockanalysis(cfg, TRIALS_STIM_REJ{tr});
+
+end
+
+%% Get KIT Sensors
+
+kit_layout = create_kit_layout(conFile);
+
+figure('Position', [100, 100, 1000, 800]); % Adjust the width and height (1000 and 800) as needed
+ft_plot_layout(kit_layout, 'box', 1);
+
+
+
+
+
+%% Plotting in space
+
+% for a single trial type, for each channel, average over time the trial
+% and plot the average value on the helmet
+
+% You can still see the time behavior when clicking on one sensor
+
+for tr = 1:length(AVG_TRIALS)
+
+    cfg = [];
+    cfg.xlim = [0.05 1.2];
+    cfg.colorbar = 'yes';
+    cfg.layout = kit_layout;
+    ft_topoplotER(cfg, AVG_TRIALS{tr});
+
+end
