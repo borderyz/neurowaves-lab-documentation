@@ -108,11 +108,15 @@ threshold = (max(previewTrigger) + min(previewTrigger)) / 2;
     
 trigger_channels = [225, 226, 227];
 
+TRIALS_DEF = cell(length(conFiles), length(trigger_channels));
+TRIALS = cell(length(conFiles), length(trigger_channels));
+
 for fileIdx = 1:length(conFiles)
 
     for chIdx = 1:length(trigger_channels)
         cfg = [];
-        cfg.dataset  = conFiles(fileIdx);
+        conFile = fullfile(DATA_FOLDER_PATH, conFiles(fileIdx).name);
+        cfg.dataset  = conFile;
         cfg.trialdef.eventvalue = 1; % placeholder for the conditions
         cfg.trialdef.prestim    = 0.5; % 1s before stimulus onset
         cfg.trialdef.poststim   = 1.2; % 1s after stimulus onset
@@ -124,8 +128,28 @@ for fileIdx = 1:length(conFiles)
         cfg.preproc.baselinewindow = [-0.2 0];
         cfg.preproc.demean     = 'yes';
     
-        TRIALS_DEF = ft_definetrial(cfg);
-    
-        TRIALS = ft_preprocessing(TRIALS_AL_TR);
+        % Define trials for the current channel and dataset
+        TRIALS_DEF{fileIdx, chIdx} = ft_definetrial(cfg);
+
+        % Preprocess trials for the current channel and dataset
+        TRIALS{fileIdx, chIdx} = ft_preprocessing(TRIALS_DEF{fileIdx, chIdx});
     end
 end
+
+%% Trials Concantenation
+
+TRIALS_STIM = cell( length(trigger_channels),1);
+
+for chIdx = 1:length(trigger_channels)
+            cfg = [];
+            TRIALS_STIM{chIdx} = ft_appenddata(cfg, TRIALS{1,chIdx}, TRIALS{2,chIdx}, TRIALS{3, chIdx});
+end
+
+
+    %% Visual Inspection ALTL
+
+    cfg = [];
+    cfg.method='summary';
+    cfg.channel = {'AG*'};
+    dataALTL_rej = ft_rejectvisual(cfg, SG_AL_TL);
+
