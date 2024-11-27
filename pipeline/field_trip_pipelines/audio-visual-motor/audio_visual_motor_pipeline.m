@@ -214,3 +214,6 @@ for tr = 1:length(AVG_TRIALS)
     ft_topoplotER(cfg, AVG_TRIALS{tr});
 
 end
+
+
+
