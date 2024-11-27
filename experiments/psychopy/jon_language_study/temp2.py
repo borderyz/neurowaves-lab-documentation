@@ -39,7 +39,7 @@ for i in range(8):
 
 # Screen and experiment settings
 SCREEN_NUMBER = 2
-trialList = data.importConditions('egyptian_backward.csv')  # Load trial list (CSV file)
+trialList = data.importConditions('egyptian_backward_fake.csv')  # Load trial list (CSV file)
 clock = core.Clock()
 
 # Additional settings (colors, sizes, etc.)

@@ -95,18 +95,22 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('egyptian_backward.csv')
+#trialList = data.importConditions('egyptian_backward_fake.csv')
+trialList = data.importConditions('egyptian_backward_debugging.csv')
+
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
 clock = core.Clock()
 
 backgroundColor = 'black'
-stimuliFont = 'Arial' ######## change 1 (was Calibri)
+instructionsFont = 'Arial'
+#stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
+stimuliFont = 'Sahel' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 5 ##### change 2 (was 18)
+wordOn = 30 ##### change 2 (was 18)
 wordOff = 5
 lastWordOn = 5
 
@@ -201,9 +205,9 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor', borderColor=(0, 0, 0))  # Set the border color to black)
+win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
-stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=stimuliFont, units=breakUnits, height=breakSize, color=instructionColor)
+stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=instructionsFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
@@ -235,10 +239,10 @@ for trialIndex in range(startItem - 1, totalTrials):
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
         if currentBreakCount == 1:
-            stim = visual.TextStim(win, text='Congratulations! You answered %i of the %i practice questions correctly.\n\nYou are now ready to do the actual experiment.\n\nThere are %i sentences to read.\n\nPlease sit still, stop blinking and press the YES key when you are ready for the first sentence.' % (recentCorrectResponses, trialsSinceLastBreak, remainingTrials), font=stimuliFont, units=breakUnits, height=breakSize, color=breakColor)
+            stim = visual.TextStim(win, text='Congratulations! You answered %i of the %i practice questions correctly.\n\nYou are now ready to do the actual experiment.\n\nThere are %i sentences to read.\n\nPlease sit still, stop blinking and press the YES key when you are ready for the first sentence.' % (recentCorrectResponses, trialsSinceLastBreak, remainingTrials), font=instructionsFont, units=breakUnits, height=breakSize, color=breakColor)
             totalCorrectResponses = 0
         else:
-            stim = visual.TextStim(win, text='Please feel free to take a short break now if you would like.\n\nYou answered %i out of %i questions correctly since the last break.\n\nYou have completed %i sentences, and have %i to go.\n\nWhen you are ready for the next sentence, please sit still, stop blinking, and press the YES key.' % (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials), font=stimuliFont, units=breakUnits, height=breakSize, color=breakColor)
+            stim = visual.TextStim(win, text='Please feel free to take a short break now if you would like.\n\nYou answered %i out of %i questions correctly since the last break.\n\nYou have completed %i sentences, and have %i to go.\n\nWhen you are ready for the next sentence, please sit still, stop blinking, and press the YES key.' % (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials), font=instructionsFont, units=breakUnits, height=breakSize, color=breakColor)
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
@@ -293,6 +297,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     win.flip()
 
     for wordIndex in range(numWords):
+        print(repr(words[wordIndex]))
         if event.getKeys(quitKey):
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
@@ -355,7 +360,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
-        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=stimuliFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
+        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
@@ -403,7 +408,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         results.loc[trialIndex, 'answer'] = ''
 
     event.clearEvents()
-    stim = visual.TextStim(win, text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.', font=stimuliFont, units=breakUnits, height=breakSize, color=stimuliColor)
+    stim = visual.TextStim(win, text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.', font=instructionsFont, units=breakUnits, height=breakSize, color=stimuliColor)
     stim.setPos((0, 0))
     stim.draw()
     win.flip()
@@ -422,7 +427,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     win.flip()
 
 event.clearEvents()
-stim = visual.TextStim(win, text='Congratulations, you are finished!\n\nYou read %i sentences, and answered %i out of %i questions correctly!\n\nThank you very much for your participation.\n\nPress any key to close this program.' % ((totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount), font=stimuliFont, units=instructionUnits, height=instructionSize, color=instructionColor)
+stim = visual.TextStim(win, text='Congratulations, you are finished!\n\nYou read %i sentences, and answered %i out of %i questions correctly!\n\nThank you very much for your participation.\n\nPress any key to close this program.' % ((totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount), font=instructionsFont, units=instructionUnits, height=instructionSize, color=instructionColor)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
