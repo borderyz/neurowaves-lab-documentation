@@ -95,8 +95,8 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-#trialList = data.importConditions('egyptian_backward_fake.csv')
-trialList = data.importConditions('egyptian_backward_debugging.csv')
+trialList = data.importConditions('egyptian_backward_fake.csv')
+#trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
@@ -106,15 +106,15 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Sahel' ######## change 1 (was Calibri)
+stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 30 ##### change 2 (was 18)
-wordOff = 5
-lastWordOn = 5
+wordOn = 18 ##### change 2 (was 18)
+wordOff = 12
+lastWordOn = 60
 
-boxHeight = stimuliSize + 1
+boxHeight = stimuliSize + 1.5
 boxWidth = 11
 
 longestWordCount = 0

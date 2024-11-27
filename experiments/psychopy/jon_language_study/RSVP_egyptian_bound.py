@@ -14,9 +14,9 @@ stimuliFont = 'Times New Roman'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 10 ##### change 2 (was 18)
-wordOff = 10
-lastWordOn = 10
+wordOn = 18 ##### change 2 (was 18)
+wordOff = 12
+lastWordOn = 60
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11
