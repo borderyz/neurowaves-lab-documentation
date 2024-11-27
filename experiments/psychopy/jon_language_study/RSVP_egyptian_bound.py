@@ -3,7 +3,7 @@ import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('egyptian_bound.csv')
+trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
