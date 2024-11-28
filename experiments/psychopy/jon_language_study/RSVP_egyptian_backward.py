@@ -307,6 +307,9 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
                                font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        #Path to image
+        #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
+        #stim = visual.ImageStim( win, image=path_to_image, pos=(0, 0))
         stim.setPos((0, 0))
 
         if wordIndex == max(range(numWords)):
