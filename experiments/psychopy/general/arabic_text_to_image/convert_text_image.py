@@ -4,8 +4,8 @@ TERMINAL_LOGS = False
 
 # Colour values
 RGBA_TRANSPARENT = (0, 0, 0, 0)
-RGBA_TEXT = (255, 255, 255, 255)
-RGBA_BACKGROUND = (0, 0, 0, 255)
+RGBA_BACKGROUND = (255, 255, 255, 255)
+RGBA_TEXT = (0, 0, 0, 255)
 
 
 def calculate_box_to_crop_out_whitespace_from_img(img, margin=1, debug=False):
@@ -776,7 +776,7 @@ if __name__ == "__main__":
     from bidi.algorithm import get_display
 
     # PIL font parameters
-    font_path = 'C:\Windows\Fonts\\arial.ttf'
+    font_path = "C:\Windows\Fonts\\calibri.ttf"
     font_size = 64
 
     # Correctly shapes text

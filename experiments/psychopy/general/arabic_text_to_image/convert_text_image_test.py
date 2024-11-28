@@ -803,11 +803,18 @@ if __name__ == "__main__":
     text_shaped = get_display(reshaper.reshape(text_unshaped), base_dir="R")
     text_shaped_words = text_shaped.split(" ")
 
+    text_unshaped = u"لَكِنَّ لَا بَدَّ أَنَّ أوْضَحَ لَكَ أَنَّ كُلُّ هَذِهِ الْأَفْكَارِ الْمَغْلُوطَةِ حَوْلَ اِسْتِنْكَارِ النَّشْوَةٌ وَتَمْجيدِ الْألَمِ نَشَّأَتٍ بِالْفِعْلِ، وَسَأَعْرُضُ لَكَ التَّفَاصِيلُ لِتَكْتَشِفٌ حَقِيقَةٌ وَأَسَاسٍ تِلْكَ السَّعَادَةً الْبَشَرِيَّةِ، فَلَا أحَدٌ يَرْفُضُ أَوْ يَكْرَهُ أَوْ يَتَجَنَّبُ الشُّعُورٌ بِالسَّعَادَةِ، وَلَكِنَّ بِفَضْلِ هَؤُلَاءِ الْأَشْخَاصِ الَّذِينَ لَا يُدْرِكُونَ بِأَنَّ السَّعَادَةً لَا بَدَّ أَنَّ نَسْتَشْعِرُهَا بِصُورَةِ أَكْثَرِ عَقْلَانِيَّةٍ وَمِنْطَقِيَّةٍ فَيَعْرُضُهُمْ هَذَا لِمُوَاجَهَةُ الظُّروفآ الْألِيمَةِ، وَأُكَرِّرُ بِأَنَّهُ لَا يُوجَدُ مَنْ يَرْغَبُ فِي الْحُبِّ وَنَيْلِ الْمَنَالِ وَيَتَلَذَّذُ بِالْآلَاَمِ، الْألَمَ هُوَ الْألَمُ وَلَكِنَّ نَتِيجَةً لِظُروفٍ مَا قَدْ تَكْمُنُ السعاده فِيمَا نَتَحَمَّلُهُ مِنْ كَدٍّ وَأُسِّيٍّ."
+    text_shaped = get_display(reshaper.reshape(text_unshaped), base_dir="R")
+    text_shaped_words = text_shaped.split(" ")
+    #Laptop test
+    #text_shaped_words = text_unshaped.split(" ")
+
     # How to use the class and its methods
 
     # Inits object
     arabic_word = ArabicWord(
-        word_string=text_shaped_words[2],
+        #word_string=text_shaped_words, #Laptop test
+        word_string = text_unshaped,
         font_path=font_path,
         font_size=font_size,
         debug=TERMINAL_LOGS
