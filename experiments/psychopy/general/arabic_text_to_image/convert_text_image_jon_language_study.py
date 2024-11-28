@@ -8,7 +8,9 @@ TERMINAL_LOGS = False
 # Colour values
 RGBA_TRANSPARENT = (0, 0, 0, 0)
 RGBA_BACKGROUND = (0, 0, 0, 255)
-RGBA_TEXT = (255, 255, 255, 255)
+#RGBA_TEXT = (255, 255, 255, 255)
+RGBA_TEXT = (240, 255, 0, 255)
+
 
 
 def calculate_box_to_crop_out_whitespace_from_img(img, margin=1, debug=False):
@@ -770,10 +772,16 @@ if __name__ == "__main__":
                  'emirati_bound.csv',
                  ]
 
-    SAVE_PATH = ['../../jon_language_study/egyptian_backward/',
-                 '../../jon_language_study/egyptian_bound/',
-                 '../../jon_language_study/emirati_backward/',
-                 '../../jon_language_study/emirati_bound/',
+    # SAVE_PATH = ['../../jon_language_study/egyptian_backward/',
+    #              '../../jon_language_study/egyptian_bound/',
+    #              '../../jon_language_study/emirati_backward/',
+    #              '../../jon_language_study/emirati_bound/',
+    #              ]
+
+    SAVE_PATH = ['./egyptian_backward/',
+                 './egyptian_bound/',
+                 './emirati_backward/',
+                 './emirati_bound/',
                  ]
 
     for csv_i in range(len(csv_files)):
@@ -810,7 +818,7 @@ if __name__ == "__main__":
             #text_shaped_words = text_shaped.split(" ")
             #text_shaped_words = re.split(r'\s+', text_shaped)
             text_shaped_words = [word for word in re.split(r'\s+', text_shaped.strip()) if word]
-
+            text_shaped_words.reverse()
         # How to use the class and its methods
             for word_i in range(len(text_shaped_words)):
                 # Inits object
