@@ -322,43 +322,54 @@ for trialIndex in range(startItem - 1, totalTrials):
         else:
             for frameN in range(wordOn):
                 stim.draw()
-
-                win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
+                win.flip() # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
                 if wordIndex == 0 and frameN == 0:
-                    # Determine the trigger value for the current trial
-                    trigger_row = trialList[trialIndex]  # Get the row of triggers for this trial
-                    trigger_index = trigger_row['trigger']  # Get the 'trigger' value (1-12)
-
-                    # Calculate the combined trigger value based on active channels
-                    combined_trigger_value = 0
-                    for channel in range(224, 232):
-                        if trigger_row[f'trigger{channel}'] == 1:
-                            # Debugging log: Print which channel is being activated
-                            print(f"Activating trigger for channel {channel}")
-                            combined_trigger_value += trigger_channels_dictionary[channel]
+                    # Calculate the combined trigger value using the original method
+                    combined_trigger_value = (
+                            trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
+                            trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
+                            trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
+                            trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
+                            trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
+                            trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
+                            trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
+                            trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
+                    )
 
                     # Debugging log: Print the calculated combined value
-                    print(f"Trial {trialIndex}, Trigger {trigger_index}: Combined Value = {combined_trigger_value}")
+                    print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
 
                     # Send the combined trigger to the hardware
                     dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
                     dp.DPxUpdateRegCache()
 
-                    # Log the trigger to the results for later validation
-                    results.loc[trialIndex, 'trigger_value'] = combined_trigger_value
-
                     # Briefly wait to register the trigger
-                    core.wait(1)
+                    core.wait(0.1)
 
                     # Reset the trigger to avoid lingering activation
                     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                     dp.DPxUpdateRegCache()
 
+                    # Log the trigger to the results for later validation
+                    results.loc[trialIndex, 'trigger_value'] = combined_trigger_value
+
                     # Debugging log to confirm reset
                     print(f"Trigger for Trial {trialIndex} reset to black")
 
+                if frameN == 0:
+                    clock.reset()
+                    #port.setData(triggerList[wordIndex])
+            win.flip()
+            #port.setData(0)
+            results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
+
+        for frameN in range(wordOff - 2):
+            win.flip()
+        win.flip()
+
     box.setAutoDraw(False)
+
 
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()

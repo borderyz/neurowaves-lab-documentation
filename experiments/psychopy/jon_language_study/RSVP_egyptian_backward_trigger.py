@@ -309,6 +309,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
+
         if wordIndex == max(range(numWords)):
             for frameN in range(lastWordOn):
                 stim.draw()

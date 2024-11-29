@@ -772,17 +772,17 @@ if __name__ == "__main__":
                  'emirati_bound.csv',
                  ]
 
-    # SAVE_PATH = ['../../jon_language_study/egyptian_backward/',
-    #              '../../jon_language_study/egyptian_bound/',
-    #              '../../jon_language_study/emirati_backward/',
-    #              '../../jon_language_study/emirati_bound/',
-    #              ]
-
-    SAVE_PATH = ['./egyptian_backward/',
-                 './egyptian_bound/',
-                 './emirati_backward/',
-                 './emirati_bound/',
+    SAVE_PATH = ['../../jon_language_study/egyptian_backward/',
+                 '../../jon_language_study/egyptian_bound/',
+                 '../../jon_language_study/emirati_backward/',
+                 '../../jon_language_study/emirati_bound/',
                  ]
+
+    # SAVE_PATH = ['./egyptian_backward/',
+    #              './egyptian_bound/',
+    #              './emirati_backward/',
+    #              './emirati_bound/',
+    #              ]
 
     for csv_i in range(len(csv_files)):
         # Load the CSV file
@@ -804,8 +804,8 @@ if __name__ == "__main__":
         from bidi.algorithm import get_display
 
         # PIL font parameters
-        font_path = "C:\Windows\Fonts\\arial.ttf"
-        font_size = 64
+        font_path = "C:\Windows\Fonts\\calibri.ttf"
+        font_size = 100
 
         for index in range(df['sentence'].size):
         #for index in range(1):
