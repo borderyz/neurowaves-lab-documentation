@@ -110,9 +110,9 @@ stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18 ##### change 2 (was 18)
-wordOff = 12
-lastWordOn = 60
+wordOn = 1 ##### change 2 (was 18)
+wordOff = 1
+lastWordOn = 15
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11
@@ -212,11 +212,12 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+#pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+
 response = getbutton() #listen to a button
 responses.append(response) #everytime we get a response we add it to the table
 
-if pauseResponse[-1] == quitKey:
+if responses[-1] == quitKey:
     participantName = participantInfo[0].replace(" ", "")
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename)
@@ -252,7 +253,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         response = getbutton()  # listen to a button
         responses.append(response)  # everytime we get a response we add it to the table
 
-        if pauseResponse[-1] == quitKey:
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -374,6 +375,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     box.setAutoDraw(False)
 
+
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
         stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
@@ -381,8 +383,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        responses = event.waitKeys(keyList=[responseNo, responseYes, quitKey])
-
+        #pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
         response = getbutton() #listen to a button
         responses.append(response) #everytime we get a response we add it to the table
 
@@ -432,13 +433,12 @@ for trialIndex in range(startItem - 1, totalTrials):
     stim.draw()
     win.flip()
 
-    pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-
+    #pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
     response = getbutton()  # listen to a button
     responses.append(response)  # everytime we get a response we add it to the table
 
 
-    if pauseResponse[-1] == quitKey:
+    if responses[-1] == quitKey:
         participantName = participantInfo[0].replace(" ", "")
         filename = 'results.' + participantName + '.csv'
         results.to_csv(filename)
