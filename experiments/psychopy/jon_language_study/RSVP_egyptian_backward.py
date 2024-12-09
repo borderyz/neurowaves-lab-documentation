@@ -95,7 +95,7 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('egyptian_backward_fake.csv')
+trialList = data.importConditions('egyptian_backward_debugging.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 
@@ -106,7 +106,7 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
+stimuliFont = 'Arial' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -305,8 +305,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
-                               font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
+                               #font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+
+        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic',  ### change 3 (was not specified)
+                                font=stimuliFont, units=stimuliUnits, alignment='center', color=stimuliColor)
         #Path to image
         #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
         #stim = visual.ImageStim( win, image=path_to_image, pos=(0, 0))
