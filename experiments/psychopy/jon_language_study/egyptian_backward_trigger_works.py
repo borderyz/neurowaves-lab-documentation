@@ -110,7 +110,7 @@ stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18 ##### change 2 (was 18)
+wordOn = 1 ##### change 2 (was 18)
 wordOff = 12
 lastWordOn = 60
 
@@ -345,7 +345,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                     dp.DPxUpdateRegCache()
 
                     # Briefly wait to register the trigger
-                    core.wait(0.1)
+                    core.wait(0.01)
 
                     # Reset the trigger to avoid lingering activation
                     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
