@@ -305,11 +305,12 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
+        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic',
                                #font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
 
-        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic',  ### change 3 (was not specified)
-                                font=stimuliFont, units=stimuliUnits, alignment='center', color=stimuliColor)
+        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic',
+                              font=stimuliFont, units=stimuliUnits, alignment='center', color=stimuliColor)
+
         #Path to image
         #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
         #stim = visual.ImageStim( win, image=path_to_image, pos=(0, 0))
@@ -331,7 +332,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
                 win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
-                if wordIndex==0 and frameN==0:
+                if wordIndex==0 and frameN==-1:
                     # trigger_text = 'Trigger of first word in sentence.'+str(wordIndex)
                     # stim = visual.TextStim(win,
                     #                        text= trigger_text, font=stimuliFont, units=breakUnits, height=breakSize,
