@@ -12,16 +12,6 @@ dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
 dp.DPxWriteRegCache()
 
-# KIT MEG Channels triggered via Pixel Model by setting top left pixel to a specific color
-#trig.ch224 = [4  0  0]; %224 meg channel
-#trig.ch225 = [16  0  0];  %225 meg channel
-#trig.ch226 = [64 0 0]; % 226 meg channel
-#trig.ch227 = [0  1 0]; % 227 meg channel
-#trig.ch228 = [0  4 0]; % 228 meg channel
-#trig.ch229 = [0 16 0]; % 229 meg channel
-#trig.ch230 = [0 64 0]; % 230 meg channel
-#trig.ch231 = [0 0  1]; % 231 meg channel
-
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
@@ -48,42 +38,10 @@ trigger_channels_dictionary = {
     231: 65536
 }
 
-# Use the following code to trigger a channel with a pulse (replace i with the number of the channel from 0 to 8)
-# for i in range(8):
-#
-#     dp.DPxSetDoutValue(trigger_channels_dictionary[224+i], 0xFFFFFF)
-#     dp.DPxUpdateRegCache()
-#     #
-#     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-#     dp.DPxUpdateRegCache()
-#     core.wait(2)
-
-
-
-#Then use the combination of one or more channels together (in combined mode its best to have a small delay between setting it on and off, to detect correctly
-# the combination (it should be small to not affect trials coming one after the other
-
-# print('Testing channel', 224, ' combined with ', 228)
-# dp.DPxSetDoutValue(trigger_channels_dictionary[224]+trigger_channels_dictionary[228], 0xFFFFFF)
-# dp.DPxUpdateRegCache()
-# core.wait(0.2)
-#
-# dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-# dp.DPxUpdateRegCache()
-# core.wait(2)
-
-
-# add the following at the end of the experiment to close the connection with vpixx
-
-#dp.DPxClose()
-
-
-
 # Responsebox
 
 # When you need to use it add thisline
-#responses = [] # Add this at the beginning of your script
-
+responses = [] # Add this at the beginning of your script
 #Copy/Paste these two lines everytime the participant should input a button
 #response = getbutton() #listen to a button
 #responses.append(response) #everytime we get a response we add it to the table
@@ -95,9 +53,8 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('egyptian_backward_res.csv')
+trialList = data.importConditions('mandarin_bound.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
-
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -106,11 +63,11 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
+stimuliFont = 'Microsoft YaHei'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18 ##### change 2 (was 18)
+wordOn = 12 ##### change 2 (was 18)
 wordOff = 12
 lastWordOn = 60
 
@@ -157,10 +114,10 @@ breakUnits = instructionUnits
 breakOff = wordOff
 
 quitKey = 'escape'
-responseYes = 'j'
-responseNo = 'f'
-correctTrigger = 251
-incorrectTrigger = 250
+#responseYes = 'j'
+#responseNo = 'f'
+#correctTrigger = 251
+#incorrectTrigger = 250
 startItem = 1
 
 totalTrials = len(trialList)
@@ -212,12 +169,10 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+response = getbutton()  # listen to a button
+responses.append(response)  # everytime we get a response we add it to the table
 
-#response = getbutton() #listen to a button
-#responses.append(response) #everytime we get a response we add it to the table
-
-if pauseResponse[-1] == quitKey:
+if responses[-1] == quitKey:
     participantName = participantInfo[0].replace(" ", "")
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename)
@@ -249,11 +204,11 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton()  # listen to a button
-        #responses.append(response)  # everytime we get a response we add it to the table
+        #pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+        response = getbutton()  # listen to a button
+        responses.append(response)  # everytime we get a response we add it to the table
 
-        if pauseResponse[-1] == quitKey:
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -310,10 +265,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             core.quit()
 
         stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
-                                font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
-        #Path to image
-        #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
-        #stim = visual.ImageStim(win, image=path_to_image, pos=(0, 0))
+                               font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
         if wordIndex == max(range(numWords)):
@@ -329,10 +281,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         else:
             for frameN in range(wordOn):
                 stim.draw()
-
-                win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
+                win.flip() # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
-                if wordIndex==0 and frameN== 0:
+                if wordIndex == 0 and frameN == 0:
                     # Calculate the combined trigger value using the original method
                     combined_trigger_value = (
                             trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
@@ -352,7 +303,10 @@ for trialIndex in range(startItem - 1, totalTrials):
                     dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
                     dp.DPxUpdateRegCache()
 
+                    # Briefly wait to register the trigger
                     core.wait(0.1)
+
+                    # Reset the trigger to avoid lingering activation
                     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                     dp.DPxUpdateRegCache()
 
@@ -370,24 +324,30 @@ for trialIndex in range(startItem - 1, totalTrials):
             results.loc[trialIndex, wordIndex + len(subjectColumns)] = clock.getTime()
 
         for frameN in range(wordOff - 2):
-            win.flip()      # Word is gone
+            win.flip()
         win.flip()
 
     box.setAutoDraw(False)
 
-
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
-        event.clearEvents()
-        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
+        event.clearEvents()  # Clear previous events
+
+        # Show the current task question
+        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont,
+                               units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton() #listen to a button
-        #responses.append(response) #everytime we get a response we add it to the table
+        # Wait until a button press to proceed to next trial
+        response = None
+        while response is None:
+            response = getbutton()  # Listen for a button press
+            if response is not None:
+                responses.append(response)  # Add response to responses list
 
-        if pauseResponse[-1] == quitKey:
+        # Check for quit key or valid answer
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -395,13 +355,14 @@ for trialIndex in range(startItem - 1, totalTrials):
             core.quit()
 
         if responses[-1] == trialList[trialIndex]['correctAnswer']:
-            #port.setData(correctTrigger)
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
         else:
-            #port.setData(incorrectTrigger)
             answer = 0
+
+        # Wait a moment before continuing to the next trial
+        core.wait(0.5)  # Optional, or you can adjust this delay based on your experiment design
 
         for frameN in range(taskQuestionOff - 1):
             win.flip()
@@ -428,16 +389,17 @@ for trialIndex in range(startItem - 1, totalTrials):
         results.loc[trialIndex, 'answer'] = ''
 
     event.clearEvents()
+    responses = []
     stim = visual.TextStim(win, text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.', font=instructionsFont, units=breakUnits, height=breakSize, color=stimuliColor)
     stim.setPos((0, 0))
     stim.draw()
     win.flip()
 
-    pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-    #response = getbutton()  # listen to a button
-    #responses.append(response)  # everytime we get a response we add it to the table
+    #pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+    response = getbutton()  # listen to a button
+    responses.append(response)  # everytime we get a response we add it to the table
 
-    if pauseResponse[-1] == quitKey:
+    if responses[-1] == quitKey:
         participantName = participantInfo[0].replace(" ", "")
         filename = 'results.' + participantName + '.csv'
         results.to_csv(filename)
@@ -455,7 +417,6 @@ stim.draw()
 win.flip()
 
 event.waitKeys()
-
 
 participantName = participantInfo[0].replace(" ", "")
 filename = 'results.' + participantName + '.csv'

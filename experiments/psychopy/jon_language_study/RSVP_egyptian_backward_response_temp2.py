@@ -82,7 +82,7 @@ trigger_channels_dictionary = {
 # Responsebox
 
 # When you need to use it add thisline
-#responses = [] # Add this at the beginning of your script
+responses = [] # Add this at the beginning of your script
 
 #Copy/Paste these two lines everytime the participant should input a button
 #response = getbutton() #listen to a button
@@ -110,9 +110,9 @@ stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18 ##### change 2 (was 18)
-wordOff = 12
-lastWordOn = 60
+wordOn = 10 ##### change 2 (was 18)
+wordOff = 10
+lastWordOn = 15
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11
@@ -157,10 +157,10 @@ breakUnits = instructionUnits
 breakOff = wordOff
 
 quitKey = 'escape'
-responseYes = 'j'
-responseNo = 'f'
-correctTrigger = 251
-incorrectTrigger = 250
+#responseYes = 'j'
+#responseNo = 'f'
+#correctTrigger = 251
+#incorrectTrigger = 250
 startItem = 1
 
 totalTrials = len(trialList)
@@ -212,12 +212,12 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+#pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
 
-#response = getbutton() #listen to a button
-#responses.append(response) #everytime we get a response we add it to the table
+response = getbutton() #listen to a button
+responses.append(response) #everytime we get a response we add it to the table
 
-if pauseResponse[-1] == quitKey:
+if responses[-1] == quitKey:
     participantName = participantInfo[0].replace(" ", "")
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename)
@@ -249,11 +249,11 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton()  # listen to a button
-        #responses.append(response)  # everytime we get a response we add it to the table
+        #pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+        response = getbutton()  # listen to a button
+        responses.append(response)  # everytime we get a response we add it to the table
 
-        if pauseResponse[-1] == quitKey:
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -309,11 +309,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
-                                font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        # stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
+        #                        font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
         #Path to image
-        #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
-        #stim = visual.ImageStim(win, image=path_to_image, pos=(0, 0))
+        path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
+        stim = visual.ImageStim(win, image=path_to_image, pos=(0, 0))
         stim.setPos((0, 0))
 
         if wordIndex == max(range(numWords)):
@@ -332,7 +332,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
                 win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
-                if wordIndex==0 and frameN== 0:
+                if wordIndex==0 and frameN== -1:
                     # Calculate the combined trigger value using the original method
                     combined_trigger_value = (
                             trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
@@ -383,11 +383,11 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton() #listen to a button
-        #responses.append(response) #everytime we get a response we add it to the table
+        #pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+        response = getbutton() #listen to a button
+        responses.append(response) #everytime we get a response we add it to the table
 
-        if pauseResponse[-1] == quitKey:
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -433,11 +433,11 @@ for trialIndex in range(startItem - 1, totalTrials):
     stim.draw()
     win.flip()
 
-    pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-    #response = getbutton()  # listen to a button
-    #responses.append(response)  # everytime we get a response we add it to the table
+    #pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
+    response = getbutton()  # listen to a button
+    responses.append(response)  # everytime we get a response we add it to the table
 
-    if pauseResponse[-1] == quitKey:
+    if responses[-1] == quitKey:
         participantName = participantInfo[0].replace(" ", "")
         filename = 'results.' + participantName + '.csv'
         results.to_csv(filename)

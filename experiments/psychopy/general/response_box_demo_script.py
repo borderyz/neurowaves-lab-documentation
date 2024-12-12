@@ -24,9 +24,9 @@ DPxOpen()
 
 response = getbutton()
 
-
-while True:
+i = 1
+for i in range(5):
     response = getbutton()
-    print(' Button press', response)
+    print('Button press', response)
 
 DPxClose()

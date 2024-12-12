@@ -18,9 +18,9 @@ stimuliFont = 'Microsoft YaHei'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 1.5
-wordOn = 18
-wordOff = 12
-lastWordOn = 60
+wordOn = 15
+wordOff = 15
+lastWordOn = 15
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11

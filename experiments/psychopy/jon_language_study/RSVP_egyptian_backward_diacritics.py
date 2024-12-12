@@ -8,9 +8,15 @@ from utilities import *
 from experiments.psychopy.general.trigger_test_psychopy_digital_out_combination import trigger_channels_dictionary
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
+import arabic_reshaper
+from bidi.algorithm import get_display
 dp.DPxOpen()
 dp.DPxDisableDoutPixelMode()
 dp.DPxWriteRegCache()
+
+#from pyarabic.arabic_reshaper import reshape
+#from bidi.algorithm import get_display
+
 
 # KIT MEG Channels triggered via Pixel Model by setting top left pixel to a specific color
 #trig.ch224 = [4  0  0]; %224 meg channel
@@ -82,7 +88,7 @@ trigger_channels_dictionary = {
 # Responsebox
 
 # When you need to use it add thisline
-#responses = [] # Add this at the beginning of your script
+responses = [] # Add this at the beginning of your script
 
 #Copy/Paste these two lines everytime the participant should input a button
 #response = getbutton() #listen to a button
@@ -95,7 +101,7 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('egyptian_backward_res.csv')
+trialList = data.importConditions('debugging.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 
@@ -106,10 +112,10 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Times New Roman' ######## change 1 (was Calibri)
+stimuliFont = 'Amiri' ######## change 1 (was Calibri)
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
-stimuliSize = 2
+stimuliSize = 1
 wordOn = 18 ##### change 2 (was 18)
 wordOff = 12
 lastWordOn = 60
@@ -212,10 +218,8 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
 
-#response = getbutton() #listen to a button
-#responses.append(response) #everytime we get a response we add it to the table
+pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
 
 if pauseResponse[-1] == quitKey:
     participantName = participantInfo[0].replace(" ", "")
@@ -249,9 +253,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton()  # listen to a button
-        #responses.append(response)  # everytime we get a response we add it to the table
+        pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
 
         if pauseResponse[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
@@ -309,11 +311,18 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', ### change 3 (was not specified)
-                                font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        #stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic',
+                               #font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+
+        #shaped_text = get_display(words[wordIndex])
+
+        stim = visual.TextBox2(win, text=words[wordIndex], languageStyle='Arabic',
+                              font=stimuliFont, units=stimuliUnits, letterHeight = stimuliSize,
+                              size = (boxWidth, boxHeight), anchor='center', alignment='center', color=stimuliColor)
+
         #Path to image
         #path_to_image = "egyptian_backward/sentence_"+ str(trialIndex) + "_word_"+str(wordIndex)+".png"
-        #stim = visual.ImageStim(win, image=path_to_image, pos=(0, 0))
+        #stim = visual.ImageStim( win, image=path_to_image, pos=(0, 0))
         stim.setPos((0, 0))
 
         if wordIndex == max(range(numWords)):
@@ -332,35 +341,26 @@ for trialIndex in range(startItem - 1, totalTrials):
 
                 win.flip()  # First word appeared after this flip, this flip will occur wordOn number of times, so you only want to trigger at the first win.flip of this loop
                             # add code for trigger under condition (wordIndex==0 and frameN==0)
-                if wordIndex==0 and frameN== 0:
-                    # Calculate the combined trigger value using the original method
-                    combined_trigger_value = (
-                            trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                            trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                            trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                            trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                            trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                            trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                            trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                            trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                    )
-
-                    # Debugging log: Print the calculated combined value
-                    print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
-
-                    # Send the combined trigger to the hardware
-                    dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
+                if wordIndex==0 and frameN==0:
+                    # trigger_text = 'Trigger of first word in sentence.'+str(wordIndex)
+                    # stim = visual.TextStim(win,
+                    #                        text= trigger_text, font=stimuliFont, units=breakUnits, height=breakSize,
+                    #                        color=breakColor)
+                    # stim.setPos((0, 0))
+                    # stim.draw()
+                    # win.flip()
+                    #
+                    # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+                    # TODO:  trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224]
+                    #           + trialList[trialIndex]['trigger225']*trigger_channels_dictionary[225]
+                    #            + ...
+                    #            + trialList[trialIndex]['trigger231']*trigger_channels_dictionary[231]
+                    dp.DPxSetDoutValue(trigger_channels_dictionary[trialList[trialIndex]['trigger']], 0xFFFFFF) # add trigger to channel here
                     dp.DPxUpdateRegCache()
-
                     core.wait(0.1)
                     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                     dp.DPxUpdateRegCache()
-
-                    # Log the trigger to the results for later validation
-                    results.loc[trialIndex, 'trigger_value'] = combined_trigger_value
-
-                    # Debugging log to confirm reset
-                    print(f"Trigger for Trial {trialIndex} reset to black")
+                    core.wait(0.1) #this seems to be relevant for the first word being slow?
 
                 if frameN == 0:
                     clock.reset()
@@ -375,7 +375,6 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     box.setAutoDraw(False)
 
-
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
         stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
@@ -383,11 +382,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-        #response = getbutton() #listen to a button
-        #responses.append(response) #everytime we get a response we add it to the table
+        responses = event.waitKeys(keyList=[responseNo, responseYes, quitKey])
 
-        if pauseResponse[-1] == quitKey:
+        if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
             filename = 'results.' + participantName + '.csv'
             results.to_csv(filename)
@@ -433,9 +430,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     stim.draw()
     win.flip()
 
-    pauseResponse = event.waitKeys(keyList=[responseYes, responseNo, quitKey])
-    #response = getbutton()  # listen to a button
-    #responses.append(response)  # everytime we get a response we add it to the table
+    pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
 
     if pauseResponse[-1] == quitKey:
         participantName = participantInfo[0].replace(" ", "")
@@ -455,7 +450,6 @@ stim.draw()
 win.flip()
 
 event.waitKeys()
-
 
 participantName = participantInfo[0].replace(" ", "")
 filename = 'results.' + participantName + '.csv'

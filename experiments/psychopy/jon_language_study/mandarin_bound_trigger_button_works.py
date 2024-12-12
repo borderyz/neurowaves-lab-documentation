@@ -5,12 +5,12 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 from pypixxlib import _libdpx as dp
 from utilities import *
 
-from experiments.psychopy.general.trigger_test_psychopy_digital_out_combination import trigger_channels_dictionary
+
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-dp.DPxOpen()
-dp.DPxDisableDoutPixelMode()
-dp.DPxWriteRegCache()
+TIME_TO_RESET_BUTTON_BOX =2
+
+
 
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -25,18 +25,12 @@ def RGB2Trigger(color):
     # return triggerVal
     return int((color[2] << 16) + (color[1] << 8) + color[0])  # dhk
 
-# If you would like to combine the use of multiple channels at once for a trigger
-# Define this dictionary
-trigger_channels_dictionary = {
-    224: 4,
-    225: 16,
-    226: 64,
-    227: 256,
-    228: 1024,
-    229: 4096,
-    230: 16384,
-    231: 65536
-}
+
+dp.DPxOpen()
+dp.DPxDisableDoutPixelMode()
+dp.DPxWriteRegCache()
+dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+dp.DPxUpdateRegCache()
 
 # Responsebox
 
@@ -67,7 +61,7 @@ stimuliFont = 'Microsoft YaHei'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 12 ##### change 2 (was 18)
+wordOn = 18 ##### change 2 (was 18)
 wordOff = 12
 lastWordOn = 60
 
@@ -114,7 +108,7 @@ breakUnits = instructionUnits
 breakOff = wordOff
 
 quitKey = 'escape'
-#responseYes = 'j'
+responseYes = 'j'
 #responseNo = 'f'
 #correctTrigger = 251
 #incorrectTrigger = 250
@@ -169,20 +163,18 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-response = getbutton()  # listen to a button
-responses.append(response)  # everytime we get a response we add it to the table
+listenbutton(3)
 
-if responses[-1] == quitKey:
-    participantName = participantInfo[0].replace(" ", "")
-    filename = 'results.' + participantName + '.csv'
-    results.to_csv(filename)
-    win.close()
-    core.quit()
+# if responses[-1] == quitKey:
+#     participantName = participantInfo[0].replace(" ", "")
+#     filename = 'results.' + participantName + '.csv'
+#     results.to_csv(filename)
+#     win.close()
+#     core.quit()
 
 for frameN in range(instructionOff - 1):
     win.flip()
 win.flip()
-
 
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
@@ -207,15 +199,16 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
 
         # Pause until response
-        response = getbutton()  # listen to a button
-        responses.append(response)
+        listenbutton(3)
+        # response = getbutton()  # listen to a button
+        # responses.append(response)
 
-        if responses[-1] == quitKey:
-            participantName = participantInfo[0].replace(" ", "")
-            filename = 'results.' + participantName + '.csv'
-            results.to_csv(filename)
-            win.close()
-            core.quit()
+        # if responses[-1] == quitKey:
+        #     participantName = participantInfo[0].replace(" ", "")
+        #     filename = 'results.' + participantName + '.csv'
+        #     results.to_csv(filename)
+        #     win.close()
+        #     core.quit()
 
         trialsSinceLastBreak = 0
         recentCorrectResponses = 0
@@ -267,6 +260,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
         stim.setPos((0, 0))
 
+
         if wordIndex == max(range(numWords)):
             for frameN in range(lastWordOn):
                 stim.draw()
@@ -281,26 +275,50 @@ for trialIndex in range(startItem - 1, totalTrials):
                 stim.draw()
                 win.flip()
 
-                if wordIndex == 0 and frameN == 0:
-                    combined_trigger_value = (
-                        trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                        trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                        trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                        trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                        trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                        trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                        trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                        trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                    )
-                    # Debugging log: Print the calculated combined value
-                    print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                # if wordIndex == 0 and frameN == 0:
+                #     combined_trigger_value = (
+                #         trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
+                #         trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
+                #         trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
+                #         trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
+                #         trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
+                #         trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
+                #         trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
+                #         trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
+                #     )
+                #     # Debugging log: Print the calculated combined value
+                #     print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                #
+                #     dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
+                #     dp.DPxUpdateRegCache()
+                #     core.wait(0.1)
+                #
+                #     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                #     dp.DPxUpdateRegCache()
 
-                    dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
-                    core.wait(0.1)
 
-                    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                    dp.DPxUpdateRegCache()
+                if wordIndex == 0:
+                    if frameN < 10:
+                        combined_trigger_value = (
+                            trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
+                            trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
+                            trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
+                            trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
+                            trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
+                            trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
+                            trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
+                            trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
+                        )
+                        print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+                        dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
+                        dp.DPxUpdateRegCache()
+                        print('wordIndex', wordIndex)
+                        print('frameN', frameN)
+                    if frameN == 10:
+
+                        # Debugging log: Print the calculated combined value
+                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                        dp.DPxUpdateRegCache()
 
                 if frameN == 0:
                     clock.reset()
@@ -316,6 +334,11 @@ for trialIndex in range(startItem - 1, totalTrials):
     # Display task question with yellow text
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
+
+        # TODO: delete the following line
+        text_temp = trialList[trialIndex]['taskQuestion']
+
+
         stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
         stim.setPos((0, 0))
         stim.draw()
@@ -324,6 +347,13 @@ for trialIndex in range(startItem - 1, totalTrials):
         # Wait until button press to proceed to next trial
         response = getbutton()  # listen to a button
         responses.append(response)
+
+
+        stim = visual.TextStim(win, text="Release button press", font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
+        stim.setPos((0, 0))
+        stim.draw()
+        win.flip()
+        core.wait(TIME_TO_RESET_BUTTON_BOX)
 
         if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
@@ -340,12 +370,11 @@ for trialIndex in range(startItem - 1, totalTrials):
             answer = 0
 
         # Wait a little longer before moving on
-        core.wait(0.5)  # This ensures that the yellow text stays for an additional moment
+        #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it awaits indefinitely
 
         for frameN in range(taskQuestionOff - 1):
             win.flip()
         win.flip()
-
 
         trialsSinceLastBreak += 1
 
@@ -358,6 +387,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     results.loc[trialIndex, 'sentence'] = trialList[trialIndex]['sentence']
     results.loc[trialIndex, 'taskQuestion'] = trialList[trialIndex]['taskQuestion']
     results.loc[trialIndex, 'trigger'] = trialList[trialIndex]['trigger']
+
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         results.loc[trialIndex, 'expectedAnswer'] = trialList[trialIndex]['correctAnswer']
         results.loc[trialIndex, 'participantAnswer'] = responses[-1]
@@ -368,7 +398,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         results.loc[trialIndex, 'answer'] = ''
 
     event.clearEvents()
-    responses = []
+    #responses = []
     stim = visual.TextStim(win,
                            text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.',
                            font=instructionsFont, units=breakUnits, height=breakSize, color=stimuliColor)
@@ -377,18 +407,22 @@ for trialIndex in range(startItem - 1, totalTrials):
     win.flip()
 
     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
-    response = getbutton()  # listen to a button
-    responses.append(response)  # everytime we get a response we add it to the table
+    # response = getbutton()  # listen to a button
+    # responses.append(response) # everytime we get a response we add it to the table
+    listenbutton(3)
 
-    if responses[-1] == quitKey:
-        participantName = participantInfo[0].replace(" ", "")
-        filename = 'results.' + participantName + '.csv'
-        results.to_csv(filename)
-        win.close()
-        core.quit()
+    #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
+
+    # if responses[-1] == quitKey:
+    #     participantName = participantInfo[0].replace(" ", "")
+    #     filename = 'results.' + participantName + '.csv'
+    #     results.to_csv(filename)
+    #     win.close()
+    #     core.quit()
 
     for frameN in range(taskQuestionOff - 1):
         win.flip()
+
     win.flip()
 
 event.clearEvents()
