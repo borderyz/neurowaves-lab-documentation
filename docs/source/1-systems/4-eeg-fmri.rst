@@ -18,6 +18,13 @@ Example Experiments EEG-FMRI
    ../3-experimentdesign/experiments-eeg-fmri/1-alpha-blocking
    ../3-experimentdesign/experiments-eeg-fmri/2-finger-tapping
 
+.. nbgallery::
+    :caption: This is a thumbnail gallery:
+    :name: rst-gallery
+    :glob:
+    :reversed:
+
+    ../3-experimentdesign/experiments-eeg-fmri/*
 
 .. toctree::
    :maxdepth: 2
