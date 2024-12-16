@@ -1,5 +1,7 @@
 name: ReadTheDocs Daily Build Trigger
 
+# Scheduled daily build to update the dashboards with the new empty-room data
+
 on:
   schedule:
    - cron: '0 6 * * *'  # This triggers the action daily at 6 AM UTC (10 AM UAE time)

@@ -68,6 +68,14 @@ If using python library PsychoPy:
 
 
 
+Pixel mode experiments
+----------------------
+
+All experiments that uses the Vpixx pixel mode should follow these rules:
+
+- Once the experiment script is run, the experiment should land on an `Introduction page` that requires a button press to be able to continue by the project owner (the participant should not be able to continue through this page)
+- Prior to landing on the `Introduction page` within your script, you should deactivate the Vpixx Pixel Mode, otherwise there could be false trigger events in the data recording
+
 
 "Presentation" based experiments
 --------------------------------
@@ -75,3 +83,18 @@ If using python library PsychoPy:
 Experiments coded in "Presentation" do not enable the Vpixx pixel mode by default.
 If your experiment uses Pixel Mode (i.e., you are using the color of the top left pixel of the screen as a condition to send triggers), you must run the `enablepixelmode.m` script.
 Find the script under  `experiments/psychtoolbox/general/enablepixelmode.m <https://github.com/hzaatiti-NYU/meg-pipeline/blob/main/experiments/psychtoolbox/general/enablepixelmode.m>`_
+
+
+KIT experiment length
+---------------------
+
+The maximum length of a KIT `.con` file recording can be 4000 seconds = 66 minutes, this is the maximum total length of the recording.
+Therefore, the design of your experiment that requires more then this time, should be performed in blocks each of maximum total duration of ideally 55 minutes (to have a safety time margin).
+When the recording reaches the final length, a new recording must start (this is described in the KIT operational protocol).
+
+
+KIT system testing triggers
+---------------------------
+
+If you are in the testing phase of your experiment and would like to test the triggers, you can do so without locking the sensors.
+Simply open `MEG160` and then `Acquire -> MEG Measurement`, then run your experiment from the stimulus computer and observe channels 224 -> 231 to check for trigger signals.
