@@ -47,8 +47,7 @@ extensions = [
     "sphinx_gallery.load_style",
     "sphinx.ext.mathjax",
     "sphinx_togglebutton",
-    "sphinx_panels",
-    "sphinx.ext.extlinks",
+    "sphinx_panels"
 ]
 
 exclude_patterns = ['5-pipeline/notebooks/fieldtrip/template_*.ipynb']
@@ -59,9 +58,7 @@ intersphinx_mapping = {
 }
 intersphinx_disabled_domains = ["std"]
 
-extlinks = {
-    'github': ('https://github.com/hzaatiti/meg-pipeline/blob/main/%s', '')
-}
+
 
 templates_path = ["_templates"]
 

@@ -12,4 +12,3 @@ This is repeated as blocks for n times.
       :language: matlab
 
 
-View script directory on GitHub :github:`experiments/EEG-FMRI/resting-eye-closed-eye-open`

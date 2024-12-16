@@ -12,5 +12,4 @@ This is repeated 5 times. The block duration is 12 seconds.
       :language: matlab
 
 
-View script directory on GitHub :github:`experiments/EEG-FMRI/finger-tapping/`
 
