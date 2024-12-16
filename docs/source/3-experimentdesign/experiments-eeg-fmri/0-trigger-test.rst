@@ -60,9 +60,9 @@ Key Features
     - Digital output states (on/off).
 
 7. **Shutdown Procedure**:
-   - Ensures a clean shutdown of the VPixx Datapixx hardware:
-     - Stops all ongoing schedules.
-     - Closes the Datapixx connection.
+    - Ensures a clean shutdown of the VPixx Datapixx hardware:
+        - Stops all ongoing schedules.
+        - Closes the Datapixx connection.
 
 Use Case
 --------
