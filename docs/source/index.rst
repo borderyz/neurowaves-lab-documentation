@@ -74,6 +74,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Processing pipelines
 
    5-pipeline/4-0-pipelines
+   5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
 
 .. toctree::
