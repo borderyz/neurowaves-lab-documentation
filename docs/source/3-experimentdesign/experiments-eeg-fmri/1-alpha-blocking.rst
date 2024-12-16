@@ -10,3 +10,7 @@ This is repeated as blocks for n times.
 
     .. literalinclude:: ../../../../experiments/EEG-FMRI/resting-eye-closed-eye-open/main.m
       :language: matlab
+
+:download:`Download the file here <../../../../experiments/EEG-FMRI/general/trigger_test.m>`
+
+`View this directory on GitHub <../../../../experiments/EEG-FMRI/general/>`_
