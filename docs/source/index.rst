@@ -50,8 +50,10 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Experiments Design
 
    3-experimentdesign/experimentdesign
+   3-experimentdesign/experimentdesign-eeg-fmri
    3-experimentdesign/requirements
    3-experimentdesign/exampleexperiments
+
 
 .. toctree::
    :maxdepth: 2

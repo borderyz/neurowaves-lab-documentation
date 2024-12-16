@@ -1,5 +1,5 @@
-Implementing your experiment
-============================
+Implementing your MEG experiment
+================================
 
 Purpose
 -------

@@ -8,21 +8,16 @@ fMRI and EEG data can be collected simultaneously to benefit from the high spati
 and the high temporal resolution of EEG.
 However, noise is induced from the MRI onto the EEG data due to the gradient artifacts, those must be removed to make the EEG data usable.
 
+Data storage :ref:`eeg-fmri-data`
+
 
 Example Experiments EEG-FMRI
 ============================
 
-.. nbgallery::
-
-   ../3-experimentdesign/experiments-eeg-fmri/0-trigger-test
-   ../3-experimentdesign/experiments-eeg-fmri/1-alpha-blocking
-   ../3-experimentdesign/experiments-eeg-fmri/2-finger-tapping
 
 .. nbgallery::
-    :caption: This is a thumbnail gallery:
     :name: rst-gallery
     :glob:
-    :reversed:
 
     ../3-experimentdesign/experiments-eeg-fmri/*
 
