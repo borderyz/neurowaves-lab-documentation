@@ -13,4 +13,4 @@ This is repeated as blocks for n times.
 
 :download:`Download the file here <../../../../experiments/EEG-FMRI/general/trigger_test.m>`
 
-`View script directory on GitHub :github:`experiments/EEG-FMRI/resting-eye-closed-eye-open`
+View script directory on GitHub :github:`experiments/EEG-FMRI/resting-eye-closed-eye-open`
