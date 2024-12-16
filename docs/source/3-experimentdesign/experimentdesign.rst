@@ -1,5 +1,5 @@
-Implementing your MEG experiment
-================================
+Designing your MEG experiment
+=============================
 
 Purpose
 -------
