@@ -22,18 +22,13 @@ Example Experiments EEG-FMRI
 
     ../3-experimentdesign/experiments-eeg-fmri/*
 
-.. toctree::
-   :maxdepth: 2
-   :glob:
 
-   ../3-experimentdesign/experiments-eeg-fmri/*
-
-Example Processing EEG-FMRI data
-================================
+Pipelines Processing EEG-FMRI data
+==================================
 
 .. nbgallery::
 
-   ../3-experimentdesign/experiments-eeg-fmri/1-alpha-blocking
-   ../3-experimentdesign/experiments-eeg-fmri/2-finger-tapping
+   ../5-pipeline/4-eeg-fmri-pipelines.rst
+   ../5-pipeline/notebooks/eeg-fmri/*
 
 
