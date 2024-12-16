@@ -43,10 +43,10 @@ Key Features
     - Corresponding pins on the EEG-FMRI trigger box.
 
 3. **Bit-by-Bit Trigger Testing**:
-   - Tests each digital output bit (0 to 7) to validate their functionality:
-     - Turns each bit "on" to generate a trigger signal.
-     - Verifies correct detection of the signal by the BrainProducts system.
-     - Turns each bit "off" to confirm proper deactivation.
+    - Tests each digital output bit (0 to 7) to validate their functionality:
+    - Turns each bit "on" to generate a trigger signal.
+    - Verifies correct detection of the signal by the BrainProducts system.
+    - Turns each bit "off" to confirm proper deactivation.
 
 4. **Marker Testing**:
    - Activates and deactivates specific markers (`S1`, `S2`, `S4`, etc.) in a loop for a set duration to simulate trigger events.
