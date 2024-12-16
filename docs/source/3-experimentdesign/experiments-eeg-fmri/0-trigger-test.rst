@@ -38,9 +38,9 @@ Key Features
    - Initializes the VPixx Datapixx hardware and ensures the Pixel Mode is disabled, (if left enabled the triggers will not work)
 
 2. **Pin and Bit Mapping**:
-   - Provides detailed mapping between:
-     - VPixx digital outputs.
-     - Corresponding pins on the EEG-FMRI trigger box.
+    - Provides detailed mapping between:
+    - VPixx digital outputs.
+    - Corresponding pins on the EEG-FMRI trigger box.
 
 3. **Bit-by-Bit Trigger Testing**:
    - Tests each digital output bit (0 to 7) to validate their functionality:
@@ -55,9 +55,9 @@ Key Features
    - User-defined **total test duration** and **pause duration** between successive triggers.
 
 6. **Detailed Logging**:
-   - Real-time feedback in the MATLAB command window to indicate:
-     - Active markers.
-     - Digital output states (on/off).
+    - Real-time feedback in the MATLAB command window to indicate:
+    - Active markers.
+    - Digital output states (on/off).
 
 7. **Shutdown Procedure**:
    - Ensures a clean shutdown of the VPixx Datapixx hardware:
@@ -74,12 +74,12 @@ Workflow to use this script correctly
 -------------------------------------
 
 1. **Setup**:
-   - Connect the VPixx system to the BrainProducts EEG-FMRI trigger box via the d-sub 25 pin cable.
-   - On the BrainProducts Windows computer open the BrainVision recorder app
+    - Connect the VPixx system to the BrainProducts EEG-FMRI trigger box via the d-sub 25 pin cable.
+    - On the BrainProducts Windows computer open the BrainVision recorder app
         - When testing bits 0 to 7, open the Digital Output interface
         - When testing the S2, S4, ... markers, you will need the BrainProducts amplifier connected to the system
-            - Once they are connected, record empty-room data (not necessarily saving it)
-   - Run the script in MATLAB
+        - Once they are connected, record empty-room data (not necessarily saving it)
+    - Run the script in MATLAB
 
 2. **Trigger Testing**:
    - Follow on-screen instructions to test individual bits and markers.
