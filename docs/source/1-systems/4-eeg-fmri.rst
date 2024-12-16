@@ -27,8 +27,9 @@ Pipelines Processing EEG-FMRI data
 ==================================
 
 .. nbgallery::
+    :glob:
 
-   ../5-pipeline/4-eeg-fmri-pipelines.rst
-   ../5-pipeline/notebooks/eeg-fmri/*
+    ../5-pipeline/4-eeg-fmri-pipelines.rst
+    ../5-pipeline/notebooks/eeg-fmri/*
 
 
