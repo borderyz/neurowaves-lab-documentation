@@ -1,3 +1,5 @@
+.. _design_experiment:
+
 Designing your MEG experiment
 =============================
 

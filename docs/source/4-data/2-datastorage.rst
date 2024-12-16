@@ -24,7 +24,7 @@ Or directly from the below widget
 If you are unable to access the datasets it means you do not have the permission to. Kindly contact us to get permission.
 
 
-.. _eeg-fmri-storage:
+.. _eeg-fmri-data:
 
 EEG-fMRI Data storage
 #####################
