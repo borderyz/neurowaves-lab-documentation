@@ -31,6 +31,8 @@ Purpose of script
 
 You can also :download:`Download the file here <../../../../experiments/EEG-FMRI/general/trigger_test.m>`
 
+`View script directory on GitHub :github:`experiments/EEG-FMRI/general/`
+
 Key Features
 ------------
 

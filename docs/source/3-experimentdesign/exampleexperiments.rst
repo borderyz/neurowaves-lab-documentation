@@ -19,10 +19,9 @@ Example Experiment EEG-FMRI
 ---------------------------
 
 .. nbgallery::
+    :glob:
 
-   experiments-eeg-fmri/0-trigger-test
-   experiments-eeg-fmri/1-alpha-blocking
-   experiments-eeg-fmri/2-finger-tapping
+    experiments-eeg-fmri/*
 
 
 MEG Lab demonstrations
