@@ -1,14 +1,18 @@
 .. _attention_exp:
 
-Experiment example 7: Contra-lateral attention
-----------------------------------------------
+Experiment example 7: Attention Task
+------------------------------------
 
-In this experiment, the participant is asked to focus on a centered point for some duration of time.
-At some instant, a flash to a point in the far left of the visual field will appear,
-the participant must press a button when they see the flash.
-The experiment repeats itself for the right side.
+Authors: Karima Raafat <karima.raafat@nyu.edu>, Hadi Zaatiti <hadi.zaatiti@nyu.edu>
+
+In this experiment, the participant is asked to pay attention (attend) to the left side of the screen, then
+targets will appear randomly either on the right or the left side for 10 minutes.
+The participant is then asked again to attend to the right side of the screen and the targets will appear aswell randomly
+either left or right side.
+
 
 .. dropdown:: Attention task code
 
     .. literalinclude:: ../../../../experiments/psychtoolbox/attention/meg_attention_task.m
       :language: matlab
+

@@ -5,11 +5,15 @@ MEG/EEG-pipeline documentation page
 
 Status of the documentation build
 
-.. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
-    :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-    :alt: Documentation Status
+.. only:: html
+
+   .. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
+      :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+      :alt: Documentation Status
 
 .. include:: ../../README.rst
+
+
 
 
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
@@ -41,8 +45,9 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :maxdepth: 2
    :caption: Operation Protocol
 
-   2-operationprotocol/participant_document
-   2-operationprotocol/meg-operationprotocol
+   2-operationprotocol/training_meg
+   2-operationprotocol/kit-operationalprotocol
+   2-operationprotocol/opm-operationalprotocol
    2-operationprotocol/eeg-fmri-protocol
 
 .. toctree::
@@ -76,6 +81,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    5-pipeline/4-0-pipelines
    5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
+
 
 .. toctree::
    :maxdepth: 2

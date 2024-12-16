@@ -10,7 +10,8 @@ csv_files = [
     os.path.abspath(os.path.join("9-dashboard",  "data", "system-status-dashboards", "opm-system-status.csv")),
     os.path.abspath(os.path.join("9-dashboard", "data","system-status-dashboards", "kit-system-status.csv")),
 ]
-
+current_directory = os.getcwd()
+print('Current directory:', current_directory)
 # Ensure the output directory exists
 output_dir = os.path.abspath(os.path.join("_static", "1-systems-dashboard"))
 os.makedirs(output_dir, exist_ok=True)
