@@ -12,27 +12,27 @@ However, noise is induced from the MRI onto the EEG data due to the gradient art
 
 
 Example Experiments EEG-FMRI
-===========================
+============================
 
 .. nbgallery::
 
-   experiments-eeg-fmri/0-trigger-test
-   experiments-eeg-fmri/1-alpha-blocking
-   experiments-eeg-fmri/2-finger-tapping
+   ../3-experimentdesign/experiments-eeg-fmri/0-trigger-test
+   ../3-experimentdesign/experiments-eeg-fmri/1-alpha-blocking
+   ../3-experimentdesign/experiments-eeg-fmri/2-finger-tapping
 
 
 .. toctree::
    :maxdepth: 2
    :glob:
 
-   experiments-eeg-fmri/*
+   ../3-experimentdesign/experiments-eeg-fmri/*
 
 Example Processing EEG-FMRI data
 ================================
 
 .. nbgallery::
 
-   experiments-eeg-fmri/1-alpha-blocking
-   experiments-eeg-fmri/2-finger-tapping
+   ../3-experimentdesign/experiments-eeg-fmri/1-alpha-blocking
+   ../3-experimentdesign/experiments-eeg-fmri/2-finger-tapping
 
 
