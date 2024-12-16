@@ -29,7 +29,7 @@ Purpose of script
     .. literalinclude:: ../../../../experiments/EEG-FMRI/general/trigger_test.m
       :language: matlab
 
-You can also [download the file here](../../../../experiments/EEG-FMRI/general/trigger_test.m).
+You can also :download:`Download the file here <../../../../experiments/EEG-FMRI/general/trigger_test.m>`
 
 Key Features
 ------------
