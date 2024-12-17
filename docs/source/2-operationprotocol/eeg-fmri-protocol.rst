@@ -148,12 +148,26 @@ Safety Considerations
 ---------------------
 
 1. **System Users**
-   - Simultaneous EEG-fMRI acquisition requires adherence to **MR safety rules**.
-   - Only **MR authorized persons** or **MR operators** are permitted to operate the system.
+    - All simultaneous acquisition of EEG and fMRI is performed within the MRI environment in the presence of a
+powerful magnetic field (3 Tesla)
+    - All MR safety rules prescribed by the MRI radiographers/physicist must be observed at all times
+    - All people involved in using the BrainAmp MR plus in an MR environment must an MR authorized person or
+MR operator or be supervised by the aforementioned
+    - Simultaneous EEG-fMRI acquisition requires adherence to **MR safety rules**.
+    - Only **MR authorized persons** or **MR operators** are permitted to operate the system.
 
 2. **Product Labeling**
-   - Equipment labeled **MR unsafe** must not enter the MRI scanner room.
-   - Only use **MR conditional** or **MR safe** equipment.
+    - Equipment labeled **MR unsafe** must not enter the MRI scanner room.
+    - Only use **MR conditional** or **MR safe** equipment.
+
+- All components of the MR series of amplifiers carry a label related to their safety properties in the MR environment.
+
+- Equipment that is labeled as **MR unsafe** must not enter the MR scanner room.
+
+- Only use **MR conditional** or **MR safe** equipment in the MR scanner room.
+
+- All the EEG equipment in the MR lab has been labeled appropriately and must be strictly adhered to.
+
 
 3. **Head Coil for EEG-fMRI**
    - Use the **Siemens Head/Neck 64ch coil** for proper cable routing.
