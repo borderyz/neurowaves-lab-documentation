@@ -41,10 +41,14 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
 
 
 
+
+
 Preprocessing of the EEG data
 -----------------------------
 
 Preprocessing of the EEG data involves multiple step. We will be using BrainVision Analyzer.
+
+
 
 
 ECG Removal
@@ -107,13 +111,111 @@ Pre-processing steps should involve:
 Pre-processing of the fMRI data
 -------------------------------
 
+
 Author: Putti Wen
 
 
-.. literalinclude:: ../../../../pipeline/eeg-fmri-pipelines/generic-pipeline_fmri_preprocessing/main.m
-   :language: matlab
-   :caption: Preprocessing Script for EEG-fMRI Data
-   :linenos:
+.. figure:: 0-generic-pipeline-figures/f1.png
+   :alt: Schematic of the fMRI Preprocessing Pipeline
+   :align: center
+   :figclass: align-center
+
+   Figure 1: Overview of the fMRI Pre-processing Steps 
+   (Red: Run on XNAT, Blue: Run Locally)
+
+
+Overview
+~~~~~~~~
+
+
+We store and organize raw scanner data in **`XNAT <https://xnat.abudhabi.nyu.edu/>`_**.  
+We convert these data to BIDS format using **`dcm2bids <https://unfmontreal.github.io/Dcm2Bids/3.2.0/>`_**.  
+We perform standardized preprocessing with **`fMRIPrep <https://fmriprep.org/en/stable/>`_**.  
+We rely on **`NYU Box <https://nyu.app.box.com/>`_**, **`Jubail HPC <https://ood.hpc.abudhabi.nyu.edu/>`_**, and **`XNAT <https://xnat.abudhabi.nyu.edu/>`_** for secure data transfer, computation, and storage.  
+Together, these tools produce reproducible, GLM-ready fMRI outputs.
+
+
+
+Converting DICOM to BIDS on XNAT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+- Prerequisites for Running **dcm2bids**
+
+  1. Ensure your DICOM data are properly uploaded to your **xnat** project.
+  2. Confirm you have an active **xnat** account with the necessary access permissions.
+  3. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
+
+- Running **dcm2bids**
+
+  1. Navigate to your **xnat** project.
+  2. Select the **Processing Dashboard**, and then **MRI Sessions**
+  .. figure:: 0-generic-pipeline-figures/f2.png
+   :alt: Schematic of the fMRI Preprocessing Pipeline
+   :align: center
+   :figclass: align-center
+  3. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
+  4. Select Subjects you want to process, and click **Launch job**
+  5. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
+
+
+fMRI Preprocessing with fMRIPrep: Two Available Routes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+- Route 1 (Red Path): Running fMRIPrep on XNAT
+  1. Running fMRIPrep on XNAT
+    a. In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
+    b. Select the Subjects you want to process, and click **Launch job**
+    c. Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
+
+  2. Returning fMRIPrep outputs from XNATto NYU BOX
+
+
+- Route 2 (Blue Path): Running fMRIPrep Locally
+  1. Downloading data from XNAT to Jubail 
+
+  2. Running fMRIPrep on Jubail
+    a. Download the fMRIPrep image on Jubail 
+    b. Prepare the sbatch script
+    c. Submit the sbatch script
+
+  3. Returning fMRIPrep outputs to NYU BOX
+
+    .. code-block:: bash
+
+   rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
+
+
+
+GLM 
+~~~
+
+
+- Load data in MATLAB
+- Build the design matrix
+- Run the GLM
+- Save the GLM outputs
+- Visualy inspect GLM outputs in freeview 
+
+
+
+Troubleshooting
+~~~~~~~~~~~~~~~
+
+
+
+
+
+
+
+
+
+Other possible processing steps
+
+- draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
+- Vascular Space Occupancy combined with EEG
+- Nordic denoising, with time there is more heating that causes higher amplitudes so this requires denoising
 
 
 
