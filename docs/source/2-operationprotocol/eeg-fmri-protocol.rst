@@ -76,6 +76,17 @@ Inside the MRI Scanner Room
       :align: center
       :alt: PowerPack Rear View
 
+
+.. important::
+
+    - Ensure that the amplifiers are charged up before each data acquisition
+      - Two amps connected to battery power supply and also to the Syncbox through fiber optics.
+      - Battery power supply `must be charged` after each experiment
+      - Recording computer is connected via two USB cables to the Syncbox
+
+
+
+
 3. **Electrodes and Cap**
 
    - **BrainCap MR**:
@@ -123,7 +134,7 @@ Outside the MRI Scanner Room
 ---
 
 Safety Considerations
-======================
+---------------------
 
 1. **System Users**
    - Simultaneous EEG-fMRI acquisition requires adherence to **MR safety rules**.
@@ -150,11 +161,13 @@ Safety Considerations
 ---
 
 Capping and Impedance Preparation
-=================================
+---------------------------------
 
 Preparation of BrainCap MR
 --------------------------
+
 - Perform all preparation **outside the scanner room**.
+- The recording computer can be put in the EEG mockup room to prepare participants prior to an experiment
 - Required materials:
    - BrainCap MR
    - BrainAmp system, USB2 Adapter
@@ -162,6 +175,7 @@ Preparation of BrainCap MR
 
 Positioning the Cap
 -------------------
+
 1. Measure head circumference and choose an appropriately sized cap.
 2. Position the cap starting from the **forehead**, ensuring Cz is centered.
 3. Adjust electrode positions (Fp1/Fp2 above eyebrows).
@@ -172,6 +186,7 @@ Positioning the Cap
 
 Filling Electrodes
 ------------------
+
 1. Push hair aside using a cotton swab.
 2. Degrease skin with alcohol.
 3. Apply Abralyt gel and gently abrade using the cotton swab.
@@ -183,6 +198,7 @@ Filling Electrodes
 
 Positioning the ECG Electrode
 -----------------------------
+
 1. Degrease the skin and attach the ECG holder using adhesive washers.
 2. Place the ECG lead along the **paravertebral line**.
 3. Ensure the lead is not taut and allows head movement.
@@ -194,7 +210,7 @@ Positioning the ECG Electrode
 ---
 
 Cleaning the BrainCap MR
-=========================
+------------------------
 
 1. Soak the BrainCap MR in lukewarm water for 10 minutes.
 2. Gently clean electrodes with a **soft toothbrush**.
@@ -231,16 +247,8 @@ The protocol describes the data acquisition process.
 Activation of the product
 -------------------------
 
-- The permanent licenses are on two dongles and electronic
-
-Hardware setup
---------------
-
-- Physical interface of the hardware:
-  - Two amps connected to battery power supply and also to the Syncbox through fiber optics.
-  - Battery power supply must be charged after each experiment
-  - Recording computer is connected via two USB cables to the Syncbox
-  - The recording computer can be put in the EEG mockup room to prepare participants prior to an experiment
+- The NYUAD MRI lab owns one permanent licenses for each of the three software BrainVision Recorder, BrainVision Recview and BrainVision Analyzer.
+- The licenses are on USB dongles, ensure that the USB dongles are plugged in into the recorder or analysis laptop
 
 
 Software stack
@@ -292,16 +300,6 @@ To choose a simulated environment for EEG signals
 
 
 
-Pre-processing steps should involve:
-------------------------------------
-1. Inspecting the static field data.
-2. Gradient-artifact correction.
-3. ECG correction or CWL regression (Cardioballistic artifacts).
-4. Classic EEG analysis.
-
-
-Post-processing
-###############
 
 Helium Pump Noise:
 ------------------
@@ -348,47 +346,6 @@ Below is an example of gradient artifacts
 .. image:: figures/gradient-artifacts.png
   :width: 400
   :alt: AI generated MEG-system image
-
-
-ECG Removal
------------
-- The subtraction method can work better than ICA, use the substraction method to remove ECG signals
-
-Steps for noise removal and pre-processing
-------------------------------------------
-
-- Gradient artifact correction:
-  - Always remove the gradient artifacts first.
-  - ECG with gradient artifacts can be saturated sometimes, which means that the ECG sensor should be moved around.
-  - MRI artifact correction: then pick use markers, then R128, making sure the correction is only during these triggers and not for the rest.
-  - Then Next.
-  - Artifact Type is always **Continuous** (interleaved was an old thing when MRI was collected for a period of time and then EEG for another period of time).
-  - Enable **Baseline correction for average** (compute baseline over the whole artifact).
-  - Use **sliding average calculation** to account for changes in gradient artifacts over time.
-  - Do not select **Common use of all channels** for bad intervals and correlation.
-  - Then next: select all EEG channels (only time we don’t use all channels is if we are measuring a specific thing).
-  - Then next: deselect downsampling (we can do this later).
-  - How to store data Select **store corrected data** in a cached file.
-
-- ECG signals correction after gradient artifact cleaning:
-  - Also use a **sliding average subtraction** approach (Not ICA), use ICA if there is a residual.
-  - We do not have markers on the peaks (this is needed for the subtraction method).
-  - We need to add **R peaks** (peaks on the ECG signals).
-  - After the gradient artifact correction, some high-frequency noise stays in the ECG channel during MRI acquisition.
-  - Apply **High Cutoff Frequency**: go to **Transformations**, then **IIR filter**, disable the Low cutoff and High cutoff of all channels, then select only the ECG channel and apply a high cutoff (15 Hz), then apply filter.
-  - Then **Transformations**, **Special Signal Processing**, then **CB correction**.
-  - Choose the **ECG channel** (if it's a clear heartbeat, if not use another EEG channel that shows a clearer one than ECG).
-  - Go through the manual check if the automatic analyzer skipped some R peaks.
-  - After selecting all the R peaks (which should be marked in Green), click **Finish**.
-  - Then the R peaks should appear on the peaks as R.
-  - Go to **Special Signal Processing**, select **CB**, then select **Use Markers**, then select **R markers**.
-  - Then next, and use the whole data to compute the time delay. The total number of pulses is the sliding signal window. Empirically, we use 21 as the parameters.
-  - Select all EEG channels except for CWL and the ECG channel.
-
-- Carbon Wired Loops (CWL), accounts for movement correction:
-  - Change sampling rate: we need to downsample and then apply the **CWL regression**.
-
-We can automate the process by saving all the analysis steps.
 
 
 Testing and debugging
