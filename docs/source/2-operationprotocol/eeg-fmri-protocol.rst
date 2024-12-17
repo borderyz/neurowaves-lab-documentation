@@ -52,66 +52,76 @@ Components of the BrainAmp MR Plus System
 -----------------------------------------
 
 Inside the MRI Scanner Room
----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. **Amplifiers**
    - 2 x BrainAmp MR Plus (32 channels each).
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg1.jpg
-      :align: center
-      :alt: BrainAmp MR Plus Amplifiers (Front View)
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg1.jpg
+        :align: center
+        :alt: BrainAmp MR Plus Amplifiers (Front View)
+        :width: 400px
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg2.jpg
-      :align: center
-      :alt: BrainAmp MR Plus Amplifiers (Rear View)
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg2.jpg
+        :align: center
+        :alt: BrainAmp MR Plus Amplifiers (Rear View)
+        :width: 400px
 
 2. **PowerPack**
    - Portable and secure power source for amplifiers.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg3.jpg
-      :align: center
-      :alt: PowerPack Front View
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg3.jpg
+        :align: center
+        :alt: PowerPack Front View
+        :width: 400px
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg4.jpg
-      :align: center
-      :alt: PowerPack Rear View
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg4.jpg
+        :align: center
+        :alt: PowerPack Rear View
+        :width: 400px
 
 
 .. important::
 
     - Ensure that the amplifiers are charged up before each data acquisition
-      - Two amps connected to battery power supply and also to the Syncbox through fiber optics.
-      - Battery power supply `must be charged` after each experiment
-      - Recording computer is connected via two USB cables to the Syncbox
+        - Two amps connected to battery power supply and also to the Syncbox through fiber optics.
+        - Battery power supply `must be charged` after each experiment
+        - Recording computer is connected via two USB cables to the Syncbox
 
 
 
+3. **Electrodes and Cap**: 2 x BrainCap with ECG electrode (56cm and 58cm)
 
-3. **Electrodes and Cap**
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg5.jpg
+        :align: center
+        :alt: BrainCap MR with Electrodes
 
-   - **BrainCap MR**:
-      - Sintered Ag/AgCl sensors.
-      - Cable tree bundled tightly.
-      - ECG electrode with sheath protection.
-      - Connector box with current-limiting resistors.
-   - Additional components:
-      - Chin strap.
-      - Loop for chest belt (belt not included).
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg6.jpg
+        :align: center
+        :alt: Electrode Setup
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg5.jpg
-      :align: center
-      :alt: BrainCap MR with Electrodes
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg7.jpg
+        :align: center
+        :alt: BrainCap MR Connector Box
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg6.jpg
-      :align: center
-      :alt: Electrode Setup
+    - **Multritrodes for MR**:
+        - Sintered Ag/AgCl sensors.
+    - Cable tree bundled tightly.
+        - All lead wires are bundled tight together as they leave the cap.
+    - ECG electrode with sheath protection.
+        - Covered with a plastic sheath to prevent the cable touching the skin.
+    - Connector box
+        - with current-limiting resistors.
+    - Name labels on every electrode for easy recognition
+    - Electrode cables are routed on the outside of the cap and secured to avoid loops and cable movement
+    - Additional components:
+        - Chin strap.
+        - Loop for chest belt (belt not included).
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg7.jpg
-      :align: center
-      :alt: BrainCap MR Connector Box
 
 Outside the MRI Scanner Room
-----------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 1. **Syncbox**: Extension box for phase sync recordings.
 
@@ -119,13 +129,14 @@ Outside the MRI Scanner Room
       :align: center
       :alt: Syncbox for EEG Phase Sync
 
-2. **Triggerbox Plus**: Merges triggers from multiple sources.
+2. **Triggerbox Plus**: The TriggerBox Plus helps to handle and merge triggers arriving from
+different sources.
 
    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg9.jpg
       :align: center
       :alt: Triggerbox Plus
 
-3. **USB 2 Adapter (BUA)**: USB interface for amplifier-computer connections.
+3. **USB 2 Adapter (BUA)**: The USB 2 Adapter (also known as BUA) serves as a USB interface to connect any BrainAmp amplifier with the recording computer.
 
    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg10.jpg
       :align: center
@@ -234,6 +245,9 @@ Cleaning the BrainCap MR
       :align: center
       :alt: Fully Cleaned and Prepared BrainCap MR
 
+
+
+
 ---
 
 
@@ -289,13 +303,16 @@ of static field data for the movement artifacts.
 Data acquisition protocol
 -------------------------
 
-- Open the BrainVision recorder software in administrative mode
-- File -> Open Workspace, choose a workspace
+- Setup your experiment on the `MRI stimulus computer` to land on the `Introduction Page` of yoru experiment
+- Setup `BrainVision Recorder`
+    - Open the BrainVision recorder software in administrative mode
+    - File -> Open Workspace, choose a workspace [TODO: Add name of default workspace here]
 
-To choose a simulated environment for EEG signals
 
-- Configuration -> Select Amplifier -> Simulated Amplifier
-- Then Test Signal, This should show you sinusoidal test signals
+
+
+
+
 
 
 
@@ -318,8 +335,6 @@ The marker verification allows us to see if any TR's are not being marked correc
 
 - **Marker Verification** needs to be downloaded separately to the BP software
 - If max and min in marker verification are very far apart, it means a marker is missing
-
-
 
 
 
@@ -361,3 +376,8 @@ In BP Recorder:
 - Go to configuration, then select amplifier then select simulated amplifier
 - Create a new workspace and select data to be played back
 
+
+To choose a simulated environment for EEG signals
+
+- Configuration -> Select Amplifier -> Simulated Amplifier
+- Then Test Signal, This should show you sinusoidal test signals
