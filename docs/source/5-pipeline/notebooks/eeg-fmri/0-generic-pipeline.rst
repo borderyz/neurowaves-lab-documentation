@@ -164,22 +164,22 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
 
 
 - Route 1 (Red Path): Running fMRIPrep on XNAT
-  1. Running fMRIPrep on XNAT
-    - In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
-    - Select the Subjects you want to process, and click **Launch job**
-    c. Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
-  2. Returning fMRIPrep outputs from XNATto NYU BOX
+    1. Running fMRIPrep on XNAT
+        - In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
+        - Select the Subjects you want to process, and click **Launch job**
+        - Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
+    2. Returning fMRIPrep outputs from XNATto NYU BOX
 - Route 2 (Blue Path): Running fMRIPrep Locally
-  1. Downloading data from XNAT to Jubail 
-  2. Running fMRIPrep on Jubail
-    a. Download the fMRIPrep image on Jubail 
-    b. Prepare the sbatch script
-    c. Submit the sbatch script
-  3. Returning fMRIPrep outputs to NYU BOX
+    1. Downloading data from XNAT to Jubail
+    2. Running fMRIPrep on Jubail
+        a. Download the fMRIPrep image on Jubail
+        b. Prepare the sbatch script
+        c. Submit the sbatch script
+    3. Returning fMRIPrep outputs to NYU BOX
     
-    .. code-block:: bash
-      
-      rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
+        .. code-block:: bash
+
+          rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
 
 
 

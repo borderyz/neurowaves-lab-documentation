@@ -148,8 +148,7 @@ Safety Considerations
 ---------------------
 
 1. **System Users**
-    - All simultaneous acquisition of EEG and fMRI is performed within the MRI environment in the presence of a
-powerful magnetic field (3 Tesla)
+    - All simultaneous acquisition of EEG and fMRI is performed within the MRI environment in the presence of a powerful magnetic field (3 Tesla)
     - All MR safety rules prescribed by the MRI radiographers/physicist must be observed at all times
     - All people involved in using the BrainAmp MR plus in an MR environment must an MR authorized person or
 MR operator or be supervised by the aforementioned
@@ -383,10 +382,10 @@ Below is an example of gradient artifacts
 
 
 Testing and debugging
-#####################
+---------------------
 
 Simulated amplifier environment
--------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 A simulated environment can be used to perform tests and debugging.
 
