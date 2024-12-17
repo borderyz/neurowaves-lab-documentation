@@ -137,7 +137,7 @@ Together, these tools produce reproducible, GLM-ready fMRI outputs.
 
 
 Converting DICOM to BIDS on XNAT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 - Prerequisites for Running **dcm2bids**
@@ -150,10 +150,12 @@ Converting DICOM to BIDS on XNAT
 
   1. Navigate to your **xnat** project.
   2. Select the **Processing Dashboard**, and then **MRI Sessions**
+  
   .. figure:: 0-generic-pipeline-figures/f2.png
    :alt: Schematic of the fMRI Preprocessing Pipeline
    :align: center
    :figclass: align-center
+
   3. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
   4. Select Subjects you want to process, and click **Launch job**
   5. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
@@ -168,23 +170,17 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
     a. In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
     b. Select the Subjects you want to process, and click **Launch job**
     c. Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
-
   2. Returning fMRIPrep outputs from XNATto NYU BOX
-
-
 - Route 2 (Blue Path): Running fMRIPrep Locally
   1. Downloading data from XNAT to Jubail 
-
   2. Running fMRIPrep on Jubail
     a. Download the fMRIPrep image on Jubail 
     b. Prepare the sbatch script
     c. Submit the sbatch script
-
   3. Returning fMRIPrep outputs to NYU BOX
-
+    
     .. code-block:: bash
-
-   rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
+      rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
 
 
 
