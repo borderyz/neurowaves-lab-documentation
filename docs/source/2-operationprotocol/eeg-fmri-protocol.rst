@@ -49,7 +49,7 @@ Emergency Contacts
 ---
 
 Components of the BrainAmp MR Plus System
-=========================================
+-----------------------------------------
 
 Inside the MRI Scanner Room
 ---------------------------
@@ -238,7 +238,7 @@ Cleaning the BrainCap MR
 
 
 Data acquisition process
-========================
+------------------------
 
 
 The protocol describes the data acquisition process.
