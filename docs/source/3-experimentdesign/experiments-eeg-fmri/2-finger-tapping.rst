@@ -10,3 +10,6 @@ This is repeated 5 times. The block duration is 12 seconds.
 
     .. literalinclude:: ../../../../experiments/EEG-FMRI/finger-tapping/main.m
       :language: matlab
+
+
+

@@ -1,6 +1,6 @@
 
 % EEG-FMRI experiment for finger tapping
-% fingertapping: tap each finger then rest
+% fingertapping: tap each finger in an random order
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 
 clear all
