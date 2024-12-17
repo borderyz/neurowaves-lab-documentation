@@ -81,6 +81,9 @@ Pre-processing of the fMRI data
 -------------------------------
 
 
+
+
+
 Preparation of the forward/head model
 -------------------------------------
 
