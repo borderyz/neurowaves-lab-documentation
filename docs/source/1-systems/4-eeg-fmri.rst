@@ -24,7 +24,12 @@ Example Experiments EEG-FMRI
     ../3-experimentdesign/experiments-eeg-fmri/*
 
 
-.. include:: ../5-pipeline/4-eeg-fmri-pipelines.rst
+Pipelines Processing EEG-FMRI data
+==================================
 
+.. nbgallery::
+    :glob:
+
+    ../5-pipeline/notebooks/eeg-fmri/*
 
 
