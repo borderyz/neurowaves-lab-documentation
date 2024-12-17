@@ -99,7 +99,13 @@ Pre-processing steps should involve:
 Pre-processing of the fMRI data
 -------------------------------
 
+Author: Putti Webinar
 
+
+.. literalinclude:: ../../../../pipeline/eeg-fmri-pipelines/generic-pipeline_fmri_preprocessing/main.m
+   :language: matlab
+   :caption: Preprocessing Script for EEG-fMRI Data
+   :linenos:
 
 
 
