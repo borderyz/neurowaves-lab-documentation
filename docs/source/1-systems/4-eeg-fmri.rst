@@ -7,7 +7,7 @@ fMRI and EEG data can be collected simultaneously to benefit from the high spati
 and the high temporal resolution of EEG.
 
 However, noise is induced from the MRI onto the EEG data due to the gradient artifacts, those must be removed to make the EEG data usable.
-Therefore, special analysis pipelines are needed.
+Therefore, special analysis pipelines are needed. Additionally, designing an EEG/fMRI experiment demands taking into consideration specific requirements.
 
 EEG/fMRI documentation PDF `download from here <https://github.com/Hzaatiti/meg-pipeline/releases/tag/v-report-docs>`_
 
