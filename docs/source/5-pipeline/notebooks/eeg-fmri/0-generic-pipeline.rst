@@ -71,7 +71,6 @@ Steps for noise removal and pre-processing
   - Then next: select all EEG channels (only time we don’t use all channels is if we are measuring a specific thing).
   - Then next: deselect downsampling (we can do this later).
   - How to store data Select **store corrected data** in a cached file.
-
 - ECG signals correction after gradient artifact cleaning:
   - Also use a **sliding average subtraction** approach (Not ICA), use ICA if there is a residual.
   - We do not have markers on the peaks (this is needed for the subtraction method).
@@ -86,7 +85,6 @@ Steps for noise removal and pre-processing
   - Go to **Special Signal Processing**, select **CB**, then select **Use Markers**, then select **R markers**.
   - Then next, and use the whole data to compute the time delay. The total number of pulses is the sliding signal window. Empirically, we use 21 as the parameters.
   - Select all EEG channels except for CWL and the ECG channel.
-
 - Carbon Wired Loops (CWL), accounts for movement correction:
   - Change sampling rate: we need to downsample and then apply the **CWL regression**.
 
@@ -167,8 +165,8 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
 
 - Route 1 (Red Path): Running fMRIPrep on XNAT
   1. Running fMRIPrep on XNAT
-    a. In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
-    b. Select the Subjects you want to process, and click **Launch job**
+    - In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
+    - Select the Subjects you want to process, and click **Launch job**
     c. Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
   2. Returning fMRIPrep outputs from XNATto NYU BOX
 - Route 2 (Blue Path): Running fMRIPrep Locally
@@ -180,6 +178,7 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
   3. Returning fMRIPrep outputs to NYU BOX
     
     .. code-block:: bash
+      
       rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
 
 
