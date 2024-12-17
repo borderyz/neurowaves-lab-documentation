@@ -7,13 +7,26 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
    :local:
    :depth: 2
 
+.. admonition:: References
+
+    1. Cilia Jaeger (2024). *BP Academy Webinar Recording: Combined EEG and fMRI data analysis*.
+        - Youtube webinar available at `https://www.youtube.com/watch?v=vGQVeCn53ys <https://www.youtube.com/watch?v=vGQVeCn53ys>`_
+
+
+
+
+Pre-processing of the EEG data
+------------------------------
+
+
+
 
 ECG Removal
------------
+~~~~~~~~~~~
 - The subtraction method can work better than ICA, use the substraction method to remove ECG signals
 
 Steps for noise removal and pre-processing
-------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Gradient artifact correction:
   - Always remove the gradient artifacts first.
@@ -50,13 +63,31 @@ We can automate the process by saving all the analysis steps.
 
 
 Helium Pump Noise:
-------------------
+~~~~~~~~~~~~~~~~~~
 - Components around the 50Hz frequency should appear in all channels.
 - The helium pumps cannot be turned off during an experiment.
 
 Pre-processing steps should involve:
-------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 1. Inspecting the static field data.
 2. Gradient-artifact correction.
 3. ECG correction or CWL regression (Cardioballistic artifacts).
 4. Classic EEG analysis.
+
+
+
+
+Pre-processing of the fMRI data
+-------------------------------
+
+
+Preparation of the forward/head model
+-------------------------------------
+
+
+
+
+Perform fMRI-informed EEG source reconstruction
+-----------------------------------------------
+
+
