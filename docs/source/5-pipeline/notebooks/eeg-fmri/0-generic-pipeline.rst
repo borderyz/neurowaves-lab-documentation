@@ -1,6 +1,19 @@
 Generic pipeline
 ================
 
+Different modalities for processing EEG-fMRI data exists in the literature:
+
+- assymetrical approach where one modality (EEG or fMRI) constrains the other modality
+- symetrical approach where both modalities constrain each other
+
+The assymetrical approach is more popular in the literature.
+
+
+
+Required Data
+-------------
+
+
 The generic pipeline for EEG-fMRI data processing involves the following steps, detailed below
 
 .. contents:: Table of Contents
@@ -15,14 +28,18 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
 
 
 
-Pre-processing of the EEG data
-------------------------------
+Preprocessing of the EEG data
+-----------------------------
+
+Preprocessing of the EEG data involves multiple step. We will be using BrainVision Analyzer.
+
 
 
 
 
 ECG Removal
 ~~~~~~~~~~~
+
 - The subtraction method can work better than ICA, use the substraction method to remove ECG signals
 
 Steps for noise removal and pre-processing
