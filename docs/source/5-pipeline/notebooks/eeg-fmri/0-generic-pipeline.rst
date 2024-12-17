@@ -201,23 +201,12 @@ Troubleshooting
 
 
 
-
-
-
-
-
 Other possible processing steps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
-- Vascular Space Occupancy combined with EEG
-- Nordic denoising, with time there is more heating that causes higher amplitudes so this requires denoising
+These processing steps can enhance your processing pipelines depending on your paradigm.
 
-
-
-
-Other possible processing steps
-
-- draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
+- Draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
 - Vascular Space Occupancy combined with EEG
 - Nordic denoising, with time there is more heating that causes higher amplitudes so this requires denoising
 
