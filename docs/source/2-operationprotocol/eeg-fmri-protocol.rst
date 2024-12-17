@@ -1,8 +1,11 @@
 .. _brainamp_mr_plus_sop:
 
-===============================================
+
+Operational Protocol EEG-fMRI
+=============================
+
 Standard Operating Procedure (SOP) for BrainAmp MR Plus EEG System
-===============================================
+------------------------------------------------------------------
 
 :Document ID: CTP_MRI_001
 :Issue: 0.1

@@ -9,6 +9,7 @@ and the high temporal resolution of EEG.
 However, noise is induced from the MRI onto the EEG data due to the gradient artifacts, those must be removed to make the EEG data usable.
 Therefore, special analysis pipelines are needed.
 
+- Operational Protocol :ref:`brainamp_mr_plus_sop`
 - Data storage :ref:`eeg-fmri-data`
 - Guideline on designing your EEG-fMRI experiment can be found here :ref:`eeg-fmri-experiment`
 
