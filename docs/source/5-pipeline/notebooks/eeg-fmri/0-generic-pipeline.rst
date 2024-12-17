@@ -14,6 +14,8 @@ Required Data
 -------------
 
 
+
+
 The generic pipeline for EEG-fMRI data processing involves the following steps, detailed below
 
 .. contents:: Table of Contents
