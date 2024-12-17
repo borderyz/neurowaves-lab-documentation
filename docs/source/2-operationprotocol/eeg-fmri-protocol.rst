@@ -221,24 +221,12 @@ Cleaning the BrainCap MR
 ---
 
 
+Data acquisition process
+========================
 
 
-
-EEG-fMRI system Operational Protocol
-====================================
-
-This page provides data on the operational protocol for the EEG-fMRI system at NYUAD.
 The protocol describes the data acquisition process.
 
-
-
-
-
-
-
-
-Context
-#######
 
 Activation of the product
 -------------------------
@@ -247,6 +235,7 @@ Activation of the product
 
 Hardware setup
 --------------
+
 - Physical interface of the hardware:
   - Two amps connected to battery power supply and also to the Syncbox through fiber optics.
   - Battery power supply must be charged after each experiment
@@ -269,6 +258,7 @@ Typical EEG-fMRI dataset structure
 - A .vhdr or .xhdr file: a header containing metadata on parameters and sensors.
 - A .xmrk file: contains markers with their time (can be opened in a text file).
 
+Example of such datasets are present on NYU-BOX.
 Demo dataset has been provided by BP and are available on the recording computer:
 
 - In the S1-EEGfMRI dataset, at some point in time we can see the gradient artifacts
@@ -308,8 +298,6 @@ Pre-processing steps should involve:
 2. Gradient-artifact correction.
 3. ECG correction or CWL regression (Cardioballistic artifacts).
 4. Classic EEG analysis.
-
-
 
 
 Post-processing
