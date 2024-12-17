@@ -9,9 +9,16 @@ and the high temporal resolution of EEG.
 However, noise is induced from the MRI onto the EEG data due to the gradient artifacts, those must be removed to make the EEG data usable.
 Therefore, special analysis pipelines are needed.
 
+EEG/fMRI documentation PDF `download from here <https://github.com/Hzaatiti/meg-pipeline/releases/tag/v-report-docs>`_
+
+
+Operational protocol and SOP
+============================
+
 - Operational Protocol :ref:`brainamp_mr_plus_sop`
-- Data storage :ref:`eeg-fmri-data`
-- Guideline on designing your EEG-fMRI experiment can be found here :ref:`eeg-fmri-experiment`
+- SOP `download from here <https://github.com/Hzaatiti/meg-pipeline/releases/tag/v-report-docs>`_
+- Data storage information and currently available data :ref:`eeg-fmri-data`
+- Important guideline for designing your EEG-fMRI experiment can be found here :ref:`eeg-fmri-experiment`
 
 Example Experiments EEG-FMRI
 ============================
