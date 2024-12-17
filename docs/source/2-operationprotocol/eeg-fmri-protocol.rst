@@ -214,12 +214,18 @@ Filling Electrodes
 
 1. Push hair aside using a cotton swab.
 2. Degrease skin with alcohol.
+
+
+
 3. Apply Abralyt gel and gently abrade using the cotton swab.
 4. Fill the space between skin and electrode with gel using a syringe.
 
    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg14.jpg
       :align: center
       :alt: Filling BrainCap Electrodes
+
+5. Capping: every electrode must be well gelled (we cannot just use the electrodes we need) in an FMRI environment
+6. Impedence check
 
 Positioning the ECG Electrode
 -----------------------------
@@ -317,14 +323,13 @@ of static field data for the movement artifacts.
 Data acquisition protocol
 -------------------------
 
+- `T1` image of participant is needed (if source reconstruction will be performed)
+
+
 - Setup your experiment on the `MRI stimulus computer` to land on the `Introduction Page` of yoru experiment
 - Setup `BrainVision Recorder`
     - Open the BrainVision recorder software in administrative mode
     - File -> Open Workspace, choose a workspace [TODO: Add name of default workspace here]
-
-
-
-
 
 
 

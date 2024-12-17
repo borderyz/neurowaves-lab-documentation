@@ -4,6 +4,8 @@ Generic pipeline
 Different modalities for processing EEG-fMRI data exists in the literature:
 
 - assymetrical approach where one modality (EEG or fMRI) constrains the other modality
+    - mainly the EEG data constrains temporally the fMRI data
+    - or the fMRI data constrains spatially the EEG data
 - symetrical approach where both modalities constrain each other
 
 The assymetrical approach is more popular in the literature.
@@ -13,8 +15,18 @@ The assymetrical approach is more popular in the literature.
 Required Data
 -------------
 
+- fMRI data consists of
+    - times series of Bold signals mapped to a geometric space (either to each voxel, or to vertices of a surface)
+- EEG data consists of
+    - A .eeg file: raw data from the electrodes (time series)
+    - A .vhdr or .xhdr file: a header containing metadata on parameters and sensors, layout of coordinates of sensors
+    - A .xmrk file: contains markers with their time (can be opened in a text file)
+- for source reconstruction
+    - EEG/FMRI requires a T1 image (the subject should not have the EEG cap while getting the T1)
 
 
+Example of such datasets are present on NYU-BOX.
+Demo dataset has been provided by BP and are available on the recording computer:
 
 The generic pipeline for EEG-fMRI data processing involves the following steps, detailed below
 
@@ -29,14 +41,10 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
 
 
 
-
 Preprocessing of the EEG data
 -----------------------------
 
 Preprocessing of the EEG data involves multiple step. We will be using BrainVision Analyzer.
-
-
-
 
 
 ECG Removal
@@ -99,13 +107,22 @@ Pre-processing steps should involve:
 Pre-processing of the fMRI data
 -------------------------------
 
-Author: Putti Webinar
+Author: Putti Wen
 
 
 .. literalinclude:: ../../../../pipeline/eeg-fmri-pipelines/generic-pipeline_fmri_preprocessing/main.m
    :language: matlab
    :caption: Preprocessing Script for EEG-fMRI Data
    :linenos:
+
+
+
+
+Other possible processing steps
+
+- draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
+- Vascular Space Occupancy combined with EEG
+- Nordic denoising, with time there is more heating that causes higher amplitudes so this requires denoising
 
 
 
@@ -118,4 +135,15 @@ Preparation of the forward/head model
 Perform fMRI-informed EEG source reconstruction
 -----------------------------------------------
 
+- Coregistration requires computing the transformation, use the “layout” file that should help you match the electrodes with the headface
+- Some technique uses the ultrasound protocol to locate the electrode and get a geometrical representation of the electrodes
 
+
+
+
+Other methods
+-------------
+
+- Typical fMRI uses the GLM fitting, with EEG data it is possible to add regressors
+    - Proposed method is to take the variability of the EEG data and inject that as regressor into the GLM (variability can be each trial variability or spectral feature such as correlation with a band, or temporal feature ERP peak … this will depend on your paradigm)
+    - The non-stimulus activity can be used to correlate baselines (from eeg and fmri) together
