@@ -1,8 +1,8 @@
 .. _brainamp_mr_plus_sop:
 
-===============================================
+==================================================================
 Standard Operating Procedure (SOP) for BrainAmp MR Plus EEG System
-===============================================
+==================================================================
 
 :Document ID: CTP_MRI_001
 :Issue: 0.1
@@ -23,17 +23,25 @@ Basic operating procedures for the **Siemens 3T Prisma MRI Scanner** located in 
 Emergency Contacts
 ------------------
 
-+-----------------------+-----------------------------+--------------------------------+
-| Role                 | Name                        | Contact Details                |
-+=======================+=============================+================================+
-| MRI Physicist        | Osama Abdullah             | 056-6793378, oa22@nyu.edu      |
-+-----------------------+-----------------------------+--------------------------------+
-| MRI Technologist     | Haidee Paterson            | 050-8218598, hp42@nyu.edu      |
-+-----------------------+-----------------------------+--------------------------------+
-| MEG Scientist        | Hadi Zaatiti               | 056-2754921, hz3752@nyu.edu    |
-+-----------------------+-----------------------------+--------------------------------+
-| Facilities Management| Contact Security Desk      | EFS Helpdesk: 02-628-8888      |
-+-----------------------+-----------------------------+--------------------------------+
+.. list-table:: Emergency Contacts
+   :header-rows: 1
+   :widths: 30, 30, 40
+
+   * - Role
+     - Name
+     - Contact Details
+   * - MRI Physicist
+     - Osama Abdullah
+     - 056-6793378, oa22@nyu.edu
+   * - MRI Technologist
+     - Haidee Paterson
+     - 050-8218598, hp42@nyu.edu
+   * - MEG Scientist
+     - Hadi Zaatiti
+     - 056-2754921, hz3752@nyu.edu
+   * - Facilities Management
+     - Contact Security Desk
+     - EFS Helpdesk: 02-628-8888
 
 ---
 
@@ -46,22 +54,22 @@ Inside the MRI Scanner Room
 1. **Amplifiers**
    - 2 x BrainAmp MR Plus (32 channels each).
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg1.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg.jpg
       :align: center
       :alt: BrainAmp MR Plus Amplifiers (Front View)
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg2.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg1.jpg
       :align: center
       :alt: BrainAmp MR Plus Amplifiers (Rear View)
 
 2. **PowerPack**
    - Portable and secure power source for amplifiers.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg3.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg2.jpg
       :align: center
       :alt: PowerPack Front View
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg4.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg3.jpg
       :align: center
       :alt: PowerPack Rear View
 
@@ -76,15 +84,15 @@ Inside the MRI Scanner Room
       - Chin strap.
       - Loop for chest belt (belt not included).
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg5.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg4.jpg
       :align: center
       :alt: BrainCap MR with Electrodes
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg6.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg5.jpg
       :align: center
       :alt: Electrode Setup
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg7.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg6.jpg
       :align: center
       :alt: BrainCap MR Connector Box
 
@@ -93,23 +101,23 @@ Outside the MRI Scanner Room
 
 1. **Syncbox**: Extension box for phase sync recordings.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg8.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg7.jpg
       :align: center
       :alt: Syncbox for EEG Phase Sync
 
 2. **Triggerbox Plus**: Merges triggers from multiple sources.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg9.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg8.jpg
       :align: center
       :alt: Triggerbox Plus
 
 3. **USB 2 Adapter (BUA)**: USB interface for amplifier-computer connections.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg10.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg9.jpg
       :align: center
       :alt: USB 2 Adapter BUA
 
-
+---
 
 Safety Considerations
 ======================
@@ -125,18 +133,18 @@ Safety Considerations
 3. **Head Coil for EEG-fMRI**
    - Use the **Siemens Head/Neck 64ch coil** for proper cable routing.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg11.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg10.jpg
       :align: center
       :alt: Siemens 64ch Head Coil for EEG-fMRI
 
 4. **Protecting the Amplifier**
    - Prevent **eddy currents** and **RF heating** by following setup geometry and approved MR sequences.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg12.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg11.jpg
       :align: center
       :alt: Protecting EEG Equipment from Heating
 
-
+---
 
 Capping and Impedance Preparation
 =================================
@@ -155,7 +163,7 @@ Positioning the Cap
 2. Position the cap starting from the **forehead**, ensuring Cz is centered.
 3. Adjust electrode positions (Fp1/Fp2 above eyebrows).
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg13.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg12.jpg
       :align: center
       :alt: Positioning BrainCap MR
 
@@ -166,7 +174,7 @@ Filling Electrodes
 3. Apply Abralyt gel and gently abrade using the cotton swab.
 4. Fill the space between skin and electrode with gel using a syringe.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg14.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg13.jpg
       :align: center
       :alt: Filling BrainCap Electrodes
 
@@ -176,7 +184,7 @@ Positioning the ECG Electrode
 2. Place the ECG lead along the **paravertebral line**.
 3. Ensure the lead is not taut and allows head movement.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg15.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg14.jpg
       :align: center
       :alt: Positioning the ECG Electrode
 
@@ -191,9 +199,18 @@ Cleaning the BrainCap MR
 4. Rinse thoroughly and remove all cleaning residues.
 5. Pat dry using a clean towel and allow to air dry on a rack or dummy head.
 
-   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg16.jpg
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg15.jpg
       :align: center
       :alt: Cleaning BrainCap MR
+
+   .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg19.jpg
+      :align: center
+      :alt: Fully Cleaned BrainCap MR
+
+---
+
+**End of Document**
+
 
 
 
