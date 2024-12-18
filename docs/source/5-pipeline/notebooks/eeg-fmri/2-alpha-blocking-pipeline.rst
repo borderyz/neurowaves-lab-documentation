@@ -1,6 +1,11 @@
 Alpha-blocking pipeline
 =======================
 
+.. contents:: Table of Contents
+   :depth: 3
+   :local:
+
+
 Familiarise yourself with the generic pipeline first.
 
 Preprocess EEG Data
@@ -68,5 +73,45 @@ The EEG data from an EEG/fMRI experiment should have the following trigger signa
 - we can then procceed with the analysis
 
 
+Renaming the toggle markers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The markers for the TR (Repetition Time) in NYUAD's setting will be called T 1_on and T 1_off, we need to rename them all to T1 in order to check for any missed TR markers.
+
+- Under `Transformations` pick `Edit markers`
+- Put the following settings
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_3.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Edit markers transformations all toggle marker will be called T1.
+
+- Press `Finish`, check that all toggle markers are now called `T1`
+
+
+Repetition Time (TR) Sanity Check
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Make sure you have all the BrainProducts Solutions installed (these are separate from the software itself)
+- Go to Solutions -> Views -> Marker Timing -> Set parameters as following
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_4.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Compute timing between consecutive T1 markers to ensure they correspond to the TR.
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_5.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       The used TR of 750ms corresponds to the max and min different of successive T1's.
+
+- The result is displayed as an extra step in the processing tree and is correct, the used TR was indeed of 750ms during the whole experiment
+    - Sanity check is therefore checked
 
 

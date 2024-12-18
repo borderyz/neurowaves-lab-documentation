@@ -4,6 +4,12 @@
 Operational Protocol EEG-fMRI
 =============================
 
+
+.. contents:: Table of Contents
+   :depth: 3
+   :local:
+
+
 Standard Operating Procedure (SOP) for BrainAmp MR Plus EEG System
 ------------------------------------------------------------------
 

@@ -1,6 +1,10 @@
 Generic pipeline
 ================
 
+.. contents:: Table of Contents
+   :depth: 3
+   :local:
+
 Different modalities for processing EEG-fMRI data exists in the literature:
 
 - assymetrical approach where one modality (EEG or fMRI) constrains the other modality

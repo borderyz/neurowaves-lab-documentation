@@ -1,6 +1,10 @@
 Finger tapping pipeline
 =======================
 
+.. contents:: Table of Contents
+   :depth: 3
+   :local:
+
 Familiarise yourself with the generic pipeline first.
 
 Preprocess EEG Data
