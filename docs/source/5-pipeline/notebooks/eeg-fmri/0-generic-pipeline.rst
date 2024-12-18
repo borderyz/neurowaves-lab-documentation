@@ -41,6 +41,8 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
 
 
 
+
+
 Preprocessing of the EEG data
 -----------------------------
 
@@ -71,6 +73,8 @@ The EEG data from an EEG/fMRI experiment should have the following trigger signa
        One TR (repetition time) corresponds to T 1_off - T 1_on.
 
 
+
+
 ECG Removal
 ~~~~~~~~~~~
 
@@ -80,35 +84,33 @@ Steps for noise removal and pre-processing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Gradient artifact correction:
-  - Always remove the gradient artifacts first.
-  - ECG with gradient artifacts can be saturated sometimes, which means that the ECG sensor should be moved around.
-  - MRI artifact correction: then pick use markers, then R128, making sure the correction is only during these triggers and not for the rest.
-  - Then Next.
-  - Artifact Type is always **Continuous** (interleaved was an old thing when MRI was collected for a period of time and then EEG for another period of time).
-  - Enable **Baseline correction for average** (compute baseline over the whole artifact).
-  - Use **sliding average calculation** to account for changes in gradient artifacts over time.
-  - Do not select **Common use of all channels** for bad intervals and correlation.
-  - Then next: select all EEG channels (only time we don’t use all channels is if we are measuring a specific thing).
-  - Then next: deselect downsampling (we can do this later).
-  - How to store data Select **store corrected data** in a cached file.
-
+    - Always remove the gradient artifacts first.
+    - ECG with gradient artifacts can be saturated sometimes, which means that the ECG sensor should be moved around.
+    - MRI artifact correction: then pick use markers, then R128, making sure the correction is only during these triggers and not for the rest.
+    - Then Next.
+    - Artifact Type is always **Continuous** (interleaved was an old thing when MRI was collected for a period of time and then EEG for another period of time).
+    - Enable **Baseline correction for average** (compute baseline over the whole artifact).
+    - Use **sliding average calculation** to account for changes in gradient artifacts over time.
+    - Do not select **Common use of all channels** for bad intervals and correlation.
+    - Then next: select all EEG channels (only time we don’t use all channels is if we are measuring a specific thing).
+    - Then next: deselect downsampling (we can do this later).
+    - How to store data Select **store corrected data** in a cached file.
 - ECG signals correction after gradient artifact cleaning:
-  - Also use a **sliding average subtraction** approach (Not ICA), use ICA if there is a residual.
-  - We do not have markers on the peaks (this is needed for the subtraction method).
-  - We need to add **R peaks** (peaks on the ECG signals).
-  - After the gradient artifact correction, some high-frequency noise stays in the ECG channel during MRI acquisition.
-  - Apply **High Cutoff Frequency**: go to **Transformations**, then **IIR filter**, disable the Low cutoff and High cutoff of all channels, then select only the ECG channel and apply a high cutoff (15 Hz), then apply filter.
-  - Then **Transformations**, **Special Signal Processing**, then **CB correction**.
-  - Choose the **ECG channel** (if it's a clear heartbeat, if not use another EEG channel that shows a clearer one than ECG).
-  - Go through the manual check if the automatic analyzer skipped some R peaks.
-  - After selecting all the R peaks (which should be marked in Green), click **Finish**.
-  - Then the R peaks should appear on the peaks as R.
-  - Go to **Special Signal Processing**, select **CB**, then select **Use Markers**, then select **R markers**.
-  - Then next, and use the whole data to compute the time delay. The total number of pulses is the sliding signal window. Empirically, we use 21 as the parameters.
-  - Select all EEG channels except for CWL and the ECG channel.
-
+    - Also use a **sliding average subtraction** approach (Not ICA), use ICA if there is a residual.
+    - We do not have markers on the peaks (this is needed for the subtraction method).
+    - We need to add **R peaks** (peaks on the ECG signals).
+    - After the gradient artifact correction, some high-frequency noise stays in the ECG channel during MRI acquisition.
+    - Apply **High Cutoff Frequency**: go to **Transformations**, then **IIR filter**, disable the Low cutoff and High cutoff of all channels, then select only the ECG channel and apply a high cutoff (15 Hz), then apply filter.
+    - Then **Transformations**, **Special Signal Processing**, then **CB correction**.
+    - Choose the **ECG channel** (if it's a clear heartbeat, if not use another EEG channel that shows a clearer one than ECG).
+    - Go through the manual check if the automatic analyzer skipped some R peaks.
+    - After selecting all the R peaks (which should be marked in Green), click **Finish**.
+    - Then the R peaks should appear on the peaks as R.
+    - Go to **Special Signal Processing**, select **CB**, then select **Use Markers**, then select **R markers**.
+    - Then next, and use the whole data to compute the time delay. The total number of pulses is the sliding signal window. Empirically, we use 21 as the parameters.
+    - Select all EEG channels except for CWL and the ECG channel.
 - Carbon Wired Loops (CWL), accounts for movement correction:
-  - Change sampling rate: we need to downsample and then apply the **CWL regression**.
+    - Change sampling rate: we need to downsample and then apply the **CWL regression**.
 
 We can automate the process by saving all the analysis steps.
 
@@ -131,20 +133,105 @@ Pre-processing steps should involve:
 Pre-processing of the fMRI data
 -------------------------------
 
+
 Author: Putti Wen
 
 
-.. literalinclude:: ../../../../pipeline/eeg-fmri-pipelines/generic-pipeline_fmri_preprocessing/main.m
-   :language: matlab
-   :caption: Preprocessing Script for EEG-fMRI Data
-   :linenos:
+.. figure:: 0-generic-pipeline-figures/f1.png
+   :alt: Schematic of the fMRI Preprocessing Pipeline
+   :align: center
+   :figclass: align-center
+
+   Figure 1: Overview of the fMRI Pre-processing Steps 
+   (Red: Run on XNAT, Blue: Run Locally)
+
+
+Overview
+~~~~~~~~
+
+
+- We store and organize raw scanner data in **`XNAT <https://xnat.abudhabi.nyu.edu/>`_**.
+- We convert these data to BIDS format using **`dcm2bids <https://unfmontreal.github.io/Dcm2Bids/3.2.0/>`_**.
+- We perform standardized preprocessing with **`fMRIPrep <https://fmriprep.org/en/stable/>`_**.
+- We rely on **`NYU Box <https://nyu.app.box.com/>`_**, **`Jubail HPC <https://ood.hpc.abudhabi.nyu.edu/>`_**, and **`XNAT <https://xnat.abudhabi.nyu.edu/>`_** for secure data transfer, computation, and storage.
+
+Together, these tools produce reproducible, GLM-ready fMRI outputs.
+
+
+
+Converting DICOM to BIDS on XNAT
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+- Prerequisites for Running **dcm2bids**
+
+  1. Ensure your DICOM data are properly uploaded to your **xnat** project.
+  2. Confirm you have an active **xnat** account with the necessary access permissions.
+  3. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
+
+- Running **dcm2bids**
+
+  1. Navigate to your **xnat** project.
+  2. Select the **Processing Dashboard**, and then **MRI Sessions**
+  
+  .. figure:: 0-generic-pipeline-figures/f2.png
+   :alt: Schematic of the fMRI Preprocessing Pipeline
+   :align: center
+   :figclass: align-center
+
+  3. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
+  4. Select Subjects you want to process, and click **Launch job**
+  5. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
+
+
+fMRI Preprocessing with fMRIPrep: Two Available Routes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+- Route 1 (Red Path): Running fMRIPrep on XNAT
+    1. Running fMRIPrep on XNAT
+        - In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
+        - Select the Subjects you want to process, and click **Launch job**
+        - Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
+    2. Returning fMRIPrep outputs from XNATto NYU BOX
+- Route 2 (Blue Path): Running fMRIPrep Locally
+    1. Downloading data from XNAT to Jubail
+    2. Running fMRIPrep on Jubail
+        a. Download the fMRIPrep image on Jubail
+        b. Prepare the sbatch script
+        c. Submit the sbatch script
+    3. Returning fMRIPrep outputs to NYU BOX
+    
+        .. code-block:: bash
+
+          rsync -av [YourNetID]@jubail.abudhabi.nyu.edu:/scratch/MRI/[YourProjectName]/ /local/path/to/NYUBOX/[YourProjectName]/
+
+
+
+GLM 
+~~~
+
+
+- Load data in MATLAB
+- Build the design matrix
+- Run the GLM
+- Save the GLM outputs
+- Visualy inspect GLM outputs in freeview 
+
+
+
+Troubleshooting
+~~~~~~~~~~~~~~~
 
 
 
 
 Other possible processing steps
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-- draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
+These processing steps can enhance your processing pipelines depending on your paradigm.
+
+- Draining vein effect correction (linear offset or CBV scaling or spatial deconvolution)
 - Vascular Space Occupancy combined with EEG
 - Nordic denoising, with time there is more heating that causes higher amplitudes so this requires denoising
 
