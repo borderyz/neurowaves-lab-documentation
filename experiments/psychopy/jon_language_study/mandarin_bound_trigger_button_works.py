@@ -434,6 +434,8 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
+#listenbutton(3) we want to add this to let them press at the end?
+
 event.waitKeys()
 
 participantName = participantInfo[0].replace(" ", "")
