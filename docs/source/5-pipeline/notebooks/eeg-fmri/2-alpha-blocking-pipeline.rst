@@ -68,3 +68,5 @@ The EEG data from an EEG/fMRI experiment should have the following trigger signa
 - we can then procceed with the analysis
 
 
+
+
