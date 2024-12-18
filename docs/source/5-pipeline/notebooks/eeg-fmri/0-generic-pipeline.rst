@@ -12,7 +12,7 @@ Different modalities for processing EEG-fMRI data exists in the literature:
     - or the fMRI data constrains spatially the EEG data
 - symetrical approach where both modalities constrain each other
 
-The assymetrical approach is more popular in the literature.
+The assymetrical approach seems more popular in the literature.
 
 
 

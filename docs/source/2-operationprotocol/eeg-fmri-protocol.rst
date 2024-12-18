@@ -230,6 +230,8 @@ Filling Electrodes
 
 5. Capping: every electrode must be well gelled (we cannot just use the electrodes we need) in an FMRI environment
 6. Impedence check
+    - After setting up the scanner interfaces, the EEG cap was prepared, and we checked the impedance values of each electrode. Each electrode should be below 50 kOhm for EEG-fMRI recordings.
+    - It is recommended to record some data outside of the scanner room. This can be used to check the quality of ECG signal and check for strong R peaks. In this data set, strong R peaks are visible.
 
 Positioning the ECG Electrode
 -----------------------------
@@ -274,6 +276,20 @@ Cleaning the BrainCap MR
 
 ---
 
+
+
+
+EEG/fMRI system settings
+------------------------
+
+At NYUAD, the Siemens trigger box from the scanner is on `Toggle Mode`.
+
+The Recorder software settings on the EEG data acquisition computer is set to match the Siemens setup.
+In Recorder under Amplifier → Digital Port Settings set enable Bit15 and check both active
+The file BP_Onboarding_initial_test_toggle_24-09-2024.eeg was recorded with this trigger configuration. It results in T_on then T_off marker pattern for every TR.
+
+This setting, will show T 1_off and T 1_on where the time difference between two consecutive ones corresponds to the TR.
+The default setting on BrainProducts is to have an R128 every TR, but this will not be the case for the setup at NYUAD.
 
 Data acquisition process
 ------------------------
@@ -335,7 +351,11 @@ Data acquisition protocol
     - Open the BrainVision recorder software in administrative mode
     - File -> Open Workspace, choose a workspace [TODO: Add name of default workspace here]
 
+Static Field data acquisition
+-----------------------------
 
+- Prior to activating the fMRI gradient coils, make sure to collect a duration of the static field
+- The static field data will be used for artifact correction in the processing pipelines
 
 
 

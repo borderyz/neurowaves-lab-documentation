@@ -114,4 +114,23 @@ Repetition Time (TR) Sanity Check
 - The result is displayed as an extra step in the processing tree and is correct, the used TR was indeed of 750ms during the whole experiment
     - Sanity check is therefore checked
 
+    .. hint::
+
+        You can reproduce the same analysis steps for another dataset by clicking and dragging the step node in the `history tree` onto the other dataset.
+        The history files have an `.ehtp` extension.
+        To load the files in click on History Template → Open → select history tree file → drag and drop history tree onto data node of interest.
+
+Gradient artifact correction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Observe that when the gradient coils are activated a noise pattern is induced, it is an artifact that requires removal
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_6.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       EEG data prior and after gradient coil activation.
+
+
 
