@@ -19,7 +19,12 @@ Setup your workspace
     - your workspace is saved in a .wksp
 - You should now see the datasets as folders in your Primary view
 
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_2.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
 
+       Importing the two alpha-blocking datasets into BrainVision Analyzer
 
 EEG data triggers and sanity check
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -55,4 +60,11 @@ The EEG data from an EEG/fMRI experiment should have the following trigger signa
        :width: 50%
 
        Under EEG-FMRI\Data\resting-state\sub-0665\matlab
+
+
+- Once we checked that:
+    - the number of triggers of each type is correct
+    - the sync on is appearing throughout the acquisition
+- we can then procceed with the analysis
+
 
