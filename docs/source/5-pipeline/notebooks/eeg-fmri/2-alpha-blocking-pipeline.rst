@@ -256,6 +256,44 @@ Spectral analysis using FFT and contrasting conditions
 Preprocess fMRI data
 --------------------
 
+- Login to `XNAT <https://xnat.abudhabi.nyu.edu/>`_.
+- Make sure you have access to XNAT from your `@nyu` gmail account
+- Make sure you have permission to access the project under which your fMRI data has been acquired
+    - if you cannot see the project, request access from the XNAT administrators
+- On XNAT you will need
+    - fmap AP / PA (anterior posterior, posterior anterior) it is the direction of data acquisition (reverse phase encoding)
+        - acquired when participant is in the scanner
+        - they are used for distortion correction (topup algorithm for example by fsl)
+        - usually we have two files per session of fMRI
+        - these are input for the fMRI prep (and any fMRI processing pipeline)
+
+- the input for fMRIprep pipeline is
+    - the anatomical T1 of the participant (used for coregistering the fMRI with the anatomy of the person from T1) (1 item)
+    - the two fmap AP/PA (called field maps) (two items)
+        - fmap_acq-se_run-01_dir-AP_topup
+        - fmap_acq-se_run-02_dir-PA_topup
+    - the single band ref in PA and AP (two items) named
+        - func-bold_task-SBref_run-02_dir-PA
+        - func-bold_task-SBref_run-01_dir-AP
+    - the bold runs named (two items because we done two sessions of resting state for this participant)
+        - func-bold_task-restingstate_eeg_run-03
+        - func-bold_task-restingstate_eeg_run-04
+- Sanity checks:
+    - check the size of the files (bold files should be around 600 mb+ for example)
+    - check the number of the files (it is 402 for the bold resting state that we acquired)
+
+- to run fMRI prep we need to
+    - dicom2bids first
+        - Run preprocessing pipeline, choose dicom2bids session
+        - Pydeface (remove the face of the person)
+        - run the pipeline
+        - check the status scroll bottom down reload the history and see the status of the job (click the eye icon)
+        - Once the job is complete go to Manage Files and view the new BIDS structure
+    - we can now press fmriprep
+        - fmriprep flag (to customise the pipeline)
+        - we need a T1 to run the pipeline however it is not in the session so we need to pull it from another session
+        - we ran fmriprep without the T1, just to see (usualy there is a global project called `anat` that holds all the anatomicals of the subjects)
+- the design matrix of the alpha-blocking experiment involves
 
 
 
