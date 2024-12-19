@@ -265,8 +265,6 @@ Other methods
     - The non-stimulus activity can be used to correlate baselines (from eeg and fmri) together
 
 
-
-
 Resources and Training Materials
 ================================
 
@@ -316,11 +314,11 @@ EEG-fMRI Webinars
 
 - **Joint EEG-fMRI data analysis**
   - **Session 1: Introduction to EEG-fMRI:** `Watch on YouTube <https://youtu.be/TIuLOQ-jXko?feature=shared>`_
-  - **Session 2: EEG-fMRI Data preprocessing and considerations:** `Watch on YouTube <https://youtu.be/5EqyURlZDMA?feature=shared>`_
-  - **Session 3: Combining EEG and fMRI data analysis:** `Watch on YouTube <https://youtu.be/vGQVeCn53ys?feature=shared>`_
-- **Handling scanner-related artifacts:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/78c7a1aed89d4cdd96927a52e7227643/watch?source=CHANNEL>`_
-- **CWLs:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/c06cc5a80c734c1abf67f37fca201e4f/watch?source=CHANNEL>`_
-- **Getting ready for simultaneous EEG-fMRI: Safety and setup basics:** `Watch webinar <https://www.gotostage.com/channel/cd0cf85ada364ca2a41a06d9fcdd753b/recording/b1d94f4369764d95b07dca3f25c38a53/watch?source=CHANNEL>`_
+  - **Session 2: EEG-fMRI Data preprocessing and considerations:** `Watch on YouTube Preprocessing <https://youtu.be/5EqyURlZDMA?feature=shared>`_
+  - **Session 3: Combining EEG and fMRI data analysis:** `Watch on YouTube Comining EEG/fMRI <https://youtu.be/vGQVeCn53ys?feature=shared>`_
+- **Handling scanner-related artifacts:** `Watch webinar artifacts <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/78c7a1aed89d4cdd96927a52e7227643/watch?source=CHANNEL>`_
+- **CWLs:** `Watch webinar CWLs <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/c06cc5a80c734c1abf67f37fca201e4f/watch?source=CHANNEL>`_
+- **Getting ready for simultaneous EEG-fMRI: Safety and setup basics:** `Watch webinar Basic Setup <https://www.gotostage.com/channel/cd0cf85ada364ca2a41a06d9fcdd753b/recording/b1d94f4369764d95b07dca3f25c38a53/watch?source=CHANNEL>`_
 
 Keep Up to Date
 ---------------
