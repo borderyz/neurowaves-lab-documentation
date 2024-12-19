@@ -124,6 +124,10 @@ Repetition Time (TR) Sanity Check
 Gradient artifact correction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - After performing sanity checks, the first step is to perform the gradient artifact correction using `MR correction`
+- The gradient artifact is periodic and predictable
+    - Every period, corresponds to he acquisition of one Bold signal value
+    - The idea is to consider the first three volumes and average them together, then substract in the subsequent windows the average (performed for each EEG channel)
+    - Artifacts will be seen stronger on the peripheral channels (closer to the MRI magnet) than in the center of the magnet
 - Before applying the MR correction, check data for saturation
     - Saturation happens when the allocated analog bandwidth for the signal was not enough to display the signal fully
     - Use the butterfly plot to display the data at two Repetition Times (TR)
@@ -161,6 +165,7 @@ Gradient artifact correction
     - Artifact Type is always Continuous (interleaved was an old thing when MRI was collected for a period of time and then EEG for another period of time)
     - Enable Baseline correction for average( Compute baseline over the whole artifact)
     - Use sliding average calculation (to account for changes of gradient artifacts with time )
+    - Use a value of 21 (empirical evidence)
     - Do not select Common use of all channels for bad intervals and correlation
     - Then next: select all EEG channels (only time we don’t use al chaness if we are measuring ta specific thing )
 
@@ -170,3 +175,49 @@ Gradient artifact correction
        :width: 50%
 
        MR correction, selection of EEG channels.
+
+- Then next, deselect downsampling we can do this later
+- How to store data, next: Select sotre corrected data in cached file
+- The MR correction will now take place and can take some time
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_9.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Alpha-blocking data after MR correction.
+
+
+- It can make sense at this point to compare the frequency content (using FFT) of the data at the static field and the data after MR correction
+    - They should have comparable frequency components
+
+50 Hz notch filter
+~~~~~~~~~~~~~~~~~~
+
+
+
+Cardioballistic artifact correction
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Once the gradient artifact is cleaned, we can procceed with cleaning the cardioballistic artifact using the ECG signals:
+- A sliding average substraction approach is used for the correction (Not ICA),  ICA if there is maybe a residual
+- We do not have markers on the peaks, (this is needed for the substraction method)
+- We need to add R peaks (peaks on the ECG signals)
+- The ECG signal will be used as a template
+- After the gradient artifact correction, some high frequency noise stays in the ECG channel during MRI acquisition
+    - So we need to apply High Cut off Frequency  Go to transformations then IIR filter then disable the Low cutoff and High cutoff of all channels then select only the ECG channel and apply a high cut off 15 Hz filter, then apply filter
+    - Then transformations, special signal processing then cb correction
+    - Choose the ECG channel (when it is clear heartbeat if not use another EEG channel that can show a clearer one than ECG)
+    - Go through the manual check if the automatic analyser skipped some R peaks
+    - After selecting all the R peaks which should be marked in Green, then click Finish
+    - Then the R peaks should appear on the peaks as R
+    - Then go to special signal processing and select CB, and then select use markers then select R markers
+    - Then go next and then use whole data to compute the time delay, again the total number of pulse is the sliding signal window also empirically we use the 21 as parameters
+    - Select all EEG channels except for CWL and ECG channel
+
+
+In the currently acquired dataset, the ECG electrode has not been glued properly therefore we cannot perform the ECG correction.
+
+Defining trial segments Eyes Open/Eyes closed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

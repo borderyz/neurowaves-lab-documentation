@@ -17,3 +17,8 @@ Ensure:
     - aanalyse the trade-off between a high spatial resolution and less number of trials (EEG/fMRI experiment) with a high number of trials (pure EEG experiment)
         - as a matter of fact, the length of an experiment using EEG-fMRI will have less trials than using EEG alone
         - therefore, frequency analysis of the EEG data in an EEG-fMRI experiment is more useful than time-lock analysis
+
+
+.. important::
+
+   Always add a random duration of time before showing stimulus at the beginning of each TR
