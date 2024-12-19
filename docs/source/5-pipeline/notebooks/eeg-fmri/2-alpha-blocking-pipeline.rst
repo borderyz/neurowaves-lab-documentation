@@ -136,13 +136,14 @@ Gradient artifact correction
        Butterfly plot (this is not the alpha-blocking data) over two TR's, used for saturation sanity check, clipping (e.g.,saturation) is pointed to in red.
 
 
+    - Right click the data, Switch View -> Butterfly View
 
     .. figure:: 2-alpha-blocking-pipeline-figures/butterfly_plot.png
        :align: center
        :alt: Description of the image
        :width: 50%
 
-       Butterfly plot for the alpha-blocking data over two TR's, no clipping on the ECG electrode can be seen for this participant.
+       Butterfly plot for the alpha-blocking data over two TR's, saturation can be seen on the ECG electrode can be seen for this participant.
 
 - Observe that when the gradient coils are activated a noise pattern is induced, it is an artifact that requires removal
 
@@ -154,4 +155,18 @@ Gradient artifact correction
        EEG data prior and after gradient coil activation.
 
 
+- MR correction can now be applied
+    - Under Transformations go to `Special Signal Processing` then `MR Correction`
+    - Use Markers -> T1
+    - Artifact Type is always Continuous (interleaved was an old thing when MRI was collected for a period of time and then EEG for another period of time)
+    - Enable Baseline correction for average( Compute baseline over the whole artifact)
+    - Use sliding average calculation (to account for changes of gradient artifacts with time )
+    - Do not select Common use of all channels for bad intervals and correlation
+    - Then next: select all EEG channels (only time we don’t use al chaness if we are measuring ta specific thing )
 
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_8.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       MR correction, selection of EEG channels.

@@ -362,7 +362,7 @@ Each electrode should be below 50 kOhm for EEG-fMRI recordings.
 - Data must be recorded outside the scanner room to check for the quality of the ECG signal.
 - Check for strong R peaks. In this data set, strong R peaks are visible.
 
-    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg20.jpg
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg20.png
         :align: center
 
     Strong R peaks on ECG electrode can be visualised as a sanity check before entering the MRI scanner room.
