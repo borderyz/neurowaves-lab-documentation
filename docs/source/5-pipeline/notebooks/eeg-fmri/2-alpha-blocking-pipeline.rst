@@ -221,3 +221,27 @@ In the currently acquired dataset, the ECG electrode has not been glued properly
 Defining trial segments Eyes Open/Eyes closed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Remind that each experimetn has 25 blocks in alternating sequence starting with eyes open and then eyes closed.
+- We need to use the Segmentation Wizard to define our trial segments
+- However we have only one marker S1 for both types
+    - Go to Transformations -> Edit Markers -> Table
+    - Rename the Eyes Closed Block to S2 (this is done manually for now, we are checking how to automate this)
+    - Press Finish
+    - Verify that the markers are now correctly renamed
+- We can now define our segments
+    - Go to Transformations then Segment Analysis and Functions then Segmentation
+    - Create New segment based on marker position
+    - Press Next, Select S 1, then Next, define the trial duration as 12 seconds (since the participant was asked to keep eyes closed or open for 12 seconds)
+    - The segments are defined per channel for Eyes Open
+    - Repeat the same steps for Eyes Closed, rename the segments in the history tree accordingly
+
+
+
+
+
+
+Ways to improve
+~~~~~~~~~~~~~~~
+
+- Define a specific type of marker for each condition instead of one marker type for all conditions (even if we know the sequence from the design matrix, but this will make the pre-processing in analyzer faster)
+- Ensure that the ECG electrode is well gelled, and picking high R peaks when outside the MRI scanner room
