@@ -268,16 +268,14 @@ Other methods
 
 
 Resources and Training Materials
-===============================
+================================
 
 Manuals and Support Teams
 -------------------------
 
 Manuals
 ~~~~~~~
-Manuals can be downloaded from the website:
-
-`Brain Products Manuals <https://www.brainproducts.com/downloads/manuals/>`_
+Manuals can be downloaded from the website: `Brain Products Manuals <https://www.brainproducts.com/downloads/manuals/>`_
 
 Technical Support
 ~~~~~~~~~~~~~~~~~
@@ -292,17 +290,13 @@ Analyzer Support
 Support Tips
 ------------
 
-- **Recorder workspace settings for EEG-fMRI:**
-  `Recorder setup EEG-fMRI <https://pressrelease.brainproducts.com/recorder-setup-eeg-fmri>`_
+- **Recorder workspace settings for EEG-fMRI:** `Recorder setup EEG-fMRI <https://pressrelease.brainproducts.com/recorder-setup-eeg-fmri>`_
 
-- **Best practices:**
-  `EEG-fMRI Best Practices <https://pressrelease.brainproducts.com/eeg-fmri/>`_
+- **Best practices:** `EEG-fMRI Best Practices <https://pressrelease.brainproducts.com/eeg-fmri/>`_
 
 - **Peripheral physiology measurements using BrainAmp ExG MR:**
-  - Part 1: Let’s focus on EMG:
-    `EMG-fMRI Guide <https://pressrelease.brainproducts.com/emg-fmri/>`_
-  - Part 2: Let’s focus on ECG:
-    `ECG-fMRI Guide <https://pressrelease.brainproducts.com/ecg-fmri>`_
+  - Part 1: Let’s focus on EMG: `EMG-fMRI Guide <https://pressrelease.brainproducts.com/emg-fmri/>`_
+  - Part 2: Let’s focus on ECG: `ECG-fMRI Guide <https://pressrelease.brainproducts.com/ecg-fmri>`_
 
 Webinars
 --------
@@ -314,31 +308,19 @@ Webinar Channels
 
 Analyzer Webinars
 ~~~~~~~~~~~~~~~~~
-- **Introduction to Analyzer 2 & EEG analysis concepts:**
-  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/599a9c6a758f4f68b8658fa93f8208fc/watch?source=CHANNEL>`_
-
-- **EEG artifact types and handling strategies in BrainVision Analyzer 2:**
-  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/d1ec7d100c124d0bb239b878cc213fcc/watch?source=CHANNEL>`_
+- **Introduction to Analyzer 2 & EEG analysis concepts:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/599a9c6a758f4f68b8658fa93f8208fc/watch?source=CHANNEL>`_
+- **EEG artifact types and handling strategies in BrainVision Analyzer 2:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/d1ec7d100c124d0bb239b878cc213fcc/watch?source=CHANNEL>`_
 
 EEG-fMRI Webinars
 ~~~~~~~~~~~~~~~~~~
 
 - **Joint EEG-fMRI data analysis**
-  - **Session 1: Introduction to EEG-fMRI:**
-    `Watch on YouTube <https://youtu.be/TIuLOQ-jXko?feature=shared>`_
-  - **Session 2: EEG-fMRI Data preprocessing and considerations:**
-    `Watch on YouTube <https://youtu.be/5EqyURlZDMA?feature=shared>`_
-  - **Session 3: Combining EEG and fMRI data analysis:**
-    `Watch on YouTube <https://youtu.be/vGQVeCn53ys?feature=shared>`_
-
-- **Handling scanner-related artifacts:**
-  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/78c7a1aed89d4cdd96927a52e7227643/watch?source=CHANNEL>`_
-
-- **CWLs:**
-  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/c06cc5a80c734c1abf67f37fca201e4f/watch?source=CHANNEL>`_
-
-- **Getting ready for simultaneous EEG-fMRI: Safety and setup basics:**
-  `Watch webinar <https://www.gotostage.com/channel/cd0cf85ada364ca2a41a06d9fcdd753b/recording/b1d94f4369764d95b07dca3f25c38a53/watch?source=CHANNEL>`_
+  - **Session 1: Introduction to EEG-fMRI:** `Watch on YouTube <https://youtu.be/TIuLOQ-jXko?feature=shared>`_
+  - **Session 2: EEG-fMRI Data preprocessing and considerations:** `Watch on YouTube <https://youtu.be/5EqyURlZDMA?feature=shared>`_
+  - **Session 3: Combining EEG and fMRI data analysis:** `Watch on YouTube <https://youtu.be/vGQVeCn53ys?feature=shared>`_
+- **Handling scanner-related artifacts:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/78c7a1aed89d4cdd96927a52e7227643/watch?source=CHANNEL>`_
+- **CWLs:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/c06cc5a80c734c1abf67f37fca201e4f/watch?source=CHANNEL>`_
+- **Getting ready for simultaneous EEG-fMRI: Safety and setup basics:** `Watch webinar <https://www.gotostage.com/channel/cd0cf85ada364ca2a41a06d9fcdd753b/recording/b1d94f4369764d95b07dca3f25c38a53/watch?source=CHANNEL>`_
 
 Keep Up to Date
 ---------------
