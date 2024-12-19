@@ -42,7 +42,8 @@ The generic pipeline for EEG-fMRI data processing involves the following steps, 
 
     1. Cilia Jaeger (2024). *BP Academy Webinar Recording: Combined EEG and fMRI data analysis*.
         - Youtube webinar available at `https://www.youtube.com/watch?v=vGQVeCn53ys <https://www.youtube.com/watch?v=vGQVeCn53ys>`_
-
+        - EEG-fMRI Data preprocessing and considerations - Session 2: https://youtu.be/5EqyURlZDMA?feature=shared
+        - Combining EEG and fMRI data analysis – Session 3: https://youtu.be/vGQVeCn53ys?feature=shared
 
 
 
@@ -262,3 +263,85 @@ Other methods
 - Typical fMRI uses the GLM fitting, with EEG data it is possible to add regressors
     - Proposed method is to take the variability of the EEG data and inject that as regressor into the GLM (variability can be each trial variability or spectral feature such as correlation with a band, or temporal feature ERP peak … this will depend on your paradigm)
     - The non-stimulus activity can be used to correlate baselines (from eeg and fmri) together
+
+
+
+
+Resources and Training Materials
+===============================
+
+Manuals and Support Teams
+-------------------------
+
+Manuals
+~~~~~~~
+Manuals can be downloaded from the website:
+
+`Brain Products Manuals <https://www.brainproducts.com/downloads/manuals/>`_
+
+Technical Support
+~~~~~~~~~~~~~~~~~
+- **Email:** techsup@brainproducts.com
+- For questions about hardware, recording software, and MR-related artifact handling in Analyzer 2
+
+Analyzer Support
+~~~~~~~~~~~~~~~~~
+- **Email:** support@brainproducts.com
+- For questions about using Analyzer 2
+
+Support Tips
+------------
+
+- **Recorder workspace settings for EEG-fMRI:**
+  `Recorder setup EEG-fMRI <https://pressrelease.brainproducts.com/recorder-setup-eeg-fmri>`_
+
+- **Best practices:**
+  `EEG-fMRI Best Practices <https://pressrelease.brainproducts.com/eeg-fmri/>`_
+
+- **Peripheral physiology measurements using BrainAmp ExG MR:**
+  - Part 1: Let’s focus on EMG:
+    `EMG-fMRI Guide <https://pressrelease.brainproducts.com/emg-fmri/>`_
+  - Part 2: Let’s focus on ECG:
+    `ECG-fMRI Guide <https://pressrelease.brainproducts.com/ecg-fmri>`_
+
+Webinars
+--------
+
+Webinar Channels
+~~~~~~~~~~~~~~~~
+- `Brain Products Webinar Channel <https://www.gotostage.com/channel/brainproducts>`_
+- `Brain Products Academy Channel <https://www.gotostage.com/channel/brainproductsacademy>`_
+
+Analyzer Webinars
+~~~~~~~~~~~~~~~~~
+- **Introduction to Analyzer 2 & EEG analysis concepts:**
+  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/599a9c6a758f4f68b8658fa93f8208fc/watch?source=CHANNEL>`_
+
+- **EEG artifact types and handling strategies in BrainVision Analyzer 2:**
+  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/d1ec7d100c124d0bb239b878cc213fcc/watch?source=CHANNEL>`_
+
+EEG-fMRI Webinars
+~~~~~~~~~~~~~~~~~~
+
+- **Joint EEG-fMRI data analysis**
+  - **Session 1: Introduction to EEG-fMRI:**
+    `Watch on YouTube <https://youtu.be/TIuLOQ-jXko?feature=shared>`_
+  - **Session 2: EEG-fMRI Data preprocessing and considerations:**
+    `Watch on YouTube <https://youtu.be/5EqyURlZDMA?feature=shared>`_
+  - **Session 3: Combining EEG and fMRI data analysis:**
+    `Watch on YouTube <https://youtu.be/vGQVeCn53ys?feature=shared>`_
+
+- **Handling scanner-related artifacts:**
+  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/78c7a1aed89d4cdd96927a52e7227643/watch?source=CHANNEL>`_
+
+- **CWLs:**
+  `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/c06cc5a80c734c1abf67f37fca201e4f/watch?source=CHANNEL>`_
+
+- **Getting ready for simultaneous EEG-fMRI: Safety and setup basics:**
+  `Watch webinar <https://www.gotostage.com/channel/cd0cf85ada364ca2a41a06d9fcdd753b/recording/b1d94f4369764d95b07dca3f25c38a53/watch?source=CHANNEL>`_
+
+Keep Up to Date
+---------------
+
+Sign up for the newsletter to receive information on events, support tips, and new products:
+`Subscribe here <https://brainproducts.us18.list-manage.com/subscribe?u=38c01a4578a70ce90ffb717c9&id=fa9f4309e4>`_

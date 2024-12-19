@@ -237,18 +237,19 @@ Remind that each experiment has 25 blocks in alternating sequence starting with 
     - Repeat the same steps for Eyes Closed, rename the segments in the history tree accordingly
 
 
-
 Spectral analysis using FFT and contrasting conditions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--
+- For each type of trials, compute the FFT
+    - Go to Transformations, Frequency and Component Analysis then FFT
 
     .. figure:: 2-alpha-blocking-pipeline-figures/alpha_peak_comparison.png
-       :align: center
-       :alt: Description of the image
-       :width: 50%
+        :align: center
+        :alt: Description of the image
+        :width: 50%
 
-       Alpha-peak comparison on Pz electrode (Left side: eyes closed, Right side: eyes open).
+        Alpha-peak comparison on Pz electrode (Left side: eyes closed, Right side: eyes open).
+
 
 
 Ways to improve
