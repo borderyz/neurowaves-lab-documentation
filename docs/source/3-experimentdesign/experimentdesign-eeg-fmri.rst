@@ -11,9 +11,9 @@ for the research question.
 Ensure:
 
 - that you will be using the MRI sequences specific for the EEG-fMRI
-- that you know your Time Response (in ms) time as you will need this value in the analysis pipeline
-- Every EEG-fMRI experiment show
-    - that you have a jitter (random time) before showing stimulus at the beginning of every TR, if this is not the case, one of the gradient artifact filters might delete important ERP's from your EEG data
-
-
-
+- that you know your TR (Repetition Time) (in ms) time as you will need this value in the analysis pipeline
+- When designing an EEG-fMRI experiment:
+    - ensure that you have a jitter (random time) before showing stimulus at the beginning of every TR, if this is not the case, one of the gradient artifact filters might delete important ERP's from your EEG data
+    - aanalyse the trade-off between a high spatial resolution and less number of trials (EEG/fMRI experiment) with a high number of trials (pure EEG experiment)
+        - as a matter of fact, the length of an experiment using EEG-fMRI will have less trials than using EEG alone
+        - therefore, frequency analysis of the EEG data in an EEG-fMRI experiment is more useful than time-lock analysis
