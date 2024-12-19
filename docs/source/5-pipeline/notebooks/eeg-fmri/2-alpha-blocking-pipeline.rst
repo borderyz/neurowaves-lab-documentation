@@ -225,7 +225,7 @@ Remind that each experiment has 25 blocks in alternating sequence starting with 
 
 - We need to use the Segmentation Wizard to define our trial segments
 - However we have only one marker S1 for both types
-    - Go to Transformations -> Edit Markers -> Table
+    - Go to Transformations, Edit Markers, Table
     - Rename the Eyes Closed Block to S2 (this is done manually for now, we are checking how to automate this)
     - Press Finish
     - Verify that the markers are now correctly renamed
@@ -240,6 +240,8 @@ Remind that each experiment has 25 blocks in alternating sequence starting with 
 
 Spectral analysis using FFT and contrasting conditions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-
 
     .. figure:: 2-alpha-blocking-pipeline-figures/alpha_peak_comparison.png
        :align: center
