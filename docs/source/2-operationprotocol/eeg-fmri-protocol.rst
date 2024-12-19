@@ -351,11 +351,36 @@ Data acquisition protocol
     - Open the BrainVision recorder software in administrative mode
     - File -> Open Workspace, choose a workspace [TODO: Add name of default workspace here]
 
+
+
+Outside scanner data acquisition and ECG sanity check
+-----------------------------------------------------
+
+After the subject is gelled, impedence are checked and before they enter the MRI scanner room, ensure that:
+Each electrode should be below 50 kOhm for EEG-fMRI recordings.
+
+- Data must be recorded outside the scanner room to check for the quality of the ECG signal.
+- Check for strong R peaks. In this data set, strong R peaks are visible.
+
+    .. figure:: figures/eeg-fmri-operationprotocol/SOP_eeg20.jpg
+        :align: center
+
+    Strong R peaks on ECG electrode can be visualised as a sanity check before entering the MRI scanner room.
+
+- Experimental data can also be collected outside of the scanner for sanity checks
+- To summarise, using the EEG-fMRI system data can be collected:
+    - outside of the MRI scanner room
+    - in the static field
+    - during the fMRI session
+    - This data can be used to compare the signal to noise ratio across different testing conditions
+
 Static Field data acquisition
 -----------------------------
 
 - Prior to activating the fMRI gradient coils, make sure to collect a duration of the static field
 - The static field data will be used for artifact correction in the processing pipelines
+
+
 
 
 

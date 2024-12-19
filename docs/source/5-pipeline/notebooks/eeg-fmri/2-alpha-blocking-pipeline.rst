@@ -8,6 +8,7 @@ Alpha-blocking pipeline
 
 Familiarise yourself with the generic pipeline first.
 
+
 Preprocess EEG Data
 -------------------
 
@@ -122,6 +123,26 @@ Repetition Time (TR) Sanity Check
 
 Gradient artifact correction
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- After performing sanity checks, the first step is to perform the gradient artifact correction using `MR correction`
+- Before applying the MR correction, check data for saturation
+    - Saturation happens when the allocated analog bandwidth for the signal was not enough to display the signal fully
+    - Use the butterfly plot to display the data at two Repetition Times (TR)
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/img_7.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Butterfly plot (this is not the alpha-blocking data) over two TR's, used for saturation sanity check, clipping (e.g.,saturation) is pointed to in red.
+
+
+
+    .. figure:: 2-alpha-blocking-pipeline-figures/butterfly_plot.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Butterfly plot for the alpha-blocking data over two TR's, no clipping on the ECG electrode can be seen for this participant.
 
 - Observe that when the gradient coils are activated a noise pattern is induced, it is an artifact that requires removal
 
