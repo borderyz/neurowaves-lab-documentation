@@ -221,7 +221,8 @@ In the currently acquired dataset, the ECG electrode has not been glued properly
 Defining trial segments Eyes Open/Eyes closed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Remind that each experimetn has 25 blocks in alternating sequence starting with eyes open and then eyes closed.
+Remind that each experiment has 25 blocks in alternating sequence starting with eyes open and then eyes closed.
+
 - We need to use the Segmentation Wizard to define our trial segments
 - However we have only one marker S1 for both types
     - Go to Transformations -> Edit Markers -> Table
@@ -237,7 +238,15 @@ Remind that each experimetn has 25 blocks in alternating sequence starting with 
 
 
 
+Spectral analysis using FFT and contrasting conditions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    .. figure:: 2-alpha-blocking-pipeline-figures/alpha_peak_comparison.png
+       :align: center
+       :alt: Description of the image
+       :width: 50%
+
+       Alpha-peak comparison on Pz electrode (Left side: eyes closed, Right side: eyes open).
 
 
 Ways to improve
