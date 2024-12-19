@@ -377,7 +377,7 @@ Each electrode should be below 50 kOhm for EEG-fMRI recordings.
 Static Field data acquisition
 -----------------------------
 
-- Prior to activating the fMRI gradient coils, make sure to collect a duration of the static field
+- Prior to activating the fMRI gradient coils, make sure to collect a duration (ideally 2 minutes) of the static field
 - The static field data will be used for artifact correction in the processing pipelines
 
 

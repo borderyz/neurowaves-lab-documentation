@@ -29,16 +29,16 @@ If you are unable to access the datasets it means you do not have the permission
 EEG-fMRI Data storage
 #####################
 
-The EEG-fMRI data is securely stored on NYU BOX, access is given through invitations.
+The EEG-fMRI data is securely stored on NYU BOX and XNAT, access is given through invitations.
 The *Data* folder is structured in the **BIDS** standardized format.
 Please raise an issue on *github* repository if you think the structure does not conform to **BIDS**.
 
 Sign in on NYU Box in the below link
 
-.. admonition:: Link to EEG-fMRI data (Box Invitation Only)
+.. admonition:: Link to EEG-fMRI data (Box Invitation Only, XNAT account required)
 
-    `https://nyu.box.com/v/eeg-fmri-data <https://nyu.box.com/v/eeg-fmri-data>`_
-
+    EEG data access  `https://nyu.box.com/v/eeg-fmri-data <https://nyu.box.com/v/eeg-fmri-data>`_
+    fMRI data access `https://xnat.abudhabi.nyu.edu/ <https://xnat.abudhabi.nyu.edu/>`_
 
 Or directly from the below widget
 
