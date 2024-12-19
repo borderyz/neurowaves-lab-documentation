@@ -306,8 +306,8 @@ Webinar Channels
 
 Analyzer Webinars
 ~~~~~~~~~~~~~~~~~
-- **Introduction to Analyzer 2 & EEG analysis concepts:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/599a9c6a758f4f68b8658fa93f8208fc/watch?source=CHANNEL>`_
-- **EEG artifact types and handling strategies in BrainVision Analyzer 2:** `Watch webinar <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/d1ec7d100c124d0bb239b878cc213fcc/watch?source=CHANNEL>`_
+- **Introduction to Analyzer 2 & EEG analysis concepts:** `Watch webinar Analyzer 2 EEG <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/599a9c6a758f4f68b8658fa93f8208fc/watch?source=CHANNEL>`_
+- **EEG artifact types and handling strategies in BrainVision Analyzer 2:** `Watch webinar Artifact Type EEG <https://www.gotostage.com/channel/a26a09b972b84c52a391a16dfb4298e9/recording/d1ec7d100c124d0bb239b878cc213fcc/watch?source=CHANNEL>`_
 
 EEG-fMRI Webinars
 ~~~~~~~~~~~~~~~~~~

@@ -37,8 +37,8 @@ Sign in on NYU Box in the below link
 
 .. admonition:: Link to EEG-fMRI data (Box Invitation Only, XNAT account required)
 
-    `https://nyu.box.com/v/eeg-fmri-data <https://nyu.box.com/v/eeg-fmri-data>`_
-    `https://xnat.abudhabi.nyu.edu/ <https://xnat.abudhabi.nyu.edu/>`_
+    EEG data access  `https://nyu.box.com/v/eeg-fmri-data <https://nyu.box.com/v/eeg-fmri-data>`_
+    fMRI data access `https://xnat.abudhabi.nyu.edu/ <https://xnat.abudhabi.nyu.edu/>`_
 
 Or directly from the below widget
 
