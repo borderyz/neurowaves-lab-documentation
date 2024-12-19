@@ -256,6 +256,9 @@ Spectral analysis using FFT and contrasting conditions
 Preprocess fMRI data
 --------------------
 
+Accessing data on XNAT and running fMRIprep pipeline on Jubail
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 - Login to `XNAT <https://xnat.abudhabi.nyu.edu/>`_.
 - Make sure you have access to XNAT from your `@nyu` gmail account
 - Make sure you have permission to access the project under which your fMRI data has been acquired
@@ -293,6 +296,11 @@ Preprocess fMRI data
         - fmriprep flag (to customise the pipeline)
         - we need a T1 to run the pipeline however it is not in the session so we need to pull it from another session
         - we ran fmriprep without the T1, just to see (usualy there is a global project called `anat` that holds all the anatomicals of the subjects)
+
+
+GLM learning from fMRIprep output
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 - the design matrix of the alpha-blocking experiment involves
 
 
