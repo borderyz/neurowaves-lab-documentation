@@ -252,8 +252,16 @@ Spectral analysis using FFT and contrasting conditions
 
 
 
-Ways to improve
-~~~~~~~~~~~~~~~
+
+Preprocess fMRI data
+--------------------
+
+
+
+
+
+Ways to improve the pipeline
+============================
 
 - Define a specific type of marker for each condition instead of one marker type for all conditions (even if we know the sequence from the design matrix, but this will make the pre-processing in analyzer faster)
 - Ensure that the ECG electrode is well gelled, and picking high R peaks when outside the MRI scanner room
