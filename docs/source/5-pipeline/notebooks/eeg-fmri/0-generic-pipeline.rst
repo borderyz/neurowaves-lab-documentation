@@ -155,10 +155,10 @@ Overview
 ~~~~~~~~
 
 
-- We store and organize raw scanner data in **`XNAT <https://xnat.abudhabi.nyu.edu/>`_**.
-- We convert these data to BIDS format using **`dcm2bids <https://unfmontreal.github.io/Dcm2Bids/3.2.0/>`_**.
-- We perform standardized preprocessing with **`fMRIPrep <https://fmriprep.org/en/stable/>`_**.
-- We rely on **`NYU Box <https://nyu.app.box.com/>`_**, **`Jubail HPC <https://ood.hpc.abudhabi.nyu.edu/>`_**, and **`XNAT <https://xnat.abudhabi.nyu.edu/>`_** for secure data transfer, computation, and storage.
+- We store and organize raw scanner data in **XNAT**.
+- We convert these data to BIDS format using **dcm2bids**.
+- We perform standardized preprocessing with **fMRIPrep**.
+- We rely on **NYU Box**, **Jubail HPC**, and **XNAT** for secure data transfer, computation, and storage.
 
 Together, these tools produce reproducible, GLM-ready fMRI outputs.
 
