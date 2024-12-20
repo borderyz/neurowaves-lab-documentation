@@ -296,6 +296,9 @@ Accessing data on XNAT and running fMRIprep pipeline on Jubail
         - fmriprep flag (to customise the pipeline)
         - we need a T1 to run the pipeline however it is not in the session so we need to pull it from another session
         - we ran fmriprep without the T1, just to see (usualy there is a global project called `anat` that holds all the anatomicals of the subjects)
+        - update: T1 was not present when we executed fmriprep so we need to rerun it after adding the T1
+
+
 
 
 GLM learning from fMRIprep output
@@ -303,6 +306,14 @@ GLM learning from fMRIprep output
 
 - the design matrix of the alpha-blocking experiment involves
 
+    .. math::
+
+       Y = \Beta.X + \epsilon
+
+    - where
+        - :math:`Y` is a vector that is an ordered sequence of the values of the BOLD signal
+        - :math:`n`,is the length of :math:`Y` corresponds to the number of BOLD signal values obtained during the acquisition
+        - :math:`X` is an :math:`n\times m`, matrix where :math:`m` is the number of predictors (conditions)
 
 
 
