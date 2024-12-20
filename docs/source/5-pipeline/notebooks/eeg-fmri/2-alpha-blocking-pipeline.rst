@@ -312,17 +312,26 @@ GLM learning from fMRIprep output
         - two ways we can think of:
             - learning one GLM for each voxel of the whole brain
             - learning one GLM for each volume unit of the grey matter surface of the brain
+
     .. math::
 
-       Y = \beta.X + \epsilon
+       Y = X.\beta + \epsilon
 
     - where
-        - :math:`Y` is a vector that is an ordered sequence of the values of the BOLD signal
+        - :math:`Y` is a matrix :math:`n\times k`
+            - where :math:`n` is the number of TR's :math:`k` is the number of voxels
+            - the order of the row values :math:`n` should be chronological
             - Remind that each value of the BOLD signal lasts for a TR time (in ms)
         - :math:`n`,is the length of :math:`Y` corresponds to the number of BOLD signal values obtained during the acquisition
+            - if the experiment is 20 blocks, each block of duration 10 seconds then :math:`n = (20 \times 10) / TR`
         - :math:`X` is an :math:`n\times m`, matrix where :math:`m` is the number of predictors (conditions)
-        - :math:`\Beta` is a vector of size :math:`m`, corresponding to the weights
+        - :math:`\beta` is a matrix of size :math:`m\times k`, corresponding to the weights learnt for all voxels
+            - for a single voxel, the weights are the same across the different TR's
+            - the weights are different for each voxe (we can see this as learning multiple GLM's, one per voxel)
         - :math:`\epsilon` is the part of :math:`Y` that cannot be interpreted as a linear combination of :math:`X`
+            - it represents the average noise at each BOLD value acquisition, and is therefore of size :math:`n`
+    - assuming that the model would explain well the observed data when this model is a simple linear transformation, we would consequently like to find :math:`\beta` for which :math:`\epsilon` is minimal
+
 
 
 
