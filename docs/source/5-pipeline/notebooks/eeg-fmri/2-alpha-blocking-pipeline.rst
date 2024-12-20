@@ -312,6 +312,7 @@ GLM learning from fMRIprep output
 
     - where
         - :math:`Y` is a vector that is an ordered sequence of the values of the BOLD signal
+            - Remind that each value of the BOLD signal lasts for a TR time (in ms)
         - :math:`n`,is the length of :math:`Y` corresponds to the number of BOLD signal values obtained during the acquisition
         - :math:`X` is an :math:`n\times m`, matrix where :math:`m` is the number of predictors (conditions)
 
