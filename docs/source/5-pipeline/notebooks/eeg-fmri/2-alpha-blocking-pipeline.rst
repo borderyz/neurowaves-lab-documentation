@@ -306,15 +306,23 @@ GLM learning from fMRIprep output
 
 - the design matrix of the alpha-blocking experiment involves
 
+- Learning a General Linear Model assumes that the observed data :math:`Y` can be explained as a linear transformation of :math:`X` and some random noise :math:`\epsilon`
+    - this is plausible when the conditions should activate different areas of your brain
+    - the GLM is learned per voxel or volume unit of a surface of interest
+        - two ways we can think of:
+            - learning one GLM for each voxel of the whole brain
+            - learning one GLM for each volume unit of the grey matter surface of the brain
     .. math::
 
-       Y = \Beta.X + \epsilon
+       Y = \beta.X + \epsilon
 
     - where
         - :math:`Y` is a vector that is an ordered sequence of the values of the BOLD signal
             - Remind that each value of the BOLD signal lasts for a TR time (in ms)
         - :math:`n`,is the length of :math:`Y` corresponds to the number of BOLD signal values obtained during the acquisition
         - :math:`X` is an :math:`n\times m`, matrix where :math:`m` is the number of predictors (conditions)
+        - :math:`\Beta` is a vector of size :math:`m`, corresponding to the weights
+        - :math:`\epsilon` is the part of :math:`Y` that cannot be interpreted as a linear combination of :math:`X`
 
 
 
