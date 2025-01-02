@@ -115,10 +115,12 @@ Electronic lag times between visual stimulus and KIT trigger box
 A trigger signal, representing a visual stimulus sent from the Vpixx system to the KIT DAQ computers arrives slightly prior to the visual stimulus from the Vpixx projector due to the electronic circuits.
 This result has been deeply investigated by Gayathri Satheesh after performing a photodiode experiment with 1000 trial.
 Gayathri used 1000 trials with a 1000 Hz sampling frequency her findings summarises as:
+
 - the mean lag from the is `-8.27852 ms` (the negative means the trigger signal appears on the data 8.27 ms before the subject has seen the visual stimulus)
 - the standard deviation of the lag is `0.534153 ms`
 - the maximum value was `11ms`
 - the minimum value was `8ms`
+
 Therefore, when processing the MEG data that requires 1 millisecond precision, the user can correct the visual stimulus trigger signals by adding an 8 ms shift in the increasing order of time.
 
 
@@ -297,8 +299,8 @@ The following is a list of references for further understanding on MEG systems
     * https://docs.google.com/document/d/1OrVP9ts1gTGB5fhzx8YcK3JKZQgm0HM4Ic3hKtVzHzA/edit?usp=sharing
     * https://docs.google.com/document/d/1X9Tj28ekJ93TubJ52TnrebDvIh8zeXHLp2aMURNV40Y/edit?usp=sharing
 
-
 * Books:
     * Hansen, Peter & Kringelbach, Morten & Salmelin, Riitta. (2010). MEG: An introduction to methods. 10.1093/acprof:oso/9780195307238.001.0001.
     * Knösche, Thomas & Haueisen, Jens. (2022). EEG/MEG Source Reconstruction, Textbook for Electro-and Magnetoencephalography. 10.1007/978-3-030-74918-7.
     * Hari, MD, PhD, Riitta, and Aina Puce, PhD, MEG-EEG Primer, 1 (New York, 2017; online edn, Oxford Academic, 1 Mar. 2017), accessed 18 July 2024.
+    * Tobimatsu, Shozo, and Ryusuke Kakigi, eds. Clinical applications of magnetoencephalography. No. 8564. Springer Japan, 2016.

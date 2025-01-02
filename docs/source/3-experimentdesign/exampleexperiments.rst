@@ -11,6 +11,7 @@ Example Experiments MEG
    experiments/6-exp-sound
    experiments/7-attention-experiment
    experiments/8-photodiode
+   experiments/9-auditory-vs-visual
 
 
 
@@ -18,9 +19,9 @@ Example Experiment EEG-FMRI
 ---------------------------
 
 .. nbgallery::
+    :glob:
 
-   experiments-eeg-fmri/1-alpha-blocking
-   experiments-eeg-fmri/2-finger-tapping
+    experiments-eeg-fmri/*
 
 
 MEG Lab demonstrations
@@ -29,3 +30,4 @@ MEG Lab demonstrations
 .. nbgallery::
 
    demonstration/1-meg-class-demo
+   demonstration/2-meg-biopsychology-class-tour

@@ -1,5 +1,3 @@
-:orphan:
-
 ###################################
 MEG/EEG-pipeline documentation page
 ###################################
@@ -23,6 +21,8 @@ Status of the documentation build
 
 
 .. include:: ../../README.rst
+
+
 
 
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
@@ -64,8 +64,10 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Experiments Design
 
    3-experimentdesign/experimentdesign
+   3-experimentdesign/experimentdesign-eeg-fmri
    3-experimentdesign/requirements
    3-experimentdesign/exampleexperiments
+
 
 .. toctree::
    :maxdepth: 2
@@ -86,7 +88,9 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Processing pipelines
 
    5-pipeline/4-0-pipelines
+   5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
+
 
 .. toctree::
    :maxdepth: 2
