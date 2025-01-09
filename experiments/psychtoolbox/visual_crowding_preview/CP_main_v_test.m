@@ -1,6 +1,6 @@
 clearvars
-Screen('Preference', 'SkipSyncTests', 1);
-AssertOpenGL;
+%Screen('Preference', 'SkipSyncTests', 1);
+%AssertOpenGL;
 
 
 %
@@ -94,6 +94,9 @@ targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
 try
+    
+    PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
+    PsychDefaultSetup(2);
 
     % Screen setup
     s = max(Screen('Screens'));

@@ -6,8 +6,8 @@
 % Added 'executedTrials' to ensure no repeats of trials
 
 clearvars
-Screen('Preference', 'SkipSyncTests', 1);
-AssertOpenGL;
+%Screen('Preference', 'SkipSyncTests', 1);
+%AssertOpenGL;
 
 Datapixx('Open');
 
@@ -53,7 +53,12 @@ saccThreshold = 7; % pixel -> 0.18 dva
 try
 
     % Screen setup
+    
+    PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
+    PsychDefaultSetup(2);
+    s = Screen('Screens');
     s = max(Screen('Screens'));
+
     % Set the background color to white during window initialization
     [w, rect] = Screen('OpenWindow', s, [255 255 255]); %,[200 200 1000 1000]);
     Priority(MaxPriority(w));
@@ -77,8 +82,9 @@ try
     trig.SACCADE = 3;
     trig.TARGET = 4;
     trig.RESPONSE = 5;
-
+    
     % EYE-TRACKING SETUP
+    InitializePsychSound();
     el = EyelinkInitDefaults(w);
     el.backgroundcolour = 255;
     el.foregroundcolour = 0;
