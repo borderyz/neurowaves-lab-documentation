@@ -273,28 +273,6 @@ for trialIndex in range(startItem - 1, totalTrials):
                 stim.draw()
                 win.flip()
 
-                # if wordIndex == 0 and frameN == 0:
-                #     combined_trigger_value = (
-                #         trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                #         trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                #         trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                #         trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                #         trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                #         trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                #         trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                #         trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                #     )
-                #     # Debugging log: Print the calculated combined value
-                #     print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
-                #
-                #     dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
-                #     dp.DPxUpdateRegCache()
-                #     core.wait(0.1)
-                #
-                #     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                #     dp.DPxUpdateRegCache()
-
-
                 if wordIndex == 0:
                     if frameN < 10:
                         combined_trigger_value = (

@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('mandarin_bound-test.csv')
+trialList = data.importConditions('egyptian_backward_trigger.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
@@ -55,7 +55,7 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Microsoft YaHei'
+stimuliFont = 'Times New Roman'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -272,27 +272,6 @@ for trialIndex in range(startItem - 1, totalTrials):
             for frameN in range(wordOn):
                 stim.draw()
                 win.flip()
-
-                # if wordIndex == 0 and frameN == 0:
-                #     combined_trigger_value = (
-                #         trialList[trialIndex]['trigger224'] * trigger_channels_dictionary[224] +
-                #         trialList[trialIndex]['trigger225'] * trigger_channels_dictionary[225] +
-                #         trialList[trialIndex]['trigger226'] * trigger_channels_dictionary[226] +
-                #         trialList[trialIndex]['trigger227'] * trigger_channels_dictionary[227] +
-                #         trialList[trialIndex]['trigger228'] * trigger_channels_dictionary[228] +
-                #         trialList[trialIndex]['trigger229'] * trigger_channels_dictionary[229] +
-                #         trialList[trialIndex]['trigger230'] * trigger_channels_dictionary[230] +
-                #         trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
-                #     )
-                #     # Debugging log: Print the calculated combined value
-                #     print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
-                #
-                #     dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
-                #     dp.DPxUpdateRegCache()
-                #     core.wait(0.1)
-                #
-                #     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                #     dp.DPxUpdateRegCache()
 
 
                 if wordIndex == 0:
