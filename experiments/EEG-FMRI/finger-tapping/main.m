@@ -2,6 +2,17 @@
 % EEG-FMRI experiment for finger tapping
 % fingertapping: tap each finger in an random order
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
+% Latest modifications:
+% Check that each block is having a trigger signal
+% Change the tapping to allow for EEG trial segments: each finger must be
+% tapped once, the trigger signal corresponds to:
+% - the time we asked the person to tap
+% - the tapping itself? recorded from a button press?
+% - the definition of the block should be investigated, is each block one
+% finger being tapped, or multiple tappings while having a trigger for each
+% tap?
+% - Add a random time to the beginning of each block
+
 
 clear all
 close all
