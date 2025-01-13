@@ -11,7 +11,13 @@
 % - the definition of the block should be investigated, is each block one
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
-% - Add a random time to the beginning of each block
+
+
+% Checks:
+% - Trigger Check test
+% - random wait time test
+% - user-experience feedback on each tap
+% - trials averaging on a test run
 
 
 clear all
@@ -116,6 +122,12 @@ isTerminationKeyPressed = false;
 tic
 for   tc =  1 : parameters.numberOfBlocks
     
+    % A random wait time is required at the start of each block in an
+    % EEG/fMRI experiment so that the gradient artifact correction do not
+    % delete the relevant ERP
+
+    WaitSecs(parameters.IBW(randperm(length(parameters.IBW),1)));
+
     block_type = parameters.blocktype(tc)
     
     switch block_type

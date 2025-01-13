@@ -8,7 +8,7 @@ function loadParameters()
     parameters.hideCursor = true;
     
     %   to set the demo mode with half-transparent screen
-    parameters.isDemoMode = false;
+    parameters.isDemoMode = true;
     
     %   screen transparency in demo mode
     parameters.transparency = 0.8;
@@ -61,7 +61,8 @@ function loadParameters()
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
-    
+    parameters.IBW = 1:0.2:3; % Inter-block random wait time (seconds)
+
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
@@ -81,11 +82,12 @@ function loadParameters()
     parameters.welcomeMsg = sprintf('Please wait until the experimenter sets up parameters.');
     parameters.ttlMsg = sprintf('Initializing Scanner...');
     parameters.thankYouMsg = sprintf('Thank you for your participation!!!');
-    parameters.blockOneMsg = sprintf('Keep Tapping thumb');
-    parameters.blockTwoMsg = sprintf('Keep Tapping index');
-    parameters.blockThreeMsg = sprintf('Keep Tapping middle');
-    parameters.blockFourMsg = sprintf('Keep Tapping ring');
-    parameters.blockFiveMsg = sprintf('Keep Tapping pinkie');
+    parameters.blockOneMsg = sprintf('Tap thumb once');
+    parameters.blockTwoMsg = sprintf('Tap index once');
+    parameters.blockThreeMsg = sprintf('Tap middle once');
+    parameters.blockFourMsg = sprintf('Tap ring once');
+    parameters.blockFiveMsg = sprintf('Tap pinkie once');
+    parameters.stopTap = sprintf('Wait');
 
     %---------------------------------------------------------------------%
     % Some geometry parameters

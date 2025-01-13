@@ -3,20 +3,12 @@ function [startTime, endTime] = showBlockWindow(text)
     global parameters;
     global isTerminationKeyPressed;
     
-
-
     if(~isTerminationKeyPressed)
 
         topPriorityLevel = MaxPriority(screen.win);
         Priority(topPriorityLevel);
-       
+        
         numFrames = round(parameters.blockDuration/screen.ifi);
-
-        tapduration = 1; % the user has tapduration seconds to finish the tap
-
-        framesperTap = round(tapduration/screen.ifi);
-
-   
         for frame = 1:numFrames
             white = screen.white;
             Screen('TextSize', screen.win, parameters.textSize);

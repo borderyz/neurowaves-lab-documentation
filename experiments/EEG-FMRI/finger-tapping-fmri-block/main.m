@@ -11,13 +11,7 @@
 % - the definition of the block should be investigated, is each block one
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
-
-
-% Checks:
-% - Trigger Check test
-% - random wait time test
-% - user-experience feedback on each tap
-% - trials averaging on a test run
+% - Add a random time to the beginning of each block
 
 
 clear all
@@ -122,9 +116,6 @@ isTerminationKeyPressed = false;
 tic
 for   tc =  1 : parameters.numberOfBlocks
     
-    % A random wait time is required at the start of each block
-    WaitSecs(parameters.IBW(randperm(length(parameters.IBW),1)));
-
     block_type = parameters.blocktype(tc)
     
     switch block_type
