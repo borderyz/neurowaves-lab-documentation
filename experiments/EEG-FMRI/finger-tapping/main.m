@@ -2,6 +2,17 @@
 % EEG-FMRI experiment for finger tapping
 % fingertapping: tap each finger in an random order
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
+
+% Trigger code used:
+
+% S1 marker, vpixx code = 2^2, used at beginning of each block
+% S2 marker, vpixx code = 2^4, used for thumb
+% S4 marker, vpixx code = 2^6, used for index
+% S8 marker, vpixx code = 2^8, used for middle
+% S16 marker, vpixx code = 2^10, used for ring
+% S32 marker, vpixx code = 2^12, used for pinkie
+
+
 % Latest modifications:
 % Check that each block is having a trigger signal
 % Change the tapping to allow for EEG trial segments: each finger must be
@@ -18,6 +29,10 @@
 % - random wait time test
 % - user-experience feedback on each tap
 % - trials averaging on a test run
+
+
+
+
 
 
 clear all
@@ -133,18 +148,25 @@ for   tc =  1 : parameters.numberOfBlocks
     switch block_type
         case 1
             blockText = parameters.blockOneMsg;
+            trigger_code = 2^4;
+
         case 2
             blockText = parameters.blockTwoMsg;
+            trigger_code = 2^6;
+            
         case 3
             blockText = parameters.blockThreeMsg;
+            trigger_code = 2^8;
         case 4
             blockText = parameters.blockFourMsg;
+            trigger_code = 2^10;
         case 5
             blockText = parameters.blockFiveMsg;
+            trigger_code = 2^12;
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindow(blockText);
+    [blockStartTime, blockEndTime] = showBlockWindow(blockText, trigger_code);
 
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline

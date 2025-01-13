@@ -1,9 +1,13 @@
-function [startTime, endTime] = showBlockWindow(text)
+function [startTime, endTime] = showBlockWindow(text, trigger_code)
     global screen;
     global parameters;
     global isTerminationKeyPressed;
     
 
+    if ~parameters.isDemoMode
+        Datapixx('SetDoutValues', 0);
+        Datapixx('RegWrRd');
+    end
 
     if(~isTerminationKeyPressed)
 
@@ -14,7 +18,7 @@ function [startTime, endTime] = showBlockWindow(text)
 
         tapduration = 1; % the user has tapduration seconds to finish the tap
 
-        framesperTap = round(tapduration/screen.ifi);
+        framesperTap = round(tapduration/screen.ifi); % tapduration converted to frames
 
    
         for frame = 1:numFrames
@@ -26,15 +30,35 @@ function [startTime, endTime] = showBlockWindow(text)
                 % This is the first frame of the block, so we can just send
                 % one marker on the EEG data here
                 
-                % Sending an S1 marker on the EEG data
+
+                % Sending an S1 marker on the EEG data that marks the
+                % beginning of the block
                 if ~parameters.isDemoMode
                     
                     Datapixx('SetDoutValues', 2^2);
+                    Datapixx('RegWrRd');
+                    Datapixx('SetDoutValues', 0);
                     Datapixx('RegWrRd');
                     
                 end
                 toc
             else
+                if mod(frame, framesperTap) == 0
+                    % we need to tell the person to tap a finger once
+                    Screen('Flip', screen.win);
+                    
+                    % We need to send a trigger specific for the finger
+                    % that is tapped we can use
+                    if ~parameters.isDemoMode
+                        % We will use a different marker for each finger
+                        Datapixx('SetDoutValues', trigger_code);
+                        Datapixx('RegWrRd');
+                        Datapixx('SetDoutValues', 0);
+                        Datapixx('RegWrRd');
+                    end
+
+                end
+                end
                 if frame == numFrames
                     [vbl, t, tstamp, miss_check]=Screen('Flip', screen.win);
                     %

@@ -376,11 +376,6 @@ Datapixx('RegWrRd');
 
 
 
-
-
-
-
-
 %% Marker test
 
 
@@ -394,8 +389,6 @@ pauseDuration = 2; % e.g., 2 seconds
 
 % Should trigger S1 marker on EEG
 %HitKeyToContinue('\nHit any key to bring the EEG S2 marker on:');
-
-
 
 
 
@@ -499,30 +492,6 @@ end
 
 
 
-%% S8 Marker Works
-
-
-
-tic;
-Datapixx('SetDoutValues', 0);
-Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', 2^8);
-    Datapixx('RegWrRd');
-    disp('S8 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
 
 
 %% S16 Marker Works
@@ -575,7 +544,7 @@ end
 
 
 
-%% S32 Marker Works
+%% S64 Marker Works
 
 
 
