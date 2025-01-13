@@ -11,4 +11,3 @@ pandas
 boxsdk[jwt]
 python-dotenv
 pytest
-myst-parser
