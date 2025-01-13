@@ -22,11 +22,28 @@ DPxOpen()
 # 1 Blue
 # 3 Yellow
 
-response = getbutton()
 
-i = 1
-for i in range(5):
+
+TIMES_TEST_getbutton_NONE = 10
+
+for i in range(TIMES_TEST_getbutton_NONE):
+    print('Testing getbutton None')
     response = getbutton()
     print('Button press', response)
 
+buttons = [1, 3, 6, 8]  # this is the red and green button for both boxes right and left
+# test multiple buttons, this function should only listen to the buttons in buttons only
+
+TIMES_TEST_getbutton_array = 10
+
+for i in range(TIMES_TEST_getbutton_array):
+    print('Testing getbutton Array')
+    response = getbutton(buttons)
+    print('Button press array for array', buttons, 'is', response)
+
 DPxClose()
+
+
+
+
+

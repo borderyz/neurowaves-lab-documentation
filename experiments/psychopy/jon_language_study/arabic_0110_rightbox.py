@@ -3,12 +3,12 @@ import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
-from utilities import *
+from ..general.utilities import *
 
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =2
+TIME_TO_RESET_BUTTON_BOX =1
 
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -107,7 +107,7 @@ breakOff = wordOff
 
 quitKey = 'escape'
 responseYes = 'j'
-responseNo = 'f'
+#responseNo = 'f'
 #correctTrigger = 251
 #incorrectTrigger = 250
 startItem = 1
@@ -161,14 +161,19 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+listenbutton(9)
 
-if pauseResponse[-1] == quitKey:
-    participantName = participantInfo[0].replace(" ", "")
-    filename = 'results.' + participantName + '.csv'
-    results.to_csv(filename)
-    win.close()
-    core.quit()
+#1 we need to write code where at a specific time, we decide to listen to an escape button and if the escape button happens we save the data
+
+#2 add the previous code at multiple occasions so that we are listening to this during the experiment (covering as much as possible of the experiment time)
+
+
+# if responses[-1] == quitKey:
+#     participantName = participantInfo[0].replace(" ", "")
+#     filename = 'results.' + participantName + '.csv'
+#     results.to_csv(filename)
+#     win.close()
+#     core.quit()
 
 for frameN in range(instructionOff - 1):
     win.flip()
@@ -176,6 +181,7 @@ win.flip()
 
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
+
     pauseResponse = []
     responses = []
     event.clearEvents()
@@ -196,14 +202,17 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+        # Pause until response
+        listenbutton(9)
+        # response = getbutton()  # listen to a button
+        # responses.append(response)
 
-        if pauseResponse[-1] == quitKey:
-            participantName = participantInfo[0].replace(" ", "")
-            filename = 'results.' + participantName + '.csv'
-            results.to_csv(filename)
-            win.close()
-            core.quit()
+        # if responses[-1] == quitKey:
+        #     participantName = participantInfo[0].replace(" ", "")
+        #     filename = 'results.' + participantName + '.csv'
+        #     results.to_csv(filename)
+        #     win.close()
+        #     core.quit()
 
         trialsSinceLastBreak = 0
         recentCorrectResponses = 0
@@ -318,8 +327,16 @@ for trialIndex in range(startItem - 1, totalTrials):
         stim.draw()
         win.flip()
 
-        responses = event.waitKeys(keyList=[responseNo, responseYes, quitKey])
+        # Wait until button press to proceed to next trial
+        response = getbutton()  # listen to a button
+        responses.append(response)
 
+
+        stim = visual.TextStim(win, text="Release button press", font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
+        stim.setPos((0, 0))
+        stim.draw()
+        win.flip()
+        core.wait(TIME_TO_RESET_BUTTON_BOX)
 
         if responses[-1] == quitKey:
             participantName = participantInfo[0].replace(" ", "")
@@ -363,41 +380,63 @@ for trialIndex in range(startItem - 1, totalTrials):
         results.loc[trialIndex, 'participantAnswer'] = ''
         results.loc[trialIndex, 'answer'] = ''
 
-        event.clearEvents()
-        stim = visual.TextStim(win,
-                               text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.',
-                               font=stimuliFont, units=breakUnits, height=breakSize, color=stimuliColor)
-        stim.setPos((0, 0))
-        stim.draw()
-        win.flip()
-
-        pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
-
-        if pauseResponse[-1] == quitKey:
-            participantName = participantInfo[0].replace(" ", "")
-            filename = 'results.' + participantName + '.csv'
-            results.to_csv(filename)
-            win.close()
-            core.quit()
-
-        for frameN in range(taskQuestionOff - 1):
-            win.flip()
-        win.flip()
-
-    event.clearEvents()
-    stim = visual.TextStim(win,
-                           text='Congratulations, you are finished!\n\nYou read %i sentences, and answered %i out of %i questions correctly!\n\nThank you very much for your participation.\n\nPress any key to close this program.' % (
-                           (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                           font=stimuliFont, units=instructionUnits, height=instructionSize, color=instructionColor)
-    stim.setPos((0, 0))
-    stim.draw()
-    win.flip()
-
-    event.waitKeys()
-
+    # TODO: check that this works correctly, this should save one by one
     participantName = participantInfo[0].replace(" ", "")
     filename = 'results.' + participantName + '.csv'
     results.to_csv(filename)
 
-    win.close()
-    core.quit()
+    event.clearEvents()
+    #responses = []
+    stim = visual.TextStim(win,
+                           text='You can blink now.\n\nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.',
+                           font=instructionsFont, units=breakUnits, height=breakSize, color=stimuliColor)
+    stim.setPos((0, 0))
+    stim.draw()
+    win.flip()
+
+    # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
+    # response = getbutton()  # listen to a button
+    # responses.append(response) # everytime we get a response we add it to the table
+    listenbutton(9)
+
+    #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
+
+
+
+    # if responses[-1] == quitKey:
+    #     participantName = participantInfo[0].replace(" ", "")
+    #     filename = 'results.' + participantName + '.csv'
+    #     results.to_csv(filename)
+    #     win.close()
+    #     core.quit()
+
+    for frameN in range(taskQuestionOff - 1):
+        win.flip()
+
+    win.flip()
+
+
+
+
+event.clearEvents()
+stim = visual.TextStim(win,
+                       text='Congratulations, you are finished!\n\nYou read %i sentences, and answered %i out of %i questions correctly!\n\nThank you very much for your participation.\n\nPress any key to close this program.' % (
+                       (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
+                       font=instructionsFont, units=instructionUnits, height=instructionSize, color=instructionColor)
+stim.setPos((0, 0))
+stim.draw()
+win.flip()
+
+#listenbutton(3) we want to add this to let them press at the end?
+
+event.waitKeys()
+
+participantName = participantInfo[0].replace(" ", "")
+filename = 'results.' + participantName + '.csv'
+results.to_csv(filename)
+
+win.close()
+core.quit()
+
+dp.DPxClose()
+
