@@ -11,7 +11,13 @@
 % - the definition of the block should be investigated, is each block one
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
-% - Add a random time to the beginning of each block
+
+
+% Checks:
+% - Trigger Check test
+% - random wait time test
+% - user-experience feedback on each tap
+% - trials averaging on a test run
 
 
 clear all
