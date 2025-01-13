@@ -3,15 +3,6 @@ ElectroEncephaloGraphy (EEG) systems in the MEG laboratory and EEG setup
 within Brain Imaging Core Technology Platform. MEG lab is situated in A2, 008, Ground floor, New York University Abu Dhabi.
 
 
-.. md::
-
-    [![Automated Testing Action](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml)
-
-
-.. md::
-
-    [![ReadTheDocs Daily Build Trigger](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml)
-
 .. table:: Contact Information
    :widths: auto
 
