@@ -12,7 +12,8 @@ function showTTLWindow_1()
     Screen('Flip', screen.win);
     
     while true
-        [keyIsDown, secs, keyCode] = KbCheck();
+        [keyIsDown, secs, keyCode] = KbCheck(4);
+        disp('listening keyboard');
         if sum(keyCode)==1   % if at least one key was pressed
             keysPressed = find(keyCode);
             % in the case of multiple keypresses, just consider the first one

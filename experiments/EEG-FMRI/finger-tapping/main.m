@@ -175,7 +175,7 @@ for   tc =  1 : parameters.numberOfBlocks
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindowtest(blockText, trigger_code);
+    [blockStartTime, blockEndTime] = showBlockWindow(blockText, trigger_code);
 
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline
@@ -214,7 +214,7 @@ writetable(struct2table(timingsReport),parameters.datafile);
 
 
 %   To allow the output of keyboard to command line
-ListenChar(1);
+%ListenChar(1);
 
 % Show cursor back
 ShowCursor('Arrow');

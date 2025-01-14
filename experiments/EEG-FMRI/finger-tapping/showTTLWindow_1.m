@@ -11,6 +11,8 @@ function showTTLWindow_1()
     DrawFormattedText(screen.win, text, 'center', 'center',white);
     Screen('Flip', screen.win);
     
+    % 3 is the number of the keyboard device on the stimulus computer in
+    % NYUAD
     while true
         [keyIsDown, secs, keyCode] = KbCheck();
         disp('checking keypress');
