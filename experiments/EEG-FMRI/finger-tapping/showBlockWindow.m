@@ -30,6 +30,8 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
                 % This is the first frame of the block, so we can just send
                 % one marker on the EEG data here
                 
+                % TODO: First trial of the first block is good we just need to
+                % add the stop window
 
                 % Sending an S1 marker on the EEG data that marks the
                 % beginning of the block
@@ -47,6 +49,8 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
                     % we need to tell the person to tap a finger once
                     Screen('Flip', screen.win);
                     
+
+
                     % We need to send a trigger specific for the finger
                     % that is tapped we can use
                     if ~parameters.isDemoMode
