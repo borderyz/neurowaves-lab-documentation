@@ -26,7 +26,7 @@
 
 % Checks:
 % - Trigger Check test
-% - random wait time test
+% - random wait time testKbName('UnifyKeyNames');
 % - user-experience feedback on each tap
 % - trials averaging on a test run
 
@@ -72,8 +72,6 @@ addpath('supportFiles');
 %   Load parameters
 %--------------------------------------------------------------------------------------------------------------------------------------%
 loadParameters();
-
-
 
  
 %   Initialize the subject info
@@ -177,7 +175,7 @@ for   tc =  1 : parameters.numberOfBlocks
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindow(blockText, trigger_code);
+    [blockStartTime, blockEndTime] = showBlockWindowtest(blockText, trigger_code);
 
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline

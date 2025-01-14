@@ -17,15 +17,20 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
         numFrames = round(parameters.blockDuration/screen.ifi);
 
         tapduration = 1; % the user has tapduration seconds to finish the tap
-
+        
+        pauseduration = 0.2;
+        
         framesperTap = round(tapduration/screen.ifi); % tapduration converted to frames
-
+        
+        framesperPause = round(pauseduration/screen.ifi); % tapduration converted to frames
    
         for frame = 1:numFrames
             white = screen.white;
             Screen('TextSize', screen.win, parameters.textSize);
             DrawFormattedText(screen.win, text, 'center', 'center',white);
+            % Finger state
             if frame == 1
+                % If frame == 1 or mod(frame, framesperTap) ==0:
                 [vbl, startTime, tstamp, miss_check]=Screen('Flip', screen.win);
                 % This is the first frame of the block, so we can just send
                 % one marker on the EEG data here
@@ -46,6 +51,7 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
              
                 
             else
+                % Stop state
                 if mod(frame, framesperTap) == 0
                     % we need to tell the person to tap a finger once
                     
@@ -66,6 +72,9 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
                     end
 
                 end
+                
+                
+                
                 toc
                 
                 if frame == numFrames
