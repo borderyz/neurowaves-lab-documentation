@@ -176,11 +176,11 @@ for   tc =  1 : parameters.numberOfBlocks
     % Add a first vector of constant values in order to take the average of the BOLD signals from all fingers as a baseline
     % In the paper the block duration is 3 seconds, however we can then take 12 seconds per finger
     
-% For the phase-encoding is basically fitting a since wave into the HRF
-% (the stimulus can be a small-time one like a pulse stimulus for a frame,
-% or a longer in time stimulus, (in this case the sequence of the fingers
-% should be the same all the time and not random), all voxels will have a
-% different shift but the average will be the same
+    % For the phase-encoding is basically fitting a since wave into the HRF
+    % (the stimulus can be a small-time one like a pulse stimulus for a frame,
+    % or a longer in time stimulus, (in this case the sequence of the fingers
+    % should be the same all the time and not random), all voxels will have a
+    % different shift but the average will be the same
 
 
 

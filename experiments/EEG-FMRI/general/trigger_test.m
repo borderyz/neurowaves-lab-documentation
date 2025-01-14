@@ -1,4 +1,4 @@
-% Trigger test for EEG-FMRI BrainProducts system
+% Trigger test for EEG-FMRI BrainProducts system using NYUAD Vpixx system
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 
 
@@ -114,7 +114,7 @@ if VPIXX_USE
 end
 
 
-%% Get TTL number of bits it should be 24 bits
+%% Get  TTL number of bits it should be 24 bits
 
 % Show how many TTL output bits are in the Datapixx
 HitKeyToContinue('Press any key to see the Datapixx TTL output number of bits');
@@ -440,6 +440,32 @@ end
 
 
 
+%% S3 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^4+2^2);
+    Datapixx('RegWrRd');
+    disp('S3 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
+
+
+
 %% S4 Marker Works
 
 
@@ -462,6 +488,31 @@ while toc < totalDuration
     pause(pauseDuration);
 
 end
+
+
+%% S5 Marker Works
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^6+2^2);
+    Datapixx('RegWrRd');
+    disp('S5 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
+
 
 
 
@@ -593,6 +644,30 @@ while toc < totalDuration
 end
 
 
+
+
+%% S256 Marker Testing needed
+
+
+
+tic;
+Datapixx('SetDoutValues', 0);
+Datapixx('RegWrRd');
+
+while toc < totalDuration
+
+    Datapixx('SetDoutValues', 2^24-1);
+    Datapixx('RegWrRd');
+    disp('S255 Marker On');
+    pause(pauseDuration);
+
+    Datapixx('SetDoutValues', 0);
+    Datapixx('RegWrRd');
+    disp('triggers off');
+
+    pause(pauseDuration);
+
+end
 
 
 
