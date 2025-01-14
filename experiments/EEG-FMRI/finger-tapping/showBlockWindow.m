@@ -37,19 +37,23 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
                 % beginning of the block
                 if ~parameters.isDemoMode
                     
-                    Datapixx('SetDoutValues', 2^2);
+                    Datapixx('SetDoutValues', trigger_code);
                     Datapixx('RegWrRd');
                     Datapixx('SetDoutValues', 0);
                     Datapixx('RegWrRd');
                     
                 end
-                toc
+             
+                
             else
                 if mod(frame, framesperTap) == 0
                     % we need to tell the person to tap a finger once
+                    
+                    DrawFormattedText(screen.win, parameters.stopTap, 'center', 'center',white);
+                    
                     Screen('Flip', screen.win);
                     
-
+                    
 
                     % We need to send a trigger specific for the finger
                     % that is tapped we can use
@@ -62,7 +66,8 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
                     end
 
                 end
-                end
+                toc
+                
                 if frame == numFrames
                     [vbl, t, tstamp, miss_check]=Screen('Flip', screen.win);
                     %

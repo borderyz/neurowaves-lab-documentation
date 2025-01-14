@@ -50,6 +50,11 @@ global totalTime;
 % datapixx = 0 means w're in demo mode
 global datapixx;
 
+
+
+
+%% Setup screen
+
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference', 'Verbosity', 0);
 
@@ -67,6 +72,9 @@ addpath('supportFiles');
 %   Load parameters
 %--------------------------------------------------------------------------------------------------------------------------------------%
 loadParameters();
+
+
+
  
 %   Initialize the subject info
 %--------------------------------------------------------------------------------------------------------------------------------------%
@@ -148,21 +156,24 @@ for   tc =  1 : parameters.numberOfBlocks
     switch block_type
         case 1
             blockText = parameters.blockOneMsg;
-            trigger_code = 2^4;
+            trigger_code = parameters.blockOneTrig;
 
         case 2
             blockText = parameters.blockTwoMsg;
-            trigger_code = 2^6;
+            trigger_code = parameters.blockTwoTrig;
             
         case 3
+            
             blockText = parameters.blockThreeMsg;
-            trigger_code = 2^8;
+            trigger_code = parameters.blockThreeTrig;
         case 4
+            
             blockText = parameters.blockFourMsg;
-            trigger_code = 2^10;
+            trigger_code = parameters.blockFourTrig;
         case 5
+            
             blockText = parameters.blockFiveMsg;
-            trigger_code = 2^12;
+            trigger_code = parameters.blockFiveTrig;
     end    
 
     

@@ -110,6 +110,13 @@ trig_dict('S64') = 2^14;
 trig_dict('S128') = 2^16;
 trig_dict('S255') = 2^24-1;
 
+
+%% Saving for global use in other script of the trigger dictionary
+
+% Save the dictionary to a .mat file after any modification of the above or
+% adding new marker
+save('trig_dict.mat', 'trig_dict');
+
 %% Disable Vpixx Pixel Model incase it is already enabled
 
 Datapixx('Open')

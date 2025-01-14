@@ -16,6 +16,7 @@ function showTTLWindow_1()
         if sum(keyCode)==1   % if at least one key was pressed
             keysPressed = find(keyCode);
             % in the case of multiple keypresses, just consider the first one
+            disp(keysPressed(1));
             if find(keysPressed(1)== KbName('`~') || keysPressed(1)==KbName('5%')|| keysPressed(1)==KbName('5') || keysPressed(1)==KbName('escape') || keysPressed(1)==KbName('esc'))
                 break;
             end

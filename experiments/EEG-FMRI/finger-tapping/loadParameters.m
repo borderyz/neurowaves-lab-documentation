@@ -4,6 +4,11 @@ function loadParameters()
     %---------------------------------------------------------------------%
     % 
     %---------------------------------------------------------------------%
+    
+    % Load the trigger dictionary
+
+    load('../general/trig_dict.mat', 'trig_dict');
+    
     %   show/hide cursor on probe window
     parameters.hideCursor = true;
     
@@ -82,12 +87,23 @@ function loadParameters()
     parameters.welcomeMsg = sprintf('Please wait until the experimenter sets up parameters.');
     parameters.ttlMsg = sprintf('Initializing Scanner...');
     parameters.thankYouMsg = sprintf('Thank you for your participation!!!');
-    parameters.blockOneMsg = sprintf('Tap thumb once');
-    parameters.blockTwoMsg = sprintf('Tap index once');
-    parameters.blockThreeMsg = sprintf('Tap middle once');
-    parameters.blockFourMsg = sprintf('Tap ring once');
-    parameters.blockFiveMsg = sprintf('Tap pinkie once');
-    parameters.stopTap = sprintf('Wait');
+    
+    parameters.blockOneMsg = sprintf('Tap THUMB');
+    parameters.blockOneTrig = trig_dict('S1');
+    
+    parameters.blockTwoMsg = sprintf('Tap INDEX');
+    parameters.blockTwoTrig = trig_dict('S2');
+    
+    parameters.blockThreeMsg = sprintf('Tap MIDDLE');
+    parameters.blockThreeTrig = trig_dict('S3');
+    
+    parameters.blockFourMsg = sprintf('Tap RING');
+    parameters.blockFourTrig = trig_dict('S4');
+    
+    parameters.blockFiveMsg = sprintf('Tap PINKIE');
+    parameters.blockFiveTrig = trig_dict('S5');
+    
+    parameters.stopTap = sprintf('WAIT');
 
     %---------------------------------------------------------------------%
     % Some geometry parameters
