@@ -1,10 +1,8 @@
-% Trigger test for EEG-FMRI BrainProducts system using NYUAD Vpixx system
+% Bit testing for EEG-FMRI BrainProducts system using NYUAD Vpixx system
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 
-
-% A dictionary in the first cell gives all the codes for each type of
-% marker, you can use this dictionary in your experiment script
-
+% Before executing this script make sure that the digital out TTL window on
+% recanalyzer is open
 
 clear all
 close all
@@ -94,21 +92,6 @@ VPIXX_USE = true;
 % * Shield is tied to the GND by a 0 Ohm resistor inside the DATAPixx system.
 
 
-%% Summary dictionary of trigger code
-
-trig_dict = containers.Map;
-
-trig_dict('S1') = 2^2;  
-trig_dict('S2') = 2^4;  
-trig_dict('S3') = 2^4+2^2;  
-trig_dict('S4') = 2^6; 
-trig_dict('S5') = 2^6+2^2;  
-trig_dict('S8') = 2^8; 
-trig_dict('S16') = 2^10;
-trig_dict('S32') = 2^12;
-trig_dict('S64') = 2^14;
-trig_dict('S128') = 2^16;
-trig_dict('S255') = 2^24-1;
 
 %% Disable Vpixx Pixel Model incase it is already enabled
 
@@ -207,317 +190,187 @@ Datapixx('RegWrRd');
 % Bit 6 on BP needs bit 14 on Vpixx
 % Bit 7 on BP needs bit 16 on Vpixx
 
+%% Bit testing 0-7 markers
 
+%% Bit 0 Test WORKS
 
-%% Marker test
+% Should trigger bit 0 on EEG recorder from the digital out menu
 
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
 
-% Set total duration (in seconds) to run the loop
-totalDuration = 10; % e.g., 30 seconds
+% 2^2 = 4 it activates bit number 2
 
-% Set pause duration (in seconds) between each instruction
-pauseDuration = 2; % e.g., 2 seconds
-
-%% S1 Marker Works
+HitKeyToContinue('Hit any key to bring the bit 0 on:');
+Datapixx('SetDoutValues', 2^2);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
 
 % Should trigger S1 marker on EEG
-%HitKeyToContinue('\nHit any key to bring the EEG S2 marker on:');
-
-
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 0 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
+% Checked that we see Bit 0 is off on the BP recording app
 
-while toc < totalDuration
+%% Bit 1 Test Works
+ 
+% Should trigger S1 marker on EEG
 
-    Datapixx('SetDoutValues', trig_dict('S1'));
-    Datapixx('RegWrRd');
-    disp('S1 Marker On');
-    pause(pauseDuration);
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
 
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% 2^2 = 4 it activates bit number 2
 
 
+HitKeyToContinue('Hit any key to bring the bit 1 on:');
+Datapixx('SetDoutValues', 2^4);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
 
-
-%% S2 Marker Works
-
-
-
-tic;
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 1 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S2'));
-    Datapixx('RegWrRd');
-    disp('S2 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
 
-%% S3 Marker Works
+%% Bit 2 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
 
 
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 2 on:');
+Datapixx('SetDoutValues', 2^6);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 2 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S3'));
-    Datapixx('RegWrRd');
-    disp('S3 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
+%% Bit 3 Test Works
+ 
+% Should trigger S1 marker on EEG
 
-%% S4 Marker Works
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
 
 
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 3 on:');
+Datapixx('SetDoutValues', 2^8);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 3 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S4'));
-    Datapixx('RegWrRd');
-    disp('S4 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
-%% S5 Marker Works
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
-tic;
+
+%% Bit 4 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
+
+
+HitKeyToContinue('Hit any key to bring the bit 4 on:');
+Datapixx('SetDoutValues', 2^10);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 4 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S5'));
-    Datapixx('RegWrRd');
-    disp('S5 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
 
+%% Bit 5 Test Works
+ 
+% Should trigger S1 marker on EEG
 
-%% S8 Marker Works
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
 
 
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 5 on:');
+Datapixx('SetDoutValues', 2^12);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 5 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S8'));
-    Datapixx('RegWrRd');
-    disp('S8 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
 
+%% Bit 6 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
 
 
-%% S16 Marker Works
-
-
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 6 on:');
+Datapixx('SetDoutValues', 2^14);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 6 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S16'));
-    Datapixx('RegWrRd');
-    disp('S16 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
+% Checked that we see Bit 0 is off on the BP recording app
 
 
 
-%% S32 Marker Works
+%% Bit 7 Test Works
+ 
+% Should trigger S1 marker on EEG
+
+% S1 Marker = Digital 00 = Pin 2 in BP reference
+% S1 Marker = Digital Out 2 = Pin 2 in VPIXX reference
+
+% 2^2 = 4 it activates bit number 2
 
 
-
-tic;
+HitKeyToContinue('Hit any key to bring the bit 7 on:');
+Datapixx('SetDoutValues', 2^16);
+Datapixx('RegWrRd');
+% Checked that we see Bit 0 on the BP recording app becoming on
+  
+% Should trigger S1 marker on EEG
+HitKeyToContinue('Hit any key to bring the bit 7 off:');
 Datapixx('SetDoutValues', 0);
 Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S32'));
-    Datapixx('RegWrRd');
-    disp('S32 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
-
-%% S64 Marker Works
-
-
-
-tic;
-Datapixx('SetDoutValues', 0);
-Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S64'));
-    Datapixx('RegWrRd');
-    disp('S64 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
-
-%% S128 Marker Works
-
-
-
-
-tic;
-Datapixx('SetDoutValues', 0);
-Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S128'));
-    Datapixx('RegWrRd');
-    disp('S128 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
-
-
-%% S255 Marker Working
-
-
-
-tic;
-Datapixx('SetDoutValues', 0);
-Datapixx('RegWrRd');
-
-while toc < totalDuration
-
-    Datapixx('SetDoutValues', trig_dict('S255'));
-    Datapixx('RegWrRd');
-    disp('S255 Marker On');
-    pause(pauseDuration);
-
-    Datapixx('SetDoutValues', 0);
-    Datapixx('RegWrRd');
-    disp('triggers off');
-
-    pause(pauseDuration);
-
-end
-
-
-
-
-
-if VPIXX_USE
-    if ~parameters.isDemoMode
-        % datapixx shutdown
-        Datapixx('RegWrRd');
-        Datapixx('StopAllSchedules');
-        Datapixx('Close');
-    end
-        if ~parameters.isDemoMode
-            % datapixx shutdown
-            Datapixx('RegWrRd');
-            Datapixx('StopAllSchedules');
-            Datapixx('Close');
-        end
-end
+% Checked that we see Bit 0 is off on the BP recording app
