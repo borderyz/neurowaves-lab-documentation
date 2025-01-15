@@ -63,7 +63,10 @@ function loadParameters()
     
     % To regenerate the finger stimulus sequence
     
-    [~,idx] = sort(rand(5,5));
+    
+    parameters.numberOfBlocks = 15;
+    
+    [~,idx] = sort(rand(5,parameters.numberOfBlocks/5));
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
@@ -72,7 +75,7 @@ function loadParameters()
     
     parameters.IBW = 0:0.2:parameters.maxRandWaitTime; % Inter-block random wait time (seconds)
 
-    parameters.numberOfBlocks = 25;
+
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
     %---------------------------------------------------------------------%
