@@ -70,7 +70,7 @@ function loadParameters()
     
     parameters.maxRandWaitTime = 2;
     
-    parameters.IBW = 0:0.2:; % Inter-block random wait time (seconds)
+    parameters.IBW = 0:0.2:parameters.maxRandWaitTime; % Inter-block random wait time (seconds)
 
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%

@@ -27,6 +27,8 @@
 % - ensure directory of subject is empty if debugging data has been saved
 % - ensure that isDemo is off in the parameters
 % - ensure that useVpixx is on
+% - ensure that the number of blocks is 25
+% - ensure that the block duration is 20 seconds
 
 
 
@@ -36,7 +38,8 @@
 % - user-experience feedback on each tap
 % - trials averaging on a test run
 
-
+% TODO list:
+% - add to the saving, the IBM and random time of each block
 
 
 
@@ -185,7 +188,9 @@ for   tc =  1 : parameters.numberOfBlocks
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindowtest(blockText, trigger_code);
+    [blockStartTime, blockEndTime, interBlockRandomWaitduration] = showBlockWindowtest(blockText, trigger_code);
+    
+    disp(['End of block', tc]);
     
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline
@@ -202,13 +207,14 @@ for   tc =  1 : parameters.numberOfBlocks
     % different shift but the average will be the same
 
 
-
     timingsReport(:,tc).trial = tc;
     timingsReport(:,tc).startTime =  blockStartTime;
     timingsReport(:,tc).endTime =  blockEndTime;
     timingsReport(:,tc).totalBlockDuration = blockEndTime - blockStartTime;
     timingsReport(:,tc).blocktype = block_type;
+    timingsReport(:,tc).interBlockRandomWaitduration = interBlockRandomWaitduration;
     
+
 end
 %  init end of experiment procedures 
 %--------------------------------------------------------------------------------------------------------------------------------------%
