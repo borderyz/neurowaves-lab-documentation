@@ -16,18 +16,39 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
        
         numFrames = round(parameters.blockDuration/screen.ifi);
 
-        tapduration = 1; % the user has tapduration seconds to finish the tap
+        tapduration = 0.8; % the user has tapduration seconds to finish the tap
         
         pauseduration = 0.2;
         
         framesperTap = round(tapduration/screen.ifi); % tapduration converted to frames
         
         framesperPause = round(pauseduration/screen.ifi); % tapduration converted to frames
-   
+        
+        % The issue is that:
+        % - we have a certain number of frames that correspond to the block
+        % duration
+        % - we need every 1 second 
+        % - 
+        % state = stop
+        % state = tap
+        
         for frame = 1:numFrames
+            disp(['number of frames ', int2str(frame)]);
             white = screen.white;
             Screen('TextSize', screen.win, parameters.textSize);
             DrawFormattedText(screen.win, text, 'center', 'center',white);
+            
+%             state = 1; % 1 is tap and 2 is stop
+%             last_state = 0;
+%             if state == 1
+%                
+%                 % tap state
+%                 
+%                 % we want to flip the tapping screen, unless it is already
+%                 % flipped
+%                 if last_state ==1
+%                 
+%             end    
             % Finger state
             if frame == 1
                 % If frame == 1 or mod(frame, framesperTap) ==0:
@@ -51,33 +72,34 @@ function [startTime, endTime] = showBlockWindow(text, trigger_code)
              
                 
             else
-                % Stop state
-                if mod(frame, framesperTap) == 0
-                    % we need to tell the person to tap a finger once
-                    
-                    DrawFormattedText(screen.win, parameters.stopTap, 'center', 'center',white);
-                    
-                    Screen('Flip', screen.win);
-                    
-                    
-
-                    % We need to send a trigger specific for the finger
-                    % that is tapped we can use
-                    if ~parameters.isDemoMode
-                        % We will use a different marker for each finger
-                        Datapixx('SetDoutValues', trigger_code);
-                        Datapixx('RegWrRd');
-                        Datapixx('SetDoutValues', 0);
-                        Datapixx('RegWrRd');
-                    end
-
-                end
+%                 % Stop state
+%                 if mod(frame, framesperTap) == 0
+%                     % we need to tell the person to tap a finger once
+%                     
+%                     DrawFormattedText(screen.win, parameters.stopTap, 'center', 'center',white);
+%                     
+%                     Screen('Flip', screen.win);
+%                     
+%                     
+% 
+%                     % We need to send a trigger specific for the finger
+%                     % that is tapped we can use
+%                     if ~parameters.isDemoMode
+%                         % We will use a different marker for each finger
+%                         Datapixx('SetDoutValues', trigger_code);
+%                         Datapixx('RegWrRd');
+%                         Datapixx('SetDoutValues', 0);
+%                         Datapixx('RegWrRd');
+%                     end
+% 
+%                 end
+                
                 
                 
                 
                 toc
-                
                 if frame == numFrames
+                    
                     [vbl, t, tstamp, miss_check]=Screen('Flip', screen.win);
                     %
                     endTime = t+screen.ifi;

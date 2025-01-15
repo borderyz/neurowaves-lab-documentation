@@ -23,10 +23,15 @@
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
 
+% Checklist before running actual subject:
+% - ensure directory of subject is empty if debugging data has been saved
+% - ensure that demomode is off in the parameters
 
-% Checks:
-% - Trigger Check test
-% - random wait time testKbName('UnifyKeyNames');
+
+
+% Checks and tests:
+% - Trigger Check test each finger marker is appearing correctly
+% - Check that block duration is good even with the random delay added
 % - user-experience feedback on each tap
 % - trials averaging on a test run
 
@@ -97,7 +102,7 @@ visDegrees2Pix();
 %   Initialize Datapixx
 %-------------------------------------------------------------------------- ------------------------------------------------------------%
 
-if ~parameters.isDemoMode
+if parameters.useVpixx
     % datapixx init               
     AssertOpenGL;   % We use PTB-3;
     isReady =  Datapixx('Open');
@@ -111,7 +116,7 @@ end
 
 % have 25 blocks,  5 blocks for each finger
 % pseudo-randomly permute the blocks by:
-% ensuring we are getting all the possible sequences of 
+% ensuring we are getting all the possible sequences of fingers
 
 
 %%
@@ -147,16 +152,18 @@ for   tc =  1 : parameters.numberOfBlocks
     % EEG/fMRI experiment so that the gradient artifact correction do not
     % delete the relevant ERP
 
-    WaitSecs(parameters.IBW(randperm(length(parameters.IBW),1)));
 
+    disp(['Block number', tc]);
     block_type = parameters.blocktype(tc)
     
     switch block_type
         case 1
+            
             blockText = parameters.blockOneMsg;
             trigger_code = parameters.blockOneTrig;
 
         case 2
+            
             blockText = parameters.blockTwoMsg;
             trigger_code = parameters.blockTwoTrig;
             
@@ -168,15 +175,17 @@ for   tc =  1 : parameters.numberOfBlocks
             
             blockText = parameters.blockFourMsg;
             trigger_code = parameters.blockFourTrig;
+            
         case 5
             
             blockText = parameters.blockFiveMsg;
             trigger_code = parameters.blockFiveTrig;
+            
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindow(blockText, trigger_code);
-
+    [blockStartTime, blockEndTime] = showBlockWindowtest(blockText, trigger_code);
+    
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline
     % According to the paper https://pmc.ncbi.nlm.nih.gov/articles/PMC3713710/pdf/HBM-33-1594.pdf
@@ -221,7 +230,7 @@ ShowCursor('Arrow');
  
 sca;
 
-if ~parameters.isDemoMode
+if parameters.useVpixx
     % datapixx shutdown
     Datapixx('RegWrRd');
     Datapixx('StopAllSchedules');

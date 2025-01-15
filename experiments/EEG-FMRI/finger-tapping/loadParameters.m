@@ -14,6 +14,7 @@ function loadParameters()
     
     %   to set the demo mode with half-transparent screen
     parameters.isDemoMode = true;
+    parameters.useVpixx = true;
     
     %   screen transparency in demo mode
     parameters.transparency = 0.8;
@@ -58,7 +59,7 @@ function loadParameters()
     
     %   set the number of blocks in your experiment
     %parameters.numberOfBlocks = 20;
-    % 10 blocks for each finger tapping alternated by 10 blocks of no-tapping
+
     
     % To regenerate the finger stimulus sequence
     
@@ -66,7 +67,7 @@ function loadParameters()
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
-    parameters.IBW = 1:0.2:3; % Inter-block random wait time (seconds)
+    parameters.IBW = 0:0.2:1; % Inter-block random wait time (seconds)
 
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
@@ -80,6 +81,10 @@ function loadParameters()
     %   eoe task duration
     parameters.eoeTaskDuration = 2;
     
+    
+    parameters.tapduration = 1
+    parameters.pauseduration = 0.5
+
     %---------------------------------------------------------------------%
     % Some string resources 
     %---------------------------------------------------------------------%
