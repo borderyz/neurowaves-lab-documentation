@@ -5,12 +5,11 @@
 
 % Trigger code used:
 
-% S1 marker, vpixx code = 2^2, used at beginning of each block
-% S2 marker, vpixx code = 2^4, used for thumb
-% S4 marker, vpixx code = 2^6, used for index
-% S8 marker, vpixx code = 2^8, used for middle
-% S16 marker, vpixx code = 2^10, used for ring
-% S32 marker, vpixx code = 2^12, used for pinkie
+% S1 marker, vpixx code = 2^4, used for thumb
+% S2 marker, vpixx code = 2^6, used for index
+% S3 marker, vpixx code = 2^8, used for middle
+% S4 marker, vpixx code = 2^10, used for ring
+% S5 marker, vpixx code = 2^12, used for pinkie
 
 
 % Latest modifications:
@@ -23,9 +22,11 @@
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
 
+
 % Checklist before running actual subject:
 % - ensure directory of subject is empty if debugging data has been saved
-% - ensure that demomode is off in the parameters
+% - ensure that isDemo is off in the parameters
+% - ensure that useVpixx is on
 
 
 
@@ -207,6 +208,7 @@ for   tc =  1 : parameters.numberOfBlocks
     timingsReport(:,tc).endTime =  blockEndTime;
     timingsReport(:,tc).totalBlockDuration = blockEndTime - blockStartTime;
     timingsReport(:,tc).blocktype = block_type;
+    
 end
 %  init end of experiment procedures 
 %--------------------------------------------------------------------------------------------------------------------------------------%

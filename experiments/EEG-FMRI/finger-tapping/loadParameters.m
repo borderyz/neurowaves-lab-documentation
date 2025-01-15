@@ -67,7 +67,10 @@ function loadParameters()
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
-    parameters.IBW = 0:0.2:1; % Inter-block random wait time (seconds)
+    
+    parameters.maxRandWaitTime = 2;
+    
+    parameters.IBW = 0:0.2:; % Inter-block random wait time (seconds)
 
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
@@ -76,14 +79,14 @@ function loadParameters()
     
     %   sample task duration
     %parameters.blockDuration = 12;
-    parameters.blockDuration = 12;
+    parameters.blockDuration = 20;
     
     %   eoe task duration
     parameters.eoeTaskDuration = 2;
     
     
-    parameters.tapduration = 1
-    parameters.pauseduration = 0.5
+    parameters.tapduration = 1.2;
+    parameters.pauseduration = 0.8;
 
     %---------------------------------------------------------------------%
     % Some string resources 
