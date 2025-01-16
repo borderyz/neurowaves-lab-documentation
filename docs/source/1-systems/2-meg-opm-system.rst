@@ -128,6 +128,11 @@ cable datasheet.
 
 
 
+OPM sensors and direction of measurement
+----------------------------------------
+
+In its current state, the OPM measures the radial magnetic field Bz but not yet the
+
 
 OPM HPI Coils
 -------------

@@ -114,11 +114,6 @@ if VPIXX_USE
 end
 
 
-
-
-
-
-
 %% Get TTL number of bits it should be 24 bits
 
 % Show how many TTL output bits are in the Datapixx
@@ -171,7 +166,6 @@ Datapixx('RegWrRd');
 
 
 % EEG Marker trigger script
-
 
 
 % DOUTValues = 0
