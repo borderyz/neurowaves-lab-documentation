@@ -40,8 +40,25 @@
 
 % TODO list:
 % - add to the saving, the IBM and random time of each block
+% - fix the timing error and end the block when the time is reached,
+% according to Putti's instructions
 
-
+% 
+% startTime = 
+% totalTime = 
+% 
+% while totalTime < 20
+%    
+%      
+%     for ii = 1:nFrames
+%         
+%     flip 
+%         
+%     totalTime = getSecs - startTime;
+%     
+%     end
+%     
+% end
 
 
 clear all
