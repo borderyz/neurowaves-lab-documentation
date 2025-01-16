@@ -1,7 +1,12 @@
 
-% EEG-FMRI experiment for finger tapping
+% EEG-FMRI experiment for alpha-blocking
 % fingertapping: tap each finger then rest
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
+
+% 25 blocks of 12 seconds duration each
+% first block is eyes open then second block is eyes closed
+% a .csv is saved with the sequence of the blocks and the time for each block
+% an S1 marker is synchronised on the EEG data at the beginning of each block
 
 clear all
 close all

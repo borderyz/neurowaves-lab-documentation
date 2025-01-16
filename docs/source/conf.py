@@ -33,6 +33,9 @@ if PDF_GENERATION_INDEX == 'LABMANUAL':
 elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
     master_doc = 'index'
 
+elif PDF_GENERATION_INDEX == 'EEG_FMRI_MANUAL':
+    master_doc = 'index_eeg_fmri'
+
 
 
 # -- General configuration
@@ -57,6 +60,8 @@ intersphinx_mapping = {
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
 }
 intersphinx_disabled_domains = ["std"]
+
+
 
 templates_path = ["_templates"]
 
