@@ -5,7 +5,7 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 from pypixxlib import _libdpx as dp
 
 
-from ..general.utilities import *
+from utilities_original import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
@@ -139,14 +139,14 @@ wordColumns = ["word" + str(i) for i in range(1, longestSentence + 1)]
 myColumns = subjectColumns + wordColumns
 results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
-myDlg = gui.Dlg(title="RSVP EEG experiment", size=(600, 600))
+myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
 myDlg.addText('Participant Info', color='Red')
 myDlg.addField('Participant Name:', 'First Last', tip='or subject code')
 myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
 myDlg.addText('Experiment Info', color='Red')
-myDlg.addField('Experiment Name:', 'Unacc.Passive')
+myDlg.addField('Experiment Name:', 'Arabic_Egyptian')
 myDlg.addField('Experiment List:', 1)
 myDlg.show()
 
@@ -157,13 +157,16 @@ else:
 
 win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
+#win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
+
+
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=instructionsFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
 
-listenbutton(3)
+listenbutton(9)
 
 #1 we need to write code where at a specific time, we decide to listen to an escape button and if the escape button happens we save the data
 
@@ -205,7 +208,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
 
         # Pause until response
-        listenbutton(3)
+        listenbutton(9)
         # response = getbutton()  # listen to a button
         # responses.append(response)
 
@@ -402,7 +405,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
     # response = getbutton()  # listen to a button
     # responses.append(response) # everytime we get a response we add it to the table
-    listenbutton(3)
+    listenbutton(9)
 
     #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
 
@@ -432,7 +435,7 @@ stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-#listenbutton(3) we want to add this to let them press at the end?
+#listenbutton(9) we want to add this to let them press at the end?
 
 event.waitKeys()
 

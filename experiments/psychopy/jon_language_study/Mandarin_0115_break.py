@@ -3,12 +3,13 @@ import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
-from utilities_original import *
 
+
+from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =2
+TIME_TO_RESET_BUTTON_BOX =1
 
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -138,14 +139,14 @@ wordColumns = ["word" + str(i) for i in range(1, longestSentence + 1)]
 myColumns = subjectColumns + wordColumns
 results = pd.DataFrame(index=range(totalTrials), columns=myColumns)
 
-myDlg = gui.Dlg(title="RSVP EEG experiment", size=(600, 600))
+myDlg = gui.Dlg(title="RSVP MEG experiment", size=(600, 600))
 myDlg.addText('Participant Info', color='Red')
 myDlg.addField('Participant Name:', 'First Last', tip='or subject code')
 myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
 myDlg.addText('Experiment Info', color='Red')
-myDlg.addField('Experiment Name:', 'Unacc.Passive')
+myDlg.addField('Experiment Name:', 'Mandarin')
 myDlg.addField('Experiment List:', 1)
 myDlg.show()
 
@@ -156,12 +157,21 @@ else:
 
 win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
+#win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
+
+
 stim = visual.TextStim(win, text='In this experiment, you will read sentences one word at a time.\n\nAfter each sentence is finished, you will be asked a Yes or No question about that sentence.\n\nAll you have to do is read the sentences normally, and then answer the question\n\nPress the YES key to see some examples.', font=instructionsFont, units=breakUnits, height=breakSize, color=instructionColor)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
 
-listenbutton(3)
+
+listenbutton(9)
+
+#1 we need to write code where at a specific time, we decide to listen to an escape button and if the escape button happens we save the data
+
+#2 add the previous code at multiple occasions so that we are listening to this during the experiment (covering as much as possible of the experiment time)
+
 
 # if responses[-1] == quitKey:
 #     participantName = participantInfo[0].replace(" ", "")
@@ -176,6 +186,7 @@ win.flip()
 
 # Loop for each trial
 for trialIndex in range(startItem - 1, totalTrials):
+
     pauseResponse = []
     responses = []
     event.clearEvents()
@@ -197,7 +208,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
 
         # Pause until response
-        listenbutton(3)
+        listenbutton(9)
         # response = getbutton()  # listen to a button
         # responses.append(response)
 
@@ -273,6 +284,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                 stim.draw()
                 win.flip()
 
+
                 if wordIndex == 0:
                     if frameN < 10:
                         combined_trigger_value = (
@@ -322,6 +334,9 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         # Wait until button press to proceed to next trial
         response = getbutton()  # listen to a button
+        # TODO: design a getbutton on the left button box: red and green are only active
+        #  On the right button box red and green are only active aswell
+        #
         responses.append(response)
 
 
@@ -373,6 +388,11 @@ for trialIndex in range(startItem - 1, totalTrials):
         results.loc[trialIndex, 'participantAnswer'] = ''
         results.loc[trialIndex, 'answer'] = ''
 
+    # TODO: check that this works correctly, this should save one by one
+    participantName = participantInfo[0].replace(" ", "")
+    filename = 'results.' + participantName + '.csv'
+    results.to_csv(filename)
+
     event.clearEvents()
     #responses = []
     stim = visual.TextStim(win,
@@ -385,9 +405,11 @@ for trialIndex in range(startItem - 1, totalTrials):
     # pauseResponse = event.waitKeys(keyList=[responseYes, quitKey])
     # response = getbutton()  # listen to a button
     # responses.append(response) # everytime we get a response we add it to the table
-    listenbutton(3)
+    listenbutton(9)
 
     #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it waits for exactly 500 ms
+
+
 
     # if responses[-1] == quitKey:
     #     participantName = participantInfo[0].replace(" ", "")
@@ -400,6 +422,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
 
     win.flip()
+
+
+
 
 event.clearEvents()
 stim = visual.TextStim(win,
