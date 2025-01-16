@@ -3,6 +3,8 @@
 % Adapted from Gayathri Satheesh, 24 October 2024, gayathri.s.satheesh@gmail.com
 
 
+%
+
 
 
 %% Define paths for data
@@ -12,7 +14,7 @@ BOX_DIR = getenv('MEG_DATA');
 confile = fullfile([BOX_DIR,'mandarin-language-study\sub-test\meg-kit\sub-test_mandarin-language-study_trigger-test-20250115.con']); 
 
 %confile = fullfile([BOX_DIR,'empty-room\sub-emptyroom\meg-kit\emptyroom_11.con']); 
-
+csv_file_experiment = 'mandarin_bound-test.csv'
 
 %% Load data from files
 
@@ -89,12 +91,8 @@ end
 %% -- 5) Compare observed trigger counts to an expected matrix
 % Suppose you have a matrix describing which codes you expect and how many times:
 %    expectedMatrix = [code, expectedCount];
-expectedMatrix = [
-    10,  5;   % code=10 expected 5 times
-    12,  7;   % code=12 expected 7 times
-    15, 10;   % code=15 expected 10 times
-    % ...
-];
+
+expectedMatrix = compute_matrix(csv_file_experiment);
 
 % Tally occurrences for each trigger code
 triggerCodes = onsetCodes(:);
