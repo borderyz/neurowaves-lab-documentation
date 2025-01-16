@@ -27,13 +27,9 @@ For requesting help or enquiries, please refer to the below table to address you
 MEG
 ~~~
 
-
 .. csv-table:: Responsibilities List
    :header-rows: 1
    :file: contact_eeg_fmri.csv
-
-
-
 
 EEG/fMRI
 ~~~~~~~~
