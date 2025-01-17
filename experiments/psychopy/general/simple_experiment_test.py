@@ -6,7 +6,10 @@ MONITOR = 'testMonitor'
 # Set up the window
 #win = visual.Window(size=(1920, 1080), fullscr=False, color=(1, 1, 1), units="pix")
 #win = visual.Window(size=(800, 600), fullscr=False, color=(1, 1, 1), units="pix")
-win = visual.Window(fullscr=False, size=(1919.5, 1079.5), monitor = MONITOR, color=(1, 1, 1), units="pix", screen = 1)
+#win = visual.Window(fullscr=False, size=(1919.5, 1079.5), monitor = MONITOR, color=(1, 1, 1), units="pix", screen = 1)
+
+win = visual.Window(fullscr=True, size=(1920, 1080), monitor = MONITOR, color=(1, 1, 1), units="pix")
+
 
 # Define the stimuli
 instructions = visual.TextStim(win, text="Press any key to begin.", color=(-1, -1, -1))

@@ -3,7 +3,7 @@ import pandas as pd
 from psychopy import core, visual, event, parallel, data, monitors, gui
 
 from pypixxlib import _libdpx as dp
-from utilities import *
+from utilities_original import *
 
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
