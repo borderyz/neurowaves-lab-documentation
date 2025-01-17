@@ -1,7 +1,7 @@
 ﻿sentence,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,taskQuestion,correctAnswer
 每个 学生 下课的时候 都 说 自己 吃了 好吃的 苹果,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,9
 每个 厨师 上班的时候 都 说 自己 买了 好看的 围裙,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,7
-每个 厨师 上班的时候 都 说 自己 买了 好看的 围裙,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,9
+每个 员工 吃饭的时候 都 说 自己 吃了 美味的 炒面,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,9
 每个 妈妈 做饭的时候 都 说 自己 炒了 金黄的 鸡蛋,4,0,0,0,1,0,0,0,0,This could be another question. Press no to continue.,7
 每个 老板 开会的时候 都 说 自己 讲了 简单的 几句,5,0,0,0,0,1,0,0,0,This could be another question. Press no to continue.,9
 每个 保安 执勤的时候 都 说 自己 洗了 厚重的 棉袄,6,0,0,0,0,0,1,0,0,This could be another question. Press no to continue.,7
@@ -9,6 +9,7 @@
 每个 司机 出车的时候 都 说 自己 织了 保暖的 手套,8,0,0,0,0,0,0,0,1,This could be another question. Press no to continue.,7
 每个 画家 作画的时候 都 说 自己 挑了 好用的 颜料,9,1,1,0,0,0,0,0,0,This could be another question. Press no to continue.,9
 每个 老师 备课的时候 都 说 自己 写了 详尽的 讲义,10,0,0,1,1,0,0,0,0,This could be another question. Press no to continue.,7
+break,0,0,0,0,0,0,0,0,0,,
 每个 记者 采访的时候 都 说 自己 提了 到位的 问题,11,0,0,0,0,1,1,0,0,This could be another question. Press no to continue.,9
 每个 摄影 拍摄的时候 都 说 自己 装了 耐用的 电池,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,7
 每个 导游 带团的时候 都 说 自己 看了 未来的 天气,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,9
@@ -29,6 +30,7 @@
 那个 司机 出车的时候 说 自己 织了 保暖的 手套,10,0,0,1,1,0,0,0,0,This could be another question. Press no to continue.,9
 那个 画家 作画的时候 说 自己 挑了 好用的 颜料,11,0,0,0,0,1,1,0,0,This could be another question. Press no to continue.,9
 那个 老师 备课的时候 说 自己 写了 详尽的 讲义,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,9
+break,0,0,0,0,0,0,0,0,0,,
 那个 记者 采访的时候 说 自己 提了 到位的 问题,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,9
 那个 摄影 拍摄的时候 说 自己 装了 耐用的 电池,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,9
 那个 导游 带团的时候 说 自己 看了 未来的 天气,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,9
@@ -49,6 +51,7 @@
 每个 司机 出车的时候 都 说 维修工人 织了 保暖的 手套,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,7
 每个 画家 作画的时候 都 说 画材销售 挑了 好用的 颜料,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,7
 每个 老师 备课的时候 都 说 带教老师 写了 详尽的 讲义,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,7
+break,0,0,0,0,0,0,0,0,0,,
 每个 记者 采访的时候 都 说 采访对象 提了 到位的 问题,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,7
 每个 摄影 拍摄的时候 都 说 节目团队 装了 耐用的 电池,4,0,0,0,1,0,0,0,0,This could be another question. Press no to continue.,7
 每个 导游 带团的时候 都 说 大巴司机 看了 未来的 天气,5,0,0,0,0,1,0,0,0,This could be another question. Press no to continue.,7
@@ -59,3 +62,34 @@
 每个 顾问 咨询的时候 都 说 项目专员 画了 清晰的 图表,10,0,0,1,1,0,0,0,0,This could be another question. Press no to continue.,7
 每个 演员 表演的时候 都 说 舞台监督 上了 神圣的 舞台,11,0,0,0,0,1,1,0,0,This could be another question. Press no to continue.,7
 每个 保洁 开工的时候 都 说 维修师傅 拖了 肮脏的 地面,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,7
+每个 记者 采访的时候 都 说 自己 提了 到位的 问题,11,0,0,0,0,1,1,0,0,This could be another question. Press no to continue.,9
+每个 摄影 拍摄的时候 都 说 自己 装了 耐用的 电池,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,
+每个 导游 带团的时候 都 说 自己 看了 未来的 天气,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,9
+每个 指挥 演出的时候 都 说 自己 听了 动听的 音乐,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,7
+每个 作家 出书的时候 都 说 自己 用了 精致的 钢笔,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,9
+每个 花匠 训练的时候 都 说 自己 剪了 无数的 花瓣,4,0,0,0,1,0,0,0,0,This could be another question. Press no to continue.,7
+每个 农民 耕种的时候 都 说 自己 打了 甘甜的 井水,5,0,0,0,0,1,0,0,0,This could be another question. Press no to continue.,9
+每个 顾问 咨询的时候 都 说 自己 画了 清晰的 图表,6,0,0,0,0,0,1,0,0,This could be another question. Press no to continue.,7
+每个 演员 表演的时候 都 说 自己 上了 神圣的 舞台,7,0,0,0,0,0,0,1,0,This could be another question. Press no to continue.,9
+每个 保洁 开工的时候 都 说 自己 拖了 肮脏的 地面,8,0,0,0,0,0,0,0,1,This could be another question. Press no to continue.,7
+break,0,0,0,0,0,0,0,0,0,,
+那个 记者 采访的时候 说 自己 提了 到位的 问题,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,9
+那个 摄影 拍摄的时候 说 自己 装了 耐用的 电池,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,9
+那个 导游 带团的时候 说 自己 看了 未来的 天气,3,0,0,1,0,0,0,0,0,This could be another question. Press no to continue.,9
+那个 指挥 演出的时候 说 自己 听了 动听的 音乐,4,0,0,0,1,0,0,0,0,This could be another question. Press no to continue.,9
+那个 作家 出书的时候 说 自己 用了 精致的 钢笔,5,0,0,0,0,1,0,0,0,This could be another question. Press no to continue.,9
+那个 花匠 训练的时候 说 自己 剪了 无数的 花瓣,6,0,0,0,0,0,1,0,0,This could be another question. Press no to continue.,9
+那个 农民 耕种的时候 说 自己 打了 甘甜的 井水,7,0,0,0,0,0,0,1,0,This could be another question. Press no to continue.,9
+那个 顾问 咨询的时候 说 自己 画了 清晰的 图表,8,0,0,0,0,0,0,0,1,This could be another question. Press no to continue.,9
+那个 演员 表演的时候 说 自己 上了 神圣的 舞台,9,1,1,0,0,0,0,0,0,This could be another question. Press no to continue.,9
+那个 保洁 开工的时候 说 自己 拖了 肮脏的 地面,10,0,0,1,1,0,0,0,0,This could be another question. Press no to continue.,9
+每个 学生 下课的时候 都 说 数学老师 吃了 好吃的 苹果,5,0,0,0,0,1,0,0,0,This could be another question. Press no to continue.,7
+每个 厨师 上班的时候 都 说 行政总厨 买了 好看的 围裙,6,0,0,0,0,0,1,0,0,This could be another question. Press no to continue.,7
+每个 员工 吃饭的时候 都 说 分部经理 吃了 美味的 炒面,7,0,0,0,0,0,0,1,0,This could be another question. Press no to continue.,7
+每个 妈妈 做饭的时候 都 说 食堂师傅 炒了 金黄的 鸡蛋,8,0,0,0,0,0,0,0,1,This could be another question. Press no to continue.,7
+每个 老板 开会的时候 都 说 人力资源 讲了 简单的 几句,9,1,1,0,0,0,0,0,0,This could be another question. Press no to continue.,7
+每个 保安 执勤的时候 都 说 公关经理 忘了 厚重的 棉袄,10,0,0,1,1,0,0,0,0,This could be another question. Press no to continue.,7
+每个 教授 锻炼的时候 都 说 警察局长 穿了 崭新的 卫衣,11,0,0,0,0,1,1,0,0,This could be another question. Press no to continue.,7
+每个 司机 出车的时候 都 说 维修工人 织了 保暖的 手套,12,0,0,0,0,0,0,1,1,This could be another question. Press no to continue.,7
+每个 画家 作画的时候 都 说 画材销售 挑了 好用的 颜料,1,1,0,0,0,0,0,0,0,This could be another question. Press no to continue.,7
+每个 老师 备课的时候 都 说 带教老师 写了 详尽的 讲义,2,0,1,0,0,0,0,0,0,This could be another question. Press no to continue.,7

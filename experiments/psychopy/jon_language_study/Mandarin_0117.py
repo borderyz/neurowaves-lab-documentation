@@ -10,7 +10,7 @@ from utilities import *
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
 TIME_TO_RESET_BUTTON_BOX =1
-
+TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
@@ -46,7 +46,7 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('mandarin_bound-test.csv')
+trialList = data.importConditions('mandarin_bound0117.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
@@ -201,12 +201,16 @@ for trialIndex in range(startItem - 1, totalTrials):
         if currentBreakCount == 1:
             stim = visual.TextStim(win, text='Congratulations! You answered %i of the %i practice questions correctly.\n\nYou are now ready to do the actual experiment.\n\nThere are %i sentences to read.\n\nPlease sit still, stop blinking and press the YES key when you are ready for the first sentence.' % (recentCorrectResponses, trialsSinceLastBreak, remainingTrials), font=instructionsFont, units=breakUnits, height=breakSize, color=breakColor)
             totalCorrectResponses = 0
+            print('congratulations window')
         else:
             stim = visual.TextStim(win, text='Please feel free to take a short break now if you would like.\n\nYou answered %i out of %i questions correctly since the last break.\n\nYou have completed %i sentences, and have %i to go.\n\nWhen you are ready for the next sentence, please sit still, stop blinking, and press the YES key.' % (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials), font=instructionsFont, units=breakUnits, height=breakSize, color=breakColor)
+            print('break window')
+
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
-
+        print('listening to button')
+        core.wait(TIME_WAIT_BREAK)
         # Pause until response
         listenbutton(9)
         # response = getbutton()  # listen to a button
@@ -298,6 +302,8 @@ for trialIndex in range(startItem - 1, totalTrials):
                             trialList[trialIndex]['trigger231'] * trigger_channels_dictionary[231]
                         )
                         print(f"Trial {trialIndex}, Trigger: Combined Value = {combined_trigger_value}")
+
+
                         dp.DPxSetDoutValue(combined_trigger_value, 0xFFFFFF)
                         dp.DPxUpdateRegCache()
                         print('wordIndex', wordIndex)
@@ -334,9 +340,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         # Wait until button press to proceed to next trial
         response = getbutton()  # listen to a button
-        # TODO: design a getbutton on the left button box: red and green are only active
-        #  On the right button box red and green are only active aswell
-        #
+
         responses.append(response)
 
 
