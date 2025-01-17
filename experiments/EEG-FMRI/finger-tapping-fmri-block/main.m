@@ -2,17 +2,6 @@
 % EEG-FMRI experiment for finger tapping
 % fingertapping: tap each finger in an random order
 % Author: Hadi Zaatiti <hadi.zaatiti@nyu.edu>
-
-% Trigger code used:
-
-% S1 marker, vpixx code = 2^2, used at beginning of each block
-% S2 marker, vpixx code = 2^4, used for thumb
-% S4 marker, vpixx code = 2^6, used for index
-% S8 marker, vpixx code = 2^8, used for middle
-% S16 marker, vpixx code = 2^10, used for ring
-% S32 marker, vpixx code = 2^12, used for pinkie
-
-
 % Latest modifications:
 % Check that each block is having a trigger signal
 % Change the tapping to allow for EEG trial segments: each finger must be
@@ -22,22 +11,7 @@
 % - the definition of the block should be investigated, is each block one
 % finger being tapped, or multiple tappings while having a trigger for each
 % tap?
-
-% Checklist before running actual subject:
-% - ensure directory of subject is empty if debugging data has been saved
-% - ensure that demomode is off in the parameters
-
-
-
-% Checks and tests:
-% - Trigger Check test each finger marker is appearing correctly
-% - Check that block duration is good even with the random delay added
-% - user-experience feedback on each tap
-% - trials averaging on a test run
-
-
-
-
+% - Add a random time to the beginning of each block
 
 
 clear all
@@ -54,11 +28,6 @@ global totalTime;
 % trigger
 % datapixx = 0 means w're in demo mode
 global datapixx;
-
-
-
-
-%% Setup screen
 
 Screen('Preference', 'SkipSyncTests', 1);
 Screen('Preference', 'Verbosity', 0);
@@ -77,7 +46,6 @@ addpath('supportFiles');
 %   Load parameters
 %--------------------------------------------------------------------------------------------------------------------------------------%
 loadParameters();
-
  
 %   Initialize the subject info
 %--------------------------------------------------------------------------------------------------------------------------------------%
@@ -102,7 +70,7 @@ visDegrees2Pix();
 %   Initialize Datapixx
 %-------------------------------------------------------------------------- ------------------------------------------------------------%
 
-if parameters.useVpixx
+if ~parameters.isDemoMode
     % datapixx init               
     AssertOpenGL;   % We use PTB-3;
     isReady =  Datapixx('Open');
@@ -116,7 +84,7 @@ end
 
 % have 25 blocks,  5 blocks for each finger
 % pseudo-randomly permute the blocks by:
-% ensuring we are getting all the possible sequences of fingers
+% ensuring we are getting all the possible sequences of 
 
 
 %%
@@ -148,44 +116,24 @@ isTerminationKeyPressed = false;
 tic
 for   tc =  1 : parameters.numberOfBlocks
     
-    % A random wait time is required at the start of each block in an
-    % EEG/fMRI experiment so that the gradient artifact correction do not
-    % delete the relevant ERP
-
-
-    disp(['Block number', tc]);
     block_type = parameters.blocktype(tc)
     
     switch block_type
         case 1
-            
             blockText = parameters.blockOneMsg;
-            trigger_code = parameters.blockOneTrig;
-
         case 2
-            
             blockText = parameters.blockTwoMsg;
-            trigger_code = parameters.blockTwoTrig;
-            
         case 3
-            
             blockText = parameters.blockThreeMsg;
-            trigger_code = parameters.blockThreeTrig;
         case 4
-            
             blockText = parameters.blockFourMsg;
-            trigger_code = parameters.blockFourTrig;
-            
         case 5
-            
             blockText = parameters.blockFiveMsg;
-            trigger_code = parameters.blockFiveTrig;
-            
     end    
 
     
-    [blockStartTime, blockEndTime] = showBlockWindowtest(blockText, trigger_code);
-    
+    [blockStartTime, blockEndTime] = showBlockWindow(blockText);
+
     %% Putti says: if we are moving the right hand, this means the right hemisphere is not being used
     % in this case, we can use all the signals from the right hemisphere as a baseline
     % According to the paper https://pmc.ncbi.nlm.nih.gov/articles/PMC3713710/pdf/HBM-33-1594.pdf
@@ -194,11 +142,11 @@ for   tc =  1 : parameters.numberOfBlocks
     % Add a first vector of constant values in order to take the average of the BOLD signals from all fingers as a baseline
     % In the paper the block duration is 3 seconds, however we can then take 12 seconds per finger
     
-    % For the phase-encoding is basically fitting a since wave into the HRF
-    % (the stimulus can be a small-time one like a pulse stimulus for a frame,
-    % or a longer in time stimulus, (in this case the sequence of the fingers
-    % should be the same all the time and not random), all voxels will have a
-    % different shift but the average will be the same
+% For the phase-encoding is basically fitting a since wave into the HRF
+% (the stimulus can be a small-time one like a pulse stimulus for a frame,
+% or a longer in time stimulus, (in this case the sequence of the fingers
+% should be the same all the time and not random), all voxels will have a
+% different shift but the average will be the same
 
 
 
@@ -223,14 +171,14 @@ writetable(struct2table(timingsReport),parameters.datafile);
 
 
 %   To allow the output of keyboard to command line
-%ListenChar(1);
+ListenChar(1);
 
 % Show cursor back
 ShowCursor('Arrow');
  
 sca;
 
-if parameters.useVpixx
+if ~parameters.isDemoMode
     % datapixx shutdown
     Datapixx('RegWrRd');
     Datapixx('StopAllSchedules');

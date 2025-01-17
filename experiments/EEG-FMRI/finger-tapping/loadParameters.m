@@ -4,11 +4,17 @@ function loadParameters()
     %---------------------------------------------------------------------%
     % 
     %---------------------------------------------------------------------%
+    
+    % Load the trigger dictionary
+
+    load('../general/trig_dict.mat', 'trig_dict');
+    
     %   show/hide cursor on probe window
     parameters.hideCursor = true;
     
     %   to set the demo mode with half-transparent screen
-    parameters.isDemoMode = false;
+    parameters.isDemoMode = true;
+    parameters.useVpixx = true;
     
     %   screen transparency in demo mode
     parameters.transparency = 0.8;
@@ -53,7 +59,7 @@ function loadParameters()
     
     %   set the number of blocks in your experiment
     %parameters.numberOfBlocks = 20;
-    % 10 blocks for each finger tapping alternated by 10 blocks of no-tapping
+
     
     % To regenerate the finger stimulus sequence
     
@@ -61,7 +67,8 @@ function loadParameters()
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
-    
+    parameters.IBW = 0:0.2:1; % Inter-block random wait time (seconds)
+
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
@@ -74,6 +81,10 @@ function loadParameters()
     %   eoe task duration
     parameters.eoeTaskDuration = 2;
     
+    
+    parameters.tapduration = 1
+    parameters.pauseduration = 0.5
+
     %---------------------------------------------------------------------%
     % Some string resources 
     %---------------------------------------------------------------------%
@@ -81,11 +92,23 @@ function loadParameters()
     parameters.welcomeMsg = sprintf('Please wait until the experimenter sets up parameters.');
     parameters.ttlMsg = sprintf('Initializing Scanner...');
     parameters.thankYouMsg = sprintf('Thank you for your participation!!!');
-    parameters.blockOneMsg = sprintf('Keep Tapping thumb');
-    parameters.blockTwoMsg = sprintf('Keep Tapping index');
-    parameters.blockThreeMsg = sprintf('Keep Tapping middle');
-    parameters.blockFourMsg = sprintf('Keep Tapping ring');
-    parameters.blockFiveMsg = sprintf('Keep Tapping pinkie');
+    
+    parameters.blockOneMsg = sprintf('Tap THUMB');
+    parameters.blockOneTrig = trig_dict('S1');
+    
+    parameters.blockTwoMsg = sprintf('Tap INDEX');
+    parameters.blockTwoTrig = trig_dict('S2');
+    
+    parameters.blockThreeMsg = sprintf('Tap MIDDLE');
+    parameters.blockThreeTrig = trig_dict('S3');
+    
+    parameters.blockFourMsg = sprintf('Tap RING');
+    parameters.blockFourTrig = trig_dict('S4');
+    
+    parameters.blockFiveMsg = sprintf('Tap PINKIE');
+    parameters.blockFiveTrig = trig_dict('S5');
+    
+    parameters.stopTap = sprintf('WAIT');
 
     %---------------------------------------------------------------------%
     % Some geometry parameters

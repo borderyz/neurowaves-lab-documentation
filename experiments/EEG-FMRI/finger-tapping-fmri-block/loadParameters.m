@@ -22,7 +22,7 @@ function loadParameters()
     % study parameters
     %---------------------------------------------------------------------%
     %    set the name of your study
-    parameters.currentStudy = 'restingstate';
+    parameters.currentStudy = 'fingerTap';
     
     %    set the version of your study
     parameters.currentStudyVersion = 1;
@@ -56,18 +56,19 @@ function loadParameters()
     % 10 blocks for each finger tapping alternated by 10 blocks of no-tapping
     
     % To regenerate the finger stimulus sequence
-%     [~,idx] = sort(rand(5,5));
-%     dsm = idx(:)
-%   save dsm finger_stimulus_sequence
+    
+    [~,idx] = sort(rand(5,5));
+    parameters.blocktype = idx(:);
 
-
-  
+    %parameters.blocktype = temp.dsm;
+    
     parameters.numberOfBlocks = 25;
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
     %---------------------------------------------------------------------%
     
     %   sample task duration
+    %parameters.blockDuration = 12;
     parameters.blockDuration = 12;
     
     %   eoe task duration
@@ -80,9 +81,11 @@ function loadParameters()
     parameters.welcomeMsg = sprintf('Please wait until the experimenter sets up parameters.');
     parameters.ttlMsg = sprintf('Initializing Scanner...');
     parameters.thankYouMsg = sprintf('Thank you for your participation!!!');
-    parameters.blockOneMsg = sprintf('Close your eyes');
-    parameters.blockTwoMsg = sprintf('Open your eyes');
- 
+    parameters.blockOneMsg = sprintf('Keep Tapping thumb');
+    parameters.blockTwoMsg = sprintf('Keep Tapping index');
+    parameters.blockThreeMsg = sprintf('Keep Tapping middle');
+    parameters.blockFourMsg = sprintf('Keep Tapping ring');
+    parameters.blockFiveMsg = sprintf('Keep Tapping pinkie');
 
     %---------------------------------------------------------------------%
     % Some geometry parameters
