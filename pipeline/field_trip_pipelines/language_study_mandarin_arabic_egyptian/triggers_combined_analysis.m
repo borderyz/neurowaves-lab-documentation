@@ -47,12 +47,16 @@ ft_databrowser(cfg, data_all);
 
 %% -- 2) Convert the 8 binary channels into a single code per sample
 % Threshold at 0.5 (adjust if your signals differ)
+
+% 8 channels 
+
 binary_data = dataTrigger.trial{1} > 0.5;  % 8 x N logical matrix
 
 % Assign bit weights. If channel "225" is the least significant bit, do:
 bitWeights = 2.^(0:7)';  % [1; 2; 4; 8; 16; 32; 64; 128]
 
 % Multiply each row (bit) by its bit weight and sum across rows
+
 triggerCodePerSample = bitWeights' * binary_data;  % 1 x N row vector
 
 
@@ -93,6 +97,8 @@ end
 %    expectedMatrix = [code, expectedCount];
 
 expectedMatrix = compute_matrix(csv_file_experiment);
+
+%%
 
 % Tally occurrences for each trigger code
 triggerCodes = onsetCodes(:);
