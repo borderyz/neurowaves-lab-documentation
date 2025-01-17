@@ -5,11 +5,16 @@ MEG/EEG-pipeline documentation page
 
 Status of the documentation build
 
-.. only:: html
 
-   .. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
-      :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-      :alt: Documentation Status
+
+.. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
+  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
+
+
+.. image:: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg
+   :target: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml
+
 
 .. include:: ../../README.rst
 
@@ -31,6 +36,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    1-systems/2-meg-opm-system
    1-systems/3-eeg-system
    1-systems/4-eeg-fmri
+   1-systems/5-team
    1-systems/quizz
 
 .. toctree::

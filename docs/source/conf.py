@@ -82,7 +82,10 @@ html_theme_options = {
     "navigation_depth": 4,
     "includehidden": True,
     "titles_only": False,
+    "body_max_width": None,
 }
+
+
 
 suppress_warnings = [
     "epub.unknown_project_files"
