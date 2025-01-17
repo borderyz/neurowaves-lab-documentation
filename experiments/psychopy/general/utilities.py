@@ -36,7 +36,7 @@ def getbutton(buttons=None):
 
         # Red button:
             # return response = 9   (this is the value returned by the getbutton or listenbutton function)
-            # listen to = 1     (this is the code to listen only to this button)
+            # buttons array set to = 1     (add this number to the buttons array in order to listen to it)
 
         # Green button:
             # return response = 7
@@ -138,6 +138,8 @@ def listenbutton(keycode):
     # 2 Green
     # 1 Blue
     # 3 Yellow
+
+    # Keycode is one of the above numbers that correspond to the button we want to listen to
 
     while True:
         DPxUpdateRegCache()
