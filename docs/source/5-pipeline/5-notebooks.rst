@@ -26,6 +26,7 @@ FieldTrip MATLAB Pipeline Notebooks
    notebooks/fieldtrip/fieldtrip_visual_crowd_preview_KIT_pipeline.ipynb
    notebooks/fieldtrip/fieldtrip_kit_attention_task.ipynb
    notebooks/fieldtrip/fieldtrip_kit_audio_visual_motor.ipynb
+   notebooks/fieldtrip_general_analyse_triggers_combined.ipynb
 
 
 
