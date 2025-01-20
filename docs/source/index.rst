@@ -1,5 +1,3 @@
-:orphan:
-
 ###################################
 MEG/EEG-pipeline documentation page
 ###################################
@@ -7,22 +5,20 @@ MEG/EEG-pipeline documentation page
 
 Status of the documentation build
 
-.. only:: html
-
-   .. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
-      :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-      :alt: Documentation Status
-
-[![Automated Testing Action](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml)
 
 
-[![ReadTheDocs Daily Build Trigger](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml/badge.svg)](https://github.com/Hzaatiti/meg-pipeline/actions/workflows/readthedocs-daily-build-trigger.yml)
+.. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
+  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
+
 
 .. image:: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg
    :target: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml
 
 
 .. include:: ../../README.rst
+
+
 
 
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
@@ -40,6 +36,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    1-systems/2-meg-opm-system
    1-systems/3-eeg-system
    1-systems/4-eeg-fmri
+   1-systems/5-team
    1-systems/quizz
 
 .. toctree::
@@ -64,8 +61,10 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Experiments Design
 
    3-experimentdesign/experimentdesign
+   3-experimentdesign/experimentdesign-eeg-fmri
    3-experimentdesign/requirements
    3-experimentdesign/exampleexperiments
+
 
 .. toctree::
    :maxdepth: 2
@@ -86,7 +85,9 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :caption: Processing pipelines
 
    5-pipeline/4-0-pipelines
+   5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
+
 
 .. toctree::
    :maxdepth: 2

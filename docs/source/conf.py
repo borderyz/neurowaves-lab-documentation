@@ -33,6 +33,9 @@ if PDF_GENERATION_INDEX == 'LABMANUAL':
 elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
     master_doc = 'index'
 
+elif PDF_GENERATION_INDEX == 'EEG_FMRI_MANUAL':
+    master_doc = 'index_eeg_fmri'
+
 
 
 # -- General configuration
@@ -47,8 +50,7 @@ extensions = [
     "sphinx_gallery.load_style",
     "sphinx.ext.mathjax",
     "sphinx_togglebutton",
-    "sphinx_panels",
-    "myst-parser"
+    "sphinx_panels"
 ]
 
 exclude_patterns = ['5-pipeline/notebooks/fieldtrip/template_*.ipynb']
@@ -58,6 +60,8 @@ intersphinx_mapping = {
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
 }
 intersphinx_disabled_domains = ["std"]
+
+
 
 templates_path = ["_templates"]
 
@@ -78,7 +82,10 @@ html_theme_options = {
     "navigation_depth": 4,
     "includehidden": True,
     "titles_only": False,
+    "body_max_width": None,
 }
+
+
 
 suppress_warnings = [
     "epub.unknown_project_files"
