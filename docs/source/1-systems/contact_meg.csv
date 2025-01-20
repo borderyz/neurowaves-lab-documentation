@@ -12,10 +12,12 @@ Faculty Administrative,Explanations and queries about the lab,,X
 Data Analysis,Maintain processing pipelines and provide MEG data analysis results,,X
 Experiment design,Testing experiments and debugging,,X
 Experiment design,Provide demo experiments in all libraries,,X
+Lab space,Provide access to MEG Lab for a new user,X,
 Lab space,"Linen and caps inventory, ensure availability",X,
 Lab space,"Purchases of consumables, small devices",X,X
 Lab space,Keep MEG space clean and organised,X,X
-Data Acquisition,Acquire MEG data when needed,X,
+Data Acquisition,Provide access to MEG Lab Booking Calendar,,X
+Data Aquisition,Acquire MEG data when needed,X,
 Lab equipment and maintenance,Ensure operational state of equipment,,X
 Lab equipment and maintenance,Maintenance of the systems and troubleshooting,,X
 Equipment upgrade,"CTP requisition form, CBE, justification from faculty",X,X
