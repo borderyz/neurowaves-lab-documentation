@@ -172,21 +172,24 @@ Converting DICOM to BIDS on XNAT
 
   1. Ensure your DICOM data are properly uploaded to your **xnat** project.
   2. Confirm you have an active **xnat** account with the necessary access permissions.
-  3. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
+
 
 - Running **dcm2bids**
+  #. Navigate to your **xnat** project.
+  #. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
+        - example file can be found on NYU BOX, EEG-FMRI data folder, `Data\templates\dicom2bids_templates`
+        - Click on your project, then `Manage Files`, select `resources` for `level` then add Folder called `configs` then upload file `config.json`
 
-  1. Navigate to your **xnat** project.
-  2. Select the **Processing Dashboard**, and then **MRI Sessions**
+  #. Select the **Processing Dashboard**, and then **MR Sessions**
   
   .. figure:: 0-generic-pipeline-figures/f2.png
    :alt: Schematic of the fMRI Preprocessing Pipeline
    :align: center
    :figclass: align-center
 
-  3. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
-  4. Select Subjects you want to process, and click **Launch job**
-  5. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
+  #. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
+  #. Select Subjects you want to process, and click **Launch job**
+  #. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
 
 
 fMRI Preprocessing with fMRIPrep: Two Available Routes

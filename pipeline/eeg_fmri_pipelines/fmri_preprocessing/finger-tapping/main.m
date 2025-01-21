@@ -8,6 +8,25 @@ TASK_NAME = 'finger-tapping'
 SYSTEM = 'matlab'
 FILENAME = 'fingertap_01.csv'
 
+%Temporary one is used now
+FMRI_DATA_PATH = 'C:\Users\hz3752\Box\EEG-FMRI\Data\archive\finger-tapping\sub-0665\fmri\derivatives\fmriprep\sub-0665\ses-01\func'
+FMRI_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_hemi-L_space-fsaverage6_bold.func.gii'
+
+% Fmri processing need two files:
+% 4D BOLD timeseries (3D for voxel location and 1 D is time)
+%    another possibility is 2D for voxel location on grey matter surface
+%    and 1D is time
+%Confound timeseries (motion, nuisance regressors)
+
+% Different types of files can be found in output of fmriprep
+% .func.gii = 3D (2D surface coordinates and 1D is time)
+% .confounds_timeseries.tsv = motion and nuisance
+% 
+
+
+
+FMRI_DATA_FILE = fullfile(FMRI_DATA_PATH, FMRI_DATA_FILE_NAME);
+
 % Load BOX variable
 EEG_FMRI_DATA = getenv('EEG_FMRI_DATA');
 
