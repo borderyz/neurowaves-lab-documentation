@@ -339,6 +339,7 @@ GLM learning from fMRIprep output
 
 
 
+
 Ways to improve the pipeline
 ============================
 
