@@ -1,6 +1,8 @@
 Generic pipeline
 ================
 
+Author: Hadi Zaaiti <hadi.zaatiti@nyu.edu>, Puti Wen <puti.wen@nyu.edu>
+
 .. contents:: Table of Contents
    :depth: 3
    :local:
@@ -139,8 +141,6 @@ Pre-processing of the fMRI data
 -------------------------------
 
 
-Author: Putti Wen
-
 
 .. figure:: 0-generic-pipeline-figures/f1.png
    :alt: Schematic of the fMRI Preprocessing Pipeline
@@ -221,7 +221,7 @@ GLM
 - Build the design matrix
 - Run the GLM
 - Save the GLM outputs
-- Visualy inspect GLM outputs in freeview 
+- Visually inspect GLM outputs in freeview
 
 
 

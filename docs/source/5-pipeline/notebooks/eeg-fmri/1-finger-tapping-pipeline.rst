@@ -48,6 +48,20 @@ Preprocess fMRI Data
 --------------------
 
 
+
+fMRIprep output
+~~~~~~~~~~~~~~~
+
+fMRIprep outputs a directory, where the required fMRI data is found under
+
+`/derivatives/fmriprep/sub-xyz/ses-01/func`
+
+
+
+The output of fMRIprep pipeline is a `.gii` found in the above directory.
+
+
+
 GLM learning from fMRIprep output
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
