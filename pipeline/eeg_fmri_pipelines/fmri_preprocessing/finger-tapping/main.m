@@ -34,7 +34,7 @@ DATA_FOLDER_PATH = fullfile(EEG_FMRI_DATA, TASK_NAME, SUB_ID, SYSTEM, FILENAME);
 
 data = readtable(DATA_FOLDER_PATH); 
 
-data.blocktype
+
 
 %% Prepare your design matrix
 
