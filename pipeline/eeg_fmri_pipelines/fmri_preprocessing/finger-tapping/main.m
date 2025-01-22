@@ -9,8 +9,10 @@ SYSTEM = 'matlab'
 FILENAME = 'fingertap_01.csv'
 
 %Temporary one is used now
+
 FMRI_DATA_PATH = 'C:\Users\hz3752\Box\EEG-FMRI\Data\archive\finger-tapping\sub-0665\fmri\derivatives\fmriprep\sub-0665\ses-01\func'
 FMRI_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_hemi-L_space-fsaverage6_bold.func.gii'
+CONFOUND_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_desc-confounds_timeseries.tsv'
 
 % Fmri processing need two files:
 % 4D BOLD timeseries (3D for voxel location and 1 D is time)
@@ -21,13 +23,13 @@ FMRI_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_hemi-L_s
 % Different types of files can be found in output of fmriprep
 % .func.gii = 3D (2D surface coordinates and 1D is time)
 % .confounds_timeseries.tsv = motion and nuisance
-% 
 
 
-
-FMRI_DATA_FILE = fullfile(FMRI_DATA_PATH, FMRI_DATA_FILE_NAME);
+FMRI_DATA_FILE_PATH = fullfile(FMRI_DATA_PATH, FMRI_DATA_FILE_NAME);
+CONFOUND_DATA_FILE_PATH = fullfile(FMRI_DATA_PATH, CONFOUND_DATA_FILE_NAME);
 
 % Load BOX variable
+
 EEG_FMRI_DATA = getenv('EEG_FMRI_DATA');
 
 DATA_FOLDER_PATH = fullfile(EEG_FMRI_DATA, TASK_NAME, SUB_ID, SYSTEM, FILENAME);
@@ -67,14 +69,37 @@ end
 % designMatrix has dimensions [nTR x 5]. 
 % Columns correspond to conditions (fingers) 1 through 5.
 
+
+%% Read BOLD data
+
+
+% Load fmri prep output from NYU BOX, very slow
+g = gifti(FMRI_DATA_FILE_PATH);
+
+
+%% Load confounds
+
+confoundsTable = readtable(confoundtsv, 'FileType', 'text', 'Delimiter', '\t');
+
+% For illustration, select six standard motion parameters:
+%   trans_x, trans_y, trans_z, rot_x, rot_y, rot_z
+% Make sure your confoundsTable contains these columns (names can vary):
+motionConf = [ ...
+    confoundsTable.trans_x, ...
+    confoundsTable.trans_y, ...
+    confoundsTable.trans_z, ...
+    confoundsTable.rot_x,   ...
+    confoundsTable.rot_y,   ...
+    confoundsTable.rot_z ];
+
+% Confirm the number of rows matches your BOLD time points
+if size(motionConf, 1) ~= nTR
+    error('Mismatch: confounds rows (%d) != BOLD time points (%d).', ...
+          size(motionConf,1), nTR);
+end
+
 %%
-
-
-
-
-% Load fmri prep output from NYU BOX
-
-mri_convert (from freesurfer)
+mri_convert %(from freesurfer)
 
 % 	Default surface fmri data post fmriprep is in .gii and is too slow so we want data in .mgh, loads much faster
 
