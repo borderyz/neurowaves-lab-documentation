@@ -16,7 +16,9 @@ cfg.dataset      = confile;
 cfg.coilaccuracy = 0;
 
 % Only plotting the trigger channels for now
+
 % On KIT, channel "224" in the hardware often becomes "225" in MATLAB, etc.
+
 cfg.channel         = {'225','226','227','228','229','230','231','232'};
 dataTrigger         = ft_preprocessing(cfg);
 
@@ -76,7 +78,28 @@ for i = 2:N
     stableCodes(i) = currentCode;
 end
 
-% Now 'stableCodes' is your "cleaned" trigger code per sample.
+
+
+%% Count number of transitions
+
+% Example array
+
+
+% Find transitions (where the number changes)
+transitions = diff(stableCodes) ~= 0;
+
+% Identify the unique sequences
+sequenceValues = stableCodes([true, transitions]);
+
+% Exclude zero sequences
+sequenceValues = sequenceValues(sequenceValues ~= 0);
+
+% Count the non-zero sequences
+numSequences = numel(sequenceValues);
+
+% Display the result
+disp(['Number of non-zero sequences: ', num2str(numSequences)]);
+
 
 %% STEP 3: Detect trigger onsets by looking at code changes (using stableCodes)
 diffCode  = [0, diff(stableCodes)];
