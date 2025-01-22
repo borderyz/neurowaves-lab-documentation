@@ -84,7 +84,6 @@ end
 
 % Example array
 
-
 % Find transitions (where the number changes)
 transitions = diff(stableCodes) ~= 0;
 
@@ -124,6 +123,7 @@ for i = 1:length(onsetCodes)
 end
 
 %% STEP 5: Compare observed trigger counts to an expected matrix (from CSV)
+
 % Suppose you have a matrix describing [code, expectedCount]
 expectedMatrix = compute_matrix(csv_file_experiment);
 
