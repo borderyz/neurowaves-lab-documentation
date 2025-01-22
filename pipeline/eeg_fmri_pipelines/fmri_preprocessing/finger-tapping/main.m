@@ -45,7 +45,7 @@ data = readtable(DATA_FOLDER_PATH);
 
 % 1) Define parameters
 blockDuration = 20;    % seconds per block (also # of TRs if TR=1s)
-nBlocks       = length(data.blocktype);
+nBlocks       = length(data.blocktype); 
 nConditions   = 5;     % fingers 1 through 5
 
 % 2) Compute total number of TRs
