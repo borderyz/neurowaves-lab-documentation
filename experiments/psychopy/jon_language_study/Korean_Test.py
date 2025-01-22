@@ -46,7 +46,7 @@ SCREEN_NUMBER = 2
 #SCREEN_NUMBER = 1
 
 #os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('mandarin_bound0117.csv')
+trialList = data.importConditions('korean_test.csv')
 #trialList = data.importConditions('egyptian_backward_debugging.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
@@ -155,7 +155,7 @@ if myDlg.OK:
 else:
     print('user cancelled')
 
-win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
+win = visual.Window(screen =1, size=[1919, 1079], fullscr=False, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 

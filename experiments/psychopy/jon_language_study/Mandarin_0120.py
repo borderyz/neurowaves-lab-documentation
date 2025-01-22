@@ -45,9 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-#os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('mandarin_bound0117.csv')
-#trialList = data.importConditions('egyptian_backward_debugging.csv')
+trialList = data.importConditions('mandarin_test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -328,9 +326,6 @@ for trialIndex in range(startItem - 1, totalTrials):
     # Display task question with yellow text
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
-
-        # TODO: delete the following line
-        text_temp = trialList[trialIndex]['taskQuestion']
 
 
         stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)

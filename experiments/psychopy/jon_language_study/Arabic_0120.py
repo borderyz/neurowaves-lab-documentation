@@ -45,9 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-#os.chdir('/Users/jsprouse/Desktop')
-trialList = data.importConditions('mandarin_bound0117.csv')
-#trialList = data.importConditions('egyptian_backward_debugging.csv')
+trialList = data.importConditions('egyptian_test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -56,7 +54,7 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Microsoft YaHei'
+stimuliFont = 'Times New Roman'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -146,7 +144,7 @@ myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
 myDlg.addText('Experiment Info', color='Red')
-myDlg.addField('Experiment Name:', 'Mandarin')
+myDlg.addField('Experiment Name:', 'Egyptian')
 myDlg.addField('Experiment List:', 1)
 myDlg.show()
 
@@ -328,9 +326,6 @@ for trialIndex in range(startItem - 1, totalTrials):
     # Display task question with yellow text
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
-
-        # TODO: delete the following line
-        text_temp = trialList[trialIndex]['taskQuestion']
 
 
         stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
