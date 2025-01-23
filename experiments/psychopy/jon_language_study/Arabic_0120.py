@@ -54,7 +54,7 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 #stimuliFont = 'Microsoft Sans Serif Regular' ######## change 1 (was Calibri)
-stimuliFont = 'Times New Roman'
+stimuliFont = 'Amiri'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -269,6 +269,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             core.quit()
 
         stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        #stim= visual.TextBox2(win, text=words[wordIndex], languageStyle= 'Arabic', font=stimuliFont, units=stimuliUnits, letterHeight=stimuliSize, size=(boxWidth, boxHeight), anchor='center', alignment='center', color=stimuliColor)
         stim.setPos((0, 0))
 
 
