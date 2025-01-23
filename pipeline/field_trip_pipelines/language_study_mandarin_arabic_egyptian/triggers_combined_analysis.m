@@ -1,14 +1,16 @@
-% Authors: Hadi Zaatiti, Jayeon Park
-%
-% Adapted from Gayathri Satheesh, 24 October 2024, gayathri.s.satheesh@gmail.com
+% Authors: Hadi Zaatiti
+
+% Trigger count for combined binary use with stability check
+
+% Checklist:
+% - check that the threshold of 0.5 is good enough
 
 %% Define paths for data
 BOX_DIR = getenv('MEG_DATA');
 
-confile = fullfile([BOX_DIR,'mandarin-language-study\sub-test\meg-kit\sub-test_mandarin-language-study_trigger-test-20250115.con']); 
+confile = fullfile([BOX_DIR,'mandarin-language-study\sub-trigger\meg-kit\sub-trigger_mandarin_bound.con']); 
 
-%confile = fullfile([BOX_DIR,'empty-room\sub-emptyroom\meg-kit\emptyroom_11.con']); 
-csv_file_experiment = 'mandarin_bound-test.csv';
+csv_file_experiment = fullfile([BOX_DIR,'mandarin-language-study\sub-trigger\derivatives\mandarin_bound.csv']); 
 
 %% Load data from files
 cfg              = [];
@@ -110,6 +112,8 @@ onsetCodes = stableCodes(changeIdx);
 % Times (seconds) for each trigger onset
 onsetTimes = changeIdx / dataTrigger.fsample;
 
+sequence_codes = onsetCodes(onsetCodes ~= 0); % Remove zeros
+
 %% STEP 4: (Optional) Build a FieldTrip-like event structure
 clear event
 for i = 1:length(onsetCodes)
@@ -150,8 +154,7 @@ for i = 1:size(expectedMatrix,1)
         actualCount = 0;  % code never observed
     else
         actualCount = counts(idxObserved);
-    end
-    
+    end    
     if actualCount == thisExpect
         fprintf('Code %d: OK (observed %d, expected %d)\n',...
             thisCode, actualCount, thisExpect);
