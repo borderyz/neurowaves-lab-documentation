@@ -6,7 +6,7 @@ function expectedMatrix = computeExpectedMatrixFromCSV(csvFilename)
 %   - a 'trigger' column (the official code),
 %   - columns 'trigger224' .. 'trigger231' (the bits).
     
-    csvFilename = 'mandarin_bound-test.csv';
+  
 
     %% 1) Read the CSV into a table
     T = readtable(csvFilename);
