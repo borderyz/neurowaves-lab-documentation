@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('egyptian_test.csv')
+trialList = data.importConditions('egyptian_total7.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -58,9 +58,9 @@ stimuliFont = 'Amiri'
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 18 ##### change 2 (was 18)
-wordOff = 12
-lastWordOn = 60
+wordOn = 1 ##### change 2 (was 18)
+wordOff = 1
+lastWordOn = 1
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11
