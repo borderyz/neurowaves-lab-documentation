@@ -4,13 +4,14 @@
 
 % Checklist:
 % - check that the threshold of 0.5 is good enough
+% - test with csv that has break on row
 
 %% Define paths for data
 BOX_DIR = getenv('MEG_DATA');
 
-confile = fullfile([BOX_DIR,'mandarin-language-study\sub-trigger\meg-kit\sub-trigger_mandarin_bound.con']); 
+confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
 
-csv_file_experiment = fullfile([BOX_DIR,'mandarin-language-study\sub-trigger\derivatives\mandarin_bound.csv']); 
+csv_file_experiment = fullfile(['egyptian_list1.csv']);
 
 %% Load data from files
 cfg              = [];
@@ -129,7 +130,7 @@ end
 %% STEP 5: Compare observed trigger counts to an expected matrix (from CSV)
 
 % Suppose you have a matrix describing [code, expectedCount]
-expectedMatrix = compute_matrix(csv_file_experiment);
+expectedMatrix = compute_matrix_words(csv_file_experiment);
 
 % Tally occurrences for each trigger code
 triggerCodes = onsetCodes(:);
