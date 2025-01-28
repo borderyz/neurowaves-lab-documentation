@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1
+TIME_TO_RESET_BUTTON_BOX =1.5
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('emirati_list1.csv')
+trialList = data.importConditions('emirati_test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -53,8 +53,9 @@ clock = core.Clock()
 
 backgroundColor = 'black'
 instructionsFont = 'Noto Naskh Arabic' #'Arial'
-stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'
-stimuliColor = 'yellow'
+stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'#
+#timuliColor = 'yellow' rgb(255, 255, 0)
+stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 wordOn = 48 #400ms
@@ -157,8 +158,17 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
 
+instructions_text = (
+    "في هذي التجربة، بتقرا جمل كلمة بكلمة و نحن بنسجل بالMEG.\n\n"
+    "بعد كم جملة، بنطلب منك تجاوب \"نعم\" أو \"لا\" بخصوص محتوى الجملة.\n\n"
+    "الأسئلة بتكون جدا بسيطة وهي بس للتأكيد أنك تقرا الجمل.\n\n"
+    "كل اللي عليك تسويه انك تقرا الجمل بشكل طبيعي، و بعدين تجاوب على السؤال.\n\n"
+    "حاول  ما ترمش وانت تقرا الجمل، تقدر ترمش بعد الجملة و وقت أسئلة الفهم.\n\n"
+    "اضغط على زر \"نعم\" عشان تشوف الأمثلة."
+)
+
 stim = visual.TextStim(win,
-                       text=  'في هذي التجربة، بتقرا جمل كلمة بكلمة و احنا بنسجل بال.\n\n .MEGبعد كم جملة، بنطلب منك تجاوب  "نعم" أو "لا" بخصوص محتوى الجملة.\n\n الأسئلة بتكون جدا بسيطة وهي بس للتأكيد أنك تقرا الجمل.\n\nكل اللي عليك تسويه انك تقرا الجمل بشكل طبيعي، و بعدين تجاوب على السؤال\n\nحاول  ما ترمش وانت تقرا الجمل، تقدر ترمش بعد الجملة و وقت أسئلة الفهم.\n\nاضغط على زر "نعم" عشان تشوف الأمثل.',
+                        text = instructions_text,
                        font= instructionsFont, languageStyle='Arabic', units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
@@ -396,7 +406,6 @@ for trialIndex in range(startItem - 1, totalTrials):
 
         responses.append(response)
 
-
         stim = visual.TextStim(win, text='تأكد إن صبعك مب ضاغط على أي زر.',
                                font=instructionsFont, languageStyle='Arabic', units=taskQuestionUnits, height=1.2, color=taskQuestionColor,alignText= 'center', wrapWidth= 30)
         stim.setPos((0, 0))
@@ -453,9 +462,16 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     event.clearEvents()
     #responses = []
+
+    blink_text = (
+        "تقدر ترمش احين.\n"  # First sentence
+        "يوم بتكون جاهز للجملة اليايه, اتجنب الحركة ،\n"  # Second sentence
+        "اضغط على زر \"نعم\"."  # Third sentence
+    )
     stim = visual.TextStim(win,
-                           text= 'تقدر ترمش احين.\n\nيوم بتكون جاهز للجملة اليايه اتجنب الحركة، لا ترمش، واضغط على زر "نعم".',
-                           font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=breakSize, color=stimuliColor)
+                           text=blink_text,
+                           font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=breakSize, color=stimuliColor, wrapWidth= 30)
+
     stim.setPos((0, 0))
     stim.draw()
     win.flip()

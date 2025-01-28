@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1
+TIME_TO_RESET_BUTTON_BOX =1.5
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -54,7 +54,8 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 stimuliFont = 'SimSun'
-stimuliColor = 'yellow'
+#timuliColor = 'yellow' rgb(255, 255, 0)
+stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 instructionSize = 1

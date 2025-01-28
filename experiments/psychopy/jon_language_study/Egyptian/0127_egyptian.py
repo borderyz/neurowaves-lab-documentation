@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1
+TIME_TO_RESET_BUTTON_BOX =1.5
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -54,7 +54,8 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Noto Naskh Arabic' #'Arial'
 stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'
-stimuliColor = 'yellow'
+#timuliColor = 'yellow' rgb(255, 255, 0)
+stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
 wordOn = 48 #400ms
@@ -156,9 +157,17 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
+instructions_text = (
+    "في التجربة ده، حتقرا جمل كلمة بكلمة و احنا نسجل ال MEG.\n\n"  # "MEG" is now part of the first sentence
+    "بعد بعض الجمل، حيطلب منك الإجابة بنعم أو لا بخصوص محتوى الجملة.\n\n"  # Second sentence
+    "الأسئلة ده بسيطة آوي وهي للتأكيد من أنك بتقرا الجمل.\n\n"  # Third sentence
+    "كل ما عليك تعمله هو قراءة الجمل بشكل طبيعي، و بعدين الإجابة على السؤال\n\n"  # Fourth sentence
+    "يرجى تحاول مترمش لما تشوف الجمل، يمكنك الرمش بعد الجملة و وقت أسئلة الفهم.\n\n"  # Fifth sentence
+    "اضغط على مفتاح نعم عشان تشوف الأمثلة."  # Sixth sentence
+)
 
 stim = visual.TextStim(win,
-                       text= 'في التجربة  ده، حتقرا جمل كلمة بكلمة و احنا نسجل ال\n\n.MEGبعد بعض الجمل، حيطلب منك الإجابة بنعم أو لا بخصوص محتوى الجملة.\n\n الأسئلة ده بسيطة آوي وهي للتأكيد من أنك بتقرا الجمل.\n\nكل ما عليك تعملة هو قراءة الجمل بشكل طبيعي، و بعدين الإجابة على السؤال\n\nيرجى تحاول مترمش لما تشوف الجمل، يمكنك الرمش بعد الجملة و وقت أسئلة الفهم.\n\nاضغط على مفتاح نعم عشان تشوف الأمثلة.',
+                       text= instructions_text,
                        font= instructionsFont, languageStyle='Arabic', units=breakUnits, color=instructionColor, height= 0.8, alignText= 'center',  wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
@@ -453,9 +462,15 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     event.clearEvents()
     #responses = []
+    blink_text = (
+        "يمكنك ترمش دلوقتي.\n\n"  # First sentence with a newline
+        "لما تكون جاهز للجملة اللي جية اتجنب الحركة، وقف ترمش ،\n"  # Second sentence with a newline
+        "اضغط على مفتاح \"نعم\"."  # Third sentence
+    )
+
     stim = visual.TextStim(win,
-                           text= 'يمكنك ترمش دلوقتي.\n\nلما تكون جاهز للجملة اللي جية اتجنب الحركة، وقف ترمش ، واضغط على مفتاح "نعم".',
-                           font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=breakSize, color=stimuliColor)
+                           text= blink_text,
+                           font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=breakSize, color=stimuliColor, wrapWidth= 30 )
     stim.setPos((0, 0))
     stim.draw()
     win.flip()
