@@ -1,8 +1,15 @@
-from psychopy import visual, core
+# Author: Hadi Zaatiti hadi.zaatiti@nyu.edu
+
+from psychopy import visual, core, monitors
 from pypixxlib import _libdpx as dp
 
 
 
+monitor = monitors.Monitor("testMonitor")
+MONITOR_INDEX = 0 # 1 Indicates second screen and 0 indicates the first screen
+
+# To install pypixxlib, download the vpixx software then find it under
+# the vpixx software directory, then install it into the python environment using pip . after navigating to the extracted files
 
 # Define trigger pixels for all usable MEG channels
 #trig.ch224 = [4  0  0]; %224 meg channel
@@ -14,24 +21,6 @@ from pypixxlib import _libdpx as dp
 #trig.ch230 = [0 64 0]; % 230 meg channel
 #trig.ch231 = [0 0  1]; % 231 meg channel
 
-
-
-def drawPixelModeTrigger(win, pixelValue):
-    # takes a pixel colour and draws it as a single pixel in the top left corner of the window
-    # window must cover top left of screen to work
-    # interpolate must be set to FALSE before color is set
-    # call this just before flip to ensure pixel is drawn over other stimuli
-
-    topLeftCorner = [-win.size[0] / 2, win.size[1] / 2]
-    line = visual.Line(
-        win=win,
-        units='pix',
-        start=topLeftCorner,
-        end=[topLeftCorner[0] + 1, topLeftCorner[1]],
-        interpolate=False,
-        colorSpace='rgb255',
-        lineColor=pixelValue)
-    line.draw()
 
 
 def RGB2Trigger(color):
@@ -55,21 +44,8 @@ def Trigger2RGB(trigger):
 # START
 # Initialize connection and set up some default parameters:
 dp.DPxOpen()
-dp.DPxEnableDoutPixelMode()
+dp.DPxDisableDoutPixelMode()
 dp.DPxWriteRegCache()
-
-win = visual.Window(
-    screen=1,  # change here to 1 to display on second screen!
-    monitor=None,
-    size=[1920, 1080],  # dhk: PsychoPy drew a grey (49,49,49) border around this small window
-    # fullscr=False,      # therefore, top-left pixel was drawn with incorrect color.
-    fullscr=False,  # using a full screen window resolved this issue
-    pos=[0, 0],
-    color='black',
-    units="pix"
-)
-
-testvals = [0, 64, 128, 191, 255]
 
 
 # KIT MEG Channels triggered via Pixel Model by setting top left pixel to a specific color
@@ -82,28 +58,39 @@ testvals = [0, 64, 128, 191, 255]
 #trig.ch230 = [0 64 0]; % 230 meg channel
 #trig.ch231 = [0 0  1]; % 231 meg channel
 
-trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger_rgb_code = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
+trigger_decimal_code = [4, 16, 64, 256, 1024, 4096, 16384, 65536]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
+
 black = [0, 0, 0]
+
+trigger_channels_dictionary = {
+    224: 4,
+    225: 16,
+    226: 64,
+    227: 256,
+    228: 1024,
+    229: 4096,
+    230: 16384,
+    231: 65536
+}
+
 
 
 failcount = 0
 print('\nStarting Pixel Mode Test\n\nTest#\tRGB225 Color\t    Expected Dout    Returned Dout')
 
+value = RGB2Trigger([256, 256, 256])
 
-for i in range(5):
-    for index, color in enumerate(trigger):
+# Test for combining channels 224 and 228
+print('Testing channel', 224, ' combined with ', 228)
+dp.DPxSetDoutValue(trigger_channels_dictionary[224]+trigger_channels_dictionary[228], 0xFFFFFF)
+dp.DPxUpdateRegCache()
+core.wait(1)
 
-            print('Testing channel', channel_names[index])
-            drawPixelModeTrigger(win, color)
-            win.flip()
-            color = black
-            drawPixelModeTrigger(win, color)
-            win.flip()
-            core.wait(5)
-            dp.DPxUpdateRegCache()
+dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+dp.DPxUpdateRegCache()
+core.wait(2)
 
-win.close()
-dp.DPxDisableDoutPixelMode()
-dp.DPxWriteRegCache()
 dp.DPxClose()
+
