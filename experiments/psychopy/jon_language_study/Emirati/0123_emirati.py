@@ -45,21 +45,21 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('emirati_list3.csv')
+trialList = data.importConditions('emirati_list1.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
 clock = core.Clock()
 
 backgroundColor = 'black'
-instructionsFont = 'Arial'
-stimuliFont = 'Times New Roman'
+instructionsFont = 'Noto Naskh Arabic' #used to be Times New Roman
+stimuliFont = 'Noto Naskh Arabic' #used to be Times New Roman
 stimuliColor = 'yellow'
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 48
-wordOff = 30
-lastWordOn = 48
+wordOn = 36 #300ms
+wordOff = 24 #200ms
+lastWordOn = 120  #1000ms
 
 boxHeight = stimuliSize + 2
 boxWidth = 11
