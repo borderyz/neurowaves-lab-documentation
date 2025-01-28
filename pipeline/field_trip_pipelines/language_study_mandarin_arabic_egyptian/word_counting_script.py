@@ -2,9 +2,17 @@ from psychopy import data
 import pandas as pd
 
 
-CSV_FILE_NAME = 'egyptian_list1.csv'
+#CSV_FILE_NAME = 'egyptian_list1.csv'
+
+
 # Load the trial list
-trialList = data.importConditions(r'C:\Users\hz3752\Box\MEG\Data\egyptian-language-study\sub-trigger\derivatives\\' + CSV_FILE_NAME)
+#trialList = data.importConditions(r'C:\Users\hz3752\Box\MEG\Data\egyptian-language-study\sub-trigger\derivatives\\' + CSV_FILE_NAME)
+
+FILE_PATH = 'mandarin_list3.csv'
+
+output_file = 'word_count_'+FILE_PATH
+
+trialList = data.importConditions(FILE_PATH)
 
 # Initialize variables for finding the longest word
 longestWordCount = 0
@@ -29,7 +37,7 @@ df = pd.DataFrame(trialList)
 df['wordcount'] = word_counts
 
 # Save the updated DataFrame to a new CSV file with proper encoding
-output_file = CSV_FILE_NAME
+
 df.to_csv(output_file, index=False, encoding='utf-8-sig')
 
 print(f"Updated file saved as {output_file}")
