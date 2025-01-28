@@ -1,14 +1,16 @@
 % Authors: Hadi Zaatiti
 
 % Trigger count for combined binary use with stability check
-% To use:
-% run word_counting_script.py on the csv first
-% set confile path, set csv path
+% To use the script do the following:
+% - run word_counting_script.py on the csv first
+% - set confile path, set csv path generated from the python script
+% - ensure that everything is ok in the output
 
-
-% Checklist:
+% Checklist if something is wrong:
 % - check that the threshold of 0.5 is good enough
 % - test with csv that has break on row
+
+clear
 
 %% Define paths for data
 BOX_DIR = getenv('MEG_DATA');
@@ -18,11 +20,13 @@ BOX_DIR = getenv('MEG_DATA');
 %confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
 %csv_file_experiment = fullfile(['egyptian_list1.csv']);
 
+confile = fullfile(['egyptian_list1.con'])
+csv_file_experiment = fullfile(['word_count_egyptian_list1.csv']);
 
 % For mandarin study
 
-confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
-csv_file_experiment = fullfile(['word_count_mandarin_list3.csv']);
+%confile = fullfile(['mandarin_list3.con'])
+%csv_file_experiment = fullfile(['word_count_mandarin_list3.csv']);
 
 %% Load data from files
 cfg              = [];
