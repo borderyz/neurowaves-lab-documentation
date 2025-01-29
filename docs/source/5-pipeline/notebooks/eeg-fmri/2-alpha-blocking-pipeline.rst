@@ -324,13 +324,18 @@ GLM learning from fMRIprep output
             - Remind that each value of the BOLD signal lasts for a TR time (in ms)
         - :math:`n`,is the length of :math:`Y` corresponds to the number of BOLD signal values obtained during the acquisition
             - if the experiment is 20 blocks, each block of duration 10 seconds then :math:`n = (20 \times 10) / TR`
-        - :math:`X` is an :math:`n\times m`, matrix where :math:`m` is the number of predictors (conditions)
+        - :math:`X` is an :math:`n\times m`, binary matrix where :math:`m` is the number of predictors (conditions + noise reduction regressors)
+            - :math:`X` aside from the conditions contains also vectors from the output of fmriprep that contains motion regressor (vector) and a drift cancelling (vector)
+            - a cell at row k  :math:`X` has a 0 if the condition offset (means the stimulus is not present during this TR at row k)
+            - a cell at row k of :math:`X` has a 1 if the condition onset (means the stimulus is present during this TR at row k)
+
         - :math:`\beta` is a matrix of size :math:`m\times k`, corresponding to the weights learnt for all voxels
             - for a single voxel, the weights are the same across the different TR's
-            - the weights are different for each voxe (we can see this as learning multiple GLM's, one per voxel)
+            - the weights are different for each voxel (we can see this as learning multiple GLM's, one per voxel)
         - :math:`\epsilon` is the part of :math:`Y` that cannot be interpreted as a linear combination of :math:`X`
             - it represents the average noise at each BOLD value acquisition, and is therefore of size :math:`n`
     - assuming that the model would explain well the observed data when this model is a simple linear transformation, we would consequently like to find :math:`\beta` for which :math:`\epsilon` is minimal
+
 
 
 

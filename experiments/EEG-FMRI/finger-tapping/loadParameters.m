@@ -13,7 +13,7 @@ function loadParameters()
     parameters.hideCursor = true;
     
     %   to set the demo mode with half-transparent screen
-    parameters.isDemoMode = true;
+    parameters.isDemoMode = false;
     parameters.useVpixx = true;
     
     %   screen transparency in demo mode
@@ -63,27 +63,35 @@ function loadParameters()
     
     % To regenerate the finger stimulus sequence
     
-    [~,idx] = sort(rand(5,5));
+    
+    % numberOfBlocks is 15 for a real run
+    parameters.numberOfBlocks = 15;
+    
+    [~,idx] = sort(rand(5,parameters.numberOfBlocks/5));
     parameters.blocktype = idx(:);
 
     %parameters.blocktype = temp.dsm;
-    parameters.IBW = 0:0.2:1; % Inter-block random wait time (seconds)
+    
+    parameters.maxRandWaitTime = 2;
+    
+    parameters.IBW = 0:0.2:parameters.maxRandWaitTime; % Inter-block random wait time (seconds)
 
-    parameters.numberOfBlocks = 25;
+
     %---------------------------------------------------------------------%
     % tasks durations ( in seconds)
     %---------------------------------------------------------------------%
     
     %   sample task duration
     %parameters.blockDuration = 12;
-    parameters.blockDuration = 12;
+    % blockDuration = 20
+    parameters.blockDuration = 20;
     
     %   eoe task duration
     parameters.eoeTaskDuration = 2;
     
     
-    parameters.tapduration = 1
-    parameters.pauseduration = 0.5
+    parameters.tapduration = 1.2;
+    parameters.pauseduration = 0.8;
 
     %---------------------------------------------------------------------%
     % Some string resources 

@@ -11,26 +11,18 @@
 % S4 marker, vpixx code = 2^10, used for ring
 % S5 marker, vpixx code = 2^12, used for pinkie
 
+% Default parameters:
+% 15 blocks of 20 seconds each
+% each finger is passing for 3 blocks
 
-% Latest modifications:
-% Check that each block is having a trigger signal
-% Change the tapping to allow for EEG trial segments: each finger must be
-% tapped once, the trigger signal corresponds to:
-% - the time we asked the person to tap
-% - the tapping itself? recorded from a button press?
-% - the definition of the block should be investigated, is each block one
-% finger being tapped, or multiple tappings while having a trigger for each
-% tap?
 
 
 % Checklist before running actual subject:
 % - ensure directory of subject is empty if debugging data has been saved
 % - ensure that isDemo is off in the parameters
 % - ensure that useVpixx is on
-% - ensure that the number of blocks is 25
+% - ensure that the number of blocks is 15
 % - ensure that the block duration is 20 seconds
-
-
 
 % Checks and tests:
 % - Trigger Check test each finger marker is appearing correctly
@@ -40,24 +32,7 @@
 
 % TODO list:
 % - add to the saving, the IBM and random time of each block
-
-
-% 
-% startTime = 
-% totalTime = 
-% 
-% while totalTime < 20
-%    
-%      
-%     for ii = 1:nFrames
-%         
-%     flip 
-%         
-%     totalTime = getSecs - startTime;
-%     
-%     end
-%     
-% end
+% - fix the extra frames coming from a not full trial
 
 
 clear all
@@ -204,7 +179,7 @@ for   tc =  1 : parameters.numberOfBlocks
     end    
 
     
-    [blockStartTime, blockEndTime, interBlockRandomWaitduration] = showBlockWindowtest(blockText, trigger_code);
+    [blockStartTime, blockEndTime, interBlockRandomWaitduration] = showBlockWindowTestTiming(blockText, trigger_code);
     
     disp(['End of block', tc]);
     
