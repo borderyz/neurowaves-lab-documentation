@@ -118,7 +118,7 @@
      "id": "finger_tapping_run-01",
      "datatype": "func",
      "suffix": "bold",
-     "custom_entities": "task-fingertapping_run-01",
+     "custom_entities": "task-fingertapping_run-01_fan",
      "criteria": {
        "ProtocolName": "*bold_task-fingertapping_run-01",
 		"ImageType": ["ORIGINAL", "PRIMARY", "FMRI", "NONE"]
@@ -161,7 +161,20 @@
      }
    },
 
-
+     {
+     "id": "resting_state_run-01",
+     "datatype": "func",
+     "suffix": "bold",
+     "custom_entities": "task-restingstate_run-01",
+     "criteria": {
+       "ProtocolName": "*bold_task-restingstate_run-01",
+		"ImageType": ["ORIGINAL", "PRIMARY", "FMRI", "NONE"]
+     },
+     "sidecar_changes": {
+       "TaskName": "restingstate",
+       "RepetitionTime": 1.0
+     }
+   },
 
   {
      "id": "rest_AP_SBRef",
@@ -177,35 +190,9 @@
    },
 
 
-   {
-     "id": "rest_AP_bold_1",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-01_dir-AP",
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-01_dir-[aA][pP]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
 
-   {
-     "id": "rest_PA_bold_2",		
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-01_dir-PA",   
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-02_dir-[pP][aA]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
+
+
 
    {
      "id": "rest_AP_bold_3",
@@ -222,20 +209,7 @@
      }
    },
 
-   {
-     "id": "rest_PA_bold_4",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-02_dir-PA",
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-04_dir-[pP][aA]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
+
 
    {
      "id": "rest_AP_SBRef",
