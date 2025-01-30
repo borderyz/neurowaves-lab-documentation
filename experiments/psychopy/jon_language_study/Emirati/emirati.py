@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.5
+TIME_TO_RESET_BUTTON_BOX =1.7
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('emirati_test.csv')
+trialList = data.importConditions('emirati_list1.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -54,13 +54,12 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Noto Naskh Arabic' #'Arial'
 stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'#
-#timuliColor = 'yellow' rgb(255, 255, 0)
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 48 #400ms
-wordOff = 24 #200ms
-lastWordOn = 144  #1000ms
+wordOn = 48 #48 #400ms  #54 # 450ms
+wordOff = 24 #24 #200ms
+lastWordOn = 144 #144 #1200ms
 
 boxHeight = stimuliSize + 2
 boxWidth = 11
@@ -92,7 +91,7 @@ taskQuestionSize = 1
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
-instructionColor = 'yellow'
+instructionColor = 'gold'
 instructionSize = 1
 instructionUnits = stimuliUnits
 instructionOff = wordOff
@@ -208,9 +207,12 @@ for trialIndex in range(startItem - 1, totalTrials):
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
         if currentBreakCount == 1:
-            stim = visual.TextStim(win, text= 'مبروك! جاوبت على %i من %i من أسئلة التدريب بشكل صحيح.\n\n أنت احين جاهز للتجربة الفعلية.\n\n عندك %i جملة للقراية.\n\n خلك ثابت، لا ترمش، واضغط على زر "نعم" يوم بتكون جاهز للجملة الأولى.' %
+            stim = visual.TextStim(win,
+                                   text='مبروك! جاوبت على %i من %i من أسئلة التدريب بشكل صحيح.\n\n أنتهت فترة التدريب. \n\n رجاء لا تضغط على أي زر لين نعطيك التعليمات! \n\n أنت جاهز للتجربة الفعلية.\n\n عندك %i جملة للقراية.\n\n خلك ثابت، لا ترمش، وتريا التعليمات عشان تضغط على زر "نعم" وبتبدأ التجربة .' %
                                         (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
-                                        font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor, height=0.8, alignText= 'center', wrapWidth= 30)
+                                   font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor,
+                                   height=0.8, alignText='center', wrapWidth=30)
+
             totalCorrectResponses = 0
             print('congratulations window')
         else:

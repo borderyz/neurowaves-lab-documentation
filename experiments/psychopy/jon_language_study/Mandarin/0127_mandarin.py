@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.5
+TIME_TO_RESET_BUTTON_BOX =1.7
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('test.csv')
+trialList = data.importConditions('mandarin_list1.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -54,7 +54,6 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Arial'
 stimuliFont = 'SimSun'
-#timuliColor = 'yellow' rgb(255, 255, 0)
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -93,7 +92,7 @@ taskQuestionSize = 1.5
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
-instructionColor = 'yellow'
+instructionColor = 'gold'
 instructionSize = 1
 instructionUnits = stimuliUnits
 instructionOff = wordOff
@@ -209,7 +208,7 @@ for trialIndex in range(startItem - 1, totalTrials):
                                               '您已经准备好开始进行真正的实验了。\n\n'
                                               '现在还有%i句句子要阅读。\n\n '
                                               '请保持不动，不要眨眼。\n\n '
-                                              '当您准备好后，请按下“是”按钮开始阅读第一句话。'
+                                              '请在我们通知您可以开始实验后按下“是”按钮开始阅读第一句话。'
                                               % (trialsSinceLastBreak,recentCorrectResponses, remainingTrials),
                                    font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
 

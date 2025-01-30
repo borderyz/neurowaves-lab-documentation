@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1.5
+TIME_TO_RESET_BUTTON_BOX = 1.7
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('test1.csv')
+trialList = data.importConditions('test.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -54,13 +54,12 @@ clock = core.Clock()
 backgroundColor = 'black'
 instructionsFont = 'Noto Naskh Arabic' #'Arial'
 stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'
-#timuliColor = 'yellow' rgb(255, 255, 0)
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 48 #400ms
-wordOff = 24 #200ms
-lastWordOn = 144  #1000ms
+wordOn = 48 #48 #400ms  #54 # 450ms
+wordOff = 24 #24 #200ms
+lastWordOn = 144 #144 #1200ms
 
 boxHeight = stimuliSize + 2
 boxWidth = 11
@@ -92,7 +91,7 @@ taskQuestionSize = 1
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
-instructionColor = 'yellow'
+instructionColor = 'gold'
 instructionSize = 1
 instructionUnits = stimuliUnits
 instructionOff = wordOff
@@ -158,7 +157,7 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
 instructions_text = (
-    "في التجربة ده، حتقرا جمل كلمة بكلمة و احنا نسجل ال MEG.\n\n"  # "MEG" is now part of the first sentence
+    "في التجربة ده، حتقرا جمل كلمة بكلمة و احنا حنسجل ال MEG.\n\n"  # "MEG" is now part of the first sentence
     "بعد بعض الجمل، حيطلب منك الإجابة بنعم أو لا بخصوص محتوى الجملة.\n\n"  # Second sentence
     "الأسئلة ده بسيطة آوي وهي للتأكيد من أنك بتقرا الجمل.\n\n"  # Third sentence
     "كل ما عليك تعمله هو قراءة الجمل بشكل طبيعي، و بعدين الإجابة على السؤال\n\n"  # Fourth sentence
@@ -207,7 +206,8 @@ for trialIndex in range(startItem - 1, totalTrials):
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
         if currentBreakCount == 1:
-            stim = visual.TextStim(win, text='مبروك! انت جوبت على %i من %i من أسئلة التدريب بشكل صحيح.\n\n أنت دلوقتي جاهز تعمل التجربة الحقيقية.\n\n في %i جملة للقراية.\n\n من فضلك اتجنب الحركة والتوقف عن الرمش والضغط على مفتاح نعم لما تكون جاهز للجملة الأولى.' %
+            stim = visual.TextStim(win,
+                                   text='مبروك! أنت جوبت على %i من %i من أسئلة التدريب بشكل صحيح.\n\n أنتهت فترة التدريب. \n\n  من فضلك استنة التعلمات و متدسش على أي زرار . \n\n  أنت دلوقتي جاهز تعمل التجربة الحقيقية.\n\n في %i جملة للقراية.\n\n من فضلك اتجنب الحركة والتوقف عن الرمش واضغط علي زرار "نعم" لما نديك التعلمات. ' %
                                         (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
                                         font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor, height=0.8, alignText= 'center', wrapWidth= 30)
             totalCorrectResponses = 0
@@ -406,7 +406,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         responses.append(response)
 
 
-        stim = visual.TextStim(win, text='من فضلك أتأكد أن صباعك مش دايس على أي زرار.',
+        stim = visual.TextStim(win, text='اتأكد ان صباعك مش دايس على أي زرار.',
                                font=instructionsFont, languageStyle='Arabic', units=taskQuestionUnits, height=1.2, color=taskQuestionColor,alignText= 'center', wrapWidth= 30)
         stim.setPos((0, 0))
         stim.draw()
