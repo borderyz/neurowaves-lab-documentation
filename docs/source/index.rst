@@ -19,9 +19,10 @@ Status of the documentation build
 .. include:: ../../README.rst
 
 
-
-
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
+
+
+
 
 .. note::
 
@@ -60,6 +61,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
    :maxdepth: 2
    :caption: Experiments Design
 
+   3-experimentdesign/process-new-user
    3-experimentdesign/experimentdesign
    3-experimentdesign/experimentdesign-eeg-fmri
    3-experimentdesign/requirements
