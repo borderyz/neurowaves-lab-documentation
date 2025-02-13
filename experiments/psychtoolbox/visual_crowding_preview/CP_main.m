@@ -345,23 +345,6 @@ try
         Screen('DrawText', wQuestion, 'no', wx + 305, wy + 150, black);
 
 
-        if i_trial <= size(expTable, 1)
-            imageName = expTable.imageFn{i_trial};  % Get the image name for this trial
-
-            % Extract the condition label from the image name
-            conditionPattern = 'cwdg_(\d+)';  % Regex pattern to match 'cwdg_X'
-            conditionMatch = regexp(imageName, conditionPattern, 'tokens');
-            if ~isempty(conditionMatch)
-                conditionLabel = conditionMatch{1}{1};  % Extract the condition number (e.g., '3')
-            else
-                conditionLabel = 'Unknown';  % In case the condition can't be determined
-            end
-
-        else
-            imageName = 'N/A';  % No image available (indicating an extra trigger)
-            conditionLabel = 'N/A';  % No condition for extra triggers
-        end
-
         % FIXATION
         goodTrial = 1;
         errorMsg = 'BAD TRIAL';
@@ -488,35 +471,33 @@ try
         saccTrigger = 0;
 
         while goodTrial
-            [~, ~, keyCode] = KbCheck();
+            [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
-                ShowCursor();
+                ShowCursor()
                 RestrictKeysForKbCheck([]);
-                Screen(w, 'Close');
+                Screen(w,'Close');
                 sca;
-                ListenChar(0);
+                ListenChar(0)
                 return;
             end
-
-            if use_eyetracker == 1
-                % Handle eyetracker-based fixation logic
+            if use_eyetracker==1
                 if Eyelink('NewFloatSampleAvailable')
                     eyeSample = Eyelink('NewestFloatSample');
                     eyeX = eyeSample.gx(eyeUsed);
                     eyeY = eyeSample.gy(eyeUsed);
                     disp(['EyeX: ', num2str(eyeX)]);
 
-                    if eyeX ~= el.MISSING_DATA && eyeY ~= el.MISSING_DATA % no blinks
-                        dist_center = sqrt((eyeX - wx)^2 + (eyeY - wy)^2);
+                    if eyeX~=el.MISSING_DATA && eyeY~=el.MISSING_DATA % no blinks
+                        dist_center = sqrt( (eyeX-wx)^2 + (eyeY-wy)^2 );
                         if dist_center < fixTolerance % fixation is good
-                            if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) + 0.5 % fixation is long enough
+                            if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial)+.5 % fixation is long enough
                                 if strcmp(imageName, 'N/A')
                                     fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
                                 else
                                     fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
                                 end
 
-                                counts.ch229 = counts.ch229 + 1;
+                                counts.ch229 = counts.ch229+1;
                                 Screen('DrawTexture', w, wCue);
                                 Screen('FillRect', w, trig.ch229, trigRect);
                                 Screen('Flip', w);
@@ -525,29 +506,17 @@ try
                                 Screen('Flip', w);
                                 break;
                             end
+                            %                     else
+                            %                         goodTrial = 0;
                         end
+                        %                 else % blink
+                        %                     goodTrial = 0;
                     end
                 end
-            else
-                % Logic for when eyetracker is not used
-                if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) + 0.5 % simulate fixation time
-                    if strcmp(imageName, 'N/A')
-                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                    else
-                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                    end
 
-                    counts.ch229 = counts.ch229 + 1;
-                    Screen('DrawTexture', w, wCue);
-                    Screen('FillRect', w, trig.ch229, trigRect);
-                    Screen('Flip', w);
-                    Screen('DrawTexture', w, wCue);
-                    Screen('FillRect', w, black, trigRect);
-                    Screen('Flip', w);
-                    break;
-                end
             end
         end
+
 
         disp('DEBUG 4')
 
@@ -766,6 +735,13 @@ try
         Eyelink('ShutDown');
     end
 
+    if use_vpixx==1
+
+        Datapixx('DisablePixelMode');
+        Datapixx('RegWr');
+        Datapixx('Close');
+
+    end
 
     % FINISH EXPERIMENT
     ShowCursor();
@@ -778,6 +754,7 @@ try
 catch
     % FINISH EXPERIMENT
     ShowCursor();
+    fprintf(logFile, 'ERROR\tN/A\t%f\tN/A\tN/A\t%s\n', GetSecs(), ME.message);
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
     sca;
