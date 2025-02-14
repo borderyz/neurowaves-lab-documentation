@@ -8,6 +8,7 @@ use_vpixx = 0;
 use_eyetracker = 0;
 trigger_test = 0;
 use_response_box = 0;
+use_keyboard  = 1;
 
 % Open vpix
 
@@ -56,6 +57,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 saccadeOffset = 305; % pixel -> 8 dva
+%saccadeOffset = 173; % pixel -> 3 dva
 targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
@@ -260,6 +262,7 @@ try
 
     while i_trial <= size(expTable, 1)
         disp(['Starting trial ', num2str(i_trial), ' of ', num2str(size(expTable, 1))]);
+        fprintf(logFile, '%d\tN/A\tN/A\t%f\tN/A\tN/A\tStarting trial\n', i_trial, GetSecs());
 
         % PAUSE
         if mod(i_trial, round(size(expTable, 1)/3+1)) == 0
@@ -344,6 +347,23 @@ try
         Screen('DrawText', wQuestion, 'yes', wx - 305, wy + 150, black);
         Screen('DrawText', wQuestion, 'no', wx + 305, wy + 150, black);
 
+
+        if i_trial <= size(expTable, 1)
+            imageName = expTable.imageFn{i_trial};  % Get the image name for this trial
+
+            % Extract the condition label from the image name
+            conditionPattern = 'cwdg_(\d+)';  % Regex pattern to match 'cwdg_X'
+            conditionMatch = regexp(imageName, conditionPattern, 'tokens');
+            if ~isempty(conditionMatch)
+                conditionLabel = conditionMatch{1}{1};  % Extract the condition number (e.g., '3')
+            else
+                conditionLabel = 'Unknown';  % In case the condition can't be determined
+            end
+
+        else
+            imageName = 'N/A';  % No image available (indicating an extra trigger)
+            conditionLabel = 'N/A';  % No condition for extra triggers
+        end
 
         % FIXATION
         goodTrial = 1;
@@ -447,8 +467,6 @@ try
         end
 
 
-
-
         % Trigger for preview image
         Screen('DrawTexture', w, wPreview);
         if strcmp(imageName, 'N/A')
@@ -480,6 +498,7 @@ try
                 ListenChar(0)
                 return;
             end
+
             if use_eyetracker==1
                 if Eyelink('NewFloatSampleAvailable')
                     eyeSample = Eyelink('NewestFloatSample');
@@ -514,6 +533,24 @@ try
                     end
                 end
 
+            else
+                if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) + 0.5 % simulate fixation time
+                    if strcmp(imageName, 'N/A')
+                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                    else
+                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                    end
+
+                    counts.ch229 = counts.ch229 + 1;
+                    Screen('DrawTexture', w, wCue);
+                    Screen('FillRect', w, trig.ch229, trigRect);
+                    Screen('Flip', w);
+                    Screen('DrawTexture', w, wCue);
+                    Screen('FillRect', w, black, trigRect);
+                    Screen('Flip', w);
+                    WaitSecs(0.3)
+                    break;
+                end
             end
         end
 
@@ -558,11 +595,13 @@ try
             disp('Simulating saccade detection (no eyetracker).');
             counts.ch228 = counts.ch228 + 1;
             Screen('FillRect', w, trig.ch228, trigRect);
+
             Screen('Flip', w);
             Screen('FillRect', w, black, trigRect);
             Screen('Flip', w);
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
+
         end
 
         % TARGET
@@ -578,6 +617,10 @@ try
         Screen('DrawTexture', w, wTarget);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
+
+        if use_keyboard == 1
+        WaitSecs(.1)
+        end
 
         % Set trigger back to black
 
@@ -636,23 +679,23 @@ try
         expTable.questionOnsetTime(i_trial) = GetSecs();
         % expTable.responseOnsetTime(i_trial) = GetSecs();
 
-        while true % Keep looping until a valid response is detected
+        while true  % Keep looping until a valid response is detected
+
+            % Handle escape key to exit experiment
+            [~, secs, keyCode] = KbCheck();
+            if keyCode(KbName('escape'))
+                ShowCursor();
+                RestrictKeysForKbCheck([]);
+                Screen('CloseAll');
+                sca;
+                ListenChar(0);
+                return;  % Exit the script
+            end
+
             if use_response_box == 1
-                % Actual experiment: wait for participant's response
-                [response, ResponseTime] = getButton(); % Function to capture MEG button press
-
-                % Handle escape key to exit experiment
-                [~, ~, keyCode] = KbCheck();
-                if find(keyCode) == KbName('escape')
-                    ShowCursor();
-                    RestrictKeysForKbCheck([]);
-                    Screen('CloseAll');
-                    sca;
-                    ListenChar(0);
-                    return; % Exit the script
-
-
-                elseif response == 8 || response == 9 % Valid responses (8 = yes, 9 = no)
+                % Actual experiment: wait for participant's response via the response box
+                [response, ResponseTime] = getButton();  % Function to capture MEG button press
+                if response == 8 || response == 9  % Valid responses (8 = yes, 9 = no)
                     % Log the response
                     expTable.response(i_trial) = response;
                     expTable.responseOnsetTime(i_trial) = ResponseTime;
@@ -660,22 +703,58 @@ try
                     % Check correctness
                     if (targetTexture == questionTexture && response == 8) || ...
                             (targetTexture ~= questionTexture && response == 9)
-                        expTable.correctness(i_trial) = 1; % Correct response
+                        expTable.correctness(i_trial) = 1;  % Correct response
                     else
-                        expTable.correctness(i_trial) = 0; % Incorrect response
+                        expTable.correctness(i_trial) = 0;  % Incorrect response
                     end
 
                     % Log the response in the log file
                     fprintf(logFile, '%d\tEndTrial\tN/A\t%f\t%s\t%s\tEnding trial\n', ...
                         i_trial, GetSecs(), 'imageName', 'conditionLabel');
 
-                    % Exit the loop after logging the res ponse
-                    break;
+                    break;  % Exit the loop after logging the response
+                end
+
+            elseif use_keyboard == 1
+                % Wait for keyboard response if not using the response box and not simulating
+                [keyIsDown, secs, keyCode] = KbCheck();
+                if keyIsDown
+                    % Check for valid key presses ('y' for yes and 'n' for no)
+                    if keyCode(KbName('y'))
+                        responseKey = 'y';
+                    elseif keyCode(KbName('n'))
+                        responseKey = 'n';
+                    else
+                        responseKey = [];  % Invalid key pressed, do nothing
+                    end
+
+                    % Only log if a valid response was detected
+                    if ~isempty(responseKey) % && (responseKey == 1 || responseKey == 0)
+                        ResponseTime = secs - expTable.questionOnsetTime(i_trial);
+
+                        % Log the response
+                        expTable.response(i_trial) = responseKey;
+                        expTable.responseOnsetTime(i_trial) = ResponseTime;
+
+                        % Check correctness
+                        if (targetTexture == questionTexture && responseKey == 'y') || ...
+                                (targetTexture ~= questionTexture && responseKey == 'n')
+                            expTable.correctness(i_trial) = 1;
+                        else
+                            expTable.correctness(i_trial) = 0;
+                        end
+
+                        % Log the response in the log file
+                        fprintf(logFile, '%d\tEndTrial\tN/A\t%f\t%s\t%s\tEnding trial\n', ...
+                            i_trial, GetSecs(), 'imageName', 'conditionLabel');
+
+                        break;  % Exit the loop after logging the response
+                    end
                 end
 
             else
                 % Debug phase: automatically simulate a response
-                response = 8; % Simulate "yes" response (you can alternate if needed)
+                response = 8;  % Simulate "yes" response (you can alternate if needed)
                 ResponseTime = GetSecs() - expTable.questionOnsetTime(i_trial);
 
                 % Log the simulated response
@@ -683,18 +762,19 @@ try
                 expTable.responseOnsetTime(i_trial) = ResponseTime;
 
                 % Simulate correctness (you can randomize this if needed)
-                expTable.correctness(i_trial) = randi([0, 1]); % Randomly assign correct/incorrect
+                expTable.correctness(i_trial) = randi([0, 1]);  % Randomly assign correct/incorrect
 
                 % Log the simulated response in the log file
                 fprintf(logFile, '%d\tSimulatedEndTrial\tN/A\t%f\t%s\t%s\tSimulated trial\n', ...
                     i_trial, GetSecs(), 'imageName', 'conditionLabel');
 
-                % Exit the loop after simulating the response
-                break;
+                break;  % Exit the loop after simulating the response
             end
 
-
+            % Optionally, add a short delay to avoid hogging the CPU
+            WaitSecs(0.001);
         end
+
 
         % Display a white screen for 1 second as a pause
         Screen('FillRect', w, [255 255 255]); % White screen
@@ -753,8 +833,8 @@ try
 
 catch
     % FINISH EXPERIMENT
+    % FINISH EXPERIMENT
     ShowCursor();
-    fprintf(logFile, 'ERROR\tN/A\t%f\tN/A\tN/A\t%s\n', GetSecs(), ME.message);
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
     sca;
