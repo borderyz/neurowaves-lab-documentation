@@ -57,6 +57,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 saccadeOffset = 305; % pixel -> 8 dva
+%saccadeOffset = 173; % pixel -> 3 dva
 targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
@@ -466,8 +467,6 @@ try
         end
 
 
-
-
         % Trigger for preview image
         Screen('DrawTexture', w, wPreview);
         if strcmp(imageName, 'N/A')
@@ -618,7 +617,10 @@ try
         Screen('DrawTexture', w, wTarget);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
+
+        if use_keyboard == 1
         WaitSecs(.1)
+        end
 
         % Set trigger back to black
 
