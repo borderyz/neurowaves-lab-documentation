@@ -7,9 +7,9 @@ module load fmriprep/24.0.0
 module load fmriprep
 
 # Define key directories (modify these paths)
-BIDS_DIR="bids_output"      # Input BIDS dataset
-OUTPUT_DIR="fmriprep_output"     # Output directory for fMRIPrep
-WORK_DIR="."              # Temporary working directory
+BIDS_DIR="/home/hz3752/bids_output"      # Input BIDS dataset
+OUTPUT_DIR="/home/hz3752/fmriprep_output"     # Output directory for fMRIPrep
+WORK_DIR="/home/hz3752/"              # Temporary working directory
 
 # Define the participant label (optional, for processing a specific subject)
 PARTICIPANT_LABEL="sub-0665"
