@@ -174,7 +174,7 @@ Converting DICOM to BIDS on XNAT
 - Running **dcm2bids**
     #. Navigate to your **xnat** project.
     #. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
-        - example file can be found in `pipeline/eeg_fmri_pipelines/fmri_preprocessing\utilities`
+        - example config file can be found in `pipeline/eeg_fmri_pipelines/fmri_preprocessing\utilities` together with a batch script to help run `dicom2bids` command
         - Click on your project, then `Manage Files`, select `resources` for `level` then add Folder called `configs` then upload file `config.json`
     #. Select the **Processing Dashboard**, and then **MR Sessions**
 
@@ -196,6 +196,18 @@ Converting DICOM to BIDS on XNAT
             2. Check filenames and parameters.
         - Ideally, each task has its own **sbref** (two files: one **AP**, one **PA**)
         - Similarly, **fmap** should have **AP** and **PA** (not for every run, but for every task)
+
+
+Converting DICOM to BIDS on local computer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- Install `dicom2bids` and `dicom2niix`
+- Download your session from `XNAT`
+- Adapt the `config.json` to your project
+- Run `dicom2bids_config_script.bat` to generate the BIDS output
+    - Customize the batch script to put the correct subject ID and XNAT downloaded directory
+- Run post_conversion.bat (this will replicate SBref AP and PA for each bold run)
+    - Customize the batch script to provide your BIDS output directory
 
 
 fMRI Preprocessing with fMRIPrep: Two Available Routes
