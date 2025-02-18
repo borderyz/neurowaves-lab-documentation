@@ -24,7 +24,7 @@ BOX_DIR = getenv('MEG_DATA');
 %confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
 %csv_file_experiment = fullfile(['egyptian_list1.csv']);
 
-confile = fullfile(['egyptian_list1.con'])
+confile = fullfile(['egyptian_sub001.con'])
 csv_file_experiment = fullfile(['word_count_egyptian_list1.csv']);
 
 % For mandarin study
@@ -135,15 +135,23 @@ onsetTimes = changeIdx / dataTrigger.fsample;
 sequence_codes = onsetCodes(onsetCodes ~= 0); % Remove zeros
 
 %% STEP 4: (Optional) Build a FieldTrip-like event structure
-clear event
+
+clear event;
+event_idx = 1;  % Initialize an index for valid events
 for i = 1:length(onsetCodes)
-    event(i).type      = 'trigger';
-    event(i).value     = onsetCodes(i);
-    event(i).sample    = changeIdx(i);
-    event(i).timestamp = changeIdx(i);
-    event(i).offset    = 0;
-    event(i).duration  = 1;  
-    event(i).time      = onsetTimes(i);
+    if onsetCodes(i) ~= 0
+        event(event_idx).type      = 'trigger';
+        event(event_idx).value     = onsetCodes(i);
+        event(event_idx).sample    = changeIdx(i);
+        event(event_idx).timestamp = changeIdx(i);
+        event(event_idx).offset    = 0;
+        event(event_idx).duration  = 1;  
+        event(event_idx).time      = onsetTimes(i);
+        
+        event_idx = event_idx + 1;  % Increment the index for the next valid event
+    else
+        disp('The value is zero');
+    end
 end
 
 %% STEP 5: Compare observed trigger counts to an expected matrix (from CSV)
@@ -168,19 +176,20 @@ disp('----------------------------------');
 for i = 1:size(expectedMatrix,1)
     thisCode   = expectedMatrix(i,1);
     thisExpect = expectedMatrix(i,2);
-    
-    idxObserved = find(uniqueCodes == thisCode);
-    if isempty(idxObserved)
-        actualCount = 0;  % code never observed
-    else
-        actualCount = counts(idxObserved);
-    end    
-    if actualCount == thisExpect
-        fprintf('Code %d: OK (observed %d, expected %d)\n',...
-            thisCode, actualCount, thisExpect);
-    else
-        fprintf('Code %d: MISMATCH (observed %d, expected %d)\n',...
-            thisCode, actualCount, thisExpect);
+    if thisCode~=0
+        idxObserved = find(uniqueCodes == thisCode);
+        if isempty(idxObserved)
+            actualCount = 0;  % code never observed
+        else
+            actualCount = counts(idxObserved);
+        end    
+        if actualCount == thisExpect
+            fprintf('Code %d: OK (observed %d, expected %d)\n',...
+                thisCode, actualCount, thisExpect);
+        else
+            fprintf('Code %d: MISMATCH (observed %d, expected %d)\n',...
+                thisCode, actualCount, thisExpect);
+        end
     end
 end
 
@@ -197,29 +206,39 @@ end
 % the event structure.
 
 cfg = [];
-cfg.dataset              = 'merged_egyptian_sub004.vhdr';
+cfg.dataset              = confile;
 cfg.trialfun             = 'language_study_trial_func';     % it will call your function and pass the cfg
+
+
 cfg.trialdef.eventtype  = 'trigger';
-cfg.trialdef.eventvalue = [22 129];           % read all conditions at once
+cfg.trialdef.eventvalue = [32 34 129 68];           % read all conditions at once
 cfg.trialdef.prestim    = 1; % in seconds
 cfg.trialdef.poststim   = 2; % in seconds
+cfg.event = event;
 
-cfg = ft_definetrial(cfg);
 
-cfg.channel = {'AG*'}; % Make sure this is correct by looking at the notebooks
-dataMytrialfun = ft_preprocessing(cfg);
-% The function language_study_trial_func needs to have in the provided cfg,
-% the event structure.
 
-cfg = [];
-cfg.dataset              = 'merged_egyptian_sub004.vhdr';
-cfg.trialfun             = 'language_study_trial_func';     % it will call your function and pass the cfg
-cfg.trialdef.eventtype  = 'trigger';
-cfg.trialdef.eventvalue = [22 129];           % read all conditions at once
-cfg.trialdef.prestim    = 1; % in seconds
-cfg.trialdef.poststim   = 2; % in seconds
+trials = ft_definetrial(cfg);
 
-cfg = ft_definetrial(cfg);
 
-cfg.channel = {'AG*'}; % Make sure this is correct by looking at the notebooks
-dataMytrialfun = ft_preprocessing(cfg);
+
+% 
+% cfg.channel = {'AG*'}; % Make sure this is correct by looking at the notebooks
+% dataMytrialfun = ft_preprocessing(cfg);
+% % The function language_study_trial_func needs to have in the provided cfg,
+% % the event structure.
+% 
+% cfg = [];
+% cfg.dataset              = 'merged_egyptian_sub004.vhdr';
+% cfg.trialfun             = 'language_study_trial_func';     % it will call your function and pass the cfg
+% cfg.trialdef.eventtype  = 'trigger';
+% cfg.trialdef.eventvalue = [22 129];           % read all conditions at once
+% cfg.trialdef.prestim    = 1; % in seconds
+% cfg.trialdef.poststim   = 2; % in seconds
+% 
+% cfg = ft_definetrial(cfg);
+% 
+% cfg.channel = {'AG*'}; % Make sure this is correct by looking at the notebooks
+% dataMytrialfun = ft_preprocessing(cfg);
+
+

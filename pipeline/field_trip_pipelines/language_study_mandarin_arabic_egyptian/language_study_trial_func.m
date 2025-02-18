@@ -9,7 +9,7 @@ function trl = language_study_trial_func(cfg)
 % cfg.trialdef.poststim
 
 hdr   = ft_read_header(cfg.dataset);
-event = ft_read_event(cfg.dataset);
+event = cfg.event;
 
 trl = [];
 
@@ -22,18 +22,14 @@ if strcmp(event(i).type, cfg.trialdef.eventtype)
     endsample     = event(i).sample + cfg.trialdef.poststim*hdr.Fs - 1;
     offset        = -cfg.trialdef.prestim*hdr.Fs;
     trigger       = event(i).value; % remember the trigger (=condition) for each trial
-    if isempty(trl)
-      prevtrigger = nan;
-    else
-      prevtrigger   = trl(end, 4); % the condition of the previous trial
-    end
-    trl(end+1, :) = [round([begsample endsample offset])  trigger prevtrigger];
+
+    trl(end+1, :) = [round([begsample endsample offset])  trigger];
   end
 end
 end
 
-samecondition = trl(:,4)==trl(:,5); % find out which trials were preceded by a trial of the same condition
-trl(samecondition,:) = []; % delete those trials
+%samecondition = trl(:,4)==trl(:,5); % find out which trials were preceded by a trial of the same condition
+%trl(samecondition,:) = []; % delete those trials
 
 end
 
