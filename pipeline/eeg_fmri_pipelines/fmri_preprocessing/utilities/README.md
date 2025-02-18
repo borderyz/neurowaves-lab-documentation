@@ -3,6 +3,8 @@
 
 ## Local dicom2bids
 
+
+Install pip pydeface
 I would suggest the following —
 
 1. **Identifying a location** (that Matlab and we all have access to) and create the project folder, delete unwanted scans (such as the duplicating incorrect runs, for example, the first fmap and sbref runs for this pilot data).

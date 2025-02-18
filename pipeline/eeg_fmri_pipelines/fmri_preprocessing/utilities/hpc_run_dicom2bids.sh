@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Set paths (Modify these to match your Linux/HPC environment)
-CONFIG_FILE="/home/your_user/fmri_preprocessing/utilities/config.json"
-BIDS_DIR="/home/your_user/data_finger_tapping/bids_output"
-DICOM_DIR="/home/your_user/data_finger_tapping/Subject_0665_ses_01/scans"
+CONFIG_FILE="/home/hz3752/meg-pipeline/pipeline/eeg_fmri_pipelines/fmri_preprocessing/utilities"
+BIDS_DIR="/home/hz3752/data_eeg_fmri/bids_output"
+DICOM_DIR="/home/hz3752/data_eeg_fmri/Subject_0665_ses_01/scans"
 SUBJECT_ID="0665"  # Participant ID
 
 ## Ensure Singularity module is loaded (only needed on HPC)
