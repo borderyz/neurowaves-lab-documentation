@@ -52,7 +52,7 @@
       },
       "sidecar_changes": {
         "TaskName": "rest",
-        "RepetitionTime": 0.7
+        "RepetitionTime": 1.0
       }
     },
 
