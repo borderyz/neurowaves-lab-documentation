@@ -14,7 +14,7 @@ singularity run --cleanenv \
     -B "$CONFIG_FILE:/config.json" \
     -B "$BIDS_DIR:/bids" \
     -B "$DICOM_DIR:/dicom" \
-    dcm2bids.sif \
+    /home/hz3752/dcm2bids.sif \
     -c /config.json \
     -o /bids \
     -d /dicom \
