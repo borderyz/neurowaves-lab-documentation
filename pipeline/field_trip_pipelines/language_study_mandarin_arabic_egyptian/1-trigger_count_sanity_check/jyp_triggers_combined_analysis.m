@@ -142,6 +142,7 @@ for i = 1:length(onsetCodes)
     event(i).time      = onsetTimes(i);
 end
 
+
 %% STEP 5: Compare observed trigger counts to an expected matrix (from CSV)
 
 % Suppose you have a matrix describing [code, expectedCount]
