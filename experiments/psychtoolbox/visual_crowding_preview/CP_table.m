@@ -7,10 +7,11 @@
 % imageIndex = 1:13;
 
 % Define conditions and image indices
-side = [-1 1];
-preview = [0 1];
+% side = [-1 1];
+% preview = [0 1];
 questionType = [0 1];
-crowding = [1 2 3];
+% crowding = [1 2 3];
+crowding = [1 3];
 connection = [0 1 2 3];
 imageIndex = 1:25;
 
@@ -19,6 +20,19 @@ numConnections = length(connection);
 numCrowding = length(crowding);
 numImagesPerCondition = length(imageIndex);
 totalImages = numConnections * numCrowding * numImagesPerCondition; % This should be 300
+
+% n_flipped = floor(totalImages/2);         % 149
+% n_normal  = totalImages - n_flipped;        % 150
+% previewValues = [zeros(n_flipped, 1); ones(n_normal, 1)];
+% % Randomly shuffle the preview values
+% previewValues = previewValues(randperm(totalImages));
+
+n_negative = floor(totalImages/2);
+n_positive = totalImages - n_negative;
+balancedSides = [-1 * ones(n_negative, 1); 1 * ones(n_positive, 1)]; 
+balancedSides = balancedSides(randperm(totalImages)); % Shuffle the sides randomly
+
+
 
 % Check if the total number of images matches your expectation
 % assert(totalImages == 300, 'Total number of images does not match 300.');
@@ -32,19 +46,22 @@ for i_connection = 1:length(connection)
     for i_crowding = 1:length(crowding)
         for i_imageIndex = 1:length(imageIndex)
             % Randomly select conditions for side, preview, and questionType
-            selectedSide = side(randi(length(side)));
-            selectedPreview = preview(randi(length(preview)));
+            selectedSide = balancedSides(i_trial);
+            % selctedPreview = previewValues(i_trial);
             selectedQuestionType = questionType(randi(length(questionType)));
             
             % Populate the table with the selected and looped conditions
-            expTable(i_trial, :) = [selectedSide, selectedPreview, selectedQuestionType, crowding(i_crowding), connection(i_connection), imageIndex(i_imageIndex)];
+            % expTable(i_trial, :) = [selectedSide, selectedPreview, selectedQuestionType, crowding(i_crowding), connection(i_connection), imageIndex(i_imageIndex)];
+            expTable(i_trial, :) = [selectedSide, selectedQuestionType, crowding(i_crowding), connection(i_connection), imageIndex(i_imageIndex)];
+
             i_trial = i_trial + 1;
         end
     end
 end
 
 % Labels for the table
-expLabels = {'side', 'preview', 'questionType', 'crowding', 'connection', 'imageIndex'};
+% expLabels = {'side', 'preview', 'questionType', 'crowding', 'connection', 'imageIndex'};
+expLabels = {'side', 'questionType', 'crowding', 'connection', 'imageIndex'};
 
 % Convert to table and randomize
 expTable = array2table(expTable, 'VariableNames', expLabels);

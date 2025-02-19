@@ -6,7 +6,7 @@ clearvars
 % Modes
 use_vpixx = 0;
 use_eyetracker = 0;
-trigger_test = 0;
+trigger_test = 1;
 use_response_box = 0;
 use_keyboard  = 1;
 
@@ -56,8 +56,9 @@ fixRadius = 10;
 black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
-saccadeOffset = 305; % pixel -> 8 dva
+%saccadeOffset = 305; % pixel -> 8 dva
 %saccadeOffset = 173; % pixel -> 3 dva
+saccadeOffset = 500; % pixel -> 8 dva
 targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
@@ -304,9 +305,9 @@ try
         question_fn = ['img_' num2str(i_trial) '.jpg'];
         % questRect = CenterRectOnPoint([0 0 size(previewMatrix, 1)*2 size(previewMatrix, 2)], wx , wy);
 
-        if expTable.preview(i_trial) == 0
-            previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
-        end
+        % if expTable.preview(i_trial) == 0
+        %     previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
+        % end
         expTable.imageFn{i_trial} = preview_fn;
 
         if expTable.questionType(i_trial) == 0
@@ -594,11 +595,11 @@ try
             % Simulate saccade detection and proceed
             disp('Simulating saccade detection (no eyetracker).');
             counts.ch228 = counts.ch228 + 1;
-            Screen('FillRect', w, trig.ch228, trigRect);
-
-            Screen('Flip', w);
-            Screen('FillRect', w, black, trigRect);
-            Screen('Flip', w);
+            % Screen('FillRect', w, trig.ch228, trigRect);
+            % 
+            % Screen('Flip', w);
+            % Screen('FillRect', w, black, trigRect);
+            % Screen('Flip', w);
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
 
