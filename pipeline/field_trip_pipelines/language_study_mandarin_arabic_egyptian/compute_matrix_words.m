@@ -47,7 +47,8 @@ function expectedMatrix = compute_matrix_words(csvFilename)
                     T.trigger228w, T.trigger229w, T.trigger230w, T.trigger231w];
 
     % 4) Decode these bits into integer trigger codes
-    bitWeights = 2.^(0:7).';  % column vector [1;2;4;8;16;32;64;128]
+    %bitWeights = 2.^(0:7).';  % column vector [1;2;4;8;16;32;64;128]
+    bitWeights = flip(2.^(0:7))'; %If channel "225" is the most significant bit
     codeFirst  = bitDataFirst * bitWeights;  % Nx1
     codeOther  = bitDataOther * bitWeights;  % Nx1
 

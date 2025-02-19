@@ -1,65 +1,76 @@
-% Authors: Hadi Zaatiti, Jayeon Park
+clear;
+clc;
 
-% Language study pipeline
+%% Define paths for MEG .con files
+filename1 = 'egyptian_sub004_session1.con';  % Update with actual filenames
+filename2 = 'egyptian_sub004_session2.con';  
 
+% Read headers, data, and events
+hdr1 = ft_read_header(filename1);
+dat1 = ft_read_data(filename1);
+evt1 = ft_read_event(filename1);
 
+hdr2 = ft_read_header(filename2);
+dat2 = ft_read_data(filename2);
+evt2 = ft_read_event(filename2);
 
-% Trigger count for combined binary use with stability check
-% To use the script do the following:
-% - run word_counting_script.py on the csv first
-% - set confile path, set csv path generated from the python script
-% - ensure that everything is ok in the output
+% Ensure consistency in sampling rate and channels
+if hdr1.Fs ~= hdr2.Fs
+    error('Mismatch in sampling frequency between the two .con files!');
+end
+if size(dat1,1) ~= size(dat2,1)
+    error('Mismatch in number of channels between the two .con files!');
+end
 
-% Checklist if something is wrong:
-% - check that the threshold of 0.5 is good enough
-% - test with csv that has break on row
+% Get number of samples in the first dataset
+nsamples1 = size(dat1, 2);
 
-clear
+% Concatenate the data (time dimension)
+dat = cat(2, dat1, dat2);
 
-%% Define paths for data
+% Adjust event sample indices for the second file
+for i = 1:length(evt2)
+    evt2(i).sample = evt2(i).sample + nsamples1;
+end
+
+% Merge events
+evt = cat(1, evt1, evt2);
+
+% Use the first header as the reference
+hdr = hdr1;
+hdr.nSamples = hdr1.nSamples + hdr2.nSamples;
+
+% Save the merged dataset
+merged_filename = 'merged_egyptian_sub004.vhdr';
+ft_write_data(merged_filename, dat, 'header', hdr, 'event', evt);
+
+disp(['Merged file saved as: ', merged_filename]);
+
+%% Define paths for trigger analysis
 BOX_DIR = getenv('MEG_DATA');
+confile = merged_filename;
+csv_file_experiment = fullfile(['word_count_egyptian_list4_sub004.csv']);
 
-% For egyptian study
-
-%confile = fullfile([BOX_DIR,'egyptian-language-study\sub-trigger\meg-kit\egyptian_list1.con']); 
-%csv_file_experiment = fullfile(['egyptian_list1.csv']);
-
-confile = fullfile(['egyptian_list1.con'])
-csv_file_experiment = fullfile(['word_count_egyptian_list1.csv']);
-
-% For mandarin study
-
-%confile = fullfile(['mandarin_list3.con'])
-%csv_file_experiment = fullfile(['word_count_mandarin_list3.csv']);
-
-%% Load data from files
+%% Load data from the merged .con file
 cfg              = [];
 cfg.dataset      = confile;
 cfg.coilaccuracy = 0;
-
-% Only plotting the trigger channels for now
-
-% On KIT, channel "224" in the hardware often becomes "225" in MATLAB, etc.
-
-cfg.channel         = {'225','226','227','228','229','230','231','232'};
-dataTrigger         = ft_preprocessing(cfg);
+cfg.channel      = {'225','226','227','228','229','230','231','232'};  % Trigger channels
+dataTrigger      = ft_preprocessing(cfg);
 
 %% Plot data (optional)
 cfg = [];
 cfg.viewmode  = 'vertical';
-cfg.blocksize = 300; % seconds
-ft_databrowser(cfg, dataTrigger);  % <-- 'data_all' must exist; adjust as needed
-
-% dataTrigger.trial{1} is 8 x N (8 channels, N samples)
-% dataTrigger.fsample  is the sampling frequency
+cfg.blocksize = 300;  % seconds
+ft_databrowser(cfg, dataTrigger);
 
 %% STEP 1: Convert the 8 binary channels into a single code per sample
 % Threshold at 0.5 (adjust if your signals differ)
 binary_data = dataTrigger.trial{1} > 0.5;   % 8 x N logical matrix
 
 % Assign bit weights. If channel "225" is the least significant bit:
-bitWeights = 2.^(0:7)';  % [1; 2; 4; 8; 16; 32; 64; 128]
-
+%bitWeights = 2.^(0:7)';  % [1; 2; 4; 8; 16; 32; 64; 128]
+bitWeights = flip(2.^(0:7))';
 % Multiply each row (bit) by its bit weight and sum across rows
 triggerCodePerSample_raw = bitWeights' * binary_data;  % 1 x N row vector
 
@@ -135,16 +146,24 @@ onsetTimes = changeIdx / dataTrigger.fsample;
 sequence_codes = onsetCodes(onsetCodes ~= 0); % Remove zeros
 
 %% STEP 4: (Optional) Build a FieldTrip-like event structure
-clear event
+clear event;
+event_idx = 1;  % Initialize an index for valid events
 for i = 1:length(onsetCodes)
-    event(i).type      = 'trigger';
-    event(i).value     = onsetCodes(i);
-    event(i).sample    = changeIdx(i);
-    event(i).timestamp = changeIdx(i);
-    event(i).offset    = 0;
-    event(i).duration  = 1;  
-    event(i).time      = onsetTimes(i);
+    if onsetCodes(i) ~= 0
+        event(event_idx).type      = 'trigger';
+        event(event_idx).value     = onsetCodes(i);
+        event(event_idx).sample    = changeIdx(i);
+        event(event_idx).timestamp = changeIdx(i);
+        event(event_idx).offset    = 0;
+        event(event_idx).duration  = 1;  
+        event(event_idx).time      = onsetTimes(i);
+        
+        event_idx = event_idx + 1;  % Increment the index for the next valid event
+    else
+        disp('The value is zero');
+    end
 end
+
 
 %% STEP 5: Compare observed trigger counts to an expected matrix (from CSV)
 
