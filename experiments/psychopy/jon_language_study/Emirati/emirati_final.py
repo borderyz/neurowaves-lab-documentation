@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('emirati_list1.csv')
+trialList = data.importConditions('emirati_list4.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -57,8 +57,8 @@ stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'#
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 48 #48 #400ms  #54 # 450ms
-wordOff = 24 #24 #200ms
+wordOn = 54  #54 # 450ms #48 #400ms
+wordOff = 18 #18 #150ms #24 #200ms
 lastWordOn = 144 #144 #1200ms
 
 boxHeight = stimuliSize + 2
@@ -504,7 +504,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 event.clearEvents()
 stim = visual.TextStim(win,
-                       text=' مبروك، انت خلصت! بس من فضلك لا تتحرك لين نعطيك التعليمات. \n\n نحتاج 30 ثانية بس عشان نخلص التسجيلات.\n\n انت قريت %i جملة، وجوبت على %i من %i سؤال بشكل صحيح!\n\n شكرا وايد على مشاركتك.\n\n اضغط على أي زر عشان تقفل البرنامج.' % (
+                       text= ' مبروك، انت خلصت! بس من فضلك لا تتحرك لين نعطيك التعليمات. \n\n نحتاج 30 ثانية بس عشان نخلص التسجيلات.\n\n انت قريت %i جملة، وجاوبت على %i من %i سؤال بشكل صحيح!\n\n شكرا وايد على مشاركتك.\n\n اضغط على أي زر عشان تقفل البرنامج.' % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
                        font=instructionsFont, languageStyle='Arabic', units=instructionUnits, height=0.8, color=instructionColor, wrapWidth=30, alignText='center')
 stim.setPos((0, 0))

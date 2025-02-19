@@ -1,5 +1,5 @@
 ﻿taskQuestion,correctAnswer,list,condition,sentence,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
-这是不是一句测试句子？,9,2,practice,这是 第一句 测试 句子。,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,2,practice,这是 第一句 测试 句子。,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 这是不是也是一句测试句子？,9,2,practice,这是 另一句 测试 句子。,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,2,practice,重要的是 请 全程 保持 你的 头部 不动。,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 ,,2,practice,同时 请 尽量 不要 在 句子 出现的 过程中 眨眼。,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
