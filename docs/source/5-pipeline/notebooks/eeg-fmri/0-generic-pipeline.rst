@@ -204,11 +204,12 @@ Converting DICOM to BIDS on local computer
 - Install `dicom2bids` and `dicom2niix`
 - Download your session from `XNAT`
 - Adapt the `config.json` to your project
+- Ensure an anatomical T1 is in your DICOM directory
 - Run `dicom2bids_config_script.bat` to generate the BIDS output
     - Customize the batch script to put the correct subject ID and XNAT downloaded directory
 - Run post_conversion.bat (this will replicate SBref AP and PA for each bold run)
     - Customize the batch script to provide your BIDS output directory
-
+- Run BIDS validator online on your BIDS directory to make sure there are no errors
 
 fMRI Preprocessing with fMRIPrep: Two Available Routes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -234,7 +235,18 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
 
 
 
-GLM 
+Route 2 fMRIPrep locally (on HPC Jubail)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once the BIDS directory is created then you can install fMRIprep on jubail, copy your BIDS data directory to Jubail then process your data.
+
+Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/utilities`:
+- `get_fmriprep_image.sh`  run this script to pull the fMRIprep image and extract it
+- '
+
+
+
+GLM
 ~~~
 
 
