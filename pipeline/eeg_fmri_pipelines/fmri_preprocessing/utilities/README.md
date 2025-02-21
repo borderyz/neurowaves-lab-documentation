@@ -1,5 +1,9 @@
 # config.json README
 
+- add the ses prefix
+
+Each bold run must have the sbref either PA or AP depending on the PhaseEncodingDirection
+-    "PhaseEncodingDirection": "j", = PA (To verify)
 
 ## Local dicom2bids
 

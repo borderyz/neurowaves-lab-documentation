@@ -4,8 +4,8 @@
 #SBATCH --cpus-per-task=32
 #SBATCH --mem=32G
 #SBATCH --time=10:00:00  # Adjust the time limit as needed
-#SBATCH --output=log/fmriprep_%A_%a.out
-#SBATCH --error=log/fmriprep_%A_%a.err
+#SBATCH --output=/scratch/hz3752/MRI/fingertapping/fmriprep_%A_%a.out
+#SBATCH --error=/scratch/hz3752/MRI/fingertapping/fmriprep_%A_%a.err
 #SBATCH --array=0  # Adjust this to match the number of subjects minus one
 
 # Load Singularity module if necessary
@@ -57,6 +57,6 @@ singularity run --cleanenv \
     --work-dir /work
 
 # Optionally remove the workdir
-# rm -rf ${WORKDIR}
+rm -rf ${WORKDIR}
     
     

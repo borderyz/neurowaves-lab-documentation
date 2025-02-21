@@ -1,14 +1,15 @@
 #!/bin/bash
 #SBATCH --job-name=singularity_build
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=32
 #SBATCH --mem=32G
 #SBATCH --time=01:00:00
+#SBATCH --error=log.err
 
 module load singularity
 
-
-export SINGULARITY_MKSQUASHFS_PROCS=1
+export SINGULARITY_BUILD_NTHREADS=32
+#export SINGULARITY_MKSQUASHFS_PROCS=1
 # Debugging: Check if /scratch/h3752/mysif exists
 echo "Checking if directory exists..."
 ls -ld $SCRATCH/mysif/ || echo "Directory does NOT exist"
