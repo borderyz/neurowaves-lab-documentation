@@ -49,13 +49,15 @@ A **Magnetically Shielded Room (MSR)** is required to isolate sensors from exter
 
 The **NYUAD MEG Lab** is equipped with an **MSR from Vacuumschmelze (Hanau, Germany)**.
 The shielding effect is provided by:
+
 - **Two layers of mu-metal shielding**
-  - Inner layer: **3 mm thick**
-  - Outer layer: **2 mm thick**
+    - Inner layer: **3 mm thick**
+    - Outer layer: **2 mm thick**
 - **Predicted shielding performance**: -60 dB at 1 Hz
 - **Actual shielding performance**: **Exceeds prediction**
 
 Room dimensions:
+
 - **Exterior**: **2.9 × 3.5 × 2.9 m**
 - **Interior**: **2.4 × 3.0 × 2.4 m**
 
