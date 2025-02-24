@@ -12,44 +12,67 @@ Team
 ****
 
 
+
 Haidee Paterson
-===============
-+----------------------+--------------------------------------------------+
-| .. image:: graphic/team/haidee.jpg | **MRI Instrumentation Specialist** |
-|    :width: 150px    | Haidee is an MRI instrumentation specialist and   |
-|    :align: left     | radiologist. She is also an MEG-EEG data         |
-|    :alt: Haidee Paterson | acquisition expert.                        |
-+----------------------+--------------------------------------------------+
+---------------
+.. image:: graphic/team/haidee.jpg
+   :width: 150px
+   :align: left
+   :alt: Haidee Paterson
+
+**MRI Instrumentation Specialist**
+Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquisition expert.
+
+.. raw:: html
+
+   <div style="clear: both;"></div>
+
 
 Hadi Zaatiti
-============
-+----------------------+--------------------------------------------------+
-| .. image:: graphic/team/hadi.jpg | **MEG Research Scientist I**         |
-|    :width: 150px    | Hadi is an MEG Research Scientist, specialized    |
-|    :align: left     | in MEG-EEG data processing.                       |
-|    :alt: Hadi Zaatiti |                                                  |
-+----------------------+--------------------------------------------------+
+------------
+.. image:: graphic/team/hadi.jpg
+   :width: 150px
+   :align: left
+   :alt: Hadi Zaatiti
+
+**MEG Research Scientist I**
+Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing.
+
+.. raw:: html
+
+   <div style="clear: both;"></div>
+
 
 Osama Abdullah
-==============
-+----------------------+--------------------------------------------------+
-| .. image:: graphic/team/osama.jpg | **MRI Physicist II**                |
-|    :width: 150px    | Osama is an MRI physicist, specialized in MRI     |
-|    :align: left     | data processing.                                  |
-|    :alt: Osama Abdullah |                                                |
-+----------------------+--------------------------------------------------+
+---------------
+.. image:: graphic/team/osama.jpg
+   :width: 150px
+   :align: left
+   :alt: Osama Abdullah
+
+**MRI Physicist II**
+Osama is an MRI physicist, specialized in MRI data processing.
+
+.. raw:: html
+
+   <div style="clear: both;"></div>
 
 
 
-+-----------------------+----------------------------------+
-| **Lab Address**       | 📍 **NeuroWaves Research Lab**         |
-|                       | A2, 008, Ground floor,            |
-|                       | New York University          |
-|                       | Abu Dhabi, Saadiyat Island               |
-+-----------------------+----------------------------------+
-| **Contact**           | 📧 Email: nyuad.meg@nyu.edu  |
-|                       | ☎ Phone: +971 02 556 8066        |
-+-----------------------+----------------------------------+
+Lab Address
+-----------
+
+.. admonition:: Lab Address
+
+   📍 **NeuroWaves Research Lab**
+   A2, 008, Ground Floor,
+   New York University,
+   Abu Dhabi, Saadiyat Island
+
+.. admonition:: Contact
+
+   📧 Email: nyuad.meg@nyu.edu
+   ☎ Phone: +971 02 556 8066
 
 
 .. table:: Team Contact Information
