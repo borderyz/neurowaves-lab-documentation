@@ -22,6 +22,7 @@ Haidee Paterson
 
 **MRI Instrumentation Specialist**
 Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquisition expert.
+ `haidee.paterson@nyu.edu <mailto:haidee.paterson@nyu.edu>`_
 
 .. raw:: html
 
@@ -37,6 +38,7 @@ Hadi Zaatiti
 
 **MEG Research Scientist I**
 Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing.
+`hadi.zaatiti@nyu.edu <mailto:hadi.zaatiti@nyu.edu>`_
 
 .. raw:: html
 
@@ -52,6 +54,7 @@ Osama Abdullah
 
 **MRI Physicist II**
 Osama is an MRI physicist, specialized in MRI data processing.
+`osama.abdullah@nyu.edu <mailto:osama.abdullah@nyu.edu>`_
 
 .. raw:: html
 
