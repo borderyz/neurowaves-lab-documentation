@@ -16,12 +16,14 @@ Team
 Haidee Paterson
 ---------------
 .. image:: graphic/team/haidee.jpg
-   :width: 150px
+   :width: 250px
    :align: left
    :alt: Haidee Paterson
 
 **MRI Instrumentation Specialist**
+
 Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquisition expert.
+
 `haidee.paterson@nyu.edu <mailto:haidee.paterson@nyu.edu>`_
 
 .. raw:: html
@@ -32,12 +34,14 @@ Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-
 Hadi Zaatiti
 ------------
 .. image:: graphic/team/hadi.jpg
-   :width: 150px
+   :width: 250px
    :align: left
    :alt: Hadi Zaatiti
 
 **MEG Research Scientist I**
+
 Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing.
+
 `hadi.zaatiti@nyu.edu <mailto:hadi.zaatiti@nyu.edu>`_
 
 .. raw:: html
@@ -48,12 +52,14 @@ Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing.
 Osama Abdullah
 ---------------
 .. image:: graphic/team/osama.jpg
-   :width: 150px
+   :width: 250px
    :align: left
    :alt: Osama Abdullah
 
 **MRI Physicist II**
+
 Osama is an MRI physicist, specialized in MRI data processing.
+
 `osama.abdullah@nyu.edu <mailto:osama.abdullah@nyu.edu>`_
 
 .. raw:: html
@@ -79,6 +85,16 @@ Lab Address
 
 
 
+
+
+*********************************
+Status of the documentation build
+*********************************
+
+.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
+  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
+
 Download latest documentation from : `Download PDF <https://neurowaves.readthedocs.io/_/downloads/en/latest/pdf/>`_
 
 Download the latest lab documentation and lab manual from `Release v-report-docs <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/tag/v-report-docs/>`_
@@ -86,20 +102,6 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 - `MEG Lab documentation PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-documentation.pdf>`_
 - `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
 
-
-
-*********************************
-Status of the documentation build
-*********************************
-
-
-.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
-  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-  :alt: Documentation Status
-
-
-.. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
-   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
 
 
 .. note::
