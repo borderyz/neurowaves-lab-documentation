@@ -3,6 +3,9 @@ NeuroWaves: MEG/EEG-pipeline NYUAD documentation page
 #####################################################
 
 
+.. include:: ../../README.rst
+
+
 Status of the documentation build
 
 
@@ -16,7 +19,7 @@ Status of the documentation build
    :target: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml
 
 
-.. include:: ../../README.rst
+
 
 
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
