@@ -6,24 +6,6 @@ NeuroWaves: MEG/EEG-pipeline NYUAD documentation page
 .. include:: ../../README.rst
 
 
-Status of the documentation build
-
-
-
-.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
-  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
-  :alt: Documentation Status
-
-
-.. image:: https://github.com/Hzaatiti/neurowaves/actions/workflows/automated-testing.yml/badge.svg
-   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
-
-
-
-
-Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
-
-
 
 ****
 Team
@@ -63,6 +45,56 @@ Osama Abdullah
 
 **MRI Physicst II**
 Osama.
+
+
+
+
+
+Address: A2, 008, Ground floor, New York University Abu Dhabi, Saadiyat Island.
+
+
+.. table:: Contact Information
+   :widths: auto
+
+   ==================== ===================== =========================== ================
+   Name                 Role                  Email                       GitHub
+   ==================== ===================== =========================== ================
+   Hadi Zaatiti         Research Scientist    hadi.zaatiti@nyu.edu        hzaatiti
+   Haidee J Paterson    Radiology Scientist   haidee.paterson@nyu.edu     hjpnyuad
+   Osama Abdullah       MRI Physicist II      osama.abdullah@nyu.edu      osamaNYUAD
+   ==================== ===================== =========================== ================
+
+
+Download latest documentation from : `Download PDF <https://neurowaves.readthedocs.io/_/downloads/en/latest/pdf/>`_
+
+Download the latest lab documentation and lab manual from `Release v-report-docs <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/tag/v-report-docs/>`_
+
+- `MEG Lab documentation PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-documentation.pdf>`_
+- `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
+
+
+
+
+
+Status of the documentation build
+
+
+
+.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
+  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
+
+
+.. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
+   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
+
+
+
+Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
+
+
+
+
 
 
 
