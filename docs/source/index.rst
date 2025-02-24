@@ -41,13 +41,18 @@ Osama Abdullah
 
 
 
++-----------------------+----------------------------------+
+| **Lab Address**       | 📍 **NeuroWaves Research Lab**         |
+|                       | A2, 008, Ground floor,            |
+|                       | New York University          |
+|                       | Abu Dhabi, Saadiyat Island               |
++-----------------------+----------------------------------+
+| **Contact**           | 📧 Email: nyuad.meg@nyu.edu  |
+|                       | ☎ Phone: +971 02 556 8066        |
++-----------------------+----------------------------------+
 
 
-
-Address: A2, 008, Ground floor, New York University Abu Dhabi, Saadiyat Island.
-
-
-.. table:: Contact Information
+.. table:: Team Contact Information
    :widths: auto
 
    ==================== ===================== =========================== ================
