@@ -1,6 +1,6 @@
-********************
-LAB Systems Overview
-********************
+****************
+MEG Lab Overview
+****************
 
 MEG Systems Overview
 ####################

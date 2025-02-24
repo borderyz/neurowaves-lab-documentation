@@ -13,38 +13,32 @@ Team
 
 
 Haidee Paterson
----------------
-.. image:: graphic/team/haidee.jpg
-   :width: 150px
-   :align: left
-   :alt: Haidee Paterson
-
-**MRI Instrumentation Specialist**
-Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquistion expert.
-
----
+===============
++----------------------+--------------------------------------------------+
+| .. image:: graphic/team/haidee.jpg | **MRI Instrumentation Specialist** |
+|    :width: 150px    | Haidee is an MRI instrumentation specialist and   |
+|    :align: left     | radiologist. She is also an MEG-EEG data         |
+|    :alt: Haidee Paterson | acquisition expert.                        |
++----------------------+--------------------------------------------------+
 
 Hadi Zaatiti
-------------
-.. image:: graphic/team/hadi.jpg
-   :width: 150px
-   :align: left
-   :alt: Hadi Zaatiti
-
-**MEG Research Scientist I**
-Hadi is an MEG Research Scientist, specialised in MEG-EEG data processing.
-
----
+============
++----------------------+--------------------------------------------------+
+| .. image:: graphic/team/hadi.jpg | **MEG Research Scientist I**         |
+|    :width: 150px    | Hadi is an MEG Research Scientist, specialized    |
+|    :align: left     | in MEG-EEG data processing.                       |
+|    :alt: Hadi Zaatiti |                                                  |
++----------------------+--------------------------------------------------+
 
 Osama Abdullah
---------------
-.. image:: graphic/team/osama.jpg
-   :width: 150px
-   :align: left
-   :alt: Osama Abdullah
+==============
++----------------------+--------------------------------------------------+
+| .. image:: graphic/team/osama.jpg | **MRI Physicist II**                |
+|    :width: 150px    | Osama is an MRI physicist, specialized in MRI     |
+|    :align: left     | data processing.                                  |
+|    :alt: Osama Abdullah |                                                |
++----------------------+--------------------------------------------------+
 
-**MRI Physicst II**
-Osama is an MRI physicst, specialised in MRI data processing.
 
 
 
@@ -106,7 +100,7 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
 
 .. toctree::
    :maxdepth: 2
-   :caption: Systems Overview
+   :caption: Lab Overview
 
    1-systems/1-meg-kit-system
    1-systems/2-meg-opm-system
