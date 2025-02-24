@@ -16,8 +16,8 @@ import subprocess
 
 
 project = "NeuroWaves NYUAD Documentation"
-copyright = "2024, Hadi Zaatiti"
-author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
+copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
+author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
 
 release = "0.1"
 version = "0.1.0"
