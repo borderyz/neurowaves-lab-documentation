@@ -1,6 +1,6 @@
-###################################
-MEG/EEG-pipeline documentation page
-###################################
+#####################################################
+NeuroWaves: MEG/EEG-pipeline NYUAD documentation page
+#####################################################
 
 
 Status of the documentation build
