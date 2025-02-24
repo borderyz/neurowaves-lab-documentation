@@ -15,7 +15,7 @@ from sphinx.application import Sphinx
 import subprocess
 
 
-project = "MEG Pipeline"
+project = "NeuroWaves NYUAD Documentation"
 copyright = "2024, Hadi Zaatiti"
 author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
 

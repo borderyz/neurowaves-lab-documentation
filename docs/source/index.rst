@@ -1,6 +1,6 @@
-#####################################################
-NeuroWaves: MEG/EEG-pipeline NYUAD documentation page
-#####################################################
+###################################################
+NeuroWaves: MEG/EEG Lab at NYUAD documentation page
+###################################################
 
 
 .. include:: ../../README.rst
