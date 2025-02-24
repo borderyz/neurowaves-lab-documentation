@@ -44,7 +44,9 @@ Hadi Zaatiti
 
 **MEG Research Scientist I**
 
-Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing.
+Hadi is an MEG Research Scientist, specialized in MEG-EEG data processing,
+with a background in designing embedded systems, representation learning and electrical engineering.
+His main role is to support MEG-EEG projects by ensuring correct operation of the systems and processing of acquired data.
 
 `hadi.zaatiti@nyu.edu <mailto:hadi.zaatiti@nyu.edu>`_
 
@@ -62,7 +64,11 @@ Osama Abdullah
 
 **MRI Physicist II**
 
-Osama is an MRI physicist, specialized in MRI data processing.
+Osama is a research scientist and physicist who manages the daily operations of the BioMedical Imaging Core
+at New York University Abu Dhabi, overseeing a research-dedicated 3-Tesla Siemens MRI scanner,
+the MEG lab, and the Small Animal Imaging lab on campus.
+In his role, he supports research activities and advances technical capabilities by
+supervising researchers and technical staff and providing scientific assistance.
 
 `osama.abdullah@nyu.edu <mailto:osama.abdullah@nyu.edu>`_
 
