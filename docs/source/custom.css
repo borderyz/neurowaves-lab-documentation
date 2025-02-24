@@ -3,16 +3,14 @@ body {
 }
 
 
-/* Center the main content area */
-.wy-nav-content {
-    margin: 0 auto;
-    float: none;
-    max-width: 1200px;  /* Adjust as needed */
+
+.wy-body-for-nav {
+    display: flex !important;
+    justify-content: center !important;
 }
 
-/* Optionally, center the navigation if desired */
-.wy-nav-side {
-    float: none;
-    margin: 0 auto;
-    text-align: center;
+
+.wy-grid-for-nav {
+    display: flex !important;
+    justify-content: center !important;
 }
