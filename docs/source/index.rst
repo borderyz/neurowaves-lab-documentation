@@ -20,7 +20,7 @@ Haidee Paterson
    :alt: Haidee Paterson
 
 **MRI Instrumentation Specialist**
-Haidee.
+Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquistion expert.
 
 ---
 
@@ -32,7 +32,7 @@ Hadi Zaatiti
    :alt: Hadi Zaatiti
 
 **MEG Research Scientist I**
-Hadi.
+Hadi is an MEG Research Scientist, specialised in MEG-EEG data processing.
 
 ---
 
@@ -44,7 +44,7 @@ Osama Abdullah
    :alt: Osama Abdullah
 
 **MRI Physicst II**
-Osama.
+Osama is an MRI physicst, specialised in MRI data processing.
 
 
 
