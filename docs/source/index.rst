@@ -1,22 +1,24 @@
-###################################
-MEG/EEG-pipeline documentation page
-###################################
+#####################################################
+NeuroWaves: MEG/EEG-pipeline NYUAD documentation page
+#####################################################
+
+
+.. include:: ../../README.rst
 
 
 Status of the documentation build
 
 
 
-.. image:: https://readthedocs.org/projects/meg-pipeline/badge/?version=latest
+.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
   :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
   :alt: Documentation Status
 
 
-.. image:: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml/badge.svg
-   :target: https://github.com/Hzaatiti/meg-pipeline/actions/workflows/automated-testing.yml
+.. image:: https://github.com/Hzaatiti/neurowaves/actions/workflows/automated-testing.yml/badge.svg
+   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
 
 
-.. include:: ../../README.rst
 
 
 Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
