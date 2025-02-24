@@ -1,3 +1,18 @@
 body {
     background-color: #ADFF2F; /* Replace with your desired color */
 }
+
+
+/* Center the main content area */
+.wy-nav-content {
+    margin: 0 auto;
+    float: none;
+    max-width: 1200px;  /* Adjust as needed */
+}
+
+/* Optionally, center the navigation if desired */
+.wy-nav-side {
+    float: none;
+    margin: 0 auto;
+    text-align: center;
+}
