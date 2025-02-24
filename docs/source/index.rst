@@ -25,6 +25,49 @@ Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
 
 
 
+********
+The team
+********
+
+Teams
+=====
+
+Haidee Paterson
+---------------
+.. image:: graphic/team/haidee.jpg
+   :width: 150px
+   :align: left
+   :alt: John Doe
+
+**MRI Instrumentation Specialist**
+John specializes in backend development and AI.
+
+---
+
+Hadi Zaatiti
+------------
+.. image:: graphic/team/hadi.jpg
+   :width: 150px
+   :align: left
+   :alt: Jane Smith
+
+**MEG Research Scientist I**
+Jane has experience in agile methodologies.
+
+---
+
+Osama Abdullah
+--------------
+.. image:: graphic/team/osama.jpg
+   :width: 150px
+   :align: left
+   :alt: Alice Brown
+
+**MRI Physicst II**
+Alice creates beautiful and functional designs.
+
+
+
 
 .. note::
 
