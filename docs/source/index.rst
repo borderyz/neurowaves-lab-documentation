@@ -22,7 +22,7 @@ Haidee Paterson
 
 **MRI Instrumentation Specialist**
 Haidee is an MRI instrumentation specialist and radiologist. She is also an MEG-EEG data acquisition expert.
- `haidee.paterson@nyu.edu <mailto:haidee.paterson@nyu.edu>`_
+`haidee.paterson@nyu.edu <mailto:haidee.paterson@nyu.edu>`_
 
 .. raw:: html
 
