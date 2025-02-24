@@ -78,17 +78,6 @@ Lab Address
    ☎ Phone: +971 02 556 8066
 
 
-.. table:: Team Contact Information
-   :widths: auto
-
-   ==================== ===================== =========================== ================
-   Name                 Role                  Email                       GitHub
-   ==================== ===================== =========================== ================
-   Hadi Zaatiti         Research Scientist    hadi.zaatiti@nyu.edu        hzaatiti
-   Haidee J Paterson    Radiology Scientist   haidee.paterson@nyu.edu     hjpnyuad
-   Osama Abdullah       MRI Physicist II      osama.abdullah@nyu.edu      osamaNYUAD
-   ==================== ===================== =========================== ================
-
 
 Download latest documentation from : `Download PDF <https://neurowaves.readthedocs.io/_/downloads/en/latest/pdf/>`_
 
@@ -99,10 +88,9 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 
 
-
-
+*********************************
 Status of the documentation build
-
+*********************************
 
 
 .. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
@@ -114,19 +102,15 @@ Status of the documentation build
    :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
 
 
-
-Check out the :doc:`1-systems/1-meg-kit-system` section for further information.
-
-
-
-
-
-
-
-
 .. note::
 
    This project is under active development.
+
+
+
+*********************
+Documentation content
+*********************
 
 
 .. toctree::
