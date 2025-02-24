@@ -119,6 +119,7 @@ Documentation content
    :maxdepth: 2
    :caption: Lab Overview
 
+   1-systems/0-meg-lab-overview
    1-systems/1-meg-kit-system
    1-systems/2-meg-opm-system
    1-systems/3-eeg-system
