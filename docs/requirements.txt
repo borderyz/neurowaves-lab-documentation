@@ -11,3 +11,4 @@ pandas
 boxsdk[jwt]
 python-dotenv
 pytest
+sphinxcontrib-mermaid
