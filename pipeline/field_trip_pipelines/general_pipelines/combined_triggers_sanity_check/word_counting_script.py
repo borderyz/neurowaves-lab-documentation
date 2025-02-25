@@ -8,7 +8,7 @@ import pandas as pd
 # Load the trial list
 #trialList = data.importConditions(r'C:\Users\hz3752\Box\MEG\Data\egyptian-language-study\sub-trigger\derivatives\\' + CSV_FILE_NAME)
 
-FILE_PATH = 'egyptian/egyptian_list4_sub004.csv'
+FILE_PATH = 'egyptian_list9.csv'
 
 output_file = 'word_count_'+FILE_PATH
 
