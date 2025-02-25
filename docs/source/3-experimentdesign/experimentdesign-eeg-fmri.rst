@@ -24,3 +24,16 @@ Ensure:
    Always add a random duration of time before showing stimulus at the beginning of each TR
 
 
+
+
+Example Experiments EEG-FMRI
+----------------------------
+
+
+.. nbgallery::
+    :name: rst-gallery
+    :glob:
+
+    experiments-eeg-fmri/*
+
+

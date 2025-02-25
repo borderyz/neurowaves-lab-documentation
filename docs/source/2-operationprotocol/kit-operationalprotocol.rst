@@ -102,8 +102,8 @@ Prepare the lab equipment (prior to participant arrival) Estimated Time: 20min
         - Wait for the auto-tuning to be done
     - From Menu -> MEG Measurement -> Monitor and Acquisition window should open
         - Ensure or set (these parameters are only to be used for empty-room data and not for a neuro-activity experiment measurement):
-            - LPF to `0.1 Hz`
-            - HPF to `1 KHz`
+            - HPF to `0.1 Hz`
+            - LPF to `1 KHz`
             - BEF to `THRU`
         - Sensor Check
         - Let the `Sensor Check` run for around 2 minutes
@@ -493,6 +493,10 @@ Perform the MEG Experiment (Participant is present)
         - A `.mrk` file named as `YYYYMMDD-x.mrk` is automatically generated in the specified directory following the marker measurement, where `x` is an integer 1,2,3,... indicating the order of recording of the marker
         - If your experiment is lengthy i.e. 2 hours long, we recommend that you perform a marker measurement in between, i.e., after 1 hour is elapsed
     - On “Monitor and Acquisition” window:
+        - Set/Ensure that:
+            - HPF: `0.1 Hz`
+            - LPF: `500Hz`
+            - BEF: `THRU`
         - Continuous Mode > Start - see above picture
         - Sampling rate: 1000 (default)
         - Time: 4000 [66 minutes] (this is the maximum possible time in the MEG160 software)
