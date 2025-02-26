@@ -286,9 +286,9 @@ def run_csv_conversion(app: Sphinx):
 
 
 
-# def setup(app: Sphinx):
-#
-#     logging.basicConfig(level=logging.INFO)
-#     app.connect("builder-inited", run_generate_system_status_dashboards_script)
-#     app.connect("builder-inited", run_update_data_quality_dashboards)
+def setup(app: Sphinx):
+
+    logging.basicConfig(level=logging.INFO)
+    app.connect("builder-inited", run_generate_system_status_dashboards_script)
+    app.connect("builder-inited", run_update_data_quality_dashboards)
 
