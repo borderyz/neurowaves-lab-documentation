@@ -14,7 +14,7 @@ KIT & NYUAD Collaboration
    :width: 45%
    :align: left
 
-.. figure:: ../graphic/NYU_Logo.png
+.. figure:: ../graphic/collaboration/nyuad_purple.png
    :width: 45%
    :align: right
 
