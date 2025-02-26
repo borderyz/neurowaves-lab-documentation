@@ -135,6 +135,7 @@ Documentation content
    1-systems/3-eeg-system
    1-systems/4-eeg-fmri
    1-systems/5-team
+   1-systems/6-collaboration
    1-systems/quizz
 
 .. toctree::
