@@ -120,6 +120,12 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 
 
+.. raw:: html
+
+   <model-viewer src="graphic/3D-models/brain.glb" alt="3D Model"
+                 auto-rotate camera-controls style="width: 100%; height: 500px;">
+   </model-viewer>
+
 *********************
 Documentation content
 *********************
