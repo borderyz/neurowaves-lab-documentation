@@ -41,119 +41,28 @@
       }
     },
 
-
-
     {
-      "id": "dwi_AP",
-      "datatype": "dwi",
-      "custom_entities": "dir-AP",
-      "suffix": "dwi",
+      "id": "rest_run-01",
+      "datatype": "func",
+      "suffix": "bold",
+      "custom_entities": "task-restingstate_run-01",
       "criteria": {
-        "SidecarFilename": "*dwi*",
-        "ProtocolName": "dwi_acq-*directions_dir-AP",
-	"PhaseEncodingDirection": "j-",
-        "ImageType": ["ORIGINAL", "PRIMARY", "DIFFUSION", "NONE"]
-     }
-    },
-
-
-
-
-    {
-      "datatype": "fmap",
-      "suffix": "epi",
-      "custom_entities": "dir-PA",
-      "criteria": {
-        "SidecarFilename": "*dwi*",
-        "ProtocolName": "dwi_acq-*directions_dir-PA",
-	"PhaseEncodingDirection": "j", 
-        "ImageType": ["ORIGINAL", "PRIMARY", "DIFFUSION", "NONE"]
+        "ProtocolName": "*bold_task-restingstate_run-01*",
+        "MultibandAccelerationFactor": "[1-9]"
       },
-	"sidecar_changes": {
-	"IntendedFor": "dwi_AP"
+      "sidecar_changes": {
+        "TaskName": "rest",
+        "RepetitionTime": 1.0
       }
     },
 
-
-
-
-   {
-     "id": "id_perf_asl",
-     "datatype": "perf",
-     "suffix": "asl",
-     "criteria": {
-       "ProtocolName": "asl_3d_tra_p2*",
-       "SeriesDescription": "asl_3d_tra_p2*",
-       "ImageType": ["ORIGINAL", "PRIMARY", "ASL", "NONE"]
-     },
-     "sidecar_changes": {
-        "RepetitionTimePreparation": 7.4,
-        "M0Type": "Separate",
-        "LabelingDuration": 1.800,
-        "PostLabelingDelay": [1.500, 1.500, 1.600, 1.600, 1.700, 1.700, 1.800, 1.800, 2.000,  2.000],
-        "TotalAcquiredPairs": 1,
-        "AcquisitionVoxelSize": [1.6, 1.6, 3.0],
-        "BackgroundSuppression": true
-     }
-   },
-   {
-     "id": "id_perf_m0scan",
-     "datatype": "perf",
-     "suffix": "m0scan",
-     "criteria": {
-       "ProtocolName": "asl_m0",
-       "SeriesDescription": "asl_m0",
-       "ImageType": ["ORIGINAL", "PRIMARY", "ASL", "NONE"]
-     },
-      "sidecar_changes": {
-         "RepetitionTimePreparation": 7.4,
-         "AcquisitionVoxelSize": [1.6, 1.6, 3.0],
-         "IntendedFor": "id_perf_asl"
-     }
-   },
-
-
-
-   {
-     "id": "finger_tapping_run-01",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-fingertapping_run-01",
-     "criteria": {
-       "ProtocolName": "*bold_task-fingertapping_run-01",
-		"ImageType": ["ORIGINAL", "PRIMARY", "FMRI", "NONE"]
-     },
-     "sidecar_changes": {
-       "TaskName": "fingertapping",
-       "RepetitionTime": 1.0
-     }
-   },
-   
-   
-     {
-     "id": "finger_tapping_run-02",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-fingertapping_run-02",
-     "criteria": {
-       "ProtocolName": "*bold_task-fingertapping_run-02",
-		"ImageType": ["ORIGINAL", "PRIMARY", "FMRI", "NONE"]
-     },
-     "sidecar_changes": {
-       "TaskName": "fingertapping",
-       "RepetitionTime": 1.0
-     }
-   },
-   
-   
      {
      "id": "finger_tapping_run-03",
      "datatype": "func",
      "suffix": "bold",
      "custom_entities": "task-fingertapping_run-03",
      "criteria": {
-       "ProtocolName": "*bold_task-fingertapping_run-03",
-		"ImageType": ["ORIGINAL", "PRIMARY", "FMRI", "NONE"]
+       "ProtocolName": "*bold_task-fingertapping_run-03"
      },
      "sidecar_changes": {
        "TaskName": "fingertapping",
@@ -163,130 +72,95 @@
 
 
 
+   
   {
-     "id": "rest_AP_SBRef",
+    "id": "finger_tapping_run-02",
+    "datatype": "func",
+    "suffix": "bold",
+    "custom_entities": "task-fingertapping_run-02",
+    "criteria": {
+    "ProtocolName": "*bold_task-fingertapping_run-02"
+  },
+  "sidecar_changes": {
+    "TaskName": "fingertapping",
+    "RepetitionTime": 1.0
+  }
+  },
+   
+    {
+     "id": "finger_tapping_run-01",
+     "datatype": "func",
+     "suffix": "bold",
+     "custom_entities": "task-fingertapping_run-01",
+     "criteria": {
+       "ProtocolName": "*bold_task-fingertapping_run-01"
+     },
+     "sidecar_changes": {
+       "TaskName": "fingertapping",
+       "RepetitionTime": 1.0
+     }
+   },
+
+
+
+   {
+     "id": "AP_SBRef",
      "datatype": "func",
      "suffix": "sbref",
-     "custom_entities": "task-restingstate_dir-AP",
+     "custom_entities": "dir-AP",
      "criteria": {
        "SeriesDescription": "*SBref*dir-AP"
      },
      "sidecar_changes": {
-       "TaskName": "rest"
+       "TaskName": "fingertapping"
      }
    },
-
-
    {
-     "id": "rest_AP_bold_1",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-01_dir-AP",
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-01_dir-[aA][pP]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
-
-   {
-     "id": "rest_PA_bold_2",		
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-01_dir-PA",   
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-02_dir-[pP][aA]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
-
-   {
-     "id": "rest_AP_bold_3",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-02_dir-AP",
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-03_dir-[aA][pP]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
-
-   {
-     "id": "rest_PA_bold_4",
-     "datatype": "func",
-     "suffix": "bold",
-     "custom_entities": "task-restingstate_run-02_dir-PA",
-     "criteria": {
-       "ProtocolName": "*bold_task-restingstate_run-04_dir-[pP][aA]",
-       "MultibandAccelerationFactor": "[1-9]"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest",
-       "RepetitionTime": 0.7
-     }
-   },
-
-   {
-     "id": "rest_AP_SBRef",
+     "id": "PA_SBRef",
      "datatype": "func",
      "suffix": "sbref",
-     "custom_entities": "task-restingstate_dir-AP",
-     "criteria": {
-       "SeriesDescription": "*SBref*dir-AP"
-     },
-     "sidecar_changes": {
-       "TaskName": "rest"
-     }
-   },
-   {
-     "id": "rest_PA_SBRef",
-     "datatype": "func",
-     "suffix": "sbref",
-     "custom_entities": "task-restingstate_dir-PA",
+     "custom_entities": "dir-PA",
      "criteria": {
        "SeriesDescription": "*SBref*dir-PA"
      },
      "sidecar_changes": {
-       "TaskName": "rest"
+       "TaskName": "fingertapping"
      }
    },
 
 
 
-
-
-
-   {
-     "datatype": "fmap",
-     "suffix": "epi",
-     "custom_entities": "dir-AP",
-     "criteria": {
-       "ProtocolName": "*fmap*dir-AP*"
-     },
-     "sidecar_changes": {
-       "IntendedFor": ["rest_AP_bold_1", "rest_PA_bold_2","rest_AP_bold_3", "rest_PA_bold_4"]
-     }
-   },
-   {
+    {
      "datatype": "fmap",
      "suffix": "epi",
      "custom_entities": "dir-PA",
      "criteria": {
-       "SidecarFilename": "*fmap*dir-PA*"
+       "SeriesDescription": "*fmap*dir-PA*"
      },
      "sidecar_changes": {
-       "IntendedFor": ["rest_AP_bold_1", "rest_PA_bold_2","rest_AP_bold_3", "rest_PA_bold_4"]
+       "IntendedFor": [
+         "rest_run-01",
+         "finger_tapping_run-01",
+         "finger_tapping_run-02",
+         "finger_tapping_run-03",
+         "PA_SBRef"]
+     }
+   },
+
+       {
+     "datatype": "fmap",
+     "suffix": "epi",
+     "custom_entities": "dir-AP",
+     "criteria": {
+       "SeriesDescription": "*fmap*dir-AP*"
+     },
+     "sidecar_changes": {
+       "IntendedFor": [
+         "rest_run-01",
+         "finger_tapping_run-01",
+         "finger_tapping_run-02",
+         "finger_tapping_run-03",
+         "PA_SBRef"]
      }
    }
   ]
