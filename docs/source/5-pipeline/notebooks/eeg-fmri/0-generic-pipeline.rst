@@ -240,10 +240,36 @@ Route 2 fMRIPrep locally (on HPC Jubail)
 
 Once the BIDS directory is created then you can install fMRIprep on jubail, copy your BIDS data directory to Jubail then process your data.
 
+- Copy your BIDS directory to /scratch/username/MRI/Project_name/
+
 Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/utilities`:
 - `get_fmriprep_image.sh`  run this script to pull the fMRIprep image and extract it
-- '
+- The following command will place the `fmriprep` image into the /scratch/username/mysif/ folder
 
+.. code-block:: bash
+
+   sbatch get_fmripre_image.sh
+
+
+- Download `templateFlow` (required to register data into template space)
+    - module load NYUAD/4.0
+    - module singularity/3.8.0
+    - module braimcore/3.1
+    - run the following commands
+
+        .. code-block:: bash
+
+            export BRAIMCORE_ENGINE=fmriprep
+            braimcore fetch_templates
+
+    - Get a free surfer license from https://surfer.nmr.mgh.harvard.edu/registration.html
+
+- Examine the `run_fmriprep.sh` script, ensure that your username is correct
+- You can now run `fmriprep` using the following:
+
+    .. code-block:: bash
+
+        sbatch run_fmriprep.sh
 
 
 GLM
