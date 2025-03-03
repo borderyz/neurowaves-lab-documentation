@@ -3,7 +3,7 @@
 clearvars; clc
 %Screen('Preference', 'SkipSyncTests', 1);
 %AssertOpenGL;  
-
+sca
 
 % Configuration parameters
  

@@ -15,9 +15,9 @@ from sphinx.application import Sphinx
 import subprocess
 
 
-project = "MEG Pipeline"
-copyright = "2024, Hadi Zaatiti"
-author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
+project = "NeuroWaves NYUAD Documentation"
+copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
+author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
 
 release = "0.1"
 version = "0.1.0"
@@ -50,7 +50,8 @@ extensions = [
     "sphinx_gallery.load_style",
     "sphinx.ext.mathjax",
     "sphinx_togglebutton",
-    "sphinx_panels"
+    "sphinx_panels",
+    "sphinxcontrib.mermaid",
 ]
 
 exclude_patterns = ['5-pipeline/notebooks/fieldtrip/template_*.ipynb']
@@ -82,7 +83,10 @@ html_theme_options = {
     "navigation_depth": 4,
     "includehidden": True,
     "titles_only": False,
+    "body_max_width": None,
 }
+
+
 
 suppress_warnings = [
     "epub.unknown_project_files"

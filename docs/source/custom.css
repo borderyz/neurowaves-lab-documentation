@@ -1,3 +1,16 @@
 body {
     background-color: #ADFF2F; /* Replace with your desired color */
 }
+
+
+
+.wy-body-for-nav {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+
+.wy-grid-for-nav {
+    display: flex !important;
+    justify-content: center !important;
+}
