@@ -19,7 +19,6 @@ BIDS_DIR=/scratch/$USER/MRI/$PROJECT_NAME/rawdata
 OUTPUT_DIR=/scratch/$USER/MRI/$PROJECT_NAME/derivatives/fmriprep
 FS_LICENSE=/home/$USER/license.txt
 
-
 export TEMPLATEFLOW_HOME='/home/hz3752/.cache/templateflow'
 
 # Get the list of subject IDs
