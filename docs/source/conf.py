@@ -17,7 +17,13 @@ import subprocess
 
 project = "NeuroWaves NYUAD Documentation"
 copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
-author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
+#author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
+
+author = (
+    "Hadi Zaatiti \\texttt{hadi.zaatiti@nyu.edu}\\\\"
+    "Haidee Paterson \\texttt{haidee.paterson@nyu.edu}\\\\"
+    "Osama Abdullah \\texttt{osama.abdullah@nyu.edu}"
+)
 
 release = "0.1"
 version = "0.1.0"
