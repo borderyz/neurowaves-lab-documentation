@@ -7,6 +7,53 @@ Identifying your usage
 Booking system and scheduling
 -----------------------------
 
+
+.. mermaid::
+
+    graph TD;
+        A["🎉 <b>Experiment Finalized</b>"] -->|📩 Submit| B["🆔 <b>Provide NetID to MEG Scientists</b>"];
+        B -->|🔑 Get Access| C["🔓 <b>Gain Access to MEG Booking System</b>"];
+
+        %% Booking Process
+        C --> D["🖥️ <b>Go to Booking Portal</b>"];
+        D -->|🔗 Visit| E["🔗 <b><a href='https://corelabs.abudhabi.nyu.edu/dashboard.php'>MEG Booking Portal</a></b>"];
+        E -->|📌 Pick| F["🧠 <b>Select Magnetoencephalography MEG - KIT</b>"];
+
+        %% Restrictions & Warnings
+        F --> G{⚠️ <b>Check Scheduling Rules</b>};
+        G --❌ Avoid --> G1["⏰ <b>Rush Hours (8:30 AM - 5:30 PM)</b>"];
+        G --❌ Avoid --> G2["🛑 <b>Monday Morning (9:00 - 10:30 AM) - Helium Refill</b>"];
+        G --❌ Avoid --> G3["🕌 <b>Friday Prayer Time</b>"];
+
+        %% Decision: Does the user need a scientist?
+        F --> I{👨‍🔬 <b>Need MEG Scientist Assistance?</b>};
+        I -- No --> L["✅ <b>Book Lab at Desired Slot</b>"];
+        I -- Yes --> J["📅 <b>Check Availability on Their Calendar</b>"];
+        J --> K["📧 <b>Send Google Calendar Invite</b>"];
+        K -->|Meeting Subject: MEG Training of Name & NetID| L;
+
+        %% Decide Whether to Book Hadi or Haidee
+        I --> M["🔗 <b><a href='https://meg-pipeline.readthedocs.io/en/latest/1-systems/5-team.html'>Who to Book? Responsibilities</a></b>"];
+        M -->|📧 Contact| N{📩 <b>Email Hadi or Haidee?</b>};
+        N --📩 Hadi Zaatiti --> O["📧 <b><a href='mailto:hadi.zaatiti@nyu.edu'>hadi.zaatiti@nyu.edu</a></b>"];
+        N --📩 Haidee Paterson --> P["📧 <b><a href='mailto:haidee.paterson@nyu.edu'>haidee.paterson@nyu.edu</a></b>"];
+
+        %% Alternative Booking Process
+        F --> R["🖥️ <b><a href='https://corelabs.abudhabi.nyu.edu/'>Alternative: Corelabs Reservations</a></b>"];
+
+        %% Style Definitions for Enhanced Coloring
+        classDef primary fill:#4CAF50,stroke:#2E7D32,color:#fff,font-weight:bold;
+        classDef warning fill:#FF5722,stroke:#D84315,color:#fff,font-weight:bold;
+        classDef process fill:#2196F3,stroke:#1976D2,color:#fff,font-weight:bold;
+        classDef highlight fill:#FF9800,stroke:#F57C00,color:#fff,font-weight:bold;
+
+        class A primary;
+        class B,C,D,E,F,H,L,Q,R process;
+        class G,G1,G2,G3 warning;
+        class I,J,K,M,N,O,P highlight;
+
+
+
 Provide your `netID` to the MEG scientists for you to have access to the lab booking calendar.
 
 

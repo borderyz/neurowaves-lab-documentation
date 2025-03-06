@@ -17,5 +17,5 @@ jobs:
 
       - name: Daily Trigger ReadTheDocs Build
         run: |
-          curl -X POST "https://readthedocs.org/api/v3/projects/meg-pipeline/versions/latest/builds/" \
+          curl -X POST "https://readthedocs.org/api/v3/projects/neurowaves/versions/latest/builds/" \
           -H "Authorization: Token ${{ secrets.READTHEDOCS_API_TOKEN }}"

@@ -1,6 +1,8 @@
 Generic pipeline
 ================
 
+Author: Hadi Zaaiti <hadi.zaatiti@nyu.edu>, Puti Wen <puti.wen@nyu.edu>
+
 .. contents:: Table of Contents
    :depth: 3
    :local:
@@ -139,8 +141,6 @@ Pre-processing of the fMRI data
 -------------------------------
 
 
-Author: Putti Wen
-
 
 .. figure:: 0-generic-pipeline-figures/f1.png
    :alt: Schematic of the fMRI Preprocessing Pipeline
@@ -169,24 +169,33 @@ Converting DICOM to BIDS on XNAT
 
 
 - Prerequisites for Running **dcm2bids**
-
-  1. Ensure your DICOM data are properly uploaded to your **xnat** project.
-  2. Confirm you have an active **xnat** account with the necessary access permissions.
-  3. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
-
+    #. Ensure your DICOM data are properly uploaded to your **xnat** project.
+    #. Confirm you have an active **xnat** account with the necessary access permissions.
 - Running **dcm2bids**
+    #. Navigate to your **xnat** project.
+    #. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
+        - example file can be found in `pipeline/eeg_fmri_pipelines/fmri_preprocessing\utilities`
+        - Click on your project, then `Manage Files`, select `resources` for `level` then add Folder called `configs` then upload file `config.json`
+    #. Select the **Processing Dashboard**, and then **MR Sessions**
 
-  1. Navigate to your **xnat** project.
-  2. Select the **Processing Dashboard**, and then **MRI Sessions**
-  
-  .. figure:: 0-generic-pipeline-figures/f2.png
-   :alt: Schematic of the fMRI Preprocessing Pipeline
-   :align: center
-   :figclass: align-center
+        .. figure:: 0-generic-pipeline-figures/f2.png
+            :alt: Schematic of the fMRI Preprocessing Pipeline
+            :align: center
+            :figclass: align-center
 
-  3. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
-  4. Select Subjects you want to process, and click **Launch job**
-  5. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
+    #. Under **Select elements to launch processing**, in dropdown menu **Select Job**, select **dcm2bids-session**
+    #. Select Subjects you want to process, and click **Launch job**
+    #. Click **Reload** to see the job status and wait for it to finish (this may take a 5-15 minutes)
+    #. Sanity check after running *dcm2bids*
+        - After running `dicom2bids`, we want to verify the file structure:
+            1. Ensure the expected folders are present:
+               - `Func/`
+               - `Eeg/`
+               - `Anat/`
+               - `Fmap/`
+            2. Check filenames and parameters.
+        - Ideally, each task has its own **sbref** (two files: one **AP**, one **PA**)
+        - Similarly, **fmap** should have **AP** and **PA** (not for every run, but for every task)
 
 
 fMRI Preprocessing with fMRIPrep: Two Available Routes
@@ -221,7 +230,7 @@ GLM
 - Build the design matrix
 - Run the GLM
 - Save the GLM outputs
-- Visualy inspect GLM outputs in freeview 
+- Visually inspect GLM outputs in freeview
 
 
 
