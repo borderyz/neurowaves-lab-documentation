@@ -57,8 +57,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-%saccadeOffset = 173; % pixel -> 3 dva
-saccadeOffset = 500; % pixel -> 8 dva
+saccadeOffset = 500; % pixel ->  dva
 targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
@@ -345,8 +344,8 @@ try
         wQuestion = Screen('OpenOffscreenWindow', w, 255);
         questRect = CenterRectOnPoint([0 0 size(previewMatrix, 2) size(previewMatrix, 1)], wx, wy);
         Screen('DrawTexture', wQuestion, questionTexture, [], questRect);
-        Screen('DrawText', wQuestion, 'yes', wx - 305, wy + 150, black);
-        Screen('DrawText', wQuestion, 'no', wx + 305, wy + 150, black);
+        Screen('DrawText', wQuestion, 'no', wx - 305, wy + 150, black);
+        Screen('DrawText', wQuestion, 'yes', wx + 305, wy + 150, black);
 
 
         if i_trial <= size(expTable, 1)
