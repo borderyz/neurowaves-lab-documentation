@@ -9,7 +9,7 @@ from utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
-TIME_TO_RESET_BUTTON_BOX =1
+TIME_TO_RESET_BUTTON_BOX =1.7
 TIME_WAIT_BREAK = 0.5
 # Define the RGB code for each channel on the KIT machine and their name
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
@@ -45,23 +45,24 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('test1.csv')
+trialList = data.importConditions('mandarin_list12.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
 clock = core.Clock()
 
 backgroundColor = 'black'
-instructionsFont = 'Noto Naskh Arabic' #'Arial'
-stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'
-stimuliColor = 'yellow'
+instructionsFont = 'Arial'
+stimuliFont = 'SimSun'
+stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 36 #300ms
+instructionSize = 1
+wordOn = 42 #350ms
 wordOff = 24 #200ms
-lastWordOn = 72 #6ooms
+lastWordOn =  132  #1100
 
-boxHeight = stimuliSize + 2
+boxHeight = stimuliSize + 1.5
 boxWidth = 11
 
 longestWordCount = 0
@@ -87,11 +88,11 @@ fixationUnits = stimuliUnits
 fixationTrigger = 255
 
 taskQuestionColor = 'red'
-taskQuestionSize = 1
+taskQuestionSize = 1.5
 taskQuestionUnits = stimuliUnits
 taskQuestionOff = wordOff
 
-instructionColor = 'yellow'
+instructionColor = 'gold'
 instructionSize = 1
 instructionUnits = stimuliUnits
 instructionOff = wordOff
@@ -143,7 +144,7 @@ myDlg.addField('Age:', 21)
 myDlg.addField('Biological Sex:', choices=["Female", "Male"])
 myDlg.addField('Handedness:', 100)
 myDlg.addText('Experiment Info', color='Red')
-myDlg.addField('Experiment Name:', 'Egyptian')
+myDlg.addField('Experiment Name:', 'Mandarin')
 myDlg.addField('Experiment List:', 1)
 myDlg.show()
 
@@ -157,9 +158,14 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
 
-stim = visual.TextStim(win,
-                       text= 'في التجربة  ده، حتقرا جمل كلمة بكلمة و احنا نسجل ال\n\n.MEGبعد بعض الجمل، حيطلب منك الإجابة بنعم أو لا بخصوص محتوى الجملة.\n\n الأسئلة ده بسيطة آوي وهي للتأكيد من أنك بتقرا الجمل.\n\nكل ما عليك تعملة هو قراءة الجمل بشكل طبيعي، و بعدين الإجابة على السؤال\n\nيرجى تحاول مترمش لما تشوف الجمل، يمكنك الرمش بعد الجملة و وقت أسئلة الفهم.\n\nاضغط على مفتاح نعم عشان تشوف الأمثلة.',
-                       font= instructionsFont,languageStyle='Arabic', units=breakUnits, color=instructionColor, height= 0.7, alignText= 'center', pos = (0,0), wrapWidth= 30)
+stim = visual.TextStim(win, text= '在本次实验中，您将阅读一系列句子，句子将逐词出现在屏幕上。\n\n'
+                                  '与此同时，我们将会记录脑磁图收集到的信息。\n\n'
+                                  '在一些句子结束后，您将回答一道关于该句子的是非题。\n\n'
+                                  '这些问题非常简单。\n\n他们仅仅是用来保证您认真阅读了那些句子。\n\n'
+                                  '您只需要正常地阅读屏幕上的句子，然后回答问题。\n\n'
+                                  '在您阅读句子的时候，请不要眨眼。\n\n 您可以在句子结束后，或者回答是非题过程中眨眼。\n\n'
+                                  '请按下“是”按钮来看几句例子。',
+                       font= 'SimSun', units= instructionUnits, color=instructionColor, height= 0.7, alignText= 'center', wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
@@ -198,15 +204,24 @@ for trialIndex in range(startItem - 1, totalTrials):
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
         if currentBreakCount == 1:
-            stim = visual.TextStim(win, text='مبروك! انت جوبت على %i من %i من أسئلة التدريب بشكل صحيح.\n\n أنت دلوقتي جاهز تعمل التجربة الحقيقية.\n\n في %i جملة للقراية.\n\n من فضلك اتجنب الحركة والتوقف عن الرمش والضغط على مفتاح نعم لما تكون جاهز للجملة الأولى.' %
-                                        (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
-                                        font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=0.7, color=breakColor, alignText= 'center', wrapWidth= 30)
+            stim = visual.TextStim(win, text= '恭喜您！您已经正确回答了%i道练习题中的%i道。\n\n'
+                                              '您已经准备好开始进行真正的实验了。\n\n'
+                                              '现在还有%i句句子要阅读。\n\n '
+                                              '请保持不动，不要眨眼。\n\n '
+                                              '请在我们通知您可以开始实验后按下“是”按钮开始阅读第一句话。'
+                                              % (trialsSinceLastBreak,recentCorrectResponses, remainingTrials),
+                                   font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
+
+
             totalCorrectResponses = 0
             print('congratulations window')
         else:
-            stim = visual.TextStim(win, text = 'انت جوبت على %i من %i سؤال صح من الاستراحة الأخيرة.\n\nانت كملت %i جملة، وباقي %i جملة كمان.\n\nلما تكون جاهز للجملة اللي جية اتجنب الحركة، وقف ترمش ، واضغط على مفتاح "نعم".' %
-                                        (recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials),
-                                        font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=0.7, color=breakColor, alignText= 'center', wrapWidth= 30)
+            stim = visual.TextStim(win, text='自上一次休息后，您已经正确回答了%i个问题中的%i道。\n\n '
+                                             '你已经完成了%i句句子，还有%i句句子。\n\n'
+                                             '当您准备好阅读下一句话时，\n\n '
+                                             '请保持不动，不要眨眼，然后按下“是”按钮。'
+                                             % (trialsSinceLastBreak,recentCorrectResponses, completedTrials, remainingTrials),
+                                   font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
             print('break window')
 
         stim.setPos((0, 0))
@@ -273,7 +288,7 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        stim = visual.TextStim(win, text=words[wordIndex], languageStyle='Arabic', font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor)
+        stim = visual.TextStim(win, text=words[wordIndex],  font=stimuliFont, units=stimuliUnits, height=stimuliSize, color=stimuliColor, alignText = 'center', anchorHoriz = 'center')
         stim.setPos((0, 0))
 
 
@@ -384,8 +399,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
 
-
-        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font=instructionsFont, languageStyle='Arabic', units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
+        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
@@ -396,8 +410,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         responses.append(response)
 
 
-        stim = visual.TextStim(win, text='من فضلك أتأكد أن صباعك مش دايس على أي زرار.', font=instructionsFont, languageStyle='Arabic', units=taskQuestionUnits, height=taskQuestionSize, color=taskQuestionColor)
-        stim.setPos((0, 0))
+        stim = visual.TextStim(win, text='请确保您的手指没有持续按压任何按钮。\n\n',
+                               font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
+        stim.setPos((0,-1.5))
         stim.draw()
         win.flip()
         core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -452,9 +467,12 @@ for trialIndex in range(startItem - 1, totalTrials):
     event.clearEvents()
     #responses = []
     stim = visual.TextStim(win,
-                           text= 'يمكنك ترمش دلوقتي.\n\nلما تكون جاهز للجملة اللي جية اتجنب الحركة، وقف ترمش ، واضغط على مفتاح "نعم".',
-                           font=instructionsFont, languageStyle='Arabic', units=breakUnits, height=breakSize, color=stimuliColor)
-    stim.setPos((0, 0))
+                           text='现在您可以眨眼了。\n\n' 
+                                '当您准备好阅读下一句话时,\n\n'
+                                '请保持不动，不要眨眼，\n\n'
+                                '然后按下“是”按钮。\n\n',
+                           font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText = 'center')
+    stim.setPos((0, -1.5))
     stim.draw()
     win.flip()
 
@@ -484,9 +502,16 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 event.clearEvents()
 stim = visual.TextStim(win,
-                       text=' مبروك ، انت خلصت! بس من فضلك متتحركش لحد منؤلك.\n\n محتجين 30 ثانية بس عشان نخلص التسجيلات.\n\n انت قريت %i جملة، وجوبت على %i من %i سؤال صح!\n\n شكرا اوي على مشاركتك.\n\n اضغط على أي مفتاح عشان تقفل البرنامج.'% (
+                       text='您已经完成了所有内容 \n\n' 
+                            '请您暂时保持不动，\n\n'
+                            '以便我们进行最后的记录。\n\n'
+                            '记录过程大约持续30秒钟。 \n\n'
+                            '您阅读了%i句句子，\n\n'
+                            '并成功答对了其中的%i个问题。（共%i个问题）。\n\n' 
+                            '非常感谢您来参与我们的实验。'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                       font=instructionsFont, languageStyle='Arabic', units=instructionUnits, height=instructionSize, color=instructionColor,   wrapWidth=40, alignText='center', alignVert='center')
+                       font= stimuliFont, units= stimuliUnits, height=instructionSize, color=stimuliColor,  alignText = 'center')
+
 stim.setPos((0, 0))
 stim.draw()
 win.flip()

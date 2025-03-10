@@ -159,6 +159,7 @@ Documentation content
    :maxdepth: 2
    :caption: Experiments Design
 
+   3-experimentdesign/project_proposal
    3-experimentdesign/process-new-user
    3-experimentdesign/experimentdesign
    3-experimentdesign/experimentdesign-eeg-fmri

@@ -1,6 +1,41 @@
 # config.json README
 
+- add the ses prefix
+
+Each bold run must have the sbref either PA or AP depending on the PhaseEncodingDirection
+-    "PhaseEncodingDirection": "j", = PA (To verify)
+
+## Local dicom2bids
+
+
+Install pip pydeface
+I would suggest the following —
+
+1. **Identifying a location** (that Matlab and we all have access to) and create the project folder, delete unwanted scans (such as the duplicating incorrect runs, for example, the first fmap and sbref runs for this pilot data).
+
+2. **Install `dcm2bids`** to do the manual conversion. You may use the same configure file.
+
+3. **Post conversion manual correction**:
+   - Copying `sbref` (needs to be as many runs as the functional `bold` runs) for each functional run.
+   - Checking and fixing the `IntendedFor` field (in the JSON files that are in the `fmap` files).  
+   - Can be done in Python or Matlab.
+
+4. **Run BIDS Validator** (browser version).
+
+5. **Copy BIDS data to Jubail**, don’t forget to also find and copy over the anatomicals, i.e., `T1w`.
+
+6. **Set up and run fMRIPrep** on Jubail.
+
+7. **Retrieve data from Jubail**.
+
+
+
 ## Configure your own `config.json`
+
+
+criteria is how to filter the dicoms, by matching the sidecars
+side_car changes means we are adding new information after dicom2bids
+
 
 Use the provided template in this folder to define the key-value pairs.
 
