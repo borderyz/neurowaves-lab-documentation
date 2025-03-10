@@ -23,9 +23,11 @@ raw_picked.filter(l_freq=0, h_freq=500.0)
 data = raw_picked.get_data()
 sfreq = raw_picked.info['sfreq']
 
+print('Sampling frequency', sfreq)
+
 # Compute the PSD using Welch's method.
 # psds shape: (n_channels, n_freqs), units T²/Hz for MEG data.
-psds, freqs = mne.time_frequency.psd_array_welch(data, sfreq=sfreq, fmax=1000, n_fft=2048)
+psds, freqs = mne.time_frequency.psd_array_welch(data, sfreq=sfreq, fmax=500, n_fft=2048)
 
 # Average the PSDs across channels
 psd_avg = np.mean(psds, axis=0)
