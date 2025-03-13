@@ -212,9 +212,9 @@ try
     text = {
         'You will see a fixation point in the middle of the screen. Please keep your eyes fixated on it.'
         'Keep your eyes fixated on the point until it turns green.'
-        'When the point turns green, look at the wrod either to the left or righ of the fixation point.'
-        'You will be prompted to answer the question "Is this  the same word you last saw?"'
-        'You can answer with the yellow butto for "YES" or the red button for "NO".'
+        'When the point turns green, look at the word either to the left or right of the fixation point.'
+        'You will be prompted to answer the question "Is this the same word you last saw?"'
+        'You can answer with the yellow button for "YES" or the red button for "NO".'
         'NOTE: The word will appear before the fixation point turns green. Please do not look at the word before the point turns to green.'
         ''
         'PRESS SPACE TO START'
@@ -389,6 +389,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -491,6 +492,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -632,6 +634,7 @@ try
         while GetSecs() - expTable.targetOnsetTime(i_trial) < targetDuration
             [~, ~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -684,6 +687,8 @@ try
             % Handle escape key to exit experiment
             [~, secs, keyCode] = KbCheck();
             if keyCode(KbName('escape'))
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+                
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -795,17 +800,15 @@ try
     WaitSecs(5);
 
     expTable = expTable(validTrialsIndex, :);
+
+    endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, false)
+
+
     if use_vpixx==1
         Datapixx('DisablePixelMode');
         Datapixx('RegWr');
         Datapixx('Close');
     end
-    % SAVE DATA
-    EXP.DEMO = DEMO;
-    EXP.data = expTable;
-    EXP.trig = trig;
-    EXP.stim = stim_fn;
-    save(['Sub-' answer1{1} '-vcp.mat'], 'EXP')
 
     if use_eyetracker==1
         % SAVE EYE DATA
@@ -833,8 +836,8 @@ try
 
 catch
     % FINISH EXPERIMENT
-    % FINISH EXPERIMENT
-    ShowCursor();
+endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+ShowCursor();
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
     sca;
