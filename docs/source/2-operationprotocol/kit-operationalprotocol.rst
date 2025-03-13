@@ -216,6 +216,10 @@ Prepare the lab equipment (prior to participant arrival) Estimated Time: 20min
         - Make sure you arrive to the `Introduction Page` mentioned in the :ref:`design_experiment` section
     - You can make a quick test run to make sure that trigger signals are appearing correctly on the `MEG160` software
 
+.. warning::
+
+   For a real participant, make sure to turn off the Wifi on the `Stimulus Computer` so that the experiment is not interrupted by an update or other notification from the internet.
+
 #. Turn-off the doorbell ring at the entrance of the lab by turning off the plug [IMAGE]
 
 .. figure:: figures/meg-operationprotocol/doorbell.png
