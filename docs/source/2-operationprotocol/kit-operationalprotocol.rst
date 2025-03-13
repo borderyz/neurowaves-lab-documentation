@@ -15,7 +15,7 @@ Lab booking and schedule
 
 .. warning::
 
-   All bookings should not happen on a monday morning, as Helium refill is scheduled for monday mornings
+   All bookings should not take place on a monday morning, as Helium refill is scheduled for monday mornings
    and it is not possible to acquire data during this period.
 
 
