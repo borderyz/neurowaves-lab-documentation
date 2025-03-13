@@ -1,7 +1,7 @@
 .. _design_experiment:
 
-Implementing your experiment
-============================
+Designing your MEG experiment
+=============================
 
 Purpose
 -------

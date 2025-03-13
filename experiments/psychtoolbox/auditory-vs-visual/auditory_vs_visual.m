@@ -21,7 +21,7 @@ dbstop if error;
 
 el = 0; % 1 = Eyelink on; 0 = Eyelink off;
 
-vpix_use = 1;    %Vpixx send triggers or not
+vpix_use = 0;    %Vpixx send triggers or not
 
 DEBUG = false;
 %% Experiment parameters

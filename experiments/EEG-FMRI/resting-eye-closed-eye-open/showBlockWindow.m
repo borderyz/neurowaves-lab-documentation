@@ -3,10 +3,16 @@ function [startTime, endTime] = showBlockWindow(text, blocktype)
     global parameters;
     global isTerminationKeyPressed;
     
+    if ~parameters.isDemoMode
+        Datapixx('SetDoutValues', 0);
+        Datapixx('RegWrRd');
+    end
+    
     if(~isTerminationKeyPressed)
 
         topPriorityLevel = MaxPriority(screen.win);
         Priority(topPriorityLevel);
+        
         
         numFrames = round(parameters.blockDuration/screen.ifi);
         for frame = 1:numFrames
@@ -33,7 +39,7 @@ function [startTime, endTime] = showBlockWindow(text, blocktype)
                 
                 % Sending an S1 marker on the EEG data
                 if ~parameters.isDemoMode
-                    
+
                     Datapixx('SetDoutValues', 2^2);
                     Datapixx('RegWrRd');
                     
