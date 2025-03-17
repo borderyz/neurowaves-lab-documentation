@@ -29,7 +29,7 @@ totalImages = numConnections * numCrowding * numImagesPerCondition; % This shoul
 
 n_negative = floor(totalImages/2);
 n_positive = totalImages - n_negative;
-balancedSides = [-1 * ones(n_negative, 1); 1 * ones(n_positive, 1)]; 
+balancedSides = [-1 * ones(n_negative, 1); 1 * ones(n_positive, 1)]; % -1 is left; 1 is right
 balancedSides = balancedSides(randperm(totalImages)); % Shuffle the sides randomly
 
 

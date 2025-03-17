@@ -3,12 +3,11 @@ clearvars
 %AssertOpenGL;
 
 
-% Modes (everything should be 1 for an actual participant except for
-% trigger_test
-use_vpixx = 1;
+% Modes
+use_vpixx = 0;
 use_eyetracker = 0;
-trigger_test = 1;   % 0 for actual participant
-use_response_box = 1;
+trigger_test = 1;
+use_response_box = 0;
 use_keyboard  = 1;
 
 % Open vpix
@@ -213,9 +212,9 @@ try
     text = {
         'You will see a fixation point in the middle of the screen. Please keep your eyes fixated on it.'
         'Keep your eyes fixated on the point until it turns green.'
-        'When the point turns green, look at the wrod either to the left or righ of the fixation point.'
-        'You will be prompted to answer the question "Is this  the same word you last saw?"'
-        'You can answer with the yellow butto for "YES" or the red button for "NO".'
+        'When the point turns green, look at the word either to the left or right of the fixation point.'
+        'You will be prompted to answer the question "Is this the same word you last saw?"'
+        'You can answer with the yellow button for "YES" or the red button for "NO".'
         'NOTE: The word will appear before the fixation point turns green. Please do not look at the word before the point turns to green.'
         ''
         'PRESS SPACE TO START'
@@ -390,6 +389,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -492,6 +492,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -633,6 +634,7 @@ try
         while GetSecs() - expTable.targetOnsetTime(i_trial) < targetDuration
             [~, ~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -685,6 +687,8 @@ try
             % Handle escape key to exit experiment
             [~, secs, keyCode] = KbCheck();
             if keyCode(KbName('escape'))
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+                
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -696,23 +700,17 @@ try
             if use_response_box == 1
                 % Actual experiment: wait for participant's response via the response box
                 [response, ResponseTime] = getButton();  % Function to capture MEG button press
-           
-                if response == 8 || response == 9  % Valid responses (8 = yes (yellow), 9 = no (Red))
+                if response == 8 || response == 9  % Valid responses (8 = yes, 9 = no)
                     % Log the response
                     expTable.response(i_trial) = response;
                     expTable.responseOnsetTime(i_trial) = ResponseTime;
-                   fprintf(logFile, '%d\tResponse \t ResponseTime', ...
-                   response, ResponseTime);
+
                     % Check correctness
                     if (targetTexture == questionTexture && response == 8) || ...
                             (targetTexture ~= questionTexture && response == 9)
                         expTable.correctness(i_trial) = 1;  % Correct response
-                        fprintf(logFile, '%d\tcorrectness ', ...
-                   1);
                     else
                         expTable.correctness(i_trial) = 0;  % Incorrect response
-                        fprintf(logFile, '%d\tcorrectness ', ...
-                   0);
                     end
 
                     % Log the response in the log file
@@ -802,17 +800,15 @@ try
     WaitSecs(5);
 
     expTable = expTable(validTrialsIndex, :);
+
+    endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, false)
+
+
     if use_vpixx==1
         Datapixx('DisablePixelMode');
         Datapixx('RegWr');
         Datapixx('Close');
     end
-    % SAVE DATA
-    EXP.DEMO = DEMO; 
-    EXP.data = expTable;
-    EXP.trig = trig;
-    EXP.stim = stim_fn;
-    save(['Sub-' answer1{1} '-vcp.mat'], 'EXP')
 
     if use_eyetracker==1
         % SAVE EYE DATA
@@ -840,8 +836,8 @@ try
 
 catch
     % FINISH EXPERIMENT
-    % FINISH EXPERIMENT
-    ShowCursor();
+endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+ShowCursor();
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
     sca;
