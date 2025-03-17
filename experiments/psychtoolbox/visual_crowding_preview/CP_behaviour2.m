@@ -3,11 +3,12 @@ clearvars
 %AssertOpenGL;
 
 
-% Modes
-use_vpixx = 0;
+% Modes (everything should be 1 for an actual participant except for
+% trigger_test
+use_vpixx = 1;
 use_eyetracker = 0;
-trigger_test = 1;
-use_response_box = 0;
+trigger_test = 1;   % 0 for actual participant
+use_response_box = 1;
 use_keyboard  = 1;
 
 % Open vpix
@@ -695,17 +696,23 @@ try
             if use_response_box == 1
                 % Actual experiment: wait for participant's response via the response box
                 [response, ResponseTime] = getButton();  % Function to capture MEG button press
-                if response == 8 || response == 9  % Valid responses (8 = yes, 9 = no)
+           
+                if response == 8 || response == 9  % Valid responses (8 = yes (yellow), 9 = no (Red))
                     % Log the response
                     expTable.response(i_trial) = response;
                     expTable.responseOnsetTime(i_trial) = ResponseTime;
-
+                   fprintf(logFile, '%d\tResponse \t ResponseTime', ...
+                   response, ResponseTime);
                     % Check correctness
                     if (targetTexture == questionTexture && response == 8) || ...
                             (targetTexture ~= questionTexture && response == 9)
                         expTable.correctness(i_trial) = 1;  % Correct response
+                        fprintf(logFile, '%d\tcorrectness ', ...
+                   1);
                     else
                         expTable.correctness(i_trial) = 0;  % Incorrect response
+                        fprintf(logFile, '%d\tcorrectness ', ...
+                   0);
                     end
 
                     % Log the response in the log file
@@ -801,7 +808,7 @@ try
         Datapixx('Close');
     end
     % SAVE DATA
-    EXP.DEMO = DEMO;
+    EXP.DEMO = DEMO; 
     EXP.data = expTable;
     EXP.trig = trig;
     EXP.stim = stim_fn;
