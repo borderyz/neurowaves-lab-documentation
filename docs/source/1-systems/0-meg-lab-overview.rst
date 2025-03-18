@@ -17,7 +17,7 @@ This lab provides insights into **neural dynamics, sensory processing, and cogni
 
    <figure>
      <iframe
-       src="_static/blender-models/neuron/neuron.html"
+       src="../_static/blender-models/neuron/neuron.html"
        width="600"
        height="600">
      </iframe>
