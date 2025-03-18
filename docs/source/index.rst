@@ -5,6 +5,9 @@ NeuroWaves: MEG/EEG Lab at NYUAD documentation page
 
 .. include:: ../../README.rst
 
+.. raw:: html
+
+    <iframe width="1024" height="640" src="https://www.example.com/my_awesome_app/my_awesome_app.html"></iframe>
 
 
 ****
