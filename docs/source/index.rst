@@ -7,8 +7,11 @@ NeuroWaves: MEG/EEG Lab at NYUAD documentation page
 
 .. raw:: html
 
-    <iframe width="1024" height="640" src="https://www.example.com/my_awesome_app/my_awesome_app.html"></iframe>
-
+    <iframe
+    src="_static/blender-models/neuron/neuron.html"
+    width="800"
+    height="600">
+    </iframe>
 
 ****
 Team
