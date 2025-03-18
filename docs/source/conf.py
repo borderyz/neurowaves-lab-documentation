@@ -65,7 +65,6 @@ intersphinx_disabled_domains = ["std"]
 
 
 templates_path = ["_templates"]
-html_extra_path = ['graphic']
 
 # -- Options for HTML output
 
