@@ -49,12 +49,17 @@ singularity run --cleanenv \
     --participant-label ${SUBJECT_ID} \
     --fs-subjects-dir /reconall \
     --skip_bids_validation \
-    --output-spaces T1w \
+    --output-spaces T1w:res-native fsnative:den-41k MNI152NLin2009cAsym:res-native fsaverage:den-41k fsaverage \
     --nthreads 32 \
     --mem_mb 32000 \
     --no-submm-recon \
     --work-dir /work
 
+
+
+# Flag to change spaces:
+
+# --output-space
 # Optionally remove the workdir
 rm -rf ${WORKDIR}
     
