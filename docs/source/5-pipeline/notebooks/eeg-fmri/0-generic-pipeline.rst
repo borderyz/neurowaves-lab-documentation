@@ -280,6 +280,8 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
     - Monitor these logfile at the beginning of the launch to make sure the job has not encountered an early error and stopped
     - Use the 'squeue' command to see if the job is still running
     - To cancel a job `scancel (JOB_ID)`
+    - If you are fixing an error and executing `fmriprep` again, make sure to first empty the derivatives directory (as leftover files from a previous run can leave incorrect data)
+
 
 
 GLM
