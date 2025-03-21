@@ -72,7 +72,7 @@ The lab is provided with the following items, shall you request new items please
 - stapler
 - clinical tape need to order
 - glasses for vision need to order a new pack
-- create a sign for Veil Women to not enter during their scan
+- a sign to be used when the participant is Veil-wearing Woman to prevent any access to the lab during their experiment
 
 Prepare the lab equipment (prior to participant arrival) Estimated Time: 20min
 ------------------------------------------------------------------------------
