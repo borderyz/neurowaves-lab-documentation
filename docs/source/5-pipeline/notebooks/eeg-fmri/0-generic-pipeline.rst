@@ -289,6 +289,8 @@ GLM
 
 
 - Load data in MATLAB
+    - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
+    -
 - Build the design matrix
 - Run the GLM
 - Save the GLM outputs
