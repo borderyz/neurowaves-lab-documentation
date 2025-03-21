@@ -56,6 +56,24 @@ The MEG lab is provided to the project owner after the following checks and test
     - clinical application tape is available for HPI coils on participant face
 
 
+Inventory
+---------
+
+The lab is provided with the following items, shall you request new items please contact the team with your request.
+
+- linen
+- scrubs
+- machine for shoe isolation
+- earplugs
+- face baby wipes
+- normal tissue paper
+- head caps
+- kitchen towels
+- stapler
+- clinical tape need to order
+- glasses for vision need to order a new pack
+- create a sign for Veil Women to not enter during their scan
+
 Prepare the lab equipment (prior to participant arrival) Estimated Time: 20min
 ------------------------------------------------------------------------------
 
