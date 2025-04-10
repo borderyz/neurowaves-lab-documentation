@@ -1,7 +1,6 @@
 % Readapted for NYUAD MEG Lab by Hadi Zaatiti
 % For Prof. David Melcher MEG Heal Project
-% Original copyright:
-% Copyright (c) 2019, Sijia Zhao.  All rights reserved.
+
 
 % Experiment: Go-No-Go to be adapted from Motor Visual experiment
 
