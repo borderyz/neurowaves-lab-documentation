@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('emirati_list1.csv')
+trialList = data.importConditions('emirati_list7_updated_2.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -96,7 +96,7 @@ instructionSize = 1
 instructionUnits = stimuliUnits
 instructionOff = wordOff
 
-practiceCount = 10
+practiceCount = 0
 breakKeyword = 'break'
 breakColor = instructionColor
 breakSize = instructionSize
