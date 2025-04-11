@@ -24,6 +24,7 @@
 
 %Setup Psychtoolbox
 clear; close all; clc;
+PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 KbName('UnifyKeyNames');
