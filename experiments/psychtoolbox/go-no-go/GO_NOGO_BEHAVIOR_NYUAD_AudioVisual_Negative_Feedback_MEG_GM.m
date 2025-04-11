@@ -106,8 +106,10 @@ allCoords = [xCoords; yCoords];
 lineWidthPix = 2;
 
 % Trial setup
-nGo = 150;
-nNoGo = 150;
+%nGo = 150;
+nGo = 5;
+%nNoGo = 150;
+nNoGo = 5;
 nTrials = nGo + nNoGo;
 trialTypes = [ones(1, nGo), zeros(1, nNoGo)]; % 1 = Go, 0 = NoGo
 trialTypes = trialTypes(randperm(nTrials)); % Randomize Order
@@ -127,13 +129,21 @@ Screen('Flip', window);
 % Keys
 escapeKey = KbName('ESCAPE');
 
+meg_recording = ['MEG Recording is being setup please be patient'];
+
+DrawFormattedText(window, meg_recording, 'center', 'center', white);
+Screen('Flip', window);
+
+%KbStrokeWait('SPACE');
+KbStrokeWait;
+
 % Instructions
-instructions = ['In this task, press the M key on the keyboard as quickly as possible whenever a white CIRCLE appears on the screen.\n\n' ...
+instructions = ['In this task, press the YELLOW key on the keyboard as quickly as possible whenever a white CIRCLE appears on the screen.\n\n' ...
                 'Conversely, when a TRIANGLE appears, DO NOT press anything. Try to inhibit your response.\n\n' ...
                 'Stimuli will be presented very fast, so you need to respond AS FAST AS YOU CAN.\n\n' ...
-                'If you make a mistake, by pressing M when a triangle is shown, or by failing to press M when a circle appears, \n\n' ... 
+                'If you make a mistake, by pressing YELLOW when a triangle is shown, or by failing to press YELLOW when a circle appears, \n\n' ... 
                 'you will hear a negative feedback sound along with a red text message indicating the error. \n\n' ... 
-                'Press the Spacebar to start the Experiment'];
+                'Press the RED button to start the Experiment'];
 
 DrawFormattedText(window, instructions, 'center', 'center', white);
 Screen('Flip', window);
@@ -164,7 +174,7 @@ for t = 1:nTrials
     Screen('FillRect', window, getRGB(stimTrig), trigRect);
     Screen('Flip', window);
     WaitSecs(0.005); % Short pulse for trigger
-
+    disp('Check 1')
     % Stimulus
     if trialTypes(t) == 1 % Go - Circle
         baseRect = [0 0 100 100];
@@ -177,17 +187,17 @@ for t = 1:nTrials
         Screen('FillPoly', window, white, triangle', 1);
     end
     stimOnset = Screen('Flip', window);
-
+    disp('Check 2')
     % Stimulus Duration (50 ms)
     WaitSecs(stimTime);
     Screen('Flip', window);
 
-% Response 
-respMade = false;
-rt = NaN;
-startTime = GetSecs;
-while GetSecs - startTime < respTime
-    buttonPressed = listenButton(1); % Yellow button on button box
+    % Response 
+    respMade = false;
+    rt = NaN;
+    startTime = GetSecs;
+    
+    [buttonPressed, timePressed] = listenButtonTimed(1, respTime); % Yellow button on button box
     % Still listen for ESC key on keyboard for abort
     [~, ~, keyCode] = KbCheck;
     if keyCode(KbName('ESCAPE'))
@@ -196,11 +206,13 @@ while GetSecs - startTime < respTime
         error('Experiment aborted');
     end
     % Button press = response
-    if buttonPressed && ~respMade
+    
+    if ~isempty(buttonPressed) && ~respMade
         rt = GetSecs - stimOnset;
         respMade = true;
     end
-end
+    
+    %end
 
 
     % Determine accuracy
