@@ -1,11 +1,27 @@
 clearvars
-%Screen('Preference', 'SkipSyncTests', 0);
-AssertOpenGL;  
-
-
-time2rest = 60*5;
 
 vpix_use = 1; % 0 if vpixx is not conected
+
+if vpix_use
+    Datapixx('Open')
+    Datapixx('DisablePixelMode')
+    Datapixx('RegWr')
+    Datapixx('SetPropixxDlpSequenceProgram', 0)
+    Datapixx('RegWr')
+end
+
+PsychDebugWindowConfiguration(0, 1);
+PsychDefaultSetup(2);
+Screen('Preference', 'SkipSyncTests', 1); 
+  
+
+% TRIGGERS CHANNEL 225 during the eyes open period
+
+% Time to rest in seconds
+time2rest = 60*5;
+
+
+
 
 % KEYBOARD SETUP
 responseKeys = {'2', '3', 'y', 'n'};
@@ -39,7 +55,6 @@ Screen('Flip', w)
 
 if vpix_use == 1
     %VIEW PIXX SETUP
-    Datapixx('Open');
     Datapixx('EnablePixelMode');  % to use topleft pixel to code trigger information, see https://vpixx.com/vocal/pixelmode/
     Datapixx('RegWr');
 end
@@ -69,7 +84,7 @@ trigRect = [0 0 1 1]; % Top left pixel that controls triggers in PixelMode
 %   [64 0 0] in binary is [1000000 0 0] ==> Means pin number 7 will be triggered 
 
 % Define triggers for closing eyes and opening eyes
-trig.closed = [4  0  0]; %224 meg channel
+
 trig.open = [16  0  0];  %225 meg channel
 
 %Ensure all vpixx digital output are set to 0 by putting the trigger pixel
@@ -87,25 +102,24 @@ fixColor = [150 150 150];
 
 % START EXPERIMENT
 
-Screen('DrawText', w, 'PRESS SPACE AND START CLOSED EYES REST',  wx-250, wy, [255,255,255]);
-Screen('Flip', w);
 
-KbWait([],2)
-
-
-Screen('FillRect', w, trig.closed, trigRect);
-Screen('Flip', w);
-WaitSecs(time2rest)
-
-Screen('DrawText', w, 'PRESS SPACE AND START OPEN EYES REST',  wx-250, wy, [255,255,255]);
+Screen('DrawText', w, 'PRESS SPACE and keep Eyes open on Fixation Cross',  wx-250, wy, [255,255,255]);
 Screen('Flip', w);
 KbWait([],2)
-
 
 Screen('FillRect', w, trig.open, trigRect);
 Screen('FillOval', w, fixColor, fixRect);
 Screen('Flip', w);
 WaitSecs(time2rest)
+
+Screen('FillRect', w, black, trigRect);
+Screen('FillOval', w, fixColor, fixRect);
+Screen('Flip', w);
+
+
+Screen('DrawText', w, 'Eyes open is now Finished, press Space to Exit',  wx-250, wy, [255,255,255]);
+Screen('Flip', w);
+KbWait([],2) 
 
 Screen('CloseAll');
 
