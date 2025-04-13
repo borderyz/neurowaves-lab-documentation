@@ -66,16 +66,16 @@ ifi = Screen('GetFlipInterval', window);
 % trig.ch231 = [0 0  1]; % 231 meg channel
 
 trigRect = [0 0 1 1];
-trig.start = [4  0  0];
-trig.end   = [16  0  0];
+trig.start = [4  0  0]; % ch224
+trig.end   = [16  0  0]; % ch225
 % Go/No-Go Trigger Event Codes
-trig.go = [64 0 0];
-trig.nogo = [0  1 0];
+trig.go = [64 0 0]; % ch226
+trig.nogo = [0  1 0]; % ch227
 % Response Trigger Event Codes
-trig.go_resp = [0  4 0]; % Go trials with Responses (Correct)
-trig.go_noresp = [0 16 0]; % Go trials with NO Responses (Too Slow/Error)
-trig.nogo_resp = [0 64 0]; % NoGo trials with Responses (Error)
-trig.nogo_noresp = [0 0  1]; % NoGo trials with NO Responses (Correct)
+trig.go_resp = [0  4 0]; % ch228 % Go trials with Responses (Correct)
+trig.go_noresp = [0 16 0];  % ch229 % Go trials with NO Responses (Too Slow/Error)
+trig.nogo_resp = [0 64 0]; % ch230 NoGo trials with Responses (Error)
+trig.nogo_noresp = [0 0  1]; % ch231 NoGo trials with NO Responses (Correct)
 
 %-------------------------------------------
 % VPIXX SETUP
@@ -116,7 +116,7 @@ trialTypes = trialTypes(randperm(nTrials)); % Randomize Order
 
 % Timing
 fixTime = 0.4; % 400 ms
-blankTime = 0.1; % 200 ms
+blankTime = 0.1; % 100 ms
 stimTime = 0.05; % 50 ms
 respTime = 1; % 1 s response window
 negativeFeedback = 0.15; % ms negative feedback text
