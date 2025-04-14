@@ -43,6 +43,8 @@ Shall the participant react incorrectly (wrong press, or no press when there sho
     - Ensure that time2rest = 60*5
 - Make go-no-go experiment (10min)
     - Ensure that
+        - nGo = 150
+        - nNoGo = 150
     - Run experiments/psychtoolbox/go-no-go/meg_main_go-no_go.m
     - Set all details of participants in the pop-up-window
 - Make resting state eyes closed (10min)
