@@ -53,5 +53,5 @@ Shall the participant react incorrectly (wrong press, or no press when there sho
 
 .. dropdown:: Go-No-Go code available under `experiments\psychtoolbox\go-no-go`
 
-    .. literalinclude:: ../../../../experiments/psychtoolbox/go-no-go/meg_main_go-no_go.m
+    .. literalinclude:: ../../../../experiments/psychtoolbox/go-no-go/meg_main_go_no_go.m
       :language: matlab
