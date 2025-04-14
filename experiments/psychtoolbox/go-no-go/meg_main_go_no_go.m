@@ -86,6 +86,11 @@ Datapixx('RegWr');
 
 % Audio setup
 InitializePsychSound(1);
+
+% Always init to 2 channels, for the sake of simplicity:
+%nrchannels = 2;
+
+
 freq = 48000; % Audio Sample rate
 nrchannels = 1; % Single Channel Mono
 pahandle = PsychPortAudio('Open', [], [], 1, freq, nrchannels); 
@@ -106,10 +111,8 @@ allCoords = [xCoords; yCoords];
 lineWidthPix = 2;
 
 % Trial setup
-%nGo = 150;
-nGo = 5;
-%nNoGo = 150;
-nNoGo = 5;
+nGo = 150;
+nNoGo = 150;
 nTrials = nGo + nNoGo;
 trialTypes = [ones(1, nGo), zeros(1, nNoGo)]; % 1 = Go, 0 = NoGo
 trialTypes = trialTypes(randperm(nTrials)); % Randomize Order
@@ -129,7 +132,7 @@ Screen('Flip', window);
 % Keys
 escapeKey = KbName('ESCAPE');
 
-meg_recording = ['MEG Recording is being setup please be patient'];
+meg_recording = ['MEG Recording is being setup please be patient, press any key to continue'];
 
 DrawFormattedText(window, meg_recording, 'center', 'center', white);
 Screen('Flip', window);
@@ -281,10 +284,11 @@ end
     Screen('FillRect', window, getRGB(trig.end), trigRect);
     WaitSecs(0.005); % Short trigger pulse
 
-ShowCursor;
-sca;
-PsychPortAudio('Close', pahandle);
 
+
+Datapixx('DisablePixelMode'); 
+Datapixx('RegWr');
+Datapixx('Close');
 % Display summary
 nCorrect = sum([results.Correct]);
 fprintf('Experiment completed.\n');
@@ -294,3 +298,14 @@ fprintf('Accuracy: %.2f%%\n', 100 * nCorrect / nTrials);
 numStr = num2str(DEMO.num, '%03d');
 filename = sprintf('%s_%s_%s.mat', 'MEG_Go_NoGo', numStr, DEMO.ID);
 save(filename, 'results'); 
+
+
+experiment_end_text = ['Experiment is done, please wait. Stop the MEG recording then press any button to exit'];
+
+DrawFormattedText(window, experiment_end_text, 'center', 'center', white);
+Screen('Flip', window);
+KbStrokeWait;
+Screen('CloseAll');
+ShowCursor;
+sca;
+PsychPortAudio('Close', pahandle);

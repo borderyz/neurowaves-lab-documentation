@@ -43,7 +43,9 @@ Shall the participant react incorrectly (wrong press, or no press when there sho
     - Ensure that time2rest = 60*5
 - Make go-no-go experiment (10min)
     - Ensure that
-    - Run experiments/psychtoolbox/go-no-go/GO_NOGO_BEHAVIOR_NYUAD_AudioVisual_Negative_Feedback_MEG_GM.m
+        - nGo = 150
+        - nNoGo = 150
+    - Run experiments/psychtoolbox/go-no-go/meg_main_go-no_go.m
     - Set all details of participants in the pop-up-window
 - Make resting state eyes closed (10min)
     - Run experiments/restingstate/resting_state_meg_EYES_CLOSED.m
@@ -53,5 +55,5 @@ Shall the participant react incorrectly (wrong press, or no press when there sho
 
 .. dropdown:: Go-No-Go code available under `experiments\psychtoolbox\go-no-go`
 
-    .. literalinclude:: ../../../../experiments/psychtoolbox/go-no-go/meg_main_go-no_go.m
+    .. literalinclude:: ../../../../experiments/psychtoolbox/go-no-go/meg_main_go_no_go.m
       :language: matlab
