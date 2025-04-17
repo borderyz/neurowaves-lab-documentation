@@ -4,6 +4,7 @@
 
 Each bold run must have the sbref either PA or AP depending on the PhaseEncodingDirection
 -    "PhaseEncodingDirection": "j", = PA (To verify)
+- after local dicom2bids, remove the bids:: from the fmap .json file
 
 ## Local dicom2bids
 

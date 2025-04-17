@@ -207,9 +207,11 @@ Converting DICOM to BIDS on local computer
 - Ensure an anatomical T1 is in your DICOM directory
 - Run `dicom2bids_config_script.bat` to generate the BIDS output
     - Customize the batch script to put the correct subject ID and XNAT downloaded directory
+- There is another script for the T1 if added later on
 - Run post_conversion.bat (this will replicate SBref AP and PA for each bold run)
     - Customize the batch script to provide your BIDS output directory
 - Run BIDS validator online on your BIDS directory to make sure there are no errors
+- In the output .json in the bids directory, open the .json for the fmaps and delete the bids:: in the "IntendedFor" field
 
 fMRI Preprocessing with fMRIPrep: Two Available Routes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -271,12 +273,25 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
 
         sbatch run_fmriprep.sh
 
+- Monitor the job and the logfiles for a short amount of time
+    - You can see the error logs as specified in the header of the `run_fmriprep.sh` script for the SLURM job
+    - #SBATCH --output=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.out
+    - #SBATCH --error=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.err
+    - Monitor these logfile at the beginning of the launch to make sure the job has not encountered an early error and stopped
+    - Use the 'squeue' command to see if the job is still running
+    - To cancel a job `scancel (JOB_ID)`
+    - If you are fixing an error and executing `fmriprep` again, make sure to first empty the derivatives directory (as leftover files from a previous run can leave incorrect data)
+- After `fmriprep` has finished executing you will see in the derivatives folder the `fmriprep` output
+- An example of the output html can be found here `View fMRIprep output HTML <_static/sub-0665.html>`_
+
 
 GLM
 ~~~
 
 
 - Load data in MATLAB
+    - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
+    -
 - Build the design matrix
 - Run the GLM
 - Save the GLM outputs
