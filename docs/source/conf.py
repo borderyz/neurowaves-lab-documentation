@@ -96,7 +96,7 @@ html_css_files = [
     "custom.css",
 ]
 
-html_static_path = ["_static", "5-pipeline/notebooks/eeg-fmri/fmriprep_output_example"]
+html_static_path = ["_static"]
 # -- Options for EPUB output
 epub_show_urls = "footnote"
 
