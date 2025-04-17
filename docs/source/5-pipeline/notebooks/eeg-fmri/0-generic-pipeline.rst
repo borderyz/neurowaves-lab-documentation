@@ -282,7 +282,7 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
     - To cancel a job `scancel (JOB_ID)`
     - If you are fixing an error and executing `fmriprep` again, make sure to first empty the derivatives directory (as leftover files from a previous run can leave incorrect data)
 - After `fmriprep` has finished executing you will see in the derivatives folder the `fmriprep` output
-- An example of the output html can be found here `View fMRIprep output HTML <_static/sub-0665.html>`_
+- An example of the output html can be found here `View fMRIprep output HTML <../../../_static/sub-0665.html>`_
 
 
 GLM
