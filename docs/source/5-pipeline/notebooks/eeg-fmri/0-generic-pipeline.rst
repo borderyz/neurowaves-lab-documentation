@@ -283,6 +283,8 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
     - If you are fixing an error and executing `fmriprep` again, make sure to first empty the derivatives directory (as leftover files from a previous run can leave incorrect data)
 - After `fmriprep` has finished executing you will see in the derivatives folder the `fmriprep` output
 - An example of the output html can be found here `View fMRIprep output HTML <../../../_static/fmriprep_output_example/sub-0665.html>`_
+- Ensure that "Susceptibiliy distortion correction" has been correctly applied, this can be viewed from the output HTML
+    - if this is not the case, it means probably that the "fmap" part is not configured correctly
 
 
 GLM
