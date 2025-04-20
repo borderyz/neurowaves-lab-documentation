@@ -332,6 +332,8 @@ For further details on available spaces and how they are handled, see the `fMRIP
 
 
 
+
+
 GLM
 ~~~
 
@@ -342,16 +344,22 @@ GLM
 - in the `fmriprepoutput\sub-0665\func` output directory you will find:
     - files ending in `func.gii`
     - files ending in `func.mgh`
-    - we had requested for 5 output spaces
+    - files ending in `nii.gz`
+
+- we had requested for 5 output spaces
     - each run will have separate Left or Right hemisphere files
     - you can filter out files in the search tab to make proper counting and understand the file structure
         - use the regular expression in the search tab in windows: `*run-01*.func.mgh OR *run-01*func.gii`
         - for a specific run we have 8 files
     - for our session with sub-0665 we have three finger-tapping runs and one alpha blocking run (in total 4 runs)
-        - the `fsnative` space files will end with `func.mgh`, there should be two for a run
-        - the `fsaverage` space files will end with `func.gii`, there should be 6
+        - the `fsnative` space files two of them will end with `func.mgh`, and two with `func.gii` there four for a run
+        - the `fsaverage` space files will end with `func.gii`, there should be 4
             - R and L files for with `fsaverage` in the name
             - R and L files with `fsaverage6` in the name
+        - there is also brain mask files, for a single run (you can filter out with the regex: `*run-02*brain_mask*`), you should find 6 files (three nii.gz and three .json):
+            - MNI space brain mask, two files (.json and .nii.gz)
+            - T1 space brain mask, two files (.json and .nii.gz)
+            - two files without a space tag (.json and .nii.gz)
 
     - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
     -
