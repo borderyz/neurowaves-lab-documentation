@@ -336,7 +336,23 @@ GLM
 ~~~
 
 
-- Load data in MATLAB
+- Load data in MATLAB using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/generic_pipeline_fmri_preprocessing` directory
+- A working example is in `pipeline/eeg_fmri_pipelines/fmri_preprocessing/finger-tapping`
+- You will need to install `freesurfer` and have the license file pointed out correctly in the script
+- in the `fmriprepoutput\sub-0665\func` output directory you will find:
+    - files ending in `func.gii`
+    - files ending in `func.mgh`
+    - we had requested for 5 output spaces
+    - each run will have separate Left or Right hemisphere files
+    - you can filter out files in the search tab to make proper counting and understand the file structure
+        - use the regular expression in the search tab in windows: `*run-01*.func.mgh OR *run-01*func.gii`
+        - for a specific run we have 8 files
+    - for our session with sub-0665 we have three finger-tapping runs and one alpha blocking run (in total 4 runs)
+        - the `fsnative` space files will end with `func.mgh`, there should be two for a run
+        - the `fsaverage` space files will end with `func.gii`, there should be 6
+            - R and L files for with `fsaverage` in the name
+            - R and L files with `fsaverage6` in the name
+
     - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
     -
 - Build the design matrix
