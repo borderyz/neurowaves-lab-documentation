@@ -285,6 +285,51 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
 - An example of the output html can be found here `View fMRIprep output HTML <../../../_static/fmriprep_output_example/sub-0665.html>`_
 - Ensure that "Susceptibiliy distortion correction" has been correctly applied, this can be viewed from the output HTML
     - if this is not the case, it means probably that the "fmap" part is not configured correctly
+    - From the output of dicom2bids, change the fmap .json file to remove the bids://
+
+Output spaces note
+~~~~~~~~~~~~~~~~~~
+
+.. _fmriprep_output_spaces:
+
+
+The ``--output-spaces`` argument in *fMRIPrep* specifies the spatial reference spaces in which preprocessed functional data will be output.
+You may combine multiple volume and surface spaces, and optionally control the resolution or surface mesh density.
+
+    --output-spaces T1w:res-native fsnative:den-41k MNI152NLin2009cAsym:res-native fsaverage:den-41k fsaverage \
+
+
+Example usage used in the `run_fmriprep.sh` script:
+
+    --output-spaces T1w:res-native fsnative:den-41k MNI152NLin2009cAsym:res-native fsaverage:den-41k fsaverage
+
+Options explained:
+
+- **T1w:res-native**
+
+  Outputs the data in the subject’s own anatomical (T1-weighted) space, preserving the original resolution of the functional data.
+
+- **fsnative:den-41k**
+
+  Projects the data onto the subject's native FreeSurfer surface (fsnative), with a mesh density of approximately 41,000 vertices per hemisphere.
+
+- **MNI152NLin2009cAsym:res-native**
+
+  Normalizes the data to the MNI152NLin2009cAsym standard volume space (asymmetric version of the 2009 MNI template) while maintaining the native functional resolution.
+
+- **fsaverage:den-41k**
+
+  Projects the data onto the standard FreeSurfer average surface (fsaverage) using a mesh density of ~41k vertices per hemisphere.
+
+- **fsaverage**
+
+  Projects data onto the default fsaverage surface resolution (~163,842 vertices per hemisphere). Including both ``fsaverage:den-41k`` and ``fsaverage`` may be redundant unless explicitly needed.
+
+.. note::
+   The ``res-native`` flag is particularly useful when you wish to avoid unnecessary interpolation or smoothing that occurs during resampling.
+
+For further details on available spaces and how they are handled, see the `fMRIPrep documentation <https://fmriprep.org/en/stable/spaces.html>`_.
+
 
 
 GLM
