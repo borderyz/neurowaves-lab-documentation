@@ -362,7 +362,10 @@ GLM
             - two files without a space tag (.json and .nii.gz)
 
     - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
-    -
+
+
+
+- Installing freesurfer will give you the mri_convert command to get the .mgh files
 - Build the design matrix
 - Run the GLM
 - Save the GLM outputs

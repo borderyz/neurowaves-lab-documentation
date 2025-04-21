@@ -8,7 +8,7 @@ space = 'fsnative';
 fileType = '.mgh';
 
 hemi = {'L';'R'};
-bidsDir = '/Volumes/MS_osama/hadiBIDS/fmriprep_output_from_HPC';
+bidsDir = 'Y:/projects/MS_osama/hadiBIDS/fmriprep_output_from_HPC';
 setenv('FS_LICENSE', '/Applications/freesurfer/7.4.1/license.txt');
 
 
@@ -27,7 +27,7 @@ for iRun = 1:nRuns
 
         input = [fileName '.gii'];
         output = [fileName fileType]; % the file type that we want to load
-
+        disp(['Filename ', input])
         % check to see if data exists in the desired fileType, if not,
         % mir_convert file from gii
         if ~exist(output)
