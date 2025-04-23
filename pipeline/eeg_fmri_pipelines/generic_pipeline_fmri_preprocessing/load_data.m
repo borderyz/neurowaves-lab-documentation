@@ -1,5 +1,7 @@
 clear all; close all; clc;
 
+% Set information for your experiment and fmriprep output
+
 subject = 'sub-0665';
 nRuns = 3;
 
@@ -41,10 +43,35 @@ for iRun = 1:nRuns
         func{iH} = squeeze(tmp.vol);
     end
     datafiles{iRun} = cat(1,func{:});
-
+    datafiles{iRun} = datafiles{iRun}';
 end
 
 
 %%
 
+% datafiles is a structure containing three members (because three
+% fingertapping runs)
+% each member is a 2D matrix of shape (nvoxels, nTRs)
+
 data = datafiles{1}(100,:);
+
+
+%% Load noise regressors csv
+ 
+fileName_noise_regressors = sprintf('%s/%s_task-%s_run-%s_desc-confounds_timeseries.tsv', subDir,subject,task,sprintf('%02d',iRun));
+
+
+noise_regressors_data = cell(1, nRuns);
+
+% We have 381 features in the .tsv, we need to extract the noise regressors
+
+regressors_names = {'trans_x', 'trans_y', 'trans_z', 'rot_x', 'rot_y', 'rot_z'};
+
+for iRun = 1:nRuns
+
+    noise_regressors_data{iRun} = readtable(fileName_noise_regressors, 'FileType','text');
+    noise_regressors_data{iRun} = noise_regressors_data{iRun}(:, regressors_names);
+    %noise_regressors_data{iRun} = table2array(noise_regressors_data{iRun})';
+end
+
+

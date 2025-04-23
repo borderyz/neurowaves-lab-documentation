@@ -286,6 +286,10 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
 - Ensure that "Susceptibiliy distortion correction" has been correctly applied, this can be viewed from the output HTML
     - if this is not the case, it means probably that the "fmap" part is not configured correctly
     - From the output of dicom2bids, change the fmap .json file to remove the bids://
+    - Change in the `fmap` directory, in the .json's, in the `Intended For` field, change the slashes from // to \\
+
+At this stage, you now have successfully ran `fmriprep` and obtained a correct output bold signals that are corrected for distortion.
+The next step would be to learn GLM's given the bold signals
 
 Output spaces note
 ~~~~~~~~~~~~~~~~~~
@@ -329,9 +333,6 @@ Options explained:
    The ``res-native`` flag is particularly useful when you wish to avoid unnecessary interpolation or smoothing that occurs during resampling.
 
 For further details on available spaces and how they are handled, see the `fMRIPrep documentation <https://fmriprep.org/en/stable/spaces.html>`_.
-
-
-
 
 
 GLM
