@@ -427,6 +427,22 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                         dist_center = sqrt( (eyeX-wx)^2 + (eyeY-wy)^2 );
                         if dist_center < fixTolerance % fixation is good
                             if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) % fixation is long enough
+
+
+                                % TRIGGER ONLY HERE, ON GOOD FIXATION
+                                counts.ch225 = counts.ch225 + 1;
+                                Screen('FillRect', w, trig.ch225, trigRect);
+                                Screen('Flip', w);
+                                WaitSecs(0.01);
+                                Screen('FillRect', w, black, trigRect);
+                                Screen('Flip', w);
+
+                                expTable.realFixConfirmTime(i_trial) = GetSecs();
+
+                                if use_eyetracker == 1
+                                    Eyelink('Message', 'TRIGGER %d', trig.ch225);
+                                end
+
                                 break;
                             end
                         else
@@ -441,21 +457,17 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                                 Screen('Flip', w);
                                 WaitSecs(.1);
                             end
-                            counts.ch225 = counts.ch225+1;
-                            Screen('DrawTexture', w, wFixation);
-                            % Question: The number of 225 triggers is
-                            % random because the "break" is not in this
-                            % section
-                            Screen('FillRect', w, trig.ch225, trigRect);
-                            Screen('Flip', w);
+
                             Screen('DrawTexture', w, wFixation);
                             Screen('FillRect', w, black, trigRect);
                             Screen('Flip', w);
 
                             expTable.fixStartTime(i_trial) = GetSecs();
-                            % Question: Does this line display something on
-                            % the screen?
-                            Eyelink('Message', 'TRIGGER %d', trig.START);
+
+                            if use_eyetracker == 1
+                                Eyelink('Message', 'TRIGGER %d', trig.START);
+                            end
+
                         end
                     else % blink
                         expTable.fixStartTime(i_trial) = GetSecs();
@@ -509,7 +521,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
         saccTrigger = 0;
 
-        while goodTrial
+        while goodTrial % Cue
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
                 endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
@@ -533,15 +545,15 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                         if dist_center < fixTolerance % fixation is good
                             if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial)+.5 % fixation is long enough
                                 if strcmp(imageName, 'N/A')
-                                    fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                                    fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
                                 else
-                                    fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                                    fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
                                 end
 
-                                counts.ch229 = counts.ch229+1;
-                                Screen('DrawTexture', w, wCue);
-                                Screen('FillRect', w, trig.ch230, trigRect);
-                                Screen('Flip', w);
+                                % counts.ch229 = counts.ch229+1;
+                                % Screen('DrawTexture', w, wCue);
+                                % Screen('FillRect', w, trig.ch230, trigRect);
+                                % Screen('Flip', w);
                                 Screen('DrawTexture', w, wCue);
                                 Screen('FillRect', w, black, trigRect);
                                 Screen('Flip', w);
@@ -558,15 +570,15 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
             else
                 if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) + 0.5 % simulate fixation time
                     if strcmp(imageName, 'N/A')
-                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                        fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
                     else
-                        fprintf(logFile, '%d\t229\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
+                        fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
                     end
 
-                    counts.ch229 = counts.ch229 + 1;
-                    Screen('DrawTexture', w, wCue);
-                    Screen('FillRect', w, trig.ch229, trigRect);
-                    Screen('Flip', w);
+                    % % counts.ch229 = counts.ch229 + 1;
+                    % Screen('DrawTexture', w, wCue);
+                    % Screen('FillRect', w, trig.ch230, trigRect);
+                    % Screen('Flip', w);
                     Screen('DrawTexture', w, wCue);
                     Screen('FillRect', w, black, trigRect);
                     Screen('Flip', w);
@@ -579,7 +591,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
         disp('DEBUG 4')
 
-        if use_eyetracker==1
+        if use_eyetracker==1 % Saccade 
             while goodTrial
                 % detect saccadeOnset with threshold
                 if Eyelink('NewFloatSampleAvailable')
@@ -616,11 +628,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
             % Simulate saccade detection and proceed
             disp('Simulating saccade detection (no eyetracker).');
             counts.ch228 = counts.ch228 + 1;
-            % Screen('FillRect', w, trig.ch228, trigRect);
-            % 
-            % Screen('Flip', w);
-            % Screen('FillRect', w, black, trigRect);
-            % Screen('Flip', w);
+
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
 
@@ -634,7 +642,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         else
             fprintf(logFile, '%d\t230\tTarget Image\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
         end
-        Screen('FillRect', w, trig.ch231, trigRect);
+        Screen('FillRect', w, trig.ch230, trigRect);
         Screen('Flip', w);
         Screen('DrawTexture', w, wTarget);
         Screen('FillRect', w, black, trigRect);
@@ -696,8 +704,18 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         % RESPONSE
         disp('DEBUG 6')
         Screen('DrawTexture', w, wQuestion);
+        if strcmp(imageName, 'N/A')
+            fprintf(logFile, '%d\t231\tQuestion Onset\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
+        else
+            fprintf(logFile, '%d\t231\tQuestion Onset\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
+        end
+        Screen('FillRect', w, trig.ch231, trigRect);
+        Screen('Flip', w);
+        Screen('DrawTexture', w, wQuestion);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
+
+
 
         expTable.questionOnsetTime(i_trial) = GetSecs();
         % expTable.responseOnsetTime(i_trial) = GetSecs();

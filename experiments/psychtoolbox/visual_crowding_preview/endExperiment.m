@@ -1,6 +1,9 @@
 
 
 function endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, abortFlag)
+
+    fprintf(logFile, 'N/A\tN/A\tEnd Experiment\t%f\tN/A\tN/A\tExperiment has ended\n', GetSecs());
+
     % Prepare data structure
     EXP.DEMO = DEMO;
     EXP.data = expTable;
