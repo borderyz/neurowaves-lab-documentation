@@ -21,8 +21,6 @@ Screen('Preference', 'SkipSyncTests', 1);
 time2rest = 60*5;
 
 
-
-
 % KEYBOARD SETUP
 responseKeys = {'2', '3', 'y', 'n'};
 KbName('UnifyKeyNames');  
