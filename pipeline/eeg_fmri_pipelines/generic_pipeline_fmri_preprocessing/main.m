@@ -53,6 +53,15 @@ for iRun=1:nRuns
     % The noise regressors have already been loaded in load_data.m
     designMatrix(:,number_conditions+1:number_regressors+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
 
+    % PUTI - add constant 1s as a regressor, add linear drift 1:300 as
+    % another regressor
+
+    % PUTI - conv(designMatrix(1:5,hrf) - remember to chop the left overs
+
+    % get hrf from gamma 
+    % hrf = gammapdf(timeRange,2,3);
+
+
 end
 
 %% run glm
@@ -76,12 +85,20 @@ betas = cell(1, nRuns);
 
 %% Method 1, concatenation of design matrices across runs
 
+
+% Concatenate the designMatrix of shape (runtime,  features, nRuns)
+% New shape (runtime x nRuns, features)
+designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(designMatrix,2) );
+
+% Concatenate the datafiles (bold signal array) of shape (runtime, nVoxels,
+% nRuns
+
+
 for iRun = 1:nRuns
     designMatrix_full = co
-    betas = pinv(designMatrix) * datafiles; % done per run separately
-
-
+    betas = pinv(designMatrix) * datafiles; % done per run separatelyf
 end
 
 
 % save result in surface space 
+%

@@ -339,7 +339,8 @@ GLM
 ~~~
 
 
-- Load data in MATLAB using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/generic_pipeline_fmri_preprocessing` directory
+- Load data in MATLAB, make sure to open MATLAB from the script itself
+    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/generic_pipeline_fmri_preprocessing` directory
 - A working example is in `pipeline/eeg_fmri_pipelines/fmri_preprocessing/finger-tapping`
 - You will need to install `freesurfer` and have the license file pointed out correctly in the script
 - in the `fmriprepoutput\sub-0665\func` output directory you will find:

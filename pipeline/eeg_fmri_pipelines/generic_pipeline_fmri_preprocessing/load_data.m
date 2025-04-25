@@ -35,8 +35,11 @@ for iRun = 1:nRuns
         if ~exist(output)
             disp(['File does not exist in ' fileType ' format, converting from .gii ...'])
             system(['mri_convert ' input ' ' output]);
+        else
+            disp(['File exists for Run ', num2str(iRun)])
+        
         end
-
+        
         disp(['Loading: ' output])
 
         tmp = MRIread(output);
@@ -53,7 +56,6 @@ end
 % fingertapping runs)
 % each member is a 2D matrix of shape (nvoxels, nTRs)
 
-data = datafiles{1}(100,:);
 
 
 %% Load noise regressors csv
@@ -75,3 +77,9 @@ for iRun = 1:nRuns
 end
 
 
+%% simple preprocessing of data
+
+% converting to % signal change
+
+
+% fft get rid of  high-pass filter  1/40 
