@@ -95,10 +95,10 @@ designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(de
 
 
 for iRun = 1:nRuns
+    % Need 
     designMatrix_full = co
     betas = pinv(designMatrix) * datafiles; % done per run separatelyf
 end
-
 
 % save result in surface space 
 %
