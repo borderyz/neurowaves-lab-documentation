@@ -31,7 +31,9 @@ SUBJECT_ID=${SUBJECT_LIST[$SLURM_ARRAY_TASK_ID]}
 RECONALL_DIR=/scratch/$USER/MRI/$PROJECT_NAME/derivatives/freesurfer
 
 # *** Set temporary working directory ***
-WORKDIR=/tmpdata/${SLURM_JOB_USER}/${SLURM_JOB_ID}/${SLURM_ARRAY_TASK_ID}
+#WORKDIR=/tmpdata/${SLURM_JOB_USER}/${SLURM_JOB_ID}/${SLURM_ARRAY_TASK_ID}
+WORKDIR=/scratch/$USER/MRI/$PROJECT_NAME/tmpdata/${SLURM_JOB_USER}/${SLURM_JOB_ID}/${SLURM_ARRAY_TASK_ID}
+
 mkdir -p ${WORKDIR}
 mkdir -p ${RECONALL_DIR}
 mkdir -p ${OUTPUT_DIR}
