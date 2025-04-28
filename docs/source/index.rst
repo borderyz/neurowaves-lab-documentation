@@ -114,16 +114,6 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 
 
-.. note::
-
-   This project is under active development.
-
-
-
-*********************
-Documentation content
-*********************
-
 
 .. toctree::
    :maxdepth: 2

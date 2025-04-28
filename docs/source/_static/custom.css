@@ -1,12 +1,12 @@
-/*body {*/
-/*    background-color: #ADFF2F; !* Replace with your desired color *!*/
-/*}*/
+body {
+    background-color: #F5F5F5; /* Replace with your desired color */
+}
 
 
 
 /* Main content area width */
 .wy-nav-content {
-    /*max-width: 1000px !important; */
+    max-width: 1000px !important;
     width: 100% !important;
     margin: 0 auto !important;
 }
