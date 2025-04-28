@@ -114,20 +114,11 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 
 
-.. note::
-
-   This project is under active development.
-
-
-
-*********************
-Documentation content
-*********************
-
 
 .. toctree::
    :maxdepth: 2
    :caption: Lab Overview
+   :hidden:
 
    1-systems/0-meg-lab-overview
    1-systems/1-meg-kit-system
@@ -141,6 +132,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Performance Dashboards
+   :hidden:
 
    9-dashboard/1-systems-dashboard
    9-dashboard/2-data-quality-dashboards
@@ -149,6 +141,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Operation Protocol
+   :hidden:
 
    2-operationprotocol/training_meg
    2-operationprotocol/kit-operationalprotocol
@@ -158,6 +151,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Experiments Design
+   :hidden:
 
    3-experimentdesign/project_proposal
    3-experimentdesign/process-new-user
@@ -170,6 +164,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Booking and usage
+   :hidden:
 
    2-operationprotocol/bookingsystem
 
@@ -177,6 +172,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Data storage and naming
+   :hidden:
 
    4-data/1-datafiles.rst
    4-data/2-datastorage.rst
@@ -184,6 +180,7 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Processing pipelines
+   :hidden:
 
    5-pipeline/4-0-pipelines
    5-pipeline/4-eeg-fmri-pipelines
@@ -193,24 +190,28 @@ Documentation content
 .. toctree::
    :maxdepth: 2
    :caption: Maintenance
+   :hidden:
 
    6-maintenance/maintenance
 
 .. toctree::
    :maxdepth: 2
    :caption: Emergency and Risk Asessment
+   :hidden:
 
    7-emergency/emergency
 
 .. toctree::
    :maxdepth: 2
    :caption: Contributing to this repository
+   :hidden:
 
    8-contributing/contributing
 
 .. toctree::
    :maxdepth: 2
    :caption: Glossary and API
+   :hidden:
 
    glossary
    api
