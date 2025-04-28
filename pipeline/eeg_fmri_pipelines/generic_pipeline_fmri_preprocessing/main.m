@@ -9,13 +9,22 @@
 datapath = 'C:\Users\hz3752\Box\EEG-FMRI\Data\finger-tapping\sub-0665\matlab';
 
 number_conditions = 5;  % Five fingers
-number_regressors = 6;  % we picked transx,y,z and rotx,y,z
+number_regressors_motion = 6;  % translation x,y,z and rotation x,y,z 
+number_regressors_extra = 2;   % constant regressor and drift
+n_cols_total = number_conditions+number_regressors_motion+number_regressors_extra
 run_length = 300; %In seconds (the TR was 1 seconds)
 nRuns = 3;
 block_size = 20;
 
-designMatrix = zeros(run_length, number_conditions + number_regressors,  nRuns);
-    
+designMatrix = zeros(run_length, n_cols_total,  nRuns);
+
+const_regress_vector = repelem(1, run_length)';
+
+drift_regress_vector = 1:300;
+drift_regress_vector = drift_regress_vector';
+
+hrf = gampdf(run_length,2,3);
+
 %filename = 'fingertap_01.csv';
 for iRun=1:nRuns
     %iRun = 1
@@ -51,12 +60,16 @@ for iRun=1:nRuns
     designMatrix(:,1:number_conditions,iRun) = binary_matrix;
     
     % The noise regressors have already been loaded in load_data.m
-    designMatrix(:,number_conditions+1:number_regressors+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
-
+    designMatrix(:,number_conditions+1:number_regressors_motion+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
+    
+    designMatrix(:, number_conditions+number_regressors_motion+1:n_cols_total, iRun) = [const_regress_vector, drift_regress_vector] ;
+      
     % PUTI - add constant 1s as a regressor, add linear drift 1:300 as
     % another regressor
-
-    % PUTI - conv(designMatrix(1:5,hrf) - remember to chop the left overs
+    
+    % PUTI - - remember to chop the left overs
+    % HADI TODO continue here
+    conv(designMatrix(1:5,hrf) 
 
     % get hrf from gamma 
     % hrf = gammapdf(timeRange,2,3);
