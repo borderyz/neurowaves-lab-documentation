@@ -4,9 +4,11 @@ body {
 
 
 
-.wy-body-for-nav {
-    display: flex !important;
-    justify-content: center !important;
+/* Main content area width */
+.wy-nav-content {
+    max-width: 1000px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
 }
 
 
