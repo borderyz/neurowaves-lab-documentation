@@ -62,7 +62,6 @@ end
  
 fileName_noise_regressors = sprintf('%s/%s_task-%s_run-%s_desc-confounds_timeseries.tsv', subDir,subject,task,sprintf('%02d',iRun));
 
-
 noise_regressors_data = cell(1, nRuns);
 
 % We have 381 features in the .tsv, we need to extract the noise regressors
