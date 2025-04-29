@@ -14,7 +14,7 @@ PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 
-time2rest = 60*15; 
+time2rest = 60*5;  
 
 
 
