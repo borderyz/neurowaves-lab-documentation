@@ -4,10 +4,10 @@ clearvars
 
 
 % Modes
-use_vpixx = 0;
-use_eyetracker = 0;
+use_vpixx = 1;
+use_eyetracker = 1;
 trigger_test = 1;
-use_response_box = 0;
+use_response_box = 1;
 use_keyboard  = 1;
 
 % Open vpix
@@ -59,16 +59,16 @@ targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
 saccadeOffset = 500; % pixel ->  dva
 targetDuration = .5; % seconds
-saccThreshold = 7; % pixel -> 0.18 dva
+saccThreshold = 7; % pixel -> 0.c18 dva
 
 try
 
     PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
     PsychDefaultSetup(2);
-
+    InitializePsychSound;
     % Screen setup
     s = max(Screen('Screens'));
-
+    
     % Set the background color to white during window initialization
     [w, rect] = Screen('OpenWindow', s, [255 255 255]); %,[200 200 1000 1000]);
     Priority(MaxPriority(w));
@@ -92,23 +92,24 @@ try
     trig.SACCADE = 3;
     trig.TARGET = 4;
     trig.RESPONSE = 5;
-
+    disp('setup trigger done');
     if use_eyetracker==1
 
         % EYE-TRACKING SETUP
         el = EyelinkInitDefaults(w);
+        
         el.backgroundcolour = 255;
         el.foregroundcolour = 0;
         el.calibrationtargetcolour = [0 0 0];
         el.msgfontcolour = 0;
         EyelinkUpdateDefaults(el);
-
+        disp('eyelink test 1');
         if ~EyelinkInit() % 1 means enable dummy mode
             fprintf('Eyelink Init aborted.\n');
             Eyelink('Shutdown');
             Screen('CloseAll');
         end
-
+        disp('Eyelink calibration starting');
         Eyelink('command', 'screen_pixel_coords = %ld %ld %ld %ld', 0, 0, rect(4)-1, rect(3)-1);
 
         % Link to edf data
@@ -123,7 +124,7 @@ try
         edfFile = ['Subj' answer1{1} '.edf'];
         Eyelink('Openfile', edfFile);
 
-        Eyelink('command', 'calibration_type = HV6'); WaitSecs(0.05);
+        % Eyelink('command', 'calibration_type = HV6'); WaitSecs(0.05);
         % Before recording, we place reference graphics on the host display
         % Must be offline to draw to EyeLink screen
         Eyelink('Command', 'set_idle_mode'); WaitSecs(0.05);
