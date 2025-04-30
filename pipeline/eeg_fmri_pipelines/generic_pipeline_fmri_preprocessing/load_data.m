@@ -8,9 +8,10 @@ nRuns = 3;
 task = 'fingertapping';
 space = 'fsnative';
 fileType = '.mgh';
-
+TR = 1.0; % in seconds Repetition Time
 hemi = {'L';'R'};
-bidsDir = 'Y:/projects/MS_osama/hadiBIDS/fmriprep_output_from_HPC';
+
+bidsDir = '\\rcsfileshare.abudhabi.nyu.edu\mri\projects\MS_osama\hadiBIDS\fmriprep_output_from_HPC';
 setenv('FS_LICENSE', '/Applications/freesurfer/7.4.1/license.txt');
 
 
@@ -79,51 +80,16 @@ end
 
 %% Visualise the data
 
+
 % ----- USER CHOICES ---------------------------------------------------
 runIdx   = 2;        % which run?  1 … numel(datafiles)
-voxelIdx = 50000;     % which voxel/vertex index?
+voxelIdx = 100000;     % which voxel/vertex index?
 
-
-% ----- EXTRACT THE TIME-SERIES ---------------------------------------
-X = datafiles{runIdx};              % [vox × T] (your current orientation)
-if size(X,1) < size(X,2)            % safety: flip if it’s [T × vox]
-    X = X';
-end
-
-ts = X(voxelIdx, :);                % 1 × T vector
-t  = (0:numel(ts)-1) * TR;          % time axis (s)
-
-% ----- PLOT -----------------------------------------------------------
-figure('Color','w');
-tl = tiledlayout(1,2,'TileSpacing','compact');  % 1 row × 2 columns
-
-nexttile;
-plot(t, ts, 'LineWidth', 1);
-xlabel('Time (s)');  ylabel('BOLD signal (a.u.)');
-title(sprintf('Run %d   –   Voxel %d', runIdx, voxelIdx));
-grid on;
-
+plot_voxel(runIdx, voxelIdx, datafiles, TR);
 
 % Compute FFT for the chosen voxel, chosen run
 
-% -------- FFT of this voxel ------------------------------------------
-N  = numel(ts);          % # time-points in this run
-fs = 1/TR;               % sampling rate (Hz)
-
-Y  = fft(ts);            % complex spectrum
-P  = abs(Y/N).^2;        % power (variance) spectrum  –OR–  abs(Y/N) for amplitude
-
-% keep positive-frequency half (0 … Nyquist)
-half = 1:floor(N/2)+1;
-f    = fs*(half-1)/N;    % frequency axis
-
-nexttile;
-semilogy(f, P(half), 'LineWidth',1);   % log power – change to plot() for linear
-xlabel('Frequency (Hz)');
-ylabel('Power  (a.u.)');
-title(sprintf('FFT – Run %d,  Voxel %d', runIdx, voxelIdx));
-grid on;
-xlim([0 fs/2]);          % show the whole positive band
+plot_fft(runIdx, voxelIdx, datafiles, TR);
 
 
 %% Filtering
@@ -149,6 +115,20 @@ for r = 1:nRuns
 end
 
 
+%% Visualise the data after filtering
+
+
+% ----- USER CHOICES ---------------------------------------------------
+runIdx   = 2;        % which run?  1 … numel(datafiles)
+voxelIdx = 100000;     % which voxel/vertex index?
+
+plot_voxel(runIdx, voxelIdx, datafiles_hp, TR);
+
+% Compute FFT for the chosen voxel, chosen run
+
+plot_fft(runIdx, voxelIdx, datafiles_hp, TR);
+
+
 %% Convert to signal change percentage
 
 % converting to % signal change
@@ -156,8 +136,8 @@ end
 %Compute the average value
 
 
-% Assume 'datafiles' is your 1x3 cell array
-nCells = numel(datafiles);
+% Assume 'datafiles_hp' is your 1x3 cell array
+nCells = numel(datafiles_hp);
 
 % Prepare cell arrays to store outputs
 average_signals = cell(1, nCells);
@@ -166,7 +146,7 @@ percent_change_signals = cell(1, nCells);
 for i = 1:nCells
 
     % Extract the data matrix
-    this_data = datafiles{i};  % Size: 300 x 320721
+    this_data = datafiles_hp{i};  % Size: 300 x 320721
 
     % Step 1: Compute average across the 1st dimension (rows)
     % Average the signal for each voxel

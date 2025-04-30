@@ -60,16 +60,19 @@ for iRun=1:nRuns
     designMatrix(:,1:number_conditions,iRun) = binary_matrix;
     
     % The noise regressors have already been loaded in load_data.m
+
+    % PUTI - add constant 1s as a regressor, add linear drift 1:300 as
+    % another regressor DONE D
+
     designMatrix(:,number_conditions+1:number_regressors_motion+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
     
     designMatrix(:, number_conditions+number_regressors_motion+1:n_cols_total, iRun) = [const_regress_vector, drift_regress_vector] ;
       
-    % PUTI - add constant 1s as a regressor, add linear drift 1:300 as
-    % another regressor
+
     
     % PUTI - - remember to chop the left overs
     % HADI TODO continue here
-    conv(designMatrix(1:5,hrf) 
+    %conv(designMatrix(1:5,hrf) 
 
     % get hrf from gamma 
     % hrf = gammapdf(timeRange,2,3);
