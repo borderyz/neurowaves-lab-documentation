@@ -110,7 +110,7 @@ try
             Screen('CloseAll');
         end
         disp('Eyelink calibration starting');
-        Eyelink('command', 'screen_pixel_coords = %ld %ld %ld %ld', 0, 0, rect(4)-1, rect(3)-1);
+        %Eyelink('command', 'screen_pixel_coords = %ld %ld %ld %ld', 0, 0, rect(4)-1, (rect(3)*2)-1);
 
         % Link to edf data
         Eyelink('command', 'file_event_filter = LEFT,RIGHT,FIXATION,SACCADE,BLINK,MESSAGE,BUTTON,INPUT'); WaitSecs(0.05);
@@ -123,10 +123,17 @@ try
 
         edfFile = ['Subj' answer1{1} '.edf'];
         Eyelink('Openfile', edfFile);
+        
+        Eyelink('Command', 'calibration_type = HV5');
+        Eyelink('Command', 'enable_automatic_calibration = YES');
 
-        % Eyelink('command', 'calibration_type = HV6'); WaitSecs(0.05);
+        
+        WaitSecs(0.05);
+
+
         % Before recording, we place reference graphics on the host display
         % Must be offline to draw to EyeLink screen
+       
         Eyelink('Command', 'set_idle_mode'); WaitSecs(0.05);
 
         EyelinkDoTrackerSetup(el); WaitSecs(0.05);
