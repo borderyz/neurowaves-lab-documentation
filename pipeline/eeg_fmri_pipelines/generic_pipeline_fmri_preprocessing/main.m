@@ -23,7 +23,7 @@ const_regress_vector = repelem(1, run_length)';
 drift_regress_vector = 1:300;
 drift_regress_vector = drift_regress_vector';
 
-gam_x_values = linspace(1,run_length, run_length);
+gam_x_values = linspace(1,block_size, block_size);
 hrf = gampdf(gam_x_values,2,3);
 
 % Plot hrf
@@ -75,14 +75,16 @@ for iRun=1:nRuns
      
     
     % PUTI - - remember to chop the left overs
-    % HADI TODO continue here
 
-    convolved_signal = conv(designMatrix(:,1:5),hrf);
+    for col = 1:number_conditions
+        convolved_signal = conv(designMatrix(:,col,iRun),hrf);
+        convolved_signal = convolved_signal(1:run_length);  % Chop the leftovers
+        designMatrix(:,col,iRun) = convolved_signal;
+            % Chop off the left overs
+        %plot(1:run_length, convolved_signal);
+    end
     
-    % Chop off the left overs
-    convolved_signal = convolved_signal 
-    plot(gam_x_values, convolved_signal);
-
+    
 
 end
 
@@ -116,11 +118,12 @@ designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(de
 % nRuns
 
 
-for iRun = 1:nRuns
-    % Need 
-    designMatrix_full = co
-    betas = pinv(designMatrix) * datafiles; % done per run separatelyf
-end
+percent_change_signals_concatenated = vertcat(percent_change_signals{:}); 
+
+% Need 
+
+betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separatelyf
+
 
 % save result in surface space 
 %
