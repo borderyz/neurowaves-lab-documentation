@@ -85,6 +85,10 @@ end
 runIdx   = 2;        % which run?  1 … numel(datafiles)
 voxelIdx = 100000;     % which voxel/vertex index?
 
+figure('Color','w');
+tl = tiledlayout(1,2,'TileSpacing','compact');  % 1 row × 2 columns
+
+
 plot_voxel(runIdx, voxelIdx, datafiles, TR);
 
 % Compute FFT for the chosen voxel, chosen run
@@ -106,17 +110,22 @@ datafiles_hp = cell(size(datafiles));
 
 for r = 1:nRuns
     X = datafiles{r};
+
+    mu = mean(X,1);
     % First dimension of X in filtfilt must be time
     % TODO: check that X has time in first dimension before launching this
     X_filt = filtfilt(b, a, X);            % zero-phase
-    
-    datafiles_hp{r} = X_filt;
+    X_rest = X_filt+mu;         % Added the mean after filtering, because if not the percentage_change next would become very big (since the mean is 0)
+    datafiles_hp{r} = X_rest;
 
 end
 
 
 %% Visualise the data after filtering
 
+
+figure('Color','w');
+tl = tiledlayout(1,2,'TileSpacing','compact');  % 1 row × 2 columns
 
 % ----- USER CHOICES ---------------------------------------------------
 runIdx   = 2;        % which run?  1 … numel(datafiles)
@@ -135,9 +144,10 @@ plot_fft(runIdx, voxelIdx, datafiles_hp, TR);
 
 %Compute the average value
 
+data = datafiles_hp
 
 % Assume 'datafiles_hp' is your 1x3 cell array
-nCells = numel(datafiles_hp);
+nCells = numel(data);
 
 % Prepare cell arrays to store outputs
 average_signals = cell(1, nCells);
@@ -146,7 +156,7 @@ percent_change_signals = cell(1, nCells);
 for i = 1:nCells
 
     % Extract the data matrix
-    this_data = datafiles_hp{i};  % Size: 300 x 320721
+    this_data = data{i};  % Size: 300 x 320721
 
     % Step 1: Compute average across the 1st dimension (rows)
     % Average the signal for each voxel
@@ -168,11 +178,13 @@ end
 
 
 
+%% Plot percentage change signal
 
 
+figure('Color','w');
+tl = tiledlayout(1,1,'TileSpacing','compact');  % 1 row × 2 columns
 
+runIdx   = 2;        % which run?  1 … numel(datafiles)
+voxelIdx = 100000;     % which voxel/vertex index?
 
-
-
-
-
+plot_percent_change(runIdx, voxelIdx, percent_change_signals, TR);

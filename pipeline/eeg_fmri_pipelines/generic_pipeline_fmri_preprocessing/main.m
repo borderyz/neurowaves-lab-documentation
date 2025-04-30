@@ -1,13 +1,13 @@
 %%
 
-
-
 % load data into 1 by nRun cell array
 
 % create design matrix  n by m 
 
-datapath = 'C:\Users\hz3752\Box\EEG-FMRI\Data\finger-tapping\sub-0665\matlab';
 
+EEG_FMRI_DATA_PATH = getenv('EEG_FMRI_DATA');
+
+datapath = sprintf('%s\\%s\\%s\\matlab', EEG_FMRI_DATA_PATH, task, subject);
 number_conditions = 5;  % Five fingers
 number_regressors_motion = 6;  % translation x,y,z and rotation x,y,z 
 number_regressors_extra = 2;   % constant regressor and drift
@@ -23,7 +23,12 @@ const_regress_vector = repelem(1, run_length)';
 drift_regress_vector = 1:300;
 drift_regress_vector = drift_regress_vector';
 
-hrf = gampdf(run_length,2,3);
+gam_x_values = linspace(1,run_length, run_length);
+hrf = gampdf(gam_x_values,2,3);
+
+% Plot hrf
+
+plot(gam_x_values,hrf);
 
 %filename = 'fingertap_01.csv';
 for iRun=1:nRuns
@@ -67,15 +72,16 @@ for iRun=1:nRuns
     designMatrix(:,number_conditions+1:number_regressors_motion+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
     
     designMatrix(:, number_conditions+number_regressors_motion+1:n_cols_total, iRun) = [const_regress_vector, drift_regress_vector] ;
-      
-
+     
     
     % PUTI - - remember to chop the left overs
     % HADI TODO continue here
-    %conv(designMatrix(1:5,hrf) 
 
-    % get hrf from gamma 
-    % hrf = gammapdf(timeRange,2,3);
+    convolved_signal = conv(designMatrix(:,1:5),hrf);
+    
+    % Chop off the left overs
+    convolved_signal = convolved_signal 
+    plot(gam_x_values, convolved_signal);
 
 
 end
