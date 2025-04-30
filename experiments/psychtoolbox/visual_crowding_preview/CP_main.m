@@ -93,6 +93,26 @@ try
     trig.TARGET = 4;
     trig.RESPONSE = 5;
     disp('setup trigger done');
+
+    %added by tarek
+    % ------ codes to send to EyeLink (must be scalars) ------
+    etCode.SYNC     = 100;  % any numbers you like, just keep them unique
+    etCode.START    = 101;
+    etCode.PREVIEW  = 102;
+    etCode.SACCADE  = 103;
+    etCode.TARGET   = 104;
+    etCode.RESPONSE = 105;
+    
+    etCode.CH225    = 225;  % match the MEG channel number if you want
+    etCode.CH226    = 226;
+    etCode.CH227    = 227;
+    etCode.CH228    = 228;
+    etCode.CH229    = 229;
+    etCode.CH230    = 230;
+    etCode.CH231    = 231;
+
+
+
     if use_eyetracker==1
 
         % EYE-TRACKING SETUP
@@ -110,8 +130,9 @@ try
             Screen('CloseAll');
         end
         disp('Eyelink calibration starting');
-        %Eyelink('command', 'screen_pixel_coords = %ld %ld %ld %ld', 0, 0, rect(4)-1, (rect(3)*2)-1);
-
+        xOffset = 0;
+        Eyelink('command', 'screen_pixel_coords = %ld %ld %ld %ld', xOffset, 0, (rect(3)-1)-xOffset, rect(4)-1); %comment out to last working version
+%         disp(rect(3),rect(4));
         % Link to edf data
         Eyelink('command', 'file_event_filter = LEFT,RIGHT,FIXATION,SACCADE,BLINK,MESSAGE,BUTTON,INPUT'); WaitSecs(0.05);
         Eyelink('command', 'file_sample_data  = LEFT,RIGHT,GAZE,HREF,AREA,GAZERES,STATUS,INPUT,HTARGET'); WaitSecs(0.05);
@@ -124,10 +145,28 @@ try
         edfFile = ['Subj' answer1{1} '.edf'];
         Eyelink('Openfile', edfFile);
         
-        Eyelink('Command', 'calibration_type = HV5');
+
+        %% added automatic calibration
+        
+        Eyelink('Command', 'calibration_type = HV6');
         Eyelink('Command', 'enable_automatic_calibration = YES');
 
-        
+
+
+%         Eyelink('Command', 'enable_automatic_calibration = NO');
+%         calX = [420, 640, 860];
+%         calY = [540 540 540]; %[0, 0, 0];  % all at center height
+%         
+%         Eyelink('command', sprintf('calibration_targets = %.2f,%.2f %.2f,%.2f %.2f,%.2f', ...
+%             calX(1), calY(1), ...
+%             calX(2), calY(2), ...
+%             calX(3), calY(3)));
+%         
+%         Eyelink('command', sprintf('validation_targets = %.2f,%.2f %.2f,%.2f %.2f,%.2f', ...
+%             calX(1), calY(1), ...
+%             calX(2), calY(2), ...
+%             calX(3), calY(3)));
+%         
         WaitSecs(0.05);
 
 
@@ -243,14 +282,21 @@ stim_set = 'stimuli_images';
     if use_eyetracker==1
         Eyelink('Command', 'SetOfflineMode');
         Eyelink('StartRecording');
+        expStartSecs = GetSecs(); %put by tarek
         Screen('FillOval', w, fixColor, fixRect);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
         WaitSecs(2);
         trig.SYNCTIMEsecs = GetSecs();
-        Eyelink('Message', 'TRIGGER %d', trig.SYNCTIME);
-        eyeUsed = Eyelink('EyeAvailable');
-        eyeUsed = eyeUsed + 1;
+%         changed by tarek
+%         Eyelink('Message', 'TRIGGER %d', trig.SYNCTIMEsecs);
+%         eyeUsed = Eyelink('EyeAvailable');
+%         eyeUsed = eyeUsed + 1;
+        timestamp_ms = round( (trig.SYNCTIMEsecs - expStartSecs) * 1000 );
+        Eyelink('Message', 'TRIGGER %d', timestamp_ms);
+    
+        eyeUsed = Eyelink('EyeAvailable') + 1;
+
     end
 
     goodTrial = 1;
@@ -406,7 +452,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         fixOnsetTime = GetSecs();
         expTable.fixStartTime(i_trial) = GetSecs();
         if use_eyetracker==1
-            Eyelink('Message', 'TRIGGER %d', trig.START);
+            Eyelink('Message', 'TRIGGER %d', etCode.START)
         end
 
         expTable.fixDuration(i_trial) = (1000+randperm(500,1))/1000; % random fixation duration
@@ -448,7 +494,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                                 expTable.realFixConfirmTime(i_trial) = GetSecs();
 
                                 if use_eyetracker == 1
-                                    Eyelink('Message', 'TRIGGER %d', trig.ch225);
+                                    Eyelink('Message', 'TRIGGER %d', etCode.CH225);
                                 end
 
                                 break;
@@ -473,7 +519,8 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                             expTable.fixStartTime(i_trial) = GetSecs();
 
                             if use_eyetracker == 1
-                                Eyelink('Message', 'TRIGGER %d', trig.START);
+                                Eyelink('Message', 'TRIGGER %d', etCode.START)
+
                             end
 
                         end
@@ -481,7 +528,8 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                         expTable.fixStartTime(i_trial) = GetSecs();
                         % Question: Does this line display something on
                         % the screen?
-                        Eyelink('Message', 'TRIGGER %d', trig.START);
+                        Eyelink('Message', 'TRIGGER %d', etCode.START)
+
                     end
                 end
             else
@@ -517,6 +565,16 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         end
         Screen('FillRect', w, currentTriggerChannel, trigRect);
         Screen('Flip', w);
+        if use_eyetracker
+            switch conditionLabel
+                case '1', chCode = etCode.CH226;   % map crowding-1 to code 226
+                case '2', chCode = etCode.CH227;   % crowding-2  -> 227
+                case '3', chCode = etCode.CH228;   % crowding-3  -> 228
+                case '4', chCode = etCode.CH229;   % flipped-4   -> 229
+                otherwise, chCode = etCode.PREVIEW;
+            end
+            Eyelink('Message', 'TRIGGER %d', chCode);
+        end
         Screen('DrawTexture', w, wPreview);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
@@ -524,7 +582,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         expTable.previewOnsetTime(i_trial) = GetSecs();
 
         if use_eyetracker==1
-            Eyelink('Message', 'TRIGGER %d', trig.PREVIEW);
+            Eyelink('Message', 'TRIGGER %d', etCode.PREVIEW);
         end
 
         saccTrigger = 0;
@@ -613,7 +671,8 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                             expTable.saccadeOnsetTime(i_trial) = GetSecs();
                             disp('Saccade detected'); % Debugging output
 
-                            Eyelink('Message', 'TRIGGER %d', trig.SACCADE);
+                            Eyelink('Message', 'TRIGGER %d', etCode.SACCADE);
+
                             if strcmp(imageName, 'N/A')
                                 fprintf(logFile, '%d\tN/A\tSaccade\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
                             else
@@ -664,7 +723,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
         expTable.targetOnsetTime(i_trial) = GetSecs();
         if use_eyetracker==1
-            Eyelink('Message', 'TRIGGER %d', trig.TARGET);
+            Eyelink('Message', 'TRIGGER %d', etCode.TARGET);
         end
 
         while GetSecs() - expTable.targetOnsetTime(i_trial) < targetDuration
