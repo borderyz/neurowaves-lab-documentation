@@ -120,10 +120,29 @@ designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(de
 
 percent_change_signals_concatenated = vertcat(percent_change_signals{:}); 
 
-% Need 
 
 betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separatelyf
 
+
+% Which voxels are the ones classifying the conditions well?
+
+
+
+%% Classification and plots
+
+
+%% Visualise data
+
+figure(1); clf;  % Create a new figure and clear any existing plots
+for condIdx = 1:number_conditions
+    subplot(1, nRuns, condIdx);  % Make a subplot for each condition
+    imagesc(datafMRI(:,:,condIdx),[min(datafMRI(:)) max(datafMRI(:))]);  % Show the activity pattern
+    xlabel('Voxel');  % Label the x-axis
+    ylabel('Run');    % Label the y-axis
+    title(sprintf('Condition %d', condIdx));  % Title for this subplot
+    colormap(gray);   % Use grayscale colors
+    colorbar;         % Show the color scale
+end
 
 % save result in surface space 
 %
