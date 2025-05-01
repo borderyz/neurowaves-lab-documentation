@@ -79,7 +79,7 @@ for iRun=1:nRuns
     for col = 1:number_conditions
         convolved_signal = conv(designMatrix(:,col,iRun),hrf);
         convolved_signal = convolved_signal(1:run_length);  % Chop the leftovers
-        designMatrix(:,col,iRun) = convolved_signal;
+        designMatrix_conv(:,col,iRun) = convolved_signal;
             % Chop off the left overs
         %plot(1:run_length, convolved_signal);
     end
@@ -112,7 +112,7 @@ betas = cell(1, nRuns);
 
 % Concatenate the designMatrix of shape (runtime,  features, nRuns)
 % New shape (runtime x nRuns, features)
-designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(designMatrix,2) );
+designMatrix_concatenated = reshape( permute(designMatrix_conv, [1 3 2]), [], size(designMatrix_conv,2) );
 
 % Concatenate the datafiles (bold signal array) of shape (runtime, nVoxels,
 % nRuns
@@ -124,19 +124,99 @@ percent_change_signals_concatenated = vertcat(percent_change_signals{:});
 betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separatelyf
 
 
-% Which voxels are the ones classifying the conditions well?
+% Save results in surface space
 
+save betas betas
 
 
 %% Classification and plots
 
 
+% Which voxels are the ones classifying the conditions well?
 %% Visualise data
 
-figure(1); clf;  % Create a new figure and clear any existing plots
+percent_change_signals_array = cat(3, percent_change_signals{:});
+
+% we need to sort the data according to the conditions in the designMatrix
+
+% Build a condition_matrix such that it has a shape of (n_run, n_conditions,  
+
+% We want to plot each condition alone (5 plots), for 50 voxels (on the y
+% axis) and then across runs (3 runs), the heat map will be the activity of
+% that voxel averaged over time for this run
+
+% Let us average over time for one condition
+
+% Let us consider condition = 1
+
+percent_change_signals_array_cat = cat(2, percent_change_signals_array, designMatrix(:, 1:5,:));
+
+% For condition 1, for voxedl 50, for run 1 lets get the condition vector
+% in each run, the condition appears for 3 blocks each 20 seconds = 60 seconds, 
+
+start_nvox = 150000; 
+end_nvox = 150050;  % How many Voxels we want to show in the plot? We would take from start_nvox to end_nvox
+n_vox = end_nvox-start_nvox;
+
+TR_per_run = sum( designMatrix(:,1) == 1 );
+
+TR_per_condition = TR_per_run*nRuns;
+
+conditions_total = zeros(TR_per_condition, number_conditions, n_vox);
+for iCon = 1:number_conditions
+    for voxel = 1:n_vox
+        pc = squeeze(percent_change_signals_array_cat(:, voxel, :)); 
+        dm = squeeze(designMatrix(:, iCon, :));    
+        %condition_1 = percent_change_signals_array_cat(:,voxel, :) .*designMatrix(:,iCon,:);
+        condition = pc .* dm;
+        
+        non_zero_cols = arrayfun(@(c) nonzeros(condition(:,c)), 1:size(condition,2), 'UniformOutput',false);
+        v = vertcat(non_zero_cols{:});
+        conditions_total(:, iCon, voxel) = v;
+   end
+end
+
+
+% Plot per TR
+
+figure(1);
+
+tiledlayout(1,5);
+
+conditions_total_r = reshape(conditions_total,TR_per_condition, n_vox, []);
+
 for condIdx = 1:number_conditions
-    subplot(1, nRuns, condIdx);  % Make a subplot for each condition
-    imagesc(percent_change_signals(:,:,condIdx),[min(percent_change_signals(:)) max(percent_change_signals(:))]);  % Show the activity pattern
+    nexttile,
+    imagesc(conditions_total_r(:, :,condIdx),[min(conditions_total_r(:)) max(conditions_total_r(:))]);  % Show the activity pattern
+    xlabel('Voxel');  % Label the x-axis
+    ylabel('TR');    % Label the y-axis
+    title(sprintf('Condition %d', condIdx));  % Title for this subplot
+    colormap(gray);   % Use grayscale colors
+    colorbar;         % Show the color scale
+end
+
+
+
+%% Plot per run
+% Let us average the TR's over the runs for each condition and for each
+% voxel
+
+% Each run had 60 TR per condition, they are placed in order from 1 to 180
+
+tmp = reshape(conditions_total_r, TR_per_run, nRuns, n_vox, number_conditions);
+
+% Mean over first dimension
+
+conditions_total_r_avg_runs = squeeze( mean(tmp, 1) );   % → size: [nRuns × nVoxels × nConds]
+
+
+figure(1);
+
+tiledlayout(1,5);
+
+for condIdx = 1:number_conditions
+    nexttile,
+    imagesc(conditions_total_r_avg_runs(:, :,condIdx),[min(conditions_total_r_avg_runs(:)) max(conditions_total_r_avg_runs(:))]);  % Show the activity pattern
     xlabel('Voxel');  % Label the x-axis
     ylabel('Run');    % Label the y-axis
     title(sprintf('Condition %d', condIdx));  % Title for this subplot
@@ -144,5 +224,11 @@ for condIdx = 1:number_conditions
     colorbar;         % Show the color scale
 end
 
-% save result in surface space 
-%
+
+
+%% Average activity across condition and runs
+
+
+conditions_total_r = reshape(conditions_total,TR_per_condition, n_vox, []);
+
+conditions_total_r_avg_time = mean(conditions_total_r)
