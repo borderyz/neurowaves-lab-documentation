@@ -57,9 +57,10 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-saccadeOffset = 500; % pixel ->  dva
+saccadeOffset = 500; % pixel -> 10 dva
 targetDuration = .5; % seconds
-saccThreshold = 7; % pixel -> 0.c18 dva
+saccThreshold = 125; % pixel -> 2.5 dva (25% of 500) saccThreshold = round(0.25 * saccadeOffset);
+
 
 try
 
@@ -110,7 +111,6 @@ try
     etCode.CH229    = 229;
     etCode.CH230    = 230;
     etCode.CH231    = 231;
-
 
 
     if use_eyetracker==1
@@ -441,10 +441,10 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         goodTrial = 1;
         errorMsg = 'BAD TRIAL';
 
-        counts.ch225 = counts.ch225+1;
-        Screen('DrawTexture', w, wFixation);
-        Screen('FillRect', w, trig.ch225, trigRect);
-        Screen('Flip', w);
+        % counts.ch225 = counts.ch225+1;
+        % Screen('DrawTexture', w, wFixation);
+        % Screen('FillRect', w, trig.ch225, trigRect);
+        % Screen('Flip', w);
         Screen('DrawTexture', w, wFixation);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
@@ -565,6 +565,17 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         end
         Screen('FillRect', w, currentTriggerChannel, trigRect);
         Screen('Flip', w);
+
+        if isequal(currentTriggerChannel, trig.ch226)
+            counts.ch226 = counts.ch226 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch227)
+            counts.ch227 = counts.ch227 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch228)
+            counts.ch228 = counts.ch228 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch229)
+            counts.ch229 = counts.ch229 + 1;
+        end
+
         if use_eyetracker
             switch conditionLabel
                 case '1', chCode = etCode.CH226;   % map crowding-1 to code 226
@@ -694,7 +705,6 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         else
             % Simulate saccade detection and proceed
             disp('Simulating saccade detection (no eyetracker).');
-            counts.ch228 = counts.ch228 + 1;
 
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
@@ -905,6 +915,9 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
     WaitSecs(5);
 
     expTable = expTable(validTrialsIndex, :);
+
+    disp('--- Trigger Count Summary ---');
+    disp(counts);
 
     endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, false)
 
