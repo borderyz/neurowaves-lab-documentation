@@ -1,4 +1,13 @@
 #!/bin/bash -l
+#SBATCH --job-name=create_labels
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=32
+#SBATCH --mem=32G
+#SBATCH --time=10:00:00  # Adjust the time limit as needed
+#SBATCH --output=/scratch/hz3752/MRI/fingertapping/createlabels_%A_%a.out
+#SBATCH --error=/scratch/hz3752/MRI/fingertapping/createlabels_%A_%a.err
+#SBATCH --array=0  # Adjust this to match the number of subjects minus one
+
 # JK & IB 28/10/2022
 
 # From https://github.com/WinawerLab/atlasmgz
@@ -8,8 +17,6 @@ SUBJID="0665"
 #export WORK_DIR=${2} # e.g /CBI/Users/jankurzawski/data/Retinotopy_NYU_3T
 USER=hz3752
 PROJECT_NAME=fingertapping
-BIDS_DIR=/scratch/$USER/MRI/$PROJECT_NAME/rawdata
-OUTPUT_DIR=/scratch/$USER/MRI/$PROJECT_NAME/derivatives/fmriprep
 
 #TODO: Set this
 WORK_DIR=/scratch/$USER/MRI/$PROJECT_NAME/
@@ -17,7 +24,7 @@ WORK_DIR=/scratch/$USER/MRI/$PROJECT_NAME/
 export SUBJECTS_DIR=${WORK_DIR}/derivatives/freesurfer
 export LABEL_DIR=${SUBJECTS_DIR}/sub-${SUBJID}/label
 
-git clone https://github.com/WinawerLab/atlasmgz.git $SUBJECTS_DIR/fsaverage/atlasmgz
+git clone https://github.com/hzaatiti/atlasmgz.git $SUBJECTS_DIR/fsaverage/atlasmgz
 git pull $SUBJECTS_DIR/fsaverage/atlasmgz
 export DO_IMPORT_WANG=1 # Only need to run once, to bring atlas into fsaverage space
 export DO_IMPORT_GLASSER=1 # Only need to run once, to bring atlas into fsaverage space
