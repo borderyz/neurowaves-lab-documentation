@@ -19,11 +19,13 @@ USER=hz3752
 PROJECT_NAME=fingertapping
 
 #TODO: Set this
-WORK_DIR=/scratch/$USER/MRI/$PROJECT_NAME/
+WORK_DIR=/scratch/$USER/MRI/$PROJECT_NAME
 
 export SUBJECTS_DIR=${WORK_DIR}/derivatives/freesurfer
 export LABEL_DIR=${SUBJECTS_DIR}/sub-${SUBJID}/label
 
+
+module load freesurfer
 git clone https://github.com/hzaatiti/atlasmgz.git $SUBJECTS_DIR/fsaverage/atlasmgz
 git pull $SUBJECTS_DIR/fsaverage/atlasmgz
 export DO_IMPORT_WANG=1 # Only need to run once, to bring atlas into fsaverage space
