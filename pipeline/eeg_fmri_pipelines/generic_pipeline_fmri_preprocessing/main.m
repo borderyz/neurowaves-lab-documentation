@@ -129,4 +129,10 @@ betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; %
 save betas betas
 
 
+%% Generate ROI labels from the Glasser Atlas in subject native space (fsnative)
+
+% The idea is to define the regions in the brain that are common in a
+% particular function
+
+
 
