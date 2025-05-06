@@ -354,7 +354,8 @@ The following explains how to learn a GLM from the fMRIprep output, the provided
                    :alt:
                    :align: center
                    :figclass: align-center
-                   :caption: Plotting the 100kth voxel bold time series and the corresponding Fast Fourier Transform (FFT).
+
+                    Plotting the 100kth voxel bold time series and the corresponding Fast Fourier Transform (FFT).
 
 
 - You will need to install `freesurfer` and have the license file pointed out correctly in the script
