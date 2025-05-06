@@ -341,24 +341,6 @@ For further details on available spaces and how they are handled, see the `fMRIP
 Learning Generalized Linear Models (GLM) from fMRI data
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following explains how to learn a GLM from the fMRIprep output, the provided MATLAB scripts are adapted for the finger-tapping experiment, which involves five conditions (one for each finger).
-
-- Load data in MATLAB, make sure to open MATLAB from the script itself
-    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory
-    - the script will perform the following:
-        - load the fmriprep output data into MATLAB
-        - load the regressors files into MATLAB
-        - some visualisation functions are implemented, for a given run, for a given voxel, plot the bold time series and the FFT of this time series
-            - Example:
-                .. figure:: 0-generic-pipeline-figures/bold_voxel_fft.png
-                   :alt:
-                   :align: center
-                   :figclass: align-center
-
-                    Plotting the 100kth voxel bold time series and the corresponding Fast Fourier Transform (FFT).
-
-
-- You will need to install `freesurfer` and have the license file pointed out correctly in the script
 - in the `fmriprepoutput\sub-0665\func` output directory you will find:
     - files ending in `func.gii`
     - files ending in `func.mgh`
@@ -380,6 +362,38 @@ The following explains how to learn a GLM from the fMRIprep output, the provided
             - two files without a space tag (.json and .nii.gz)
 
     - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
+
+
+The following explains how to learn a GLM from the fMRIprep output, the provided MATLAB scripts are adapted for the finger-tapping experiment, which involves five conditions (one for each finger).
+
+- You will need to install `freesurfer` and have the license file pointed out correctly in the script
+- Load data in MATLAB, make sure to open MATLAB from the script itself
+    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory
+    - the script will perform the following:
+        - load the fmriprep output data into MATLAB
+        - load the regressors files into MATLAB
+        - some visualisation functions are implemented, for a given run, for a given voxel, plot the bold time series and the FFT of this time series
+            - Example:
+                .. figure:: 0-generic-pipeline-figures/bold_voxel_fft.png
+                   :alt:
+                   :align: center
+                   :figclass: align-center
+
+                   Plotting the 100kth voxel bold time series and the corresponding Fast Fourier Transform (FFT).
+
+        - a high pass filter at 1/40 Hz is applied, then we can visualise the same voxel data after filtering, notice how the power frequencies lower than 1/40Hz is much smaller
+        - convert the bold signals for each voxel to percentage change w.r.t to the average value for that voxel over time, a plot is provided to see the percentage change
+            - Example:
+                .. figure:: 0-generic-pipeline-figures/percentage_change_bold.png
+                   :alt:
+                   :align: center
+                   :figclass: align-center
+
+                   Plotting the 100kth voxel bold signal percentage change.
+
+
+
+
 
 
 - the Bold signal is converted to percentage change with regards to the average

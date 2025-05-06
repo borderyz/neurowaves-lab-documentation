@@ -138,16 +138,13 @@ plot_fft(runIdx, voxelIdx, datafiles_hp, TR);
 
 %Compute the average value
 
-data = datafiles_hp
-
-% Assume 'datafiles_hp' is your 1x3 cell array
-nCells = numel(data);
+data = datafiles_hp;
 
 % Prepare cell arrays to store outputs
-average_signals = cell(1, nCells);
-percent_change_signals = cell(1, nCells);
+average_signals = cell(1, nRuns);
+percent_change_signals = cell(1, nRuns);
 
-for i = 1:nCells
+for i = 1:nRuns
 
     % Extract the data matrix
     this_data = data{i};  % Size: 300 x 320721
@@ -169,7 +166,6 @@ for i = 1:nCells
     percent_change_signals{i} = percent_change;
 
 end
-
 
 
 %% Plot percentage change signal
