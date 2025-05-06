@@ -367,8 +367,9 @@ Learning Generalized Linear Models (GLM) from fMRI data
 The following explains how to learn a GLM from the fMRIprep output, the provided MATLAB scripts are adapted for the finger-tapping experiment, which involves five conditions (one for each finger).
 
 - You will need to install `freesurfer` and have the license file pointed out correctly in the script
-- Load data in MATLAB, make sure to open MATLAB from the script itself
-    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory
+    - On windows computer we cloned the vistasoft MRI repository https://github.com/vistalab/vistasoft and then added the external/freesurfer folder to MATLAB path
+    - On linux/mac you can instal freesurfer normally this will give you the mri_convert and other commands to get the .mgh files
+- Load data in MATLAB using script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory, make sure to open MATLAB from the script itself
     - the script will perform the following:
         - load the fmriprep output data into MATLAB
             - we will use the `fsnative` space files
@@ -394,24 +395,24 @@ The following explains how to learn a GLM from the fMRIprep output, the provided
 
                    Plotting the 100kth voxel bold signal percentage change.
 
-
-
-
-
-
-- the Bold signal is converted to percentage change with regards to the average
-- Installing freesurfer will give you the mri_convert command to get the .mgh files
-- Build the design matrix with shape (n_conditions, n_voxels, n_runs) involving:
-    - n_conditions
-        - the five conditions for each finger
-        - a drift vector over a run length (1,...,300)
-        - a constant vector (1,...,1)
-        - 6 motion regressors (trans_x, trans_y, trans_z, rot_x, rot_y, rot_z)
-    - n_voxels
-        - the number of voxels 324k for our case
-    - n_runs
-        - three runs for the considered session
-
+- Creating the deisgnMatrix and GLM learning in MATLAB using script in `main.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory, make sure to open MATLAB from the script itself
+    - In the finger-tapping experiment, the participant was asked to tap the same finger for the whole duration of the block (20 seconds), then repeated for other fingers
+        - We had randomised the order of the fingers
+        - First we are retrieving the order of the fingers that has been stored by the PsychToolBox experiment on NYU BOX
+    - Then we will build the designMatrix
+        - Build the design matrix with shape (n_TR, n_conditions, n_runs) involving:
+            - n_conditions = 13
+                - the five conditions for each finger, (finger labelled as 1 is the first column, finger 2)
+                    - these columns are created as binary mask from the saved matlab random finger tapping output on Box\EEG-FMRI\Data\fingertapping\sub-0665\matlab
+                    - the columns are then convolved with a gamma pdf
+                - a drift vector over a run length (1,...,300)
+                - a constant vector (1,...,1)
+                - 6 motion regressors (trans_x, trans_y, trans_z, rot_x, rot_y, rot_z)
+            - n_TR = 300 seconds per run (TR = 1 second)
+            - n_runs
+                - three runs for the considered session
+            - n_voxels = 320721
+                - the number of voxels 324k for our case
 
 - Run the GLM
 - Save the GLM outputs

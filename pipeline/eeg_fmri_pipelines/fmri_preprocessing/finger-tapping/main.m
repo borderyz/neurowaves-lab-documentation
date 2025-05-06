@@ -24,15 +24,16 @@ drift_regress_vector = 1:300;
 drift_regress_vector = drift_regress_vector';
 
 gam_x_values = linspace(1,block_size, block_size);
+
 hrf = gampdf(gam_x_values,2,3);
 
 % Plot hrf
+% What do we need to ensure?
 
 plot(gam_x_values,hrf);
 
-%filename = 'fingertap_01.csv';
 for iRun=1:nRuns
-    %iRun = 1
+
     file_array_name = ['fingertap_0', num2str(iRun), '.csv'];
     fullpath = fullfile(datapath, file_array_name);
     data_output = readtable(fullpath);
@@ -88,7 +89,7 @@ for iRun=1:nRuns
 
 end
 
-%% run glm
+%% Learn GLM
 
 % Y = X.B + Epsilon, with Epsilon = 0
 % B = pinv(X) * Y
