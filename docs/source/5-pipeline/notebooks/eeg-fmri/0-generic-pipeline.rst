@@ -371,7 +371,10 @@ The following explains how to learn a GLM from the fMRIprep output, the provided
     - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory
     - the script will perform the following:
         - load the fmriprep output data into MATLAB
+            - we will use the `fsnative` space files
+            - load the `sub-0665_task-fingertapping_run-*_hemi-*_space-fsnative_bold.func.gii/mgh` files
         - load the regressors files into MATLAB
+            - load the `sub-0665_task-fingertapping_run-*_desc-confounds_timeseries.tsv` files
         - some visualisation functions are implemented, for a given run, for a given voxel, plot the bold time series and the FFT of this time series
             - Example:
                 .. figure:: 0-generic-pipeline-figures/bold_voxel_fft.png
