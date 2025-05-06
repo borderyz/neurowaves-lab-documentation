@@ -1,11 +1,15 @@
-Generic pipeline
-================
+Generic pipeline for EEG-fMRI processing: Example on fingertapping experiment
+=============================================================================
 
 Author: Hadi Zaaiti <hadi.zaatiti@nyu.edu>, Puti Wen <puti.wen@nyu.edu>
+
+In this notebook we will process EEG-fMRI data from a fingertapping experiment and provide the pipeline to be adapted to your own experiment.
+
 
 .. contents:: Table of Contents
    :depth: 3
    :local:
+
 
 Different modalities for processing EEG-fMRI data exists in the literature:
 
@@ -17,12 +21,12 @@ Different modalities for processing EEG-fMRI data exists in the literature:
 The assymetrical approach seems more popular in the literature.
 
 
-
 Required Data
 -------------
 
 - fMRI data consists of
     - times series of Bold signals mapped to a geometric space (either to each voxel, or to vertices of a surface)
+    - at NYUAD, an fMRI dataset consists of multiple files in dicom format
 - EEG data consists of
     - A .eeg file: raw data from the electrodes (time series)
     - A .vhdr or .xhdr file: a header containing metadata on parameters and sensors, layout of coordinates of sensors
@@ -32,7 +36,7 @@ Required Data
 
 
 Example of such datasets are present on NYU-BOX.
-Demo dataset has been provided by BP and are available on the recording computer:
+Demo dataset of finger-tapping has been provided and are available on the recording computer:
 
 The generic pipeline for EEG-fMRI data processing involves the following steps, detailed below
 
@@ -141,7 +145,6 @@ Pre-processing of the fMRI data
 -------------------------------
 
 
-
 .. figure:: 0-generic-pipeline-figures/f1.png
    :alt: Schematic of the fMRI Preprocessing Pipeline
    :align: center
@@ -154,6 +157,7 @@ Pre-processing of the fMRI data
 Overview
 ~~~~~~~~
 
+The MRI scanner at NYUAD provides the data in dicom format stored securely on an XNAT platform hosted on NYUAD servers.
 
 - We store and organize raw scanner data in **XNAT**.
 - We convert these data to BIDS format using **dcm2bids**.
@@ -163,9 +167,8 @@ Overview
 Together, these tools produce reproducible, GLM-ready fMRI outputs.
 
 
-
-Converting DICOM to BIDS on XNAT
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Converting DICOM to BIDS on XNAT (Not tested)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 - Prerequisites for Running **dcm2bids**
@@ -174,7 +177,7 @@ Converting DICOM to BIDS on XNAT
 - Running **dcm2bids**
     #. Navigate to your **xnat** project.
     #. Prepare a **dcm2bids** configuration JSON file containing all required scan-to-BIDS mappings, and store it on **xnat**.
-        - example config file can be found in `pipeline/eeg_fmri_pipelines/fmri_preprocessing\utilities` together with a batch script to help run `dicom2bids` command
+        - example config file for the finger-tapping experiment can be found in `pipeline/eeg_fmri_pipelines/fmri_preprocessing\utilities` together with a batch script to help run `dicom2bids` command
         - Click on your project, then `Manage Files`, select `resources` for `level` then add Folder called `configs` then upload file `config.json`
     #. Select the **Processing Dashboard**, and then **MR Sessions**
 
@@ -198,8 +201,8 @@ Converting DICOM to BIDS on XNAT
         - Similarly, **fmap** should have **AP** and **PA** (not for every run, but for every task)
 
 
-Converting DICOM to BIDS on local computer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Converting DICOM to BIDS on local computer (tested)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 - Install `dicom2bids` and `dicom2niix`
 - Download your session from `XNAT`
@@ -217,13 +220,13 @@ fMRI Preprocessing with fMRIPrep: Two Available Routes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-- Route 1 (Red Path): Running fMRIPrep on XNAT
+- Route 1 (Red Path): Running fMRIPrep on XNAT (Not tested)
     1. Running fMRIPrep on XNAT
         - In dropdown menu **Select Job**, select **bids-fmriprep-session-jubail**
         - Select the Subjects you want to process, and click **Launch job**
         - Click **Reload** to see the job status and wait for it to finish (this may take a 4-8 hrs)
     2. Returning fMRIPrep outputs from XNATto NYU BOX
-- Route 2 (Blue Path): Running fMRIPrep Locally
+- Route 2 (Blue Path): Running fMRIPrep Locally (tested)
     1. Downloading data from XNAT to Jubail
     2. Running fMRIPrep on Jubail
         a. Download the fMRIPrep image on Jubail
@@ -266,7 +269,7 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
 
     - Get a free surfer license from https://surfer.nmr.mgh.harvard.edu/registration.html
 
-- Examine the `run_fmriprep.sh` script, ensure that your username is correct
+- Examine the `run_fmriprep.sh` script, ensure that your username is correct and set the other parameters relative to your project, the provided example is for the finger-tapping experiment
 - You can now run `fmriprep` using the following:
 
     .. code-block:: bash
@@ -275,8 +278,8 @@ Two scripts can be found under `pipeline/eeg_fmri_pipelines/fmri_preprocessing/u
 
 - Monitor the job and the logfiles for a short amount of time
     - You can see the error logs as specified in the header of the `run_fmriprep.sh` script for the SLURM job
-    - #SBATCH --output=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.out
-    - #SBATCH --error=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.err
+        - #SBATCH --output=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.out
+        - #SBATCH --error=/scratch/$USER/MRI/fingertapping/fmriprep_%A_%a.err
     - Monitor these logfile at the beginning of the launch to make sure the job has not encountered an early error and stopped
     - Use the 'squeue' command to see if the job is still running
     - To cancel a job `scancel (JOB_ID)`
@@ -335,13 +338,25 @@ Options explained:
 For further details on available spaces and how they are handled, see the `fMRIPrep documentation <https://fmriprep.org/en/stable/spaces.html>`_.
 
 
-GLM
-~~~
+Learning Generalized Linear Models (GLM) from fMRI data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+The following explains how to learn a GLM from the fMRIprep output, the provided MATLAB scripts are adapted for the finger-tapping experiment, which involves five conditions (one for each finger).
 
 - Load data in MATLAB, make sure to open MATLAB from the script itself
-    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/generic_pipeline_fmri_preprocessing` directory
-- A working example is in `pipeline/eeg_fmri_pipelines/fmri_preprocessing/finger-tapping`
+    - using the script in `load_data.m` in `pipeline/eeg_fmri_pipelines/finger-tapping` directory
+    - the script will perform the following:
+        - load the fmriprep output data into MATLAB
+        - load the regressors files into MATLAB
+        - some visualisation functions are implemented, for a given run, for a given voxel, plot the bold time series and the FFT of this time series
+            - Example:
+                .. figure:: 0-generic-pipeline-figures/bold_voxel_fft.png
+                   :alt:
+                   :align: center
+                   :figclass: align-center
+                   :caption: Plotting the 100kth voxel bold time series and the corresponding Fast Fourier Transform (FFT).
+
+
 - You will need to install `freesurfer` and have the license file pointed out correctly in the script
 - in the `fmriprepoutput\sub-0665\func` output directory you will find:
     - files ending in `func.gii`
@@ -366,17 +381,25 @@ GLM
     - If we have 3 runs that are 300 seconds each then we need to prepare 3 array of shape [300 * nvoxels] array
 
 
-
+- the Bold signal is converted to percentage change with regards to the average
 - Installing freesurfer will give you the mri_convert command to get the .mgh files
-- Build the design matrix
+- Build the design matrix with shape (n_conditions, n_voxels, n_runs) involving:
+    - n_conditions
+        - the five conditions for each finger
+        - a drift vector over a run length (1,...,300)
+        - a constant vector (1,...,1)
+        - 6 motion regressors (trans_x, trans_y, trans_z, rot_x, rot_y, rot_z)
+    - n_voxels
+        - the number of voxels 324k for our case
+    - n_runs
+        - three runs for the considered session
+
+
 - Run the GLM
 - Save the GLM outputs
 - Visually inspect GLM outputs in freeview
 
 
-
-Troubleshooting
-~~~~~~~~~~~~~~~
 
 
 

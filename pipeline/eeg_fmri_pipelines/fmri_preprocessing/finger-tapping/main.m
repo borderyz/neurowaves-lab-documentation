@@ -1,127 +1,273 @@
-% Pipeline processing finger-tapping experiment data from fmriprep output
-% TR = 1 second
-% Blockduration = 20 second
+%%
+
+% load data into 1 by nRun cell array
+
+% create design matrix  n by m 
 
 
-SUB_ID = 'sub-0665'
-TASK_NAME = 'finger-tapping'
-SYSTEM = 'matlab'
-FILENAME = 'fingertap_01.csv'
+EEG_FMRI_DATA_PATH = getenv('EEG_FMRI_DATA');
 
-%Temporary one is used now
+datapath = sprintf('%s\\%s\\%s\\matlab', EEG_FMRI_DATA_PATH, task, subject);
+number_conditions = 5;  % Five fingers
+number_regressors_motion = 6;  % translation x,y,z and rotation x,y,z 
+number_regressors_extra = 2;   % constant regressor and drift
+n_cols_total = number_conditions+number_regressors_motion+number_regressors_extra
+run_length = 300; %In seconds (the TR was 1 seconds)
+nRuns = 3;
+block_size = 20;
 
-FMRI_DATA_PATH = 'C:\Users\hz3752\Box\EEG-FMRI\Data\archive\finger-tapping\sub-0665\fmri\derivatives\fmriprep\sub-0665\ses-01\func'
-FMRI_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_hemi-L_space-fsaverage6_bold.func.gii'
-CONFOUND_DATA_FILE_NAME = 'sub-0665_ses-01_task-fingertapping_dir-AP_run-01_desc-confounds_timeseries.tsv'
+designMatrix = zeros(run_length, n_cols_total,  nRuns);
 
-% Fmri processing need two files:
-% 4D BOLD timeseries (3D for voxel location and 1 D is time)
-%    another possibility is 2D for voxel location on grey matter surface
-%    and 1D is time
-%Confound timeseries (motion, nuisance regressors)
+const_regress_vector = repelem(1, run_length)';
 
-% Different types of files can be found in output of fmriprep
-% .func.gii = 3D (2D surface coordinates and 1D is time)
-% .confounds_timeseries.tsv = motion and nuisance
+drift_regress_vector = 1:300;
+drift_regress_vector = drift_regress_vector';
 
+gam_x_values = linspace(1,block_size, block_size);
+hrf = gampdf(gam_x_values,2,3);
 
-FMRI_DATA_FILE_PATH = fullfile(FMRI_DATA_PATH, FMRI_DATA_FILE_NAME);
-CONFOUND_DATA_FILE_PATH = fullfile(FMRI_DATA_PATH, CONFOUND_DATA_FILE_NAME);
+% Plot hrf
 
-% Load BOX variable
+plot(gam_x_values,hrf);
 
-EEG_FMRI_DATA = getenv('EEG_FMRI_DATA');
-
-DATA_FOLDER_PATH = fullfile(EEG_FMRI_DATA, TASK_NAME, SUB_ID, SYSTEM, FILENAME);
-
-data = readtable(DATA_FOLDER_PATH); 
-
-
-
-%% Prepare your design matrix
-
-% Suppose you already loaded a variable blocktype from a CSV or MAT file.
-% blocktype is something like: [1; 2; 3; 4; 5; 1; ... ] for each block.
-
-% 1) Define parameters
-blockDuration = 20;    % seconds per block (also # of TRs if TR=1s)
-nBlocks       = length(data.blocktype); 
-nConditions   = 5;     % fingers 1 through 5
-
-% 2) Compute total number of TRs
-nTR = nBlocks * blockDuration;
-
-% 3) Initialize the design matrix with zeros
-designMatrix = zeros(nTR, nConditions);
-
-% 4) Fill in the design matrix
-for iBlock = 1:nBlocks
-    cond = data.blocktype(iBlock);   % which finger was tapped?
+%filename = 'fingertap_01.csv';
+for iRun=1:nRuns
+    %iRun = 1
+    file_array_name = ['fingertap_0', num2str(iRun), '.csv'];
+    fullpath = fullfile(datapath, file_array_name);
+    data_output = readtable(fullpath);
     
-    % Compute the time (TR) indices for this block
-    startIdx = (iBlock - 1)*blockDuration + 1;   % inclusive
-    endIdx   = iBlock*blockDuration;             % inclusive
+
+    % the designmatrix is filled from data_output
+    % the first column is for finger number 1 and so on, the last columns are
+    % for the noise regressors
+    % in data_output we look at the blocktype column, each block is 20 seconds,
+    % so we need to create a repetition of 20 times the values
+
+    condition_vector = repelem(data_output.blocktype, 20);
     
-    % Fill the design matrix with ones in the appropriate column
-    designMatrix(startIdx:endIdx, cond) = 1;
+    % Determine the number of rows (same as number of elements in vector)
+    num_rows = length(condition_vector);
+    
+    % Determine the number of columns (max value in vector)
+    num_cols = max(condition_vector);
+    
+    % Preallocate binary matrix
+    binary_matrix = zeros(num_rows, num_cols);
+    
+    % Fill matrix using subscript indexing
+    row_indices = (1:num_rows)';
+    col_indices = condition_vector(:);  % Ensure it's a column vector
+    
+    % Linear indexing to set the appropriate entries to 1
+    binary_matrix(sub2ind(size(binary_matrix), row_indices, col_indices)) = 1;
+
+    designMatrix(:,1:number_conditions,iRun) = binary_matrix;
+    
+    % The noise regressors have already been loaded in load_data.m
+
+    % PUTI - add constant 1s as a regressor, add linear drift 1:300 as
+    % another regressor DONE D
+
+    designMatrix(:,number_conditions+1:number_regressors_motion+number_conditions,iRun ) = table2array(noise_regressors_data{iRun});
+    
+    designMatrix(:, number_conditions+number_regressors_motion+1:n_cols_total, iRun) = [const_regress_vector, drift_regress_vector] ;
+     
+    
+    % PUTI - - remember to chop the left overs
+
+    for col = 1:number_conditions
+        convolved_signal = conv(designMatrix(:,col,iRun),hrf);
+        convolved_signal = convolved_signal(1:run_length);  % Chop the leftovers
+        designMatrix(:,col,iRun) = convolved_signal;
+            % Chop off the left overs
+        %plot(1:run_length, convolved_signal);
+    end
+    
+    
+
 end
 
-% designMatrix has dimensions [nTR x 5]. 
-% Columns correspond to conditions (fingers) 1 through 5.
+%% run glm
+
+% Y = X.B + Epsilon, with Epsilon = 0
+% B = pinv(X) * Y
+
+betas = cell(1, nRuns);
 
 
-%% Read BOLD data
+% Three approaches are possible to handle the different runs
+
+% Either concatenate the designmatrix and data for all the runs
+% OR you can average the data per run and then estimate beta (this can help
+% reduce the noise)
+% Or estimate betas per run and then average the betas
+
+% WE wil try all three ways and see which one produces ebtter results
 
 
-% Load fmri prep output from NYU BOX, very slow
-g = gifti(FMRI_DATA_FILE_PATH);
+
+%% Method 1, concatenation of design matrices across runs
 
 
-%% Load confounds
+% Concatenate the designMatrix of shape (runtime,  features, nRuns)
+% New shape (runtime x nRuns, features)
+designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(designMatrix,2) );
 
-confoundsTable = readtable(confoundtsv, 'FileType', 'text', 'Delimiter', '\t');
+% Concatenate the datafiles (bold signal array) of shape (runtime, nVoxels,
+% nRuns
 
-% For illustration, select six standard motion parameters:
-%   trans_x, trans_y, trans_z, rot_x, rot_y, rot_z
-% Make sure your confoundsTable contains these columns (names can vary):
-motionConf = [ ...
-    confoundsTable.trans_x, ...
-    confoundsTable.trans_y, ...
-    confoundsTable.trans_z, ...
-    confoundsTable.rot_x,   ...
-    confoundsTable.rot_y,   ...
-    confoundsTable.rot_z ];
 
-% Confirm the number of rows matches your BOLD time points
-if size(motionConf, 1) ~= nTR
-    error('Mismatch: confounds rows (%d) != BOLD time points (%d).', ...
-          size(motionConf,1), nTR);
+percent_change_signals_concatenated = vertcat(percent_change_signals{:}); 
+
+
+betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separatelyf
+
+
+% Save results in surface space
+
+save betas betas
+
+% save as mgz
+
+% largest betas for index finger +40seconds after the index is pressed
+
+% Make a matrix where the finger is pressed on the rows, and the 40 seconds
+% next (random fingers) on the column
+
+%% Find the voxels where there is a peak for the betas of the index finger
+
+% the average on the 40 seconds should eliminate the activity going on
+% during fingertap at other fingers
+
+% betas 
+% largest
+
+
+%% Generate ROI labels from the Glasser Atlas in subject native space (fsnative)
+
+% the script createAtlasLabels.sh will load different Atlases for which it
+% knows the location of each ROI on the atlas space and will convert them
+% into the individual space of each subject
+
+
+atlas_file_path = 'label/Glasser2016';
+
+
+
+
+for ROI = 1:number_ROIs
+
+% load ROI using GUI select
+% Open a file selection dialog for the relevant file type (e.g., .txt or .mat)
+[filename, pathname] = uigetfile({'*.*', 'All Files (*.*)'}, 'Select ROI Label File');
+
+
+% Check if a file was selected
+if isequal(filename, 0)
+    disp('No file selected.');
+else
+    fullpath = fullfile(pathname, filename);
+    % Pass the selected file to your function
+    ROI_voxels_mask = read_ROIlabel(fullpath);
 end
+
+
+
+%% Use the ROI as filter for betas
+
+% The ROI_voxels_mask is a list of the voxels number that belongs to the ROI
+% W're assurming that nothing in the code had changed the order of the
+% voxel dimensions in the betas variable
+
+
+filtered_betas = betas(:, ROI_voxels_mask);
+
+
+
+
+
 
 %%
-mri_convert %(from freesurfer)
-
-% 	Default surface fmri data post fmriprep is in .gii and is too slow so we want data in .mgh, loads much faster
 
 
-% Install https://github.com/vistalab/vistasoft read readme for
-% Use the MRIread command to read a free-surfer like structure of an MRI.h
-% (voxel (i,j,k) and time
-% Check --> Surface voxel (2D) or 3D voxels?
-MRIread
+%
 
-% installation instructions
+% Path to the folder with ROI label files
+atlas_file_path = 'label/Glasser2016';
 
-% 	Load .mgh 
-% Install the package (https://github.com/cvnlab/GLMsingle)
-stimulus_duration = 2; % in seconds
-tr = 1; % in seconds
-getcanonicalhrf(stimulus_duration, tr)
-% 	Need the hrf during beta fitting (we haven’t talked about this, basically, we needs to convolve the design matrix with HRF to account for the delay)
-% 
-% Actual beta fitting — beta = pinv(designMatrix) * data;
+% Get list of all label files (assuming .label or .txt, adjust as needed)
+roi_files = dir(fullfile(atlas_file_path, '*.label'));
 
-beta = pinv(designMatrix) * data;
+% Preallocate
+nROIs = numel(roi_files);
+mean_betas_per_roi = zeros(nROIs, 1);
+roi_names = cell(nROIs, 1);
 
-% 
+for i = 1:nROIs
+    % Full path to ROI label file
+    roi_path = fullfile(roi_files(i).folder, roi_files(i).name);
+    
+    % Read voxel indices for this ROI
+    ROI_voxels_mask = read_ROIlabel(roi_path);   % indices into betas
+
+    % Select beta values for this ROI
+    betas_roi = betas(:, ROI_voxels_mask);       % [nRegressors × ROI voxels]
+    
+    % Average across voxels, then across regressors (or just one regressor if needed)
+    mean_betas_per_roi(i) = mean(betas_roi(:));  % scalar mean
+
+    % Store the ROI name
+    roi_names{i} = roi_files(i).name;
+end
+
+% Find the ROI with the maximum average beta
+[~, max_idx] = max(mean_betas_per_roi);
+max_roi_name = roi_names{max_idx};
+max_roi_value = mean_betas_per_roi(max_idx);
+
+fprintf('ROI with max beta = %s (avg beta = %.4f)\n', max_roi_name, max_roi_value);
+
+
+%% 
+
+% ----- Load voxel indices for the winning ROI -------------------------
+chosen_roi_file = fullfile(roi_files(max_idx).folder, roi_files(max_idx).name);
+ROI_voxels_mask = read_ROIlabel(chosen_roi_file);
+
+% ----- Initialize for time series collection --------------------------
+nRuns = numel(datafiles);
+avg_ts_all_runs = [];
+
+for r = 1:nRuns
+    X = datafiles{r};   % assumed [time × voxels]
+    
+    % Extract ROI voxels
+    roi_ts = X(:, ROI_voxels_mask);  % [time × ROI_voxels]
+    
+    % Average across voxels
+    avg_ts = mean(roi_ts, 2);        % [time × 1]
+    
+    % Optionally concatenate across runs (if aligned), or store separately
+    avg_ts_all_runs = [avg_ts_all_runs; avg_ts];  % vertical concat
+end
+
+% ----- Plot -----------------------------------------------------------
+TR = 1.0;  % <- Set your TR
+t = (0:numel(avg_ts_all_runs)-1) * TR;
+
+figure('Color','w');
+plot(t, avg_ts_all_runs, 'LineWidth', 1.5);
+xlabel('Time (s)');
+ylabel('BOLD Intensity (a.u.)');
+title(sprintf('Average Time Series – ROI: %s', roi_files(max_idx).name), 'Interpreter','none');
+grid on;
+
+
+
+
+
+
+
+
 

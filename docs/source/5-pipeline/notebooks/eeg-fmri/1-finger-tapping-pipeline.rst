@@ -47,6 +47,10 @@ The EEG data from an EEG/fMRI experiment should have the following trigger signa
 Preprocess fMRI Data
 --------------------
 
+The fMRI data from the MRI scanner at NYUAD is in dicom format and will undergo multiple steps below:
+
+- conversion from dicom to BIDS
+-
 
 
 fMRIprep output
