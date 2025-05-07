@@ -45,7 +45,7 @@ SCREEN_NUMBER = 2
 #Try 1 or 2 as screen_number
 #SCREEN_NUMBER = 1
 
-trialList = data.importConditions('mandarin_list1.csv')
+trialList = data.importConditions('english.csv')
 
 #mon = monitors.Monitor('BenQ24', width=53, distance=100)
 #port = parallel.ParallelPort(address=0xD010)
@@ -53,7 +53,7 @@ clock = core.Clock()
 
 backgroundColor = 'black'
 instructionsFont = 'Arial'
-stimuliFont = 'SimSun'
+stimuliFont = 'Arial'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
@@ -158,14 +158,8 @@ win = visual.Window(screen =1, size=[1919.5, 1079.5], fullscr=False, color=backg
 #win = visual.Window(screen =1, size=[1920, 1080], fullscr=True, color=backgroundColor, monitor='testMonitor')  # Set the border color to black)
 
 
-stim = visual.TextStim(win, text= '在本次实验中，您将阅读一系列句子，句子将逐词出现在屏幕上。\n\n'
-                                  '与此同时，我们将会记录脑磁图收集到的信息。\n\n'
-                                  '在一些句子结束后，您将回答一道关于该句子的是非题。\n\n'
-                                  '这些问题非常简单。\n\n他们仅仅是用来保证您认真阅读了那些句子。\n\n'
-                                  '您只需要正常地阅读屏幕上的句子，然后回答问题。\n\n'
-                                  '在您阅读句子的时候，请不要眨眼。\n\n 您可以在句子结束后，或者回答是非题过程中眨眼。\n\n'
-                                  '请按下“是”按钮来看几句例子。',
-                       font= 'SimSun', units= instructionUnits, color=instructionColor, height= 0.7, alignText= 'center', wrapWidth= 30)
+stim = visual.TextStim(win, text= 'In this experiment you will read sentences one word at a time. \n \nAfter each sentence is finished, you will be asked a Yes or No question about that sentence. \n \nAll you have to do is read the sentences normally, and then answer the question \n \nPress the YES key to see some examples.',
+                       font= 'Times ', units= instructionUnits, color=instructionColor, height= 0.7, alignText= 'center', wrapWidth= 30)
 stim.setPos((0, 0))
 stim.draw()
 win.flip()
@@ -204,24 +198,21 @@ for trialIndex in range(startItem - 1, totalTrials):
         remainingTrials = (totalTrials - totalBreakCount - practiceCount) - completedTrials
 
         if currentBreakCount == 1:
-            stim = visual.TextStim(win, text= '恭喜您！您已经正确回答了%i道练习题中的%i道。\n\n'
-                                              '您已经准备好开始进行真正的实验了。\n\n'
-                                              '现在还有%i句句子要阅读。\n\n '
-                                              '请保持不动，不要眨眼。\n\n '
-                                              '请在我们通知您可以开始实验后按下“是”按钮开始阅读第一句话。'
-                                              % (trialsSinceLastBreak,recentCorrectResponses, remainingTrials),
-                                   font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
-
+            stim = visual.TextStim(win,
+                                   text='Congratulations! You answered %i of the %i practice questions correctly. \n \nYou are now ready to do the actual experiment. \n \nThere are %i sentences to read. \n \nPlease sit still, stop blinking and press the YES key when you are ready for the first sentence.' %
+                                        (recentCorrectResponses, trialsSinceLastBreak, remainingTrials),
+                                   font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor,
+                                   height=0.8, alignText='center', wrapWidth=30)
 
             totalCorrectResponses = 0
             print('congratulations window')
         else:
-            stim = visual.TextStim(win, text='自上一次休息后，您已经正确回答了%i个问题中的%i道。\n\n '
-                                             '你已经完成了%i句句子，还有%i句句子。\n\n'
-                                             '当您准备好阅读下一句话时，\n\n '
-                                             '请保持不动，不要眨眼，然后按下“是”按钮。'
-                                             % (trialsSinceLastBreak,recentCorrectResponses, completedTrials, remainingTrials),
-                                   font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
+            stim = visual.TextStim(win,
+                                   text='Please feel free to take a short break now if you would like. \n \nYou answered %i out of %i questions correctly since the last break. \n \nYou have completed %i sentences, and have %i to go. \n \nWhen you are ready for the next sentence, please sit still, stop blinking, and press the YES key.' %
+                                        (
+                                        recentCorrectResponses, trialsSinceLastBreak, completedTrials, remainingTrials),
+                                   font=instructionsFont, languageStyle='Arabic', units=breakUnits, color=breakColor,
+                                   height=0.8, alignText='center', wrapWidth=30)
             print('break window')
 
         stim.setPos((0, 0))
@@ -399,7 +390,7 @@ for trialIndex in range(startItem - 1, totalTrials):
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         event.clearEvents()
 
-        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
+        stim = visual.TextStim(win, text=trialList[trialIndex]['taskQuestion'], font= stimuliFont, units= stimuliUnits, height= instructionSize, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
         stim.setPos((0, 0))
         stim.draw()
         win.flip()
@@ -410,9 +401,9 @@ for trialIndex in range(startItem - 1, totalTrials):
         responses.append(response)
 
 
-        stim = visual.TextStim(win, text='请确保您的手指没有持续按压任何按钮。\n\n',
-                               font= stimuliFont, units= stimuliUnits, height=1.5, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
-        stim.setPos((0,-1.5))
+        stim = visual.TextStim(win, text='Please lift your fingers from the button.\n\n',
+                               font= stimuliFont, units= stimuliUnits, height= instructionSize, color=taskQuestionColor, alignText = 'center',wrapWidth= 30)
+        stim.setPos((0, -1))
         stim.draw()
         win.flip()
         core.wait(TIME_TO_RESET_BUTTON_BOX)
@@ -467,12 +458,9 @@ for trialIndex in range(startItem - 1, totalTrials):
     event.clearEvents()
     #responses = []
     stim = visual.TextStim(win,
-                           text='现在您可以眨眼了。\n\n' 
-                                '当您准备好阅读下一句话时,\n\n'
-                                '请保持不动，不要眨眼，\n\n'
-                                '然后按下“是”按钮。\n\n',
+                           text='You can blink now. \n \nWhen you are ready for the next sentence, sit still, stop blinking, and press the YES key.',
                            font= stimuliFont, units= stimuliUnits, height= instructionSize, color=stimuliColor, alignText = 'center')
-    stim.setPos((0, -1.5))
+    stim.setPos((0, 0))
     stim.draw()
     win.flip()
 
@@ -502,16 +490,9 @@ for trialIndex in range(startItem - 1, totalTrials):
 
 event.clearEvents()
 stim = visual.TextStim(win,
-                       text='您已经完成了所有内容 \n\n' 
-                            '请您暂时保持不动，\n\n'
-                            '以便我们进行最后的记录。\n\n'
-                            '记录过程大约持续30秒钟。 \n\n'
-                            '您阅读了%i句句子，\n\n'
-                            '并成功答对了其中的%i个问题。（共%i个问题）。\n\n' 
-                            '非常感谢您来参与我们的实验。'  % (
+                       text='Congratulations, you are finished! \n \nYou read %i sentences, and answered %i out of %i questions correctly! \n \nThank you very much for your participation. \n \nPress any key to close this program.'  % (
                        (totalTrials - totalBreakCount - practiceCount), totalCorrectResponses, totalQuestionCount),
-                       font= stimuliFont, units= stimuliUnits, height=instructionSize, color=stimuliColor,  alignText = 'center')
-
+                       font=instructionsFont, languageStyle='Arabic', units=instructionUnits, height=0.8, color=instructionColor, wrapWidth=30, alignText='center')
 stim.setPos((0, 0))
 stim.draw()
 win.flip()

@@ -8,6 +8,8 @@ from pipeline.mne_pipelines.kit_general_pipelines.utilities import *
 matplotlib.use('TkAgg')
 
 
+# Sanity Check for combined_binary_mode and trigger count and preparation for MNE epoching
+
 def compute_matrix_words(csv_filename):
     """
     Loads a CSV file which:
