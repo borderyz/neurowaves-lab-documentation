@@ -215,6 +215,90 @@ title('LH – Beta (Index Finger) in fsnative space');
 
 
 
+
+%% Test try plot
+
+
+% ------------------------------------------------------------
+%  CONFIGURE PATHS
+% -------------------------------------------------------------
+subject_id  = 'sub-0665';
+
+% FreeSurfer derivatives root (recon‑all directory)
+fs_dir  = fullfile( ...
+    '\\rcsfileshare.abudhabi.nyu.edu\mri\projects\MS_osama\hadiBIDS', ...
+    'fmriprep_output_from_HPC', 'derivatives', 'freesurfer' );
+
+% Where you want to save the new mgz files
+results_dir = pwd;          % current folder (change if desired)
+
+% Your beta vector (LH+RH) and the hemi‑index masks you already have
+val        = betas_index;   % 1 × (LH+RH vertices)
+leftidx    = idx_hemi{1};   % logical / index for LH vertices
+rightidx   = idx_hemi{2};   % logical / index for RH vertices
+valName    = 'betas_index';
+
+% ------------------------------------------------------------
+%  WRITE LH AND RH .mgz FILES WITH A VALID HEADER
+% -------------------------------------------------------------
+templ_path = fullfile(fs_dir, subject_id, 'surf', 'lh.thickness');
+template   = MRIread(templ_path);  % clone header
+
+% LH
+template.vol      = val(leftidx);
+template.volsize  = size(template.vol);
+template.nframes  = 1;
+lh_mgz = fullfile(results_dir, ['lh.' valName '.mgz']);
+MRIwrite(template, lh_mgz);
+
+% RH
+template.vol      = val(rightidx);
+template.volsize  = size(template.vol);
+rh_mgz = fullfile(results_dir, ['rh.' valName '.mgz']);
+MRIwrite(template, rh_mgz);
+
+fprintf('Wrote:\n  %s\n  %s\n', lh_mgz, rh_mgz);
+
+% ------------------------------------------------------------
+%  LOAD SURFACES AND BETA VALUES
+% -------------------------------------------------------------
+% Surface geometry (inflated)
+lh_surf = fullfile(fs_dir, subject_id, 'surf', 'lh.inflated');
+rh_surf = fullfile(fs_dir, subject_id, 'surf', 'rh.inflated');
+
+[vl, fl] = read_surf(lh_surf);  fl = fl + 1;   % LH vertices/faces
+[vr, fr] = read_surf(rh_surf);  fr = fr + 1;   % RH
+
+% Beta data
+bl = MRIread(lh_mgz);  bl = bl.vol(:);
+br = MRIread(rh_mgz);  br = br.vol(:);
+
+% ------------------------------------------------------------
+%  PLOT BOTH HEMISPHERES
+% -------------------------------------------------------------
+figure('Color','w'); tiledlayout(1,2,'TileSpacing','compact');
+
+% --- LH ---
+nexttile;
+trisurf(fl, vl(:,1), vl(:,2), vl(:,3), bl, ...
+        'EdgeColor','none');
+axis equal off; view([-90 0]);  % lateral
+lighting gouraud; camlight headlight;
+title('LH – β (index finger)'); material dull;
+
+% --- RH ---
+nexttile;
+trisurf(fr, vr(:,1), vr(:,2), vr(:,3), br, ...
+        'EdgeColor','none');
+axis equal off; view([90 0]);   % lateral
+lighting gouraud; camlight headlight;
+title('RH – β (index finger)'); material dull;
+
+% Shared colour‑scale
+cmin = -max(abs([bl; br])); cmax = -cmin;
+colormap jet; caxis([cmin cmax]); colorbar;
+
+
 %% Find the voxels where there is a peak for the betas of the index finger
 
 % the average on the 40 seconds should eliminate the activity going on
