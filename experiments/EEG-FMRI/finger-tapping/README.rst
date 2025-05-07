@@ -10,4 +10,12 @@ The cycle repeats again with a new finger chosen randomly. At the end of the exp
 The fMRI blocks are set to a total of 300 seconds.
 TR is set to 1 seconds.
 
+The saved MATLAB file from the experiment contains a column block_type:
+
+- 1 is thumb
+- 2 is index
+- 3 is middle
+- 4 is ring
+- 5 is pinkie
+
 

@@ -16,6 +16,7 @@ setenv('FS_LICENSE', '/Applications/freesurfer/7.4.1/license.txt');
 
 
 datafiles = cell(1,nRuns); % initialize for all the runs
+idx_hemi = cell(numel(hemi),nRuns);  % Left first then right 
 
 for iRun = 1:nRuns
 
@@ -23,7 +24,7 @@ for iRun = 1:nRuns
     subDir = sprintf('%s/derivatives/fmriprep/%s/func',bidsDir,subject);
 
     func = cell(2,1); % initialize for 2 hemi
-
+    
     for iH = 1:numel(hemi)
 
         fileName = sprintf('%s/%s_task-%s_run-%s_hemi-%s_space-%s_bold.func',subDir,subject,task,sprintf('%02d',iRun),hemi{iH},space);
@@ -44,13 +45,12 @@ for iRun = 1:nRuns
         disp(['Loading: ' output])
 
         tmp = MRIread(output);
+        idx_hemi{iH,iRun} = tmp.nvoxels;
         func{iH} = squeeze(tmp.vol);
     end
     datafiles{iRun} = cat(1,func{:});
     datafiles{iRun} = datafiles{iRun}';
 end
-
-
 
 
 %% Load noise regressors csv

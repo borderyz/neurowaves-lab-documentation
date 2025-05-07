@@ -85,8 +85,7 @@ for iRun=1:nRuns
         %plot(1:run_length, convolved_signal);
     end
     
-    
-
+   
 end
 
 %% Learn GLM
@@ -104,7 +103,7 @@ betas = cell(1, nRuns);
 % reduce the noise)
 % Or estimate betas per run and then average the betas
 
-% WE wil try all three ways and see which one produces ebtter results
+% WE wil try all three ways and see which one produces better results
 
 
 
@@ -122,19 +121,99 @@ designMatrix_concatenated = reshape( permute(designMatrix, [1 3 2]), [], size(de
 percent_change_signals_concatenated = vertcat(percent_change_signals{:}); 
 
 
-betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separatelyf
-
+betas = pinv(designMatrix_concatenated) * percent_change_signals_concatenated; % done per run separately
 
 % Save results in surface space
 
 save betas betas
 
-% save as mgz
 
+% Get betas for the index finger
+% The index finger was numbered as block_type = 2, corresponding to the
+% second column of our designMatrix
+
+finger_number = 2;
+
+% We need to get each TR of the index finger block and 40 seconds extended after
+% the index block finished and their betas
+
+
+
+
+% Find the voxels that has the largest betas for the index finger
+
+% For now we will just get the betas of the index finger without the ones
+% for the (+40 seconds)
+
+betas_index = betas(2,:);
+
+% Find the voxels for which the betas are maximal
+
+
+
+
+
+%  
+
+% isolated+extended
+% TR's
+
+
+% save as mgz
+%TODO filter on the maximum betas_index
 % largest betas for index finger +40seconds after the index is pressed
 
 % Make a matrix where the finger is pressed on the rows, and the 40 seconds
 % next (random fingers) on the column
+
+
+
+val = betas_index;
+valName = 'betas_index';
+
+fspth = '\\rcsfileshare.abudhabi.nyu.edu\mri\projects\MS_osama\hadiBIDS\fmriprep_output_from_HPC/derivatives/fmriprep/sub-0665/func';
+resultsdir = '.';
+% mgz = MRIread(fullfile(fspth, 'mri', 'orig.mgz'));
+mgz.vol = [];
+
+leftidx = idx_hemi{1,1};
+rightidx = idx_hemi{2,1};
+
+mgz.vol = val(leftidx);
+
+
+MRIwrite(mgz, fullfile(resultsdir, ['lh.' valName '.mgz']));
+mgz.vol = val(rightidx);
+MRIwrite(mgz, fullfile(resultsdir, ['rh.' valName '.mgz']));
+
+
+
+%% Visualise the surface
+
+% ---- Set file paths ----
+subject_id = 'sub-0665';
+fs_dir     = '\\rcsfileshare.abudhabi.nyu.edu\mri\projects\MS_osama\hadiBIDS\fmriprep_output_from_HPC\derivatives\freesurfer';
+surf_file  = fullfile(fs_dir, subject_id, 'surf', 'lh.inflated');
+beta_file  = fullfile(pwd, 'lh.betas_index.mgz');  % Or adjust path if stored elsewhere
+
+% ---- Load the subject’s inflated surface ----
+[vertices, faces] = read_surf(surf_file);   % returns Nx3 and Mx3 (0-based faces)
+faces = faces + 1;                           % convert to MATLAB 1-based indexing
+
+% ---- Load beta values (mgz format) ----
+b = MRIread(beta_file);
+beta_vals = b.vol(:);   % should be a vector with 163842 entries for full surface
+
+% ---- Plot ----
+figure('Color','w');
+trisurf(faces, vertices(:,1), vertices(:,2), vertices(:,3), beta_vals, ...
+    'EdgeColor','none', 'FaceAlpha', 1);
+axis equal off;
+lighting gouraud; camlight headlight;
+colormap jet; colorbar;
+title('LH – Beta (Index Finger) in fsnative space');
+
+
 
 %% Find the voxels where there is a peak for the betas of the index finger
 
