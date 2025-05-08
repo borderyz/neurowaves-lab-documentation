@@ -8,7 +8,7 @@ use_vpixx = 1;
 use_eyetracker = 1;
 trigger_test = 1;
 use_response_box = 1;
-use_keyboard  = 1;
+use_keyboard  = 0;
 
 % Open vpix
 
@@ -45,7 +45,13 @@ DEMO.age = str2double(answer1{4});
 DEMO.order = str2double(answer1{5});
 DEMO.date = datetime;
 
-logFilename = sprintf('trigger_log_subject_%03d.txt', DEMO.num);
+% Edited by Tarek: timestamped log filename to avoid overwriting
+% original:
+%logFilename = sprintf('trigger_log_subject_%03d.txt', DEMO.num);
+ts = datestr(now,'yyyymmdd_HHMMSS');
+logFilename = sprintf('trigger_log_s%03d_%s.txt', DEMO.num, ts);
+
+
 logFile = fopen(logFilename, 'w');
 fprintf(logFile, 'Trial\tChannel\tCondition\tTime\tImageName\tConditionLabel\tMessage\n');
 
@@ -57,9 +63,17 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-saccadeOffset = 500; % pixel ->  dva
+saccadeOffset = 600; % pixel -> 10 dva
 targetDuration = .5; % seconds
-saccThreshold = 7; % pixel -> 0.c18 dva
+
+
+
+% Edited by Tarek: lower saccade threshold for sensitivity
+% original:
+%saccThreshold = 125; % pixel -> 2.5 dva (25% of 500) saccThreshold = round(0.25 * saccadeOffset);
+% edited by Tarek:
+saccThreshold = 10; % Michele usually uses 10
+
 
 try
 
@@ -82,7 +96,7 @@ try
 
 
     if length([answer1{1} answer1{2}]) > 4
-        error('EYELINK FILENAMES NEED TO BE LESS THAN 9 CHARACTERS LONG')
+        error('EYELINK FILENAMES NEED TO BE LESS THAN 4 CHARACTERS LONG (2 subjectID, 2 subject number)')
     end
 
     % TRIGGERS SETUP
@@ -110,7 +124,6 @@ try
     etCode.CH229    = 229;
     etCode.CH230    = 230;
     etCode.CH231    = 231;
-
 
 
     if use_eyetracker==1
@@ -330,14 +343,14 @@ stim_set = 'stimuli_images';
 
         % preview_fn = sprintf('SET1_conn_%d_cwdg_%d_%d.jpg', conn, cwdg, imgIdx);
 
-preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
+        preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
 
         imageFilePath = fullfile(stim_set, preview_fn);
 
         if ~isfile(imageFilePath)
             % Question: the following line doesn't do anything
-            validTrialsIndex(i_trial)
+            validTrialsIndex(i_trial) = false;
             i_trial = i_trial + 1;
             continue;
         end
@@ -441,10 +454,10 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         goodTrial = 1;
         errorMsg = 'BAD TRIAL';
 
-        counts.ch225 = counts.ch225+1;
-        Screen('DrawTexture', w, wFixation);
-        Screen('FillRect', w, trig.ch225, trigRect);
-        Screen('Flip', w);
+        % counts.ch225 = counts.ch225+1;
+        % Screen('DrawTexture', w, wFixation);
+        % Screen('FillRect', w, trig.ch225, trigRect);
+        % Screen('Flip', w);
         Screen('DrawTexture', w, wFixation);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
@@ -460,7 +473,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         disp('DEBUG 3')
         while goodTrial
             [~,~, keyCode] = KbCheck();
-            if find(keyCode) == KbName('escape')
+            if keyCode(KbName('escape'))
                 endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
@@ -469,6 +482,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                 ListenChar(0)
                 return;
             end
+
 
             if use_eyetracker==1
 
@@ -565,6 +579,17 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         end
         Screen('FillRect', w, currentTriggerChannel, trigRect);
         Screen('Flip', w);
+
+        if isequal(currentTriggerChannel, trig.ch226)
+            counts.ch226 = counts.ch226 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch227)
+            counts.ch227 = counts.ch227 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch228)
+            counts.ch228 = counts.ch228 + 1;
+        elseif isequal(currentTriggerChannel, trig.ch229)
+            counts.ch229 = counts.ch229 + 1;
+        end
+
         if use_eyetracker
             switch conditionLabel
                 case '1', chCode = etCode.CH226;   % map crowding-1 to code 226
@@ -589,7 +614,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
         while goodTrial % Cue
             [~,~, keyCode] = KbCheck();
-            if find(keyCode) == KbName('escape')
+            if keyCode(KbName('escape'))
                 endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
@@ -665,7 +690,9 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                     newEyeX = eyeSample.gx(eyeUsed);
                     disp(['newEyeX: ', num2str(newEyeX)]); % Debugging output
 
-                    if abs(newEyeX - eyeX) > saccThreshold % if neeyeX > over the imaginary boundary
+
+                    % Edited by Tarek: added a condition to check if the side is on the right side
+                    if abs(newEyeX - eyeX) > saccThreshold && sign(newEyeX - eyeX) == expTable.side(i_trial) % if neeyeX > over the imaginary boundary
                         saccTrigger = saccTrigger + 1;
                         if saccTrigger > 1
                             expTable.saccadeOnsetTime(i_trial) = GetSecs();
@@ -694,7 +721,6 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         else
             % Simulate saccade detection and proceed
             disp('Simulating saccade detection (no eyetracker).');
-            counts.ch228 = counts.ch228 + 1;
 
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
@@ -728,14 +754,14 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
         while GetSecs() - expTable.targetOnsetTime(i_trial) < targetDuration
             [~, ~, keyCode] = KbCheck();
-            if find(keyCode) == KbName('escape')
+            if keyCode(KbName('escape'))
                 endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
-                ShowCursor();
+                ShowCursor()
                 RestrictKeysForKbCheck([]);
-                Screen('CloseAll');
+                Screen(w,'Close');
                 sca;
-                ListenChar(0);
-                return; % Exit the script
+                ListenChar(0)
+                return; 
             elseif use_eyetracker==1
                 if Eyelink('NewFloatSampleAvailable')
                     eyeSample = Eyelink('NewestFloatSample');
@@ -765,7 +791,7 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         Screen('FillRect', w, [255 255 255]);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
-        WaitSecs(1)
+        WaitSecs(1);   %wait time between response and target
 
 
         % RESPONSE
@@ -818,9 +844,9 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
                         expTable.correctness(i_trial) = 0;  % Incorrect response
                     end
 
-                    % Log the response in the log file
+                    % Log the response in the log file edited by tarek
                     fprintf(logFile, '%d\tEndTrial\tN/A\t%f\t%s\t%s\tEnding trial\n', ...
-                        i_trial, GetSecs(), 'imageName', 'conditionLabel');
+                        i_trial, GetSecs(), imageName, conditionLabel);
 
                     break;  % Exit the loop after logging the response
                 end
@@ -892,6 +918,16 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
         Screen('Flip', w);
         WaitSecs(1);
 
+        % Edited By tarek to stop overwhelming the VRam
+        Screen('Close', wFixation);
+        Screen('Close', wPreview);
+        Screen('Close', wCue);
+        Screen('Close', wTarget);
+        Screen('Close', wQuestion);
+        Screen('Close', previewTexture);
+%         Screen('Close', targetTexture);
+%         Screen('Close', questionTexture);
+
         % Move to the next trial after the response loop
         i_trial = i_trial + 1;
         disp(['Moving to trial ', num2str(i_trial)]);
@@ -906,14 +942,17 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
 
     expTable = expTable(validTrialsIndex, :);
 
+    disp('--- Trigger Count Summary ---');
+    disp(counts);
+
     endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, false)
 
 
-    if use_vpixx==1
-        Datapixx('DisablePixelMode');
-        Datapixx('RegWr');
-        Datapixx('Close');
-    end
+    % if use_vpixx==1
+    %     Datapixx('DisablePixelMode');
+    %     Datapixx('RegWr');
+    %     Datapixx('Close');
+    % end
 
     if use_eyetracker==1
         % SAVE EYE DATA
@@ -924,12 +963,20 @@ preview_fn = sprintf('Img_%03d_con%d_crwd%d.jpg', imgIdx, conn, cwdg);
     end
 
     if use_vpixx==1
-
         Datapixx('DisablePixelMode');
         Datapixx('RegWr');
         Datapixx('Close');
-
     end
+
+
+    % Commented out by tarek to remove the replication
+    % if use_vpixx==1
+
+    %     Datapixx('DisablePixelMode');
+    %     Datapixx('RegWr');
+    %     Datapixx('Close');
+
+    % end
 
     % FINISH EXPERIMENT
     ShowCursor();
