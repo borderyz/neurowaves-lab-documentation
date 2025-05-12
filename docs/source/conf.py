@@ -86,10 +86,9 @@ html_theme_options = {
     # Toc options
     "collapse_navigation": True,
     "sticky_navigation": True,
-    "navigation_depth": 4,
+    "navigation_depth": 3,
     "includehidden": True,
     "titles_only": False,
-    "body_max_width": None,
 }
 
 
@@ -98,11 +97,11 @@ suppress_warnings = [
     "epub.unknown_project_files"
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
-html_css_files = [
-    "custom.css",
-]
 
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+
+
 # -- Options for EPUB output
 epub_show_urls = "footnote"
 
