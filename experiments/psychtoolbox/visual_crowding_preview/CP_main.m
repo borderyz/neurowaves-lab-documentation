@@ -389,9 +389,9 @@ stim_set = 'stimuli_images';
         question_fn = ['img_' num2str(i_trial) '.jpg'];
         % questRect = CenterRectOnPoint([0 0 size(previewMatrix, 1)*2 size(previewMatrix, 2)], wx , wy);
 
-        if expTable.preview(i_trial) == 0
-            previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
-        end
+%         if expTable.preview(i_trial) == 0
+%             previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
+%         end
         expTable.imageFn{i_trial} = preview_fn;
 
         if expTable.questionType(i_trial) == 0
