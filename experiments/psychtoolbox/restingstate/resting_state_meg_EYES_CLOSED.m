@@ -2,7 +2,7 @@ clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
 
-if vpix_use
+if vpix_use 
     Datapixx('Open')
     Datapixx('DisablePixelMode')
     Datapixx('RegWr')
@@ -14,7 +14,7 @@ PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 
-time2rest = 60*5;  
+time2rest = 60*15;  
 
 
 
