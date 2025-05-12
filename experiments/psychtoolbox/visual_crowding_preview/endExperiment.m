@@ -2,7 +2,8 @@
 
 function endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, abortFlag)
 
-    fprintf(logFile, 'N/A\tN/A\tEnd Experiment\t%f\tN/A\tN/A\tExperiment has ended\n', GetSecs());
+fprintf(logFile, '%s\t%s\t%s\t%.6f\t%s\t%s\t%s\n', ...
+    'N/A', 'N/A', 'End Experiment', GetSecs(), 'N/A', 'N/A', 'Experiment has ended');
 
     % Prepare data structure
     EXP.DEMO = DEMO;
@@ -18,4 +19,6 @@ function endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, abortFla
         save(['Sub-' answer1{1} '-vcp.mat'], 'EXP');
     end
 
+    fclose(logFile);
+    
 end

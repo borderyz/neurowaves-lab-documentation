@@ -4,11 +4,11 @@ clearvars
 
 
 % Modes
-use_vpixx = 1;
-use_eyetracker = 1;
-trigger_test = 1;
-use_response_box = 1;
-use_keyboard  = 0;
+use_vpixx = 0;
+use_eyetracker = 0;
+trigger_test = 0;
+use_response_box = 0;
+use_keyboard  = 1;
 
 % Open vpix
 
@@ -53,7 +53,7 @@ logFilename = sprintf('trigger_log_s%03d_%s.txt', DEMO.num, ts);
 
 
 logFile = fopen(logFilename, 'w');
-fprintf(logFile, 'Trial\tChannel\tCondition\tTime\tImageName\tConditionLabel\tMessage\n');
+fprintf(logFile, 'Trial\tChannel\tCondition\tTime\tImageName\tCrowding\tMessage\n');
 
 fixColor = [0 0 0]; % Fixation color (black)
 fixColorCue = [0 128 0];
@@ -63,7 +63,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-saccadeOffset = 600; % pixel -> 10 dva
+saccadeOffset = 500; % pixel -> 10 dva
 targetDuration = .5; % seconds
 
 
@@ -261,7 +261,7 @@ stim_set = 'stimuli_images';
 
     CP_table;
 
-    fprintf(logFile, 'N/A\t224\tStart Experiment\t%f\tN/A\tN/A\tTriggering start of experiment\n', GetSecs());
+    logEvent(logFile, 'N/A', 224, 'Start Experiment', 'N/A', 'N/A', 'Triggering start of experiment');
 
     % START EXPERIMENT
     text = {
@@ -324,7 +324,7 @@ stim_set = 'stimuli_images';
 
     while i_trial <= size(expTable, 1)
         disp(['Starting trial ', num2str(i_trial), ' of ', num2str(size(expTable, 1))]);
-        fprintf(logFile, '%d\tN/A\tN/A\t%f\tN/A\tN/A\tStarting trial\n', i_trial, GetSecs());
+logEvent(logFile, i_trial, 'N/A', 'Start Trial', 'N/A', 'N/A', 'Starting trial');
 
         % PAUSE
         if mod(i_trial, round(size(expTable, 1)/3+1)) == 0
@@ -389,9 +389,9 @@ stim_set = 'stimuli_images';
         question_fn = ['img_' num2str(i_trial) '.jpg'];
         % questRect = CenterRectOnPoint([0 0 size(previewMatrix, 1)*2 size(previewMatrix, 2)], wx , wy);
 
-%         if expTable.preview(i_trial) == 0
-%             previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
-%         end
+        % if expTable.preview(i_trial) == 0
+        %     previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
+        % end
         expTable.imageFn{i_trial} = preview_fn;
 
         if expTable.questionType(i_trial) == 0
@@ -561,23 +561,26 @@ stim_set = 'stimuli_images';
         % Determine the condition-based MEG trigger channel
         if strcmp(conditionLabel, '1')
             currentTriggerChannel = trig.ch226;  % Condition 1 -> Channel 226
+            channelNumber = 226; 
         elseif strcmp(conditionLabel, '2')
             currentTriggerChannel = trig.ch227;  % Condition 2 -> Channel 227
+            channelNumber = 227; 
         elseif strcmp(conditionLabel, '3')
             currentTriggerChannel = trig.ch228;  % Condition 3 -> Channel 228
+            channelNumber = 228; 
         elseif strcmp(conditionLabel, '4')
             currentTriggerChannel = trig.ch229;  % Condition 4 (flipped) -> Channel 229
+            channelNumber = 229;
         end
 
 
         % Trigger for preview image
         Screen('DrawTexture', w, wPreview);
-        if strcmp(imageName, 'N/A')
-            fprintf(logFile, '%d\t%d\tPreview Image\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, currentTriggerChannel, GetSecs(), imageName, conditionLabel);
-        else
-            fprintf(logFile, '%d\t%d\tPreview Image\t%f\t%s\t%s\tTriggering preview image\n', i_trial, currentTriggerChannel, GetSecs(), imageName, conditionLabel);
-        end
+        logEvent(logFile, i_trial, channelNumber, 'Preview Image', imageName, conditionLabel, 'Triggering preview image');
         Screen('FillRect', w, currentTriggerChannel, trigRect);
+        Screen('Flip', w);
+        Screen('DrawTexture', w, wPreview);
+        Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
 
         if isequal(currentTriggerChannel, trig.ch226)
@@ -635,11 +638,7 @@ stim_set = 'stimuli_images';
                         dist_center = sqrt( (eyeX-wx)^2 + (eyeY-wy)^2 );
                         if dist_center < fixTolerance % fixation is good
                             if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial)+.5 % fixation is long enough
-                                if strcmp(imageName, 'N/A')
-                                    fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                                else
-                                    fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                                end
+                                logEvent(logFile, i_trial, 'N/A', 'Cue', imageName, conditionLabel, 'Cue no trigger');
 
                                 % counts.ch229 = counts.ch229+1;
                                 % Screen('DrawTexture', w, wCue);
@@ -660,12 +659,6 @@ stim_set = 'stimuli_images';
 
             else
                 if GetSecs() - expTable.fixStartTime(i_trial) > expTable.fixDuration(i_trial) + 0.5 % simulate fixation time
-                    if strcmp(imageName, 'N/A')
-                        fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                    else
-                        fprintf(logFile, '%d\tN/A\tCue\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                    end
-
                     % % counts.ch229 = counts.ch229 + 1;
                     % Screen('DrawTexture', w, wCue);
                     % Screen('FillRect', w, trig.ch230, trigRect);
@@ -700,11 +693,8 @@ stim_set = 'stimuli_images';
 
                             Eyelink('Message', 'TRIGGER %d', etCode.SACCADE);
 
-                            if strcmp(imageName, 'N/A')
-                                fprintf(logFile, '%d\tN/A\tSaccade\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                            else
-                                fprintf(logFile, '%d\tN/A\tSaccade\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-                            end
+                            logEvent(logFile, i_trial, 'N/A', 'Saccade', imageName, conditionLabel, 'Saccade no trigger');
+
                             Screen('FillRect', w, black, trigRect);
                             Screen('Flip', w);
                             Screen('FillRect', w, black, trigRect);
@@ -730,11 +720,8 @@ stim_set = 'stimuli_images';
         % TARGET
         disp('DEBUG 5')
         Screen('DrawTexture', w, wTarget);
-        if strcmp(imageName, 'N/A')
-            fprintf(logFile, '%d\t230\tTarget Image\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-        else
-            fprintf(logFile, '%d\t230\tTarget Image\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-        end
+        logEvent(logFile, i_trial, 230, 'Target Image', imageName, conditionLabel, 'Triggering target image');
+
         Screen('FillRect', w, trig.ch230, trigRect);
         Screen('Flip', w);
         Screen('DrawTexture', w, wTarget);
@@ -791,17 +778,14 @@ stim_set = 'stimuli_images';
         Screen('FillRect', w, [255 255 255]);
         Screen('FillRect', w, black, trigRect);
         Screen('Flip', w);
-        WaitSecs(1);   %wait time between response and target
+        WaitSecs(1)
 
 
         % RESPONSE
         disp('DEBUG 6')
         Screen('DrawTexture', w, wQuestion);
-        if strcmp(imageName, 'N/A')
-            fprintf(logFile, '%d\t231\tQuestion Onset\t%f\t%s\t%s\tExtra trigger - no image\n', i_trial, GetSecs(), imageName, conditionLabel);
-        else
-            fprintf(logFile, '%d\t231\tQuestion Onset\t%f\t%s\t%s\tTriggering preview image\n', i_trial, GetSecs(), imageName, conditionLabel);
-        end
+        logEvent(logFile, i_trial, 231, 'Question Image', imageName, conditionLabel, 'Triggering question image');
+
         Screen('FillRect', w, trig.ch231, trigRect);
         Screen('Flip', w);
         Screen('DrawTexture', w, wQuestion);
@@ -845,8 +829,7 @@ stim_set = 'stimuli_images';
                     end
 
                     % Log the response in the log file edited by tarek
-                    fprintf(logFile, '%d\tEndTrial\tN/A\t%f\t%s\t%s\tEnding trial\n', ...
-                        i_trial, GetSecs(), imageName, conditionLabel);
+                    logEvent(logFile, i_trial, 'N/A', 'EndTrial', imageName, conditionLabel, 'Ending trial');
 
                     break;  % Exit the loop after logging the response
                 end
@@ -882,7 +865,7 @@ stim_set = 'stimuli_images';
 
                         % Log the response in the log file
                         fprintf(logFile, '%d\tEndTrial\tN/A\t%f\t%s\t%s\tEnding trial\n', ...
-                            i_trial, GetSecs(), 'imageName', 'conditionLabel');
+                            i_trial, GetSecs(), imageName, conditionLabel);
 
                         break;  % Exit the loop after logging the response
                     end
@@ -901,8 +884,8 @@ stim_set = 'stimuli_images';
                 expTable.correctness(i_trial) = randi([0, 1]);  % Randomly assign correct/incorrect
 
                 % Log the simulated response in the log file
-                fprintf(logFile, '%d\tSimulatedEndTrial\tN/A\t%f\t%s\t%s\tSimulated trial\n', ...
-                    i_trial, GetSecs(), 'imageName', 'conditionLabel');
+                logEvent(logFile, i_trial, 'N/A', 'EndTrial', imageName, conditionLabel, 'Ending trial');
+
 
                 break;  % Exit the loop after simulating the response
             end
@@ -925,8 +908,8 @@ stim_set = 'stimuli_images';
         Screen('Close', wTarget);
         Screen('Close', wQuestion);
         Screen('Close', previewTexture);
-%         Screen('Close', targetTexture);
-%         Screen('Close', questionTexture);
+        Screen('Close', targetTexture);
+        Screen('Close', questionTexture);
 
         % Move to the next trial after the response loop
         i_trial = i_trial + 1;
@@ -996,5 +979,3 @@ ShowCursor();
     ListenChar(0);
     rethrow(lasterror);
 end
-
-fclose(logFile);
