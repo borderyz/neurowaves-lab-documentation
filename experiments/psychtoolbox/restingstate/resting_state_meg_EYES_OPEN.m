@@ -18,7 +18,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 % TRIGGERS CHANNEL 225 during the eyes open period
 
 % Time to rest in seconds
-time2rest = 60*5 ;
+time2rest = 60*5  ;
 
 
 % KEYBOARD SETUP
