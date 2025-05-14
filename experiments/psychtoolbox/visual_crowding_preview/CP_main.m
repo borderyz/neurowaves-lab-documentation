@@ -63,7 +63,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-saccadeOffset = 500; % pixel -> 10 dva
+saccadeOffset = 600; % pixel -> 10 dva
 targetDuration = .5; % seconds
 
 
