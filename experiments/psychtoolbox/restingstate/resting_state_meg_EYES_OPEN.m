@@ -101,7 +101,8 @@ fixColor = [150 150 150];
 % START EXPERIMENT
 
 
-Screen('DrawText', w, 'PRESS SPACE and keep Eyes open on Fixation Cross',  wx-250, wy, [255,255,255]);
+Screen('DrawText', w, 'When fixation cross appears, keep Eyes open on Fixation Cross, please wait',  wx-300, wy, [255,255,255]);
+disp('Press Space to start Eyes Open');
 Screen('Flip', w);
 KbWait([],2)
 

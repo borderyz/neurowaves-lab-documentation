@@ -97,7 +97,8 @@ fixColor = [150 150 150];
 
 % START EXPERIMENT
 
-Screen('DrawText', w, 'PRESS SPACE and keep Eyes Closed',  wx-250, wy, [255,255,255]);
+Screen('DrawText', w, 'Keep Eyes Closed and relax, we will let you know when you need to open them again',  wx-370, wy, [255,255,255]);
+disp('Press space to start Eyes Closed experiment');
 Screen('Flip', w);
 
 KbWait([],2)
