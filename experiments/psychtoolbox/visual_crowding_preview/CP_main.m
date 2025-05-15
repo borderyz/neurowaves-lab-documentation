@@ -1,14 +1,15 @@
 clearvars
-%Screen('Preference', 'SkipSyncTests', 1);
-%AssertOpenGL;
+Screen('Preference', 'SkipSyncTests', 1);
+AssertOpenGL;
 
 
 % Modes
-use_vpixx = 0;
-use_eyetracker = 0;
-trigger_test = 0;
-use_response_box = 0;
-use_keyboard  = 1;
+use_vpixx = 1;
+use_eyetracker = 1;
+trigger_test = 1;
+use_response_box = 1;
+use_keyboard  = 0;
+
 
 % Open vpix
 
@@ -63,7 +64,7 @@ black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
 %saccadeOffset = 305; % pixel -> 8 dva
-saccadeOffset = 500; % pixel -> 10 dva
+saccadeOffset = 600; % pixel -> 10 dva
 targetDuration = .5; % seconds
 
 
@@ -901,15 +902,15 @@ logEvent(logFile, i_trial, 'N/A', 'Start Trial', 'N/A', 'N/A', 'Starting trial')
         Screen('Flip', w);
         WaitSecs(1);
 
-        % Edited By tarek to stop overwhelming the VRam
-        Screen('Close', wFixation);
-        Screen('Close', wPreview);
-        Screen('Close', wCue);
-        Screen('Close', wTarget);
-        Screen('Close', wQuestion);
-        Screen('Close', previewTexture);
-        Screen('Close', targetTexture);
-        Screen('Close', questionTexture);
+%         % Edited By tarek to stop overwhelming the VRam
+%         Screen('Close', wFixation);
+%         Screen('Close', wPreview);
+%         Screen('Close', wCue);
+%         Screen('Close', wTarget);
+%         Screen('Close', wQuestion);
+%         Screen('Close', previewTexture);
+%         Screen('Close', targetTexture);
+%         Screen('Close', questionTexture);
 
         % Move to the next trial after the response loop
         i_trial = i_trial + 1;
@@ -971,7 +972,13 @@ logEvent(logFile, i_trial, 'N/A', 'Start Trial', 'N/A', 'N/A', 'Starting trial')
 
 catch
     % FINISH EXPERIMENT
-endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+endExperiment(logFile, DEMO,expTable, trig, stim_fn, answer1, true)
+cfg              = [];
+cfg.method       = 'ortho';
+% cfg.interactive   = 'yes';
+cfg.latency  =  [0.26 0.29];
+cfg.funparameter = 'pow';
+ft_sourceplot(cfg, sourceCWDG1, mri_coreg_sphere); 
 ShowCursor();
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
