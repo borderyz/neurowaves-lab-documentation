@@ -1,9 +1,9 @@
 .. _kit_nyuad_meg:
 
 
-**************
+
 Collaborations
-**************
+==============
 
 
 KIT & NYUAD Collaboration
@@ -17,6 +17,7 @@ KIT & NYUAD Collaboration
 .. figure:: ../graphic/collaboration/nyuad_purple.png
    :width: 45%
    :align: right
+
 
 The **Kanazawa Institute of Technology (KIT), Japan**, and **New York University Abu Dhabi (NYUAD)** have an ongoing collaboration
 since 2012 to advance **magnetoencephalography (MEG) research**. KIT installed the **MEG SQUID system** at NYUAD,

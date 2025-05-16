@@ -120,14 +120,12 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Lab Overview
    :hidden:
 
-   1-systems/0-meg-lab-overview
-   1-systems/1-meg-kit-system
-   1-systems/2-meg-opm-system
-   1-systems/3-eeg-system
-   1-systems/4-eeg-fmri
-   1-systems/5-team
-   1-systems/6-collaboration
-   1-systems/quizz
+   1-systems/0-neurowaves-lab-presentation.rst
+   1-systems/1-neurowaves-general-policies.rst
+   1-systems/2-neurowaves-study-scheduling.rst
+   1-systems/3-neurowaves-publications.rst
+   1-systems/4-neurowaves-collaborations.rst
+   1-systems/5-neurowaves-useful-links.rst
 
 .. toctree::
    :maxdepth: 2

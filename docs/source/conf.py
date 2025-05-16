@@ -91,20 +91,15 @@ html_theme_options = {
     "titles_only": False,
 }
 
-
-
 suppress_warnings = [
     "epub.unknown_project_files"
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
-
 html_static_path = ["_static"]
 html_css_files = ["custom.css"]
 
-
 # -- Options for EPUB output
 epub_show_urls = "footnote"
-
 
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
