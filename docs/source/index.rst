@@ -120,21 +120,37 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Lab Overview
    :hidden:
 
-   1-systems/0-neurowaves-lab-presentation.rst
-   1-systems/1-neurowaves-general-policies.rst
-   1-systems/2-neurowaves-study-scheduling.rst
-   1-systems/3-neurowaves-publications.rst
-   1-systems/4-neurowaves-collaborations.rst
-   1-systems/5-neurowaves-useful-links.rst
+   1-lab-overview/0-neurowaves-lab-presentation.rst
+   1-lab-overview/1-neurowaves-general-policies.rst
+   1-lab-overview/2-neurowaves-study-scheduling.rst
+   1-lab-overview/3-neurowaves-publications.rst
+   1-lab-overview/4-neurowaves-collaborations.rst
+   1-lab-overview/5-neurowaves-useful-links.rst
 
 .. toctree::
    :maxdepth: 2
-   :caption: Performance Dashboards
+   :caption: SQUID-MEG
    :hidden:
 
-   9-dashboard/1-systems-dashboard
-   9-dashboard/2-data-quality-dashboards
-   9-dashboard/3-documentation-dashboards
+   2-meg-kit-system/1-technology-overview
+   2-meg-kit-system/2-system-specification
+   2-meg-kit-system/3-main-applications
+   2-meg-kit-system/4-training
+   2-meg-kit-system/5-operational-protocol
+   2-meg-kit-system/6-experiment-design
+
+.. toctree::
+   :maxdepth: 2
+   :caption: OPM-MEG
+   :hidden:
+
+   2-meg-kit-system/1-technology-overview
+   2-meg-kit-system/2-system-specification
+   2-meg-kit-system/3-main-applications
+   2-meg-kit-system/4-training
+   2-meg-kit-system/5-operational-protocol
+   2-meg-kit-system/6-experiment-design
+
 
 .. toctree::
    :maxdepth: 2
@@ -183,6 +199,15 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    5-pipeline/4-0-pipelines
    5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Performance Dashboards
+   :hidden:
+
+   9-dashboard/1-systems-dashboard
+   9-dashboard/2-data-quality-dashboards
+   9-dashboard/3-documentation-dashboards
 
 
 .. toctree::
