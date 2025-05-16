@@ -1,7 +1,8 @@
+%% 
+
 clearvars
 Screen('Preference', 'SkipSyncTests', 1);
 AssertOpenGL;
-
 
 % Modes
 use_vpixx = 1;
@@ -24,8 +25,6 @@ if use_vpixx==1
     Datapixx('RegWr');
 
 end
-
-
 
 
 
@@ -77,7 +76,8 @@ saccThreshold = 10; % Michele usually uses 10
 
 
 try
-
+    
+    
     PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
     PsychDefaultSetup(2);
     InitializePsychSound;
@@ -137,7 +137,7 @@ try
         el.calibrationtargetcolour = [0 0 0];
         el.msgfontcolour = 0;
         EyelinkUpdateDefaults(el);
-        disp('eyelink test 1');
+
         if ~EyelinkInit() % 1 means enable dummy mode
             fprintf('Eyelink Init aborted.\n');
             Eyelink('Shutdown');
@@ -162,15 +162,70 @@ try
 
         %% added automatic calibration
         
-        Eyelink('Command', 'calibration_type = HV6');
-        Eyelink('Command', 'enable_automatic_calibration = YES');
+%         Eyelink('Command', 'calibration_type = HV6');
+%         Eyelink('Command', 'enable_automatic_calibration = YES');
+
+        [sw, sh] = Screen('WindowSize', w);      % sw = screen-width in px
+        yc       = sh/2;                         % single row: centre-height
+        
+
+                % --- 2. Build three evenly spaced X positions -------------------
+        nPts   = 3;                              % how many X-positions
+        calX   = round(sw * (1:nPts) / (nPts+1));% ¼, ½, ¾ of width
+        calY   = repmat(yc, 1, nPts);            % all on the same row
+        
+
+        Eyelink('Command', 'enable_automatic_calibration = NO');
+
+        
+                % build “x1,y1 x2,y2 x3,y3” string on the fly
+        calstr = sprintf('%d,%d %d,%d %d,%d', calX(1),calY(1), calX(2),calY(2), calX(3),calY(3));
+        
+        Eyelink('Command', ['calibration_targets = ' calstr]);
+        Eyelink('Command', ['validation_targets  = ' calstr]);   % same points
+        Eyelink('Command', 'calibration_type = HV3');             % 3-point routine
 
 
+%         sh = 1920
+%         sw = 1080
+%         % 1) Screen size
+%         [sw, sh] = Screen('WindowSize', w);
+%         
+%         % 2) Horizontal positions  (¼ , ½ , ¾ of the width)
+%         xLeft   = round(sw * 0.25);
+%         xMid    = round(sw * 0.50);
+%         xRight  = round(sw * 0.75);
+%         
+%         % 3) Vertical positions    (centre row, plus ±12 % of height)
+%         yMid    = round(sh * 0.50);   % centre
+%         yTop    = round(sh * 0.38);   % 38 % down from top  (closer in)
+%         yBot    = round(sh * 0.62);   % 62 % down           (closer in)
+%         
+%         % 4) Coordinates in EyeLink’s HV5 order:
+%         %    centre, left, right, top, bottom
+%         calX = [xMid   xLeft   xRight  xMid  xMid];
+%         calY = [yMid   yMid    yMid    yTop  yBot ];
+%         
+%         % 5) Build "x1,y1 x2,y2 ..." string
+%         calstr = sprintf('%d,%d %d,%d %d,%d %d,%d %d,%d', ...
+%                          calX(1),calY(1), calX(2),calY(2), calX(3),calY(3), ...
+%                          calX(4),calY(4), calX(5),calY(5));
+%         
+%         % 6) Send to the tracker
+%         Eyelink('Command', 'enable_automatic_calibration = NO');
+%         Eyelink('Command', ['calibration_targets = '  calstr]);
+%         Eyelink('Command', ['validation_targets  = '  calstr]);
+%         Eyelink('Command', 'calibration_type = HV5');   % keep 5-point routine
 
 %         Eyelink('Command', 'enable_automatic_calibration = NO');
 %         calX = [420, 640, 860];
 %         calY = [540 540 540]; %[0, 0, 0];  % all at center height
 %         
+%         % Add top and bottom cals if needed
+% 
+% %         calX = [420, 640, 860, 640, 640];
+% %         calY = [540 540 540, 700, -700];
+% 
 %         Eyelink('command', sprintf('calibration_targets = %.2f,%.2f %.2f,%.2f %.2f,%.2f', ...
 %             calX(1), calY(1), ...
 %             calX(2), calY(2), ...
@@ -180,6 +235,46 @@ try
 %             calX(1), calY(1), ...
 %             calX(2), calY(2), ...
 %             calX(3), calY(3)));
+
+%%    
+
+% %     % ----- 1.  Pick coordinates ---------------------------------------------
+%       [sw, sh]          = Screen('WindowSize', w);     % current screen res
+%      
+% %     % choose X positions (left, mid, right)
+%       calX  = round([0.30 0.50 0.70] * sw);             
+% %     
+%         % choose Y positions – pull rows 25 % above and below the centre
+%         rowTop    = 0.35;                                  % 0 = very top, 1 = very bottom
+%         rowCentre = 0.50;
+%         rowBottom = 0.65;
+%         calY      = round([rowTop rowCentre rowBottom] * sh);
+% %     
+% %     % nine-point layout in row–major order
+%     cal  = [ calX(1) calY(1)  calX(2) calY(1)  calX(3) calY(1)  ...
+%              calX(1) calY(2)  calX(2) calY(2)  calX(3) calY(2)  ...
+%              calX(1) calY(3)  calX(2) calY(3)  calX(3) calY(3) ];
+% %     
+% %     % put into a single string “x1,y1 x2,y2 …”
+%      calstr = sprintf([repmat('%.0f,%.0f ',1,9)], cal);   % nine pairs
+%      calstr = strtrim(calstr);                            % remove trailing space
+%     
+%     % ----- 2.  Turn off the default grid -------------------------------------
+%     Eyelink('Command', 'enable_automatic_calibration = NO');
+%     Eyelink('Command', 'generate_default_targets      = NO');
+%     
+%     % ----- 3.  Tell EyeLink what to use instead ------------------------------
+%     Eyelink('Command', ['calibration_targets = ' calstr]);
+%     Eyelink('Command', ['validation_targets  = ' calstr]);
+%     
+%     % (Optional) keep the familiar 9-point routine:
+%     Eyelink('Command', 'calibration_type = HV9');
+%     
+%     % ----- 4.  Run the setup screen -----------------------------------------
+%     EyelinkDoTrackerSetup(el);
+
+
+
 %         
         WaitSecs(0.05);
 
