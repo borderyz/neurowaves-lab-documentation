@@ -1,5 +1,5 @@
-Operational Protocol: KIT
-=========================
+SQUID-based MEG - Operational Protocol
+======================================
 
 Lead author: Gayathri Satheesh `gs2750@nyu.edu <gs2750@nyu.edu>`_, Haidee Paterson `haidee.paterson@nyu.edu <haidee.paterson@nyu.edu>`_, Hadi Zaatiti `hadi.zaatiti@nyu.edu <hadi.zaatiti@nyu.edu>`_
 

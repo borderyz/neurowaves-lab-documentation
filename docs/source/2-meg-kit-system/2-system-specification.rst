@@ -1,4 +1,5 @@
-
+SQUID-based MEG System specification
+====================================
 
 
 MEG-KIT system description
@@ -20,9 +21,6 @@ Especially don’t shock the dewar.
 If you feel anything strange while doing an experiment (i.e., you suspect a helium leak), open the MSR and release
 the subject immediately.  Do not leave the room with a subject in the MSR.
 
-
-MEG-OPM system description
---------------------------
 
 
 

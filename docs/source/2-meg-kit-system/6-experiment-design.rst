@@ -98,3 +98,13 @@ KIT system testing triggers
 
 If you are in the testing phase of your experiment and would like to test the triggers, you can do so without locking the sensors.
 Simply open `MEG160` and then `Acquire -> MEG Measurement`, then run your experiment from the stimulus computer and observe channels 224 -> 231 to check for trigger signals.
+
+
+
+Example Experiments MEG
+-----------------------
+
+.. nbgallery::
+   :glob:
+
+   experiments/*

@@ -1,5 +1,8 @@
-Training to become an MEG authorized operator
-=============================================
+SQUID-based MEG - Training
+==========================
+
+Process
+-------
 
 A project owner can be trained by the MEG lab scientists to become an authorized operator.
 Over the course of a day, they will be taught about the operation protocol described above, the emergency procedures to perform, the safety rules to folow and any
@@ -14,7 +17,7 @@ Once the training is performed, the following form should be submitted to the ME
 
 
 Authorization documents
-=======================
+-----------------------
 
 
 The following documents need to be signed by the participant prior to the study:
@@ -25,8 +28,3 @@ Every project owner must have an IRB for his study approved before getting parti
 
 - IRB approval for project owner
 
-
-Participant recruitment
-=======================
-
-- Prior to arrival, participant is assumed to have no implants, no retainer, no pace-maker, no large-sized-tattoos
