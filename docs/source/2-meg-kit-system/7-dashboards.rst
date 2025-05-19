@@ -72,7 +72,7 @@ Poor SNR can lead to experiments needing more number of trials, or artifact remo
 
 
 .. csv-table:: Noise Metrics Table
-   :file: data/data-quality-dashboards/noise_metrics.csv
+   :file: ../data/data-quality-dashboards/noise_metrics.csv
    :header-rows: 1
 
 KIT Data Quality Dashboard
@@ -167,7 +167,7 @@ whether or not the dataset is within the "good" noise thresholds for each metric
 *1.* The source of this data is empty-room data hosted on the NYU-BOX data drive.
 
 
-*1.* Overview of the table: the used data quality metrics are present in `9-dashboard/data/noise_metrics.csv`
+*1.* Overview of the table: the used data quality metrics are present in `docs/source/data/noise_metrics.csv`
 
 
   .. list-table:: File Details
@@ -211,7 +211,7 @@ Dashboard Generation Developer Guide
 *Overview*
 
 The dashboard is generated from empty room data hosted on the NYU-BOX storage drive.
-The scripts for generating the dashboard are located under `docs/source/9-dashboard/dashboard-generating-scripts`.
+The scripts for generating the dashboard are located under `docs/source/scripts/dashboard-generating-scripts`.
 This guide explains how to download empty room data from the NYU-BOX storage using Python scripts.
 It covers setting up the Box SDK, authenticating using JWT, accessing folder data, and downloading `.con` files.
 It also includes information on processing these downloaded files.

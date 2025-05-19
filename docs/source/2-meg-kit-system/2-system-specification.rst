@@ -1,5 +1,5 @@
-SQUID-based MEG System specification
-====================================
+SQUID-based MEG - System specification
+======================================
 
 
 MEG-KIT system description

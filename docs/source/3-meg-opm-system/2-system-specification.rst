@@ -1,8 +1,9 @@
-MEG System description: OPM-MEG Machine
-=======================================
+------------------------------------
+OPM-based MEG - System Specification
+------------------------------------
 
 System Overview
----------------
+^^^^^^^^^^^^^^^
 
 
 The OPM has been installed on the 4th of march 2024.
@@ -11,7 +12,7 @@ The OPM has been installed on the 4th of march 2024.
 
 
 Sensor locations on helmet
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 To access the sensors locations on the helmet: under the OPM computer, go to `/usr/share/hedscan/doc/Beta2SensorLocations.png`
@@ -20,21 +21,21 @@ To access the sensors locations on the helmet: under the OPM computer, go to `/u
 
 
 Trigger channels on OPM
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 
 
 
 
 Powering on or off the OPM
---------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The OPM racks must always be turned on or off starting from the top rack.
 
 
 
 OPM to vpixx digital pins connection
-------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 A custom cable have been built to link the Vpixx to the OPM system, below is the pins mapping followed by the
 cable datasheet.
@@ -129,13 +130,13 @@ cable datasheet.
 
 
 OPM sensors and direction of measurement
-----------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 In its current state, the OPM measures the radial magnetic field Bz but not yet the
 
 
 OPM HPI Coils
--------------
+^^^^^^^^^^^^^
 
 The HPI coils are installed on specific places on the head of the participant.
 
