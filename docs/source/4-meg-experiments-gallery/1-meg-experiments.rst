@@ -9,7 +9,7 @@ General demo scripts
 .. nbgallery::
    :glob:
 
-   experiments/general/*.rst
+   experiments/general/*
    experiments/psychtoolbox/trigger-psychtoolbox
    experiments/psychopy/trigger-psychopy
 
@@ -22,7 +22,7 @@ Psychtoolbox
 .. nbgallery::
    :glob:
 
-   experiments/psychopy/*.rst
+   experiments/psychopy/*
 
 
 
@@ -33,5 +33,5 @@ Psychopy
 .. nbgallery::
    :glob:
 
-   experiments/psychtoolbox/*.rst
+   experiments/psychtoolbox/*
 

@@ -13,14 +13,14 @@ The `Left box` is the grey box and the `Right box` is the blue box.
 - To test the response boxes you can run the following script
 
 
-.. literalinclude:: ../../../../experiments/psychtoolbox/general/button_response.m
+.. literalinclude:: ../../../../../experiments/psychtoolbox/general/button_response.m
   :language: matlab
 
 
 - To get the response of a user while performing your experiment, you can use the following MATLAB function `getButton.m <https://github.com/hzaatiti-NYU/meg-pipeline/blob/main/experiments/psychtoolbox/general/getButton.m>`_.
 
 
-.. literalinclude:: ../../../../experiments/psychtoolbox/general/getButton.m
+.. literalinclude:: ../../../../../experiments/psychtoolbox/general/getButton.m
   :language: matlab
 
 
@@ -47,7 +47,7 @@ The above function will return an integer `resp` which you will have to translat
 +-------------+--------------+---------------------------+-----------------------+---------------+
 
 
-.. literalinclude:: ../../../../experiments/psychtoolbox/general/listenButton.m
+.. literalinclude:: ../../../../../experiments/psychtoolbox/general/listenButton.m
   :language: matlab
 
 

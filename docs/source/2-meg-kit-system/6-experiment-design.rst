@@ -117,4 +117,4 @@ Example Experiments MEG
 .. nbgallery::
    :glob:
 
-   ../4-meg-experiments-gallery/experiments/*
+   ../4-meg-experiments-gallery/experiments/*/*
