@@ -1,6 +1,6 @@
------------------------
-NeuroWaves Lab Overview
------------------------
+------------
+Lab Overview
+------------
 
 .. image:: https://raw.githubusercontent.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/main/docs/source/graphic/main.jpg
   :width: 600
@@ -45,15 +45,3 @@ Supporting Equipment
   Motor response synchronization.
 
 - **Magnetically Shielded Room (MSR)** is required to isolate sensors from external magnetic fields and noise sources.
-
-
-.. raw:: html
-
-   <figure>
-     <iframe
-       src="../_static/blender-models/neuron/neuron.html"
-       width="600"
-       height="600">
-     </iframe>
-     <figcaption>3D neuron model. </figcaption>
-   </figure>

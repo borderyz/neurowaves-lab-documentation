@@ -1,5 +1,6 @@
-MEG Lab demonstrations
-----------------------
+--------------
+Demonstrations
+--------------
 
 .. nbgallery::
 

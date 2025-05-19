@@ -1,7 +1,7 @@
 
------------------------
-Example Experiments MEG
------------------------
+-------------------
+Example Experiments
+-------------------
 
 .. nbgallery::
    :glob:

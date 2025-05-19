@@ -1,6 +1,6 @@
------------------------------------
-OPM-based MEG - Technology Overview
------------------------------------
+-------------------
+Technology Overview
+-------------------
 
 
 Optically Pumped Magnetometer (OPM) MEG technology represents a significant advancement in magnetoencephalography,

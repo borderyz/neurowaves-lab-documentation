@@ -1,6 +1,6 @@
---------------------------
-OPM-based MEG - Dashboards
---------------------------
+----------
+Dashboards
+----------
 
 
 OPM Data Quality dashboard

@@ -1,6 +1,6 @@
-------------------------------------
-OPM-based MEG - Operational Protocol
-------------------------------------
+--------------------
+Operational Protocol
+--------------------
 
 There are three ways to coregister with OPM:
 

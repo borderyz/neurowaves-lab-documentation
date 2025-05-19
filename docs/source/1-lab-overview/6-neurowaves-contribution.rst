@@ -1,6 +1,6 @@
------------------------------------------------
-Contributing your experiment to this repository
------------------------------------------------
+------------
+Contributing
+------------
 
 After building an initial draft of your experiment code and you wish to start testing it, collect all the files relative to your experiment into one directory, name your directory as the name of your experiment.
 The contribution will be submitted for review through github. If you already have a github account sign in to it, if not create a github account.

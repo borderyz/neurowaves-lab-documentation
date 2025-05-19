@@ -1,5 +1,6 @@
-Notebooks Gallery
-=================
+-----------------
+Pipelines Gallery
+-----------------
 
 
 MNE-Python Pipeline Notebooks

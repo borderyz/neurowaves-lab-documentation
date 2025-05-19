@@ -1,7 +1,8 @@
 .. _systems_dashboard:
 
-Systems dashboard
-#################
+----------
+Dashboards
+----------
 
 The following dashboards provide the status of the MEG systems mainly
 

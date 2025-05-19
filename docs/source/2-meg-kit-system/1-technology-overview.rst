@@ -1,5 +1,6 @@
-SQUID-based MEG - Technology Overview
-=====================================
+-------------------
+Technology Overview
+-------------------
 
 Superconducting Quantum Interference Device (SQUID)-based magnetoencephalography (MEG) is a non-invasive neuroimaging
 technology that measures the brain’s magnetic fields with exceptional temporal precision. SQUIDs operate at cryogenic
@@ -14,3 +15,13 @@ While SQUID-based MEG is considered the gold standard in functional brain mappin
 infrastructure limits portability and demands specialized shielded environments to reduce environmental noise.
 
 
+.. raw:: html
+
+   <figure>
+     <iframe
+       src="../_static/blender-models/neuron/neuron.html"
+       width="600"
+       height="600">
+     </iframe>
+     <figcaption>3D neuron model. </figcaption>
+   </figure>

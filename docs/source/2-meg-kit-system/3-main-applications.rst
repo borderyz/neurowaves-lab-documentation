@@ -1,5 +1,6 @@
-SQUID-Based MEG - Main Applications
-===================================
+-----------------
+Main Applications
+-----------------
 
 SQUID-based MEG has a wide range of applications in both clinical and research settings due to its ability to capture rapid
 neural dynamics with high fidelity. Clinically, it is especially valuable in the presurgical evaluation of epilepsy, helping

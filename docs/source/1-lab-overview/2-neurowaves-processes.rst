@@ -1,6 +1,6 @@
--------------------
-NW Study Scheduling
--------------------
+---------
+Processes
+---------
 
 Identifying your usage
 ^^^^^^^^^^^^^^^^^^^^^^

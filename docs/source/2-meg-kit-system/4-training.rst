@@ -1,5 +1,6 @@
-SQUID-based MEG - Training
-==========================
+--------
+Training
+--------
 
 Process
 -------
