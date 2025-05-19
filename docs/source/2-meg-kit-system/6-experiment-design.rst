@@ -100,6 +100,15 @@ If you are in the testing phase of your experiment and would like to test the tr
 Simply open `MEG160` and then `Acquire -> MEG Measurement`, then run your experiment from the stimulus computer and observe channels 224 -> 231 to check for trigger signals.
 
 
+Building the requirement of your experiment
+===========================================
+
+The number of participants is important to have clean averaged ERP data
+
+The SNR is proportional with sqrt(Ntrials)
+10 trials instead of one trial means 3x better SNR
+100 trials means 10x better SNR than a single trial
+
 
 Example Experiments MEG
 -----------------------
@@ -107,4 +116,4 @@ Example Experiments MEG
 .. nbgallery::
    :glob:
 
-   experiments/*
+   ../4-meg-experiments-gallery/experiments/*

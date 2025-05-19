@@ -123,13 +123,13 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Lab Overview
    :hidden:
 
-   1-lab-overview/0-neurowaves-lab-presentation.rst
-   1-lab-overview/1-neurowaves-general-policies.rst
-   1-lab-overview/2-neurowaves-study-scheduling.rst
-   1-lab-overview/3-neurowaves-publications.rst
-   1-lab-overview/4-neurowaves-collaborations.rst
-   1-lab-overview/5-neurowaves-useful-links.rst
-   1-lab-overview/6-neurowaves-contribution.rst
+   1-lab-overview/0-neurowaves-lab-presentation
+   1-lab-overview/1-neurowaves-general-policies
+   1-lab-overview/2-neurowaves-processes
+   1-lab-overview/3-neurowaves-publications
+   1-lab-overview/4-neurowaves-collaborations
+   1-lab-overview/5-neurowaves-useful-links
+   1-lab-overview/6-neurowaves-contribution
 
 .. toctree::
    :maxdepth: 2
@@ -142,7 +142,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    2-meg-kit-system/4-training
    2-meg-kit-system/5-operational-protocol
    2-meg-kit-system/6-experiment-design
-   2-meg-kit-system/7-dashboards.rst
+   2-meg-kit-system/7-dashboards
 
 .. toctree::
    :maxdepth: 2
@@ -155,18 +155,17 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    3-meg-opm-system/4-training
    3-meg-opm-system/5-operational-protocol
    3-meg-opm-system/6-experiment-design
-   3-meg-opm-system/7-dashboards.rst
-
-
-
-
+   3-meg-opm-system/7-dashboards
 
 
 .. toctree::
    :maxdepth: 2
    :caption: Experiments Gallery
    :hidden:
+   :glob:
 
+    4-meg-experiments-gallery/1-meg-experiments
+    4-meg-experiments-gallery/experiments/*
 
 
 .. toctree::
@@ -174,12 +173,8 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: DataHub
    :hidden:
 
-   3-experimentdesign/project_proposal
-   3-experimentdesign/process-new-user
-   3-experimentdesign/experimentdesign
-   3-experimentdesign/experimentdesign-eeg-fmri
-   3-experimentdesign/requirements
-   3-experimentdesign/exampleexperiments
+   5-meg-data-gallery/1-datafiles
+   5-meg-data-gallery/2-datastorage
 
 
 .. toctree::
@@ -187,7 +182,8 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Pipeline Gallery
    :hidden:
 
-   2-operationprotocol/bookingsystem
+   6-meg-pipeline-gallery/1-meg-pipeline-overview.rst
+   6-meg-pipeline-gallery/2-meg-pipeline-gallery.rst
 
 
 .. toctree::
@@ -195,18 +191,15 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Talks and Demos
    :hidden:
 
-   4-data/1-datafiles.rst
-   4-data/2-datastorage.rst
+   7-meg-talks-demos/1-meg-talks-demos
 
 .. toctree::
    :maxdepth: 2
-   :caption: Operations
+   :caption: MEG Operations
    :hidden:
 
-   5-pipeline/4-0-pipelines
-   5-pipeline/4-eeg-fmri-pipelines
-   5-pipeline/5-notebooks
-
+   8-meg-operations/1-meg-maintenance
+   8-meg-operations/2-meg-emergency
 
 .. toctree::
    :maxdepth: 2
