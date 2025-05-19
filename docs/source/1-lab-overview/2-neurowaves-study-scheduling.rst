@@ -1,14 +1,15 @@
+-------------------
 NW Study Scheduling
-===================
+-------------------
 
 Identifying your usage
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 (Add usage form)
 
 
 Booking system and scheduling
------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. mermaid::
@@ -82,6 +83,4 @@ Provide your `netID` to the MEG scientists for you to have access to the lab boo
     - ensure that the slot is available on his gmail calendar `hz3752@nyu.edu` (the calendar is kept up to date)
     - send a meeting on google calendar at the requested slot with subject `MEG Training of [name and netID of trainee]`
     - then book the lab at the same slot using the above QR code/link
-
-
 

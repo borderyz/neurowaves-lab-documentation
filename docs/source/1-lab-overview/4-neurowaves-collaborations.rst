@@ -1,13 +1,13 @@
 .. _kit_nyuad_meg:
 
 
-
+--------------
 Collaborations
-==============
+--------------
 
 
 KIT & NYUAD Collaboration
--------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 
 .. figure:: ../graphic/collaboration/kit.png

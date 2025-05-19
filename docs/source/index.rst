@@ -1,6 +1,6 @@
-###################################################
+===================================================
 NeuroWaves: MEG/EEG Lab at NYUAD documentation page
-###################################################
+===================================================
 
 
 .. include:: ../../README.rst
@@ -12,9 +12,10 @@ Team
 ****
 
 
-
+---------------
 Haidee Paterson
 ---------------
+
 .. image:: graphic/team/haidee.jpg
    :width: 250px
    :align: left
@@ -34,9 +35,10 @@ MRI data acquisition, MRI integrated with EEG, and MEG data acquisition.
 
    <div style="clear: both;"></div>
 
-
+------------
 Hadi Zaatiti
 ------------
+
 .. image:: graphic/team/hadi.jpg
    :width: 250px
    :align: left
@@ -54,9 +56,10 @@ His main role is to support MEG-EEG projects by ensuring correct operation of th
 
    <div style="clear: both;"></div>
 
-
+--------------
 Osama Abdullah
----------------
+--------------
+
 .. image:: graphic/team/osama.jpg
    :width: 250px
    :align: left
@@ -77,7 +80,7 @@ supervising researchers and technical staff and providing scientific assistance.
    <div style="clear: both;"></div>
 
 
-
+-----------
 Lab Address
 -----------
 
@@ -97,9 +100,9 @@ Lab Address
 
 
 
-*********************************
+=================================
 Status of the documentation build
-*********************************
+=================================
 
 .. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
   :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
@@ -126,6 +129,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    1-lab-overview/3-neurowaves-publications.rst
    1-lab-overview/4-neurowaves-collaborations.rst
    1-lab-overview/5-neurowaves-useful-links.rst
+   1-lab-overview/6-neurowaves-contribution.rst
 
 .. toctree::
    :maxdepth: 2
@@ -138,33 +142,36 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    2-meg-kit-system/4-training
    2-meg-kit-system/5-operational-protocol
    2-meg-kit-system/6-experiment-design
+   2-meg-kit-system/7-dashboards.rst
 
 .. toctree::
    :maxdepth: 2
    :caption: OPM-MEG
    :hidden:
 
-   2-meg-kit-system/1-technology-overview
-   2-meg-kit-system/2-system-specification
-   2-meg-kit-system/3-main-applications
-   2-meg-kit-system/4-training
-   2-meg-kit-system/5-operational-protocol
-   2-meg-kit-system/6-experiment-design
+   3-meg-opm-system/1-technology-overview
+   3-meg-opm-system/2-system-specification
+   3-meg-opm-system/3-main-applications
+   3-meg-opm-system/4-training
+   3-meg-opm-system/5-operational-protocol
+   3-meg-opm-system/6-experiment-design
+   3-meg-opm-system/7-dashboards.rst
+
+
+
+
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Operation Protocol
+   :caption: Experiments Gallery
    :hidden:
 
-   2-operationprotocol/training_meg
-   2-operationprotocol/kit-operationalprotocol
-   2-operationprotocol/opm-operationalprotocol
-   2-operationprotocol/eeg-fmri-protocol
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Experiments Design
+   :caption: DataHub
    :hidden:
 
    3-experimentdesign/project_proposal
@@ -177,7 +184,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 .. toctree::
    :maxdepth: 2
-   :caption: Booking and usage
+   :caption: Pipeline Gallery
    :hidden:
 
    2-operationprotocol/bookingsystem
@@ -185,7 +192,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 .. toctree::
    :maxdepth: 2
-   :caption: Data storage and naming
+   :caption: Talks and Demos
    :hidden:
 
    4-data/1-datafiles.rst
@@ -193,43 +200,13 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 .. toctree::
    :maxdepth: 2
-   :caption: Processing pipelines
+   :caption: Operations
    :hidden:
 
    5-pipeline/4-0-pipelines
    5-pipeline/4-eeg-fmri-pipelines
    5-pipeline/5-notebooks
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Performance Dashboards
-   :hidden:
-
-   9-dashboard/1-systems-dashboard
-   9-dashboard/2-data-quality-dashboards
-   9-dashboard/3-documentation-dashboards
-
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Maintenance
-   :hidden:
-
-   6-maintenance/maintenance
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Emergency and Risk Asessment
-   :hidden:
-
-   7-emergency/emergency
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contributing to this repository
-   :hidden:
-
-   8-contributing/contributing
 
 .. toctree::
    :maxdepth: 2

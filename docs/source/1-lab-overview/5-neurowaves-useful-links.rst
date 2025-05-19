@@ -1,12 +1,10 @@
+----------------------------
 NW Useful links and contacts
-============================
+----------------------------
 
-********************
-Team and specialties
-********************
 
 The team
---------
+^^^^^^^^
 
 .. table:: Contact Information
    :widths: auto
@@ -21,7 +19,7 @@ The team
 
 
 Specialties and primary contact per use case
---------------------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For requesting help or enquiries, please refer to the below table to address your request to the delegated primary contact.
 
@@ -34,9 +32,3 @@ MEG
    :header-rows: 1
    :file: contact_meg.csv
 
-EEG/fMRI
-~~~~~~~~
-
-.. csv-table:: Primary contact EEG/fMRI
-   :header-rows: 1
-   :file: contact_eeg_fmri.csv

@@ -16,3 +16,5 @@ EEG-fMRI Manual
     3-experimentdesign/experiments-eeg-fmri/*
     5-pipeline/4-eeg-fmri-pipelines
     5-pipeline/notebooks/eeg-fmri/*
+
+
