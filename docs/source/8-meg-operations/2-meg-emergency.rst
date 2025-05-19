@@ -1,5 +1,6 @@
+--------------------
 Emergency procedures
-====================
+--------------------
 
 Helium leak:
 - Contact maintenance team
