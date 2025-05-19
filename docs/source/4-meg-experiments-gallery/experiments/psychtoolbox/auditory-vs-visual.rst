@@ -18,6 +18,6 @@ Download code from: https://github.com/Hzaatiti/meg-pipeline/tree/main/experimen
 
 .. dropdown:: Audio vs Visual vs Motor experiment
 
-    .. literalinclude:: ../../../../experiments/psychtoolbox/auditory-vs-visual/auditory_vs_visual.m
+    .. literalinclude:: ../../../../../experiments/psychtoolbox/auditory-vs-visual/auditory_vs_visual.m
       :language: matlab
 

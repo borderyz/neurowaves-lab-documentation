@@ -25,6 +25,6 @@ The experiment is adapted from `sijiazhao` code, the original one is `found here
 The code below is the main script, to make it work you will need to download the full directory containing the sound files as well from
 `Download oddball full directory <https://github.com/hzaatiti-NYU/meg-pipeline/tree/main/experiments/psychtoolbox/sound/oddball>`_
 
-.. literalinclude:: ../../../../experiments/psychtoolbox/sound/oddball/run_oddball_KIT.m
+.. literalinclude:: ../../../../../experiments/psychtoolbox/sound/oddball/run_oddball_KIT.m
   :language: matlab
 

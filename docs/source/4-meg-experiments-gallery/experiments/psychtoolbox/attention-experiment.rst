@@ -13,6 +13,6 @@ either left or right side.
 
 .. dropdown:: Attention task code
 
-    .. literalinclude:: ../../../../experiments/psychtoolbox/attention/meg_attention_task.m
+    .. literalinclude:: ../../../../../experiments/psychtoolbox/attention/meg_attention_task.m
       :language: matlab
 

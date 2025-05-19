@@ -10,5 +10,5 @@ Authors: Gayathri Satheesh <gs2750@nyu.edu>, Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 
 .. dropdown:: Photodiode experiment
 
-    .. literalinclude:: ../../../../experiments/psychtoolbox/attention/meg_attention_task.m
+    .. literalinclude:: ../../../../../experiments/psychtoolbox/attention/meg_attention_task.m
       :language: matlab

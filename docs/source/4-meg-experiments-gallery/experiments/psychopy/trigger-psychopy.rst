@@ -10,9 +10,9 @@ The following script triggers each event channel on the KIT from 224 to 231 usin
 
 For the moment, full screen with PsychoPy does not work on Windows, the second script therefore do not work because it requires the top left pixel to change color.
 
-.. literalinclude:: ../../../../experiments/psychopy/general/trigger_test_psychopy_digital_out.py
+.. literalinclude:: ../../../../../experiments/psychopy/general/trigger_test_psychopy_digital_out.py
   :language: python
 
 
-.. literalinclude:: ../../../../experiments/psychopy/general/trigger_test_psychopy_pixel_mode.py
+.. literalinclude:: ../../../../../experiments/psychopy/general/trigger_test_psychopy_pixel_mode.py
   :language: python
