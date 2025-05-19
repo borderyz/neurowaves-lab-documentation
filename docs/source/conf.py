@@ -60,7 +60,7 @@ extensions = [
     "sphinxcontrib.mermaid",
 ]
 
-exclude_patterns = ['template_*.ipynb']
+exclude_patterns = ['**/template_*.ipynb']
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
