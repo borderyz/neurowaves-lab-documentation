@@ -165,7 +165,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
     :glob:
 
     4-meg-experiments-gallery/1-meg-experiments
-    4-meg-experiments-gallery/experiments/*
+
 
 
 .. toctree::
