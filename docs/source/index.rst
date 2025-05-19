@@ -1,6 +1,6 @@
-###################################################
-NeuroWaves: MEG/EEG Lab at NYUAD documentation page
-###################################################
+================================
+NeuroWaves: MEG/EEG Lab at NYUAD
+================================
 
 
 .. include:: ../../README.rst
@@ -12,9 +12,10 @@ Team
 ****
 
 
-
+---------------
 Haidee Paterson
 ---------------
+
 .. image:: graphic/team/haidee.jpg
    :width: 250px
    :align: left
@@ -34,9 +35,10 @@ MRI data acquisition, MRI integrated with EEG, and MEG data acquisition.
 
    <div style="clear: both;"></div>
 
-
+------------
 Hadi Zaatiti
 ------------
+
 .. image:: graphic/team/hadi.jpg
    :width: 250px
    :align: left
@@ -54,9 +56,10 @@ His main role is to support MEG-EEG projects by ensuring correct operation of th
 
    <div style="clear: both;"></div>
 
-
+--------------
 Osama Abdullah
----------------
+--------------
+
 .. image:: graphic/team/osama.jpg
    :width: 250px
    :align: left
@@ -77,7 +80,7 @@ supervising researchers and technical staff and providing scientific assistance.
    <div style="clear: both;"></div>
 
 
-
+-----------
 Lab Address
 -----------
 
@@ -97,9 +100,9 @@ Lab Address
 
 
 
-*********************************
+=================================
 Status of the documentation build
-*********************************
+=================================
 
 .. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
   :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
@@ -120,93 +123,84 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Lab Overview
    :hidden:
 
-   1-systems/0-meg-lab-overview
-   1-systems/1-meg-kit-system
-   1-systems/2-meg-opm-system
-   1-systems/3-eeg-system
-   1-systems/4-eeg-fmri
-   1-systems/5-team
-   1-systems/6-collaboration
-   1-systems/quizz
+   1-lab-overview/0-neurowaves-lab-presentation
+   1-lab-overview/1-neurowaves-general-policies
+   1-lab-overview/2-neurowaves-processes
+   1-lab-overview/3-neurowaves-publications
+   1-lab-overview/4-neurowaves-collaborations
+   1-lab-overview/5-neurowaves-useful-links
+   1-lab-overview/6-neurowaves-contribution
 
 .. toctree::
    :maxdepth: 2
-   :caption: Performance Dashboards
+   :caption: SQUID-MEG
    :hidden:
 
-   9-dashboard/1-systems-dashboard
-   9-dashboard/2-data-quality-dashboards
-   9-dashboard/3-documentation-dashboards
+   2-meg-kit-system/1-technology-overview
+   2-meg-kit-system/2-system-specification
+   2-meg-kit-system/3-main-applications
+   2-meg-kit-system/4-training
+   2-meg-kit-system/5-operational-protocol
+   2-meg-kit-system/6-experiment-design
+   2-meg-kit-system/7-dashboards
 
 .. toctree::
    :maxdepth: 2
-   :caption: Operation Protocol
+   :caption: OPM-MEG
    :hidden:
 
-   2-operationprotocol/training_meg
-   2-operationprotocol/kit-operationalprotocol
-   2-operationprotocol/opm-operationalprotocol
-   2-operationprotocol/eeg-fmri-protocol
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Experiments Design
-   :hidden:
-
-   3-experimentdesign/project_proposal
-   3-experimentdesign/process-new-user
-   3-experimentdesign/experimentdesign
-   3-experimentdesign/experimentdesign-eeg-fmri
-   3-experimentdesign/requirements
-   3-experimentdesign/exampleexperiments
+   3-meg-opm-system/1-technology-overview
+   3-meg-opm-system/2-system-specification
+   3-meg-opm-system/3-main-applications
+   3-meg-opm-system/4-training
+   3-meg-opm-system/5-operational-protocol
+   3-meg-opm-system/6-experiment-design
+   3-meg-opm-system/7-dashboards
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Booking and usage
-   :hidden:
+    :maxdepth: 2
+    :caption: Experiments Gallery
+    :hidden:
+    :glob:
 
-   2-operationprotocol/bookingsystem
+    4-meg-experiments-gallery/1-meg-experiments
+
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Data storage and naming
+   :caption: DataHub
    :hidden:
 
-   4-data/1-datafiles.rst
-   4-data/2-datastorage.rst
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Processing pipelines
-   :hidden:
-
-   5-pipeline/4-0-pipelines
-   5-pipeline/4-eeg-fmri-pipelines
-   5-pipeline/5-notebooks
+   5-meg-data-gallery/1-datafiles
+   5-meg-data-gallery/2-datastorage
 
 
 .. toctree::
    :maxdepth: 2
-   :caption: Maintenance
+   :caption: Pipeline Gallery
    :hidden:
 
-   6-maintenance/maintenance
+   6-meg-pipeline-gallery/1-meg-pipeline-overview.rst
+   6-meg-pipeline-gallery/2-meg-pipeline-gallery.rst
+
 
 .. toctree::
    :maxdepth: 2
-   :caption: Emergency and Risk Asessment
+   :caption: Talks and Demos
    :hidden:
 
-   7-emergency/emergency
+   7-meg-talks-demos/1-meg-demos
+   7-meg-talks-demos/2-meg-talks
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contributing to this repository
+   :caption: MEG Operations
    :hidden:
 
-   8-contributing/contributing
+   8-meg-operations/1-meg-maintenance
+   8-meg-operations/2-meg-emergency
 
 .. toctree::
    :maxdepth: 2

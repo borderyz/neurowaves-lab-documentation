@@ -9,7 +9,5 @@ MEG Lab Manual
    :maxdepth: 2
    :caption: Operation Protocol
 
-   2-operationprotocol/bookingsystem
-   2-operationprotocol/training_meg
-   2-operationprotocol/kit-operationalprotocol
-   2-operationprotocol/opm-operationalprotocol
+   2-meg-kit-system/4-training.rst
+   2-meg-kit-system/5-operational-protocol.rst

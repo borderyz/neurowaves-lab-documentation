@@ -60,7 +60,7 @@ extensions = [
     "sphinxcontrib.mermaid",
 ]
 
-exclude_patterns = ['5-pipeline/notebooks/fieldtrip/template_*.ipynb']
+exclude_patterns = ['**/template_*.ipynb']
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
@@ -86,26 +86,20 @@ html_theme_options = {
     # Toc options
     "collapse_navigation": True,
     "sticky_navigation": True,
-    "navigation_depth": 4,
+    "navigation_depth": 3,
     "includehidden": True,
     "titles_only": False,
-    "body_max_width": None,
 }
-
-
 
 suppress_warnings = [
     "epub.unknown_project_files"
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
-html_css_files = [
-    "custom.css",
-]
-
 html_static_path = ["_static"]
+html_css_files = ["custom.css"]
+
 # -- Options for EPUB output
 epub_show_urls = "footnote"
-
 
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
@@ -295,6 +289,6 @@ def run_csv_conversion(app: Sphinx):
 def setup(app: Sphinx):
 
     logging.basicConfig(level=logging.INFO)
-    app.connect("builder-inited", run_generate_system_status_dashboards_script)
-    app.connect("builder-inited", run_update_data_quality_dashboards)
+    #app.connect("builder-inited", run_generate_system_status_dashboards_script)
+    #app.connect("builder-inited", run_update_data_quality_dashboards)
 
