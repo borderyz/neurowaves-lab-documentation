@@ -426,18 +426,6 @@ The code for an example.
 
 
 
-Fieldtrip specific pipelines
-----------------------------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Fieldtrip pipelines
-
-   4-3-a-fieldtrip-pipelines
-
-
-
-
 Beamforming, source reconstruction
 ----------------------------------
 

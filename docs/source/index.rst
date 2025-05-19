@@ -159,10 +159,10 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Experiments Gallery
-   :hidden:
-   :glob:
+    :maxdepth: 2
+    :caption: Experiments Gallery
+    :hidden:
+    :glob:
 
     4-meg-experiments-gallery/1-meg-experiments
     4-meg-experiments-gallery/experiments/*
