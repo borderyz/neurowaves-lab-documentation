@@ -5,10 +5,10 @@ OPM-based MEG - Dashboards
 
 OPM Data Quality dashboard
 ==========================
-
-.. csv-table:: Metric computation for OPM empty-room data
-   :file: ../data/opm-fif-files-statistics.csv
-   :header-rows: 1
+..
+    .. csv-table:: Metric computation for OPM empty-room data
+       :file: ../data/opm-fif-files-statistics.csv
+       :header-rows: 1
 
 .. raw:: html
 

@@ -84,10 +84,10 @@ The results are displayed automatically in the following dashboards.
 
 
 .. dropdown:: Metric computation for KIT empty-room data
-
-    .. csv-table:: Metric computation for KIT empty-room data
-       :file: ../data/kit-con-files-statistics.csv
-       :header-rows: 1
+    ..
+        .. csv-table:: Metric computation for KIT empty-room data
+           :file: ../data/kit-con-files-statistics.csv
+           :header-rows: 1
 
 *Plot of Average and Variance Over Time*
 
