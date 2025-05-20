@@ -162,30 +162,58 @@ try
 
         %% added automatic calibration
         
-%         Eyelink('Command', 'calibration_type = HV6');
-%         Eyelink('Command', 'enable_automatic_calibration = YES');
-
-        [sw, sh] = Screen('WindowSize', w);      % sw = screen-width in px
-        yc       = sh/2;                         % single row: centre-height
+        %Eyelink('Command', 'calibration_type = HV3');
+        %Eyelink('Command', 'enable_automatic_calibration = YES');
+        % --- 1. Tell the Host not to override you -------
+% 
+%         Eyelink('Command', 'enable_automatic_calibration = NO');
         
+        Eyelink('Command','set_idle_mode');  % or Eyelink('SetOfflineMode')
+        WaitSecs(0.05);
+        Eyelink('command', 'generate_default_targets = NO');
+        Eyelink('command', 'calibration_type = H3'); 
+        % --- 2. Specify calibration model first ---------
+               
 
-                % --- 2. Build three evenly spaced X positions -------------------
-        nPts   = 3;                              % how many X-positions
-        calX   = round(sw * (1:nPts) / (nPts+1));% ¼, ½, ¾ of width
-        calY   = repmat(yc, 1, nPts);            % all on the same row
-        
-
-        Eyelink('Command', 'enable_automatic_calibration = NO');
-
-        
-                % build “x1,y1 x2,y2 x3,y3” string on the fly
+        % Comment out for manual calibration
+         [sw, sh] = Screen('WindowSize', w);      % sw = screen-width in px
+         yc       = sh/2;                         % single row: centre-height
+%         
+% 
+%                 % --- 2. Build three evenly spaced X positions -------------------
+         nPts   = 3;                              % how many X-positions
+         calX   = round(sw * (1:nPts) / (nPts+1));% ¼, ½, ¾ of width
+         calY   = repmat(yc, 1, nPts);            % all on the same row
+%         
+% 
+         disp('Automatic calibration disabled');
+%         
+%                 % build “x1,y1 x2,y2 x3,y3” string on the fly
         calstr = sprintf('%d,%d %d,%d %d,%d', calX(1),calY(1), calX(2),calY(2), calX(3),calY(3));
-        
-        Eyelink('Command', ['calibration_targets = ' calstr]);
-        Eyelink('Command', ['validation_targets  = ' calstr]);   % same points
-        Eyelink('Command', 'calibration_type = HV3');             % 3-point routine
+%         
+         Eyelink('Command', ['calibration_targets = ' calstr]);
+         Eyelink('Command', ['validation_targets  = ' calstr]);   % same points
+%         %Eyelink('Command', 'calibration_type = HV3');             % 3-point routine
+%         
+         disp(['Calibration string: ' calstr]);
+%         
+%        WaitSecs(0.05);
+% 
+% 
+%         % Before recording, we place reference graphics on the host display
+%         % Must be offline to draw to EyeLink screen
+%        
+         %Eyelink('Command', 'set_idle_mode'); 
+%         
+         WaitSecs(0.05);
+% 
+         EyelinkDoTrackerSetup(el); WaitSecs(0.05);
 
 
+
+    end
+
+    
 %         sh = 1920
 %         sw = 1080
 %         % 1) Screen size
@@ -193,7 +221,7 @@ try
 %         
 %         % 2) Horizontal positions  (¼ , ½ , ¾ of the width)
 %         xLeft   = round(sw * 0.25);
-%         xMid    = round(sw * 0.50);
+%         xMid    = round(sw * 0.50);c
 %         xRight  = round(sw * 0.75);
 %         
 %         % 3) Vertical positions    (centre row, plus ±12 % of height)
@@ -276,17 +304,7 @@ try
 
 
 %         
-        WaitSecs(0.05);
 
-
-        % Before recording, we place reference graphics on the host display
-        % Must be offline to draw to EyeLink screen
-       
-        Eyelink('Command', 'set_idle_mode'); WaitSecs(0.05);
-
-        EyelinkDoTrackerSetup(el); WaitSecs(0.05);
-
-    end
 
 
 
