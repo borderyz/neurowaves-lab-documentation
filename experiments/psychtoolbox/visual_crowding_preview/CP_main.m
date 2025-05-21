@@ -77,6 +77,7 @@ saccThreshold = 10; % Michele usually uses 10
 
 try
     
+    disp('Experiment start');
     
     PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
     PsychDefaultSetup(2);
@@ -181,8 +182,16 @@ try
 %         
 % 
 %                 % --- 2. Build three evenly spaced X positions -------------------
-         nPts   = 3;                              % how many X-positions
-         calX   = round(sw * (1:nPts) / (nPts+1));% ¼, ½, ¾ of width
+                                    % how many X-positions
+
+
+         % ------- pick how far you want the outer dots from the edges -------------
+         edgeFrac = 0.12;           % 12 % in from each edge  (change to taste)
+         nPts   = 3;  
+% ------- build X positions ------------------------------------------------
+         calX = round(sw * [edgeFrac   0.50   1-edgeFrac]);  % e.g. 12 %, 50 %, 88 %
+      
+         %calX   = round(sw * (1:nPts) / (nPts+1));% ¼, ½, ¾ of width
          calY   = repmat(yc, 1, nPts);            % all on the same row
 %         
 % 
@@ -363,7 +372,7 @@ try
     Screen('Flip', w);
 
 
-stim_set = 'stimuli_images';
+    stim_set = 'stimuli_images';
 
     stim_dir = dir(fullfile(stim_set, '*.jpg'));
     stim_fn = {stim_dir.name};
