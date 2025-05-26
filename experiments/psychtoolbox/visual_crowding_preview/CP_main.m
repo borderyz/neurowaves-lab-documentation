@@ -7,7 +7,7 @@ AssertOpenGL;
 % Modes
 use_vpixx = 1;
 use_eyetracker = 1;
-trigger_test = 0;
+trigger_test = 1;
 use_response_box = 1;
 use_keyboard  = 0;
 
