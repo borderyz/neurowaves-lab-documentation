@@ -41,7 +41,7 @@ Processing Workstation
 Standard Operating Procedures (SOPs)
 """"""""""""""""""""""""""""""""""""
 
-Full SOPs can be requested from the MEG core (link: `<https://drive.google.com/drive/u/1/folders/1DfTFD4PwZpi45n9_hF-p2dRPDqZ6DAhq>`_).
+Full SOPs can be requested from the MEG core (link: `<https://drive.google.com/drive/folders/1WqNWThZBK39S_x9LHxdXmvyDHM7wj5gs?usp=drive_link>`_).
 Key documents include:
 
 - General MEG facility policies
