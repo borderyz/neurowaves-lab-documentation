@@ -97,10 +97,11 @@ try
     fixRect = CenterRectOnPoint([0, 0, fixRadius*2, fixRadius*2], wx, wy);
 
 
-    if length([answer1{1} answer1{2}]) > 4
+    if length([answer1{1} answer1{2}]) > 5  
         error('EYELINK FILENAMES NEED TO BE LESS THAN 4 CHARACTERS LONG (2 subjectID, 2 subject number)')
     end
-
+    
+    disp('Setup screen done');
     % TRIGGERS SETUP
     trig.SYNCTIME = 0;
     trig.START = 1;
