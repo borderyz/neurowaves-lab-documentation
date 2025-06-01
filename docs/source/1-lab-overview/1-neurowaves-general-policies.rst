@@ -12,9 +12,8 @@ Compliance
 Participant Safety
 ^^^^^^^^^^^^^^^^^^
 
-- **Pre-screening:** A metal-safety checklist is required for every participant; anyone with ferromagnetic implants or incompatible devices is excluded.
 - **Consent:** Written informed consent is mandatory at every visit.
-- **Magnetically-Shielded Room (MSR):** Only MEG-compatible, non-magnetic items may enter the MSR. Remove phones, watches, jewelry, and similar objects beforehand.
+
 
 Facility Use
 ^^^^^^^^^^^^
