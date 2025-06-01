@@ -9,22 +9,12 @@ System Overview
 
 The OPM has been installed on the 4th of march 2024.
 
+.. figure:: figures/opm_system.jpg
+   :alt: Fieldline OPM system
+   :width: 80%
+   :align: center
 
-
-
-Sensor locations on helmet
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-To access the sensors locations on the helmet: under the OPM computer, go to `/usr/share/hedscan/doc/Beta2SensorLocations.png`
-
-
-
-
-Trigger channels on OPM
-^^^^^^^^^^^^^^^^^^^^^^^
-
-
+   Fieldline OPM system with 96 sensors, installed at NYUAD.
 
 
 
@@ -34,9 +24,22 @@ Powering on or off the OPM
 The OPM racks must always be turned on or off starting from the top rack.
 
 
+Sensor locations on helmet
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+To access the sensors locations on the helmet: under the OPM computer, go to `/usr/share/hedscan/doc/Beta2SensorLocations.png`
+Also, all saved .fif files contain the location of the channels in (x,y,z) coordinates.
+
+
+
+Trigger channels on OPM
+^^^^^^^^^^^^^^^^^^^^^^^
+
+
 
 OPM to vpixx digital pins connection
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""""""
 
 A custom cable have been built to link the Vpixx to the OPM system, below is the pins mapping followed by the
 cable datasheet.
@@ -133,21 +136,25 @@ cable datasheet.
 OPM sensors and direction of measurement
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In its current state, the OPM measures the radial magnetic field Bz but not yet the
+In its current state, the OPM measures the radial magnetic field Bz but not yet the tangential directions (Bx, or By).
+The hardware is capable of measuring both, but Fieldline has not yet launched the update that would enable both directions to be measured.
+
 
 
 OPM HPI Coils
 ^^^^^^^^^^^^^
 
-The HPI coils are installed on specific places on the head of the participant.
+The HPI coils are installed on specific, `landmarks` places on the head of the participant.
 
 
 The 6 HPI coils are linked from the OPM system into the MSR via 6 brass cables with characteristics
-TNP 3.5mm Mono Extension (25FT) - 12V Trigger,
-IR Infrared Sensor Receiver Extension Extender,
-3.5mm 1/8" TS Monaural Mini Mono Audio Plug Jack Connector Male to Female Cable Wire Cord
-Length: 7.6 meters
 
-A script must be ran before starting the experiment. The script energises the HPI coils with known sinusoidal waves. (Check Appendix D from OPM Documentation).
+- TNP 3.5mm Mono Extension (25FT) - 12V Trigger
+- IR Infrared Sensor Receiver Extension Extender
+- 3.5mm 1/8" TS Monaural Mini Mono Audio Plug Jack Connector Male to Female Cable Wire Cord
+- Length: 7.6 meters
 
-The script can be ran at beginning and end to register the positions.
+A script must be ran before starting the experiment to activate the HPI coils.
+The script energises the HPI coils with known sinusoidal waves. (Check Appendix D from OPM Documentation).
+
+The script can be ran at beginning and end to register the positions, then average them together. Coregistration strategies are discussed in the Operational Protocol.
