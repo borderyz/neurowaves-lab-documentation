@@ -1,0 +1,27 @@
+# docker-compose.yml  (Compose V2 – no top-level "version:" key)
+services:
+  db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: supersecret
+      MARIADB_DATABASE: moodle
+      MARIADB_USER: moodle
+      MARIADB_PASSWORD: moodlepass
+    volumes:
+      - ./db:/var/lib/mysql
+
+  moodle:
+    image: moodlehq/moodle-php-apache:8.3          # <— PHP 8.3
+    depends_on: [db]
+    environment:
+      MOODLE_DATABASE_TYPE: mariadb
+      MOODLE_DATABASE_HOST: db
+      MOODLE_DATABASE_NAME: moodle
+      MOODLE_DATABASE_USER: moodle
+      MOODLE_DATABASE_PASSWORD: moodlepass
+    volumes:
+      - ./moodle:/var/www/html
+      - ./moodledata:/var/moodledata
+    ports:
+      - "8080:80"
