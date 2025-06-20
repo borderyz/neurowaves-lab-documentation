@@ -23,6 +23,10 @@ services:
       MOODLE_DATABASE_NAME: moodle
       MOODLE_DATABASE_USER: moodle
       MOODLE_DATABASE_PASSWORD: moodlepass
+      PHP_OPCACHE_ENABLE: "1"
+      PHP_OPCACHE_MEMORY_CONSUMPTION: "256"
+      PHP_OPCACHE_MAX_ACCELERATED_FILES: "20000"
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"   # set to 1 while developing
     volumes:
       - ./moodle:/var/www/html
       - ./moodledata:/var/moodledata
