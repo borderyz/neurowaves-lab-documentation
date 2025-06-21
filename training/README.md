@@ -3,6 +3,9 @@ Installing moodle and hp5 via docker
 - Clone
 - git clone --branch MOODLE_500_STABLE --depth 1 https://github.com/moodle/moodle.git moodle
 - Run `scripts`
+git submodule add -b MOODLE_500_STABLE https://github.com/moodle/moodle.git training/moodle
+git commit -m "Add Moodle submodule in training/moodle"
+git push
 
 
 Database host	db	This must be the service name of the MariaDB container, not localhost. Inside the Moodle container localhost would point back to itself.

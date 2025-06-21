@@ -16,6 +16,8 @@ services:
 
   moodle:
     image: moodlehq/moodle-php-apache:8.3          # <— PHP 8.3
+    ports:
+      - "45000:80"    # Moodle
     depends_on: [db]
     environment:
       MOODLE_DATABASE_TYPE: mariadb
@@ -30,5 +32,3 @@ services:
     volumes:
       - ./moodle:/var/www/html
       - ./moodledata:/var/moodledata
-    ports:
-      - "8080:80"
