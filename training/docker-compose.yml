@@ -16,8 +16,10 @@ services:
 
   moodle:
     image: moodlehq/moodle-php-apache:8.3          # <— PHP 8.3
+    entrypoint: ["/usr/local/bin/docker-ssl.sh", "docker-php-entrypoint"]
+    command: ["apache2-foreground"]
     ports:
-      - "45000:80"    # Moodle
+      - "45000:443"    # Moodle
     depends_on: [db]
     environment:
       MOODLE_DATABASE_TYPE: mariadb
@@ -32,3 +34,6 @@ services:
     volumes:
       - ./moodle:/var/www/html
       - ./moodledata:/var/moodledata
+      - ./certs:/certs:ro                 # mount certs read-only
+      - ./ssl.conf:/etc/apache2/conf-enabled/ssl.conf:ro
+      - ./docker-ssl.sh:/usr/local/bin/docker-ssl.sh:ro   # ← fixed line

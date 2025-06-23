@@ -17,4 +17,5 @@ Database port	3306 (or leave blank)	3306 is MariaDB’s default and Docker’s i
 Unix socket	(leave blank)	Only used for same-host socket connections, not needed here.
 
 - Access localhost or server and go through the moodle installation
-- Activate h5p plugin
+- Download h5p plugin
+- Activate h5p plugin by copying the plugin file to the docker container training-moodle-1, then bash upgrade using php admin/cli
