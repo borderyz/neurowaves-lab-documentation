@@ -1,7 +1,7 @@
 clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
-
+ 
 if vpix_use
     Datapixx('Open')
     Datapixx('DisablePixelMode')
