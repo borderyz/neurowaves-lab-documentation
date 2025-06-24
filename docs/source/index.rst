@@ -191,8 +191,9 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :caption: Talks and Demos
    :hidden:
 
-   7-meg-talks-demos/1-meg-demos
-   7-meg-talks-demos/2-meg-talks
+   7-meg-class-talks-demos/1-meg-course
+   7-meg-class-talks-demos/2-meg-demos
+   7-meg-class-talks-demos/3-meg-talks
 
 .. toctree::
    :maxdepth: 2
