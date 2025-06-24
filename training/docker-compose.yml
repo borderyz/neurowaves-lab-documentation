@@ -16,7 +16,7 @@ services:
 
   moodle:
     image: moodlehq/moodle-php-apache:8.3          # <— PHP 8.3
-    entrypoint: ["/usr/local/bin/docker-ssl.sh", "docker-php-entrypoint"]
+    entrypoint: ["docker-ssl.sh", "docker-php-entrypoint"]
     command: ["apache2-foreground"]
     ports:
       - "45000:443"    # Moodle
@@ -33,7 +33,7 @@ services:
       PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"   # set to 1 while developing
     volumes:
       - ./moodle:/var/www/html
-      - ./moodledata:/var/moodledata
+      - ./moodledata:/var/www/moodledata
       - ./certs:/certs:ro                 # mount certs read-only
       - ./ssl.conf:/etc/apache2/conf-enabled/ssl.conf:ro
       - ./docker-ssl.sh:/usr/local/bin/docker-ssl.sh:ro   # ← fixed line
