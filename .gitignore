@@ -163,8 +163,6 @@ cython_debug/
 
 
 # Moodle runtime files → keep out of normal Git history
-training/moodledata/cache/
-training/moodledata/localcache/
-training/moodledata/sessions/
-training/moodledata/temp/
-training/moodledata/trashdir/
+training/moodledata/
+
+training/.backupenv
