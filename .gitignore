@@ -166,3 +166,4 @@ cython_debug/
 training/moodledata/
 
 training/.backupenv
+box_secret/

@@ -1,13 +1,9 @@
-# docker-compose.yml  (Compose V2 – no top-level "version:" key)
 services:
   db:
     image: mariadb:11
+    container_name: training-db-1
     restart: unless-stopped
-    environment:
-      MARIADB_ROOT_PASSWORD: supersecret
-      MARIADB_DATABASE: moodle
-      MARIADB_USER: moodle
-      MARIADB_PASSWORD: moodlepass
+    env_file: .env
     command: >
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_unicode_ci
@@ -15,25 +11,37 @@ services:
       - ./db:/var/lib/mysql
 
   moodle:
-    image: moodlehq/moodle-php-apache:8.3          # <— PHP 8.3
+    image: moodlehq/moodle-php-apache:8.3
     entrypoint: ["docker-ssl.sh", "docker-php-entrypoint"]
     command: ["apache2-foreground"]
     ports:
-      - "45000:443"    # Moodle
+      - "45000:443"
     depends_on: [db]
+    env_file: .env
     environment:
       MOODLE_DATABASE_TYPE: mariadb
       MOODLE_DATABASE_HOST: db
-      MOODLE_DATABASE_NAME: moodle
-      MOODLE_DATABASE_USER: moodle
-      MOODLE_DATABASE_PASSWORD: moodlepass
       PHP_OPCACHE_ENABLE: "1"
       PHP_OPCACHE_MEMORY_CONSUMPTION: "256"
       PHP_OPCACHE_MAX_ACCELERATED_FILES: "20000"
-      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"   # set to 1 while developing
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"
     volumes:
       - ./moodle:/var/www/html
       - ./moodledata:/var/www/moodledata
-      - ./certs:/certs:ro                 # mount certs read-only
+      - ./certs:/certs:ro
       - ./ssl.conf:/etc/apache2/conf-enabled/ssl.conf:ro
-      - ./docker-ssl.sh:/usr/local/bin/docker-ssl.sh:ro   # ← fixed line
+      - ./docker-ssl.sh:/usr/local/bin/docker-ssl.sh:ro
+
+  backup-job:
+    build:
+      context: ./backup
+    container_name: moodle-backup
+    env_file:
+      - .backupenv
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock      # allow docker exec
+      - ./moodle:/moodle:ro
+      - ./moodledata:/moodledata:ro
+      - ./backup/backup.sh:/usr/local/bin/backup.sh:ro
+      - ./backups:/backups
+      - ./box_secret/box_config.json:/opt/box_config.json:ro
