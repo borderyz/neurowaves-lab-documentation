@@ -31,8 +31,32 @@ tar -C "$tmp" -czf "$archive" .
 
 find "$BACKUP_DIR" -name 'moodle-full-*.tar.gz' -mtime +$RETENTION_DAYS -delete
 
+
+
+echo "[backup] ensuring Box CLI is configured…"
+if ! box configure:environments:get >/dev/null 2>&1 ; then
+  echo "[backup] Configuring Environment"
+  /usr/local/bin/box configure:environments:add /opt/box_config.json
+  echo "[backup] Environment Successfully configured"
+fi
+echo "[backup] Configuration found"
 echo "[backup] uploading to Box…"
-/usr/local/bin/box configure:environments:add /opt/box_config.json
+
 /usr/local/bin/box files:upload "$archive" -p "$BOX_FOLDER_ID"
 
 echo "[backup] done $(date)"
+
+
+status=$?
+if [ $status -eq 0 ]; then
+  subject="Moodle backup SUCCESS ($(date +%F\ %T))"
+  body="Backup OK.\nArchive: $archive\n"
+else
+  subject="Moodle backup FAILED ($(date +%F\ %T))"
+  body="Backup script exited with status $status.\nCheck /var/log/backup.log."
+fi
+
+# send the message
+printf "%b" "$body" | mail -s "$subject" "$MAIL_TO"
+
+exit $status
