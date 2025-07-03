@@ -45,3 +45,9 @@ services:
       - ./backup/backup.sh:/usr/local/bin/backup.sh:ro
       - ./backups:/backups
       - ./box_secret/box_config.json:/opt/box_config.json:ro
+
+  cron:
+    build: ./cron
+    depends_on: [moodle]
+    volumes:
+      - ./moodle:/var/www/html:ro      # read-only is fine

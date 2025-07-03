@@ -49,14 +49,26 @@ echo "[backup] done $(date)"
 
 status=$?
 if [ $status -eq 0 ]; then
-  subject="Moodle backup SUCCESS ($(date +%F\ %T))"
-  body="Backup OK.\nArchive: $archive\n"
+  subject="[MEG LAB] Moodle backup SUCCESS ($(date +%F\ %T))"
+  body="Backup completed successfully.\nArchive: $archive is available on NYUBOX:://MEG/backup/moodle_backup"
 else
-  subject="Moodle backup FAILED ($(date +%F\ %T))"
+  subject="[MEG LAB] Moodle backup FAILED ($(date +%F\ %T))"
   body="Backup script exited with status $status.\nCheck /var/log/backup.log."
 fi
 
-# send the message
-printf "%b" "$body" | mail -s "$subject" "$MAIL_TO"
+echo "[backup] sending e-mail notice…"
 
+# --- build the message ---
+printf "Subject:%s\nFrom:%s\nTo:%s\n\n%b" \
+       "$subject" "$MAIL_FROM" "$MAIL_TO" "$body" \
+  | msmtp --host=in-v3.mailjet.com \
+          --port=587 \
+          --auth=on \
+          --tls=on --tls-starttls=on --tls-certcheck=off \
+          --user="$MAILJET_USER" \
+          --passwordeval="echo $MAILJET_PASS" \
+          --from="$MAIL_FROM" \
+          $MAIL_TO
+
+echo "[backup] email sent $(date)"
 exit $status

@@ -1,7 +1,7 @@
 FROM node:20-alpine
 
-RUN apk add --no-cache bash tar gzip rsync curl docker-cli tini \
- && npm install -g @box/cli            # Box CLI v4
+RUN apk add --no-cache bash tar gzip rsync curl docker-cli tini msmtp \
+ && npm install -g @box/cli
 
 ENV BOX_CONFIG_FILE=/opt/box_config.json
 
