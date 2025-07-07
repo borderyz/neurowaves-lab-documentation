@@ -96,7 +96,8 @@ suppress_warnings = [
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
 html_static_path = ["_static"]
-html_css_files = ["custom.css"]
+html_css_files = ["custom.css",
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
@@ -292,3 +293,35 @@ def setup(app: Sphinx):
     #app.connect("builder-inited", run_generate_system_status_dashboards_script)
     #app.connect("builder-inited", run_update_data_quality_dashboards)
 
+
+
+from docutils import nodes
+from docutils.parsers.rst import roles
+
+# -- tweak these to match your repo/branch docs layout --
+GITHUB_USER   = "BioMedicalImaging-Core-NYUAD"
+GITHUB_REPO   = "neurowaves-lab-documentation"
+GITHUB_BRANCH = "main"
+
+
+
+def github_file_role(role, rawtext, text, lineno, inliner, options=None, content=None):
+    # determine if it's a directory
+    is_dir = text.endswith("/")
+    kind   = "tree" if is_dir else "blob"
+    relpath = text.rstrip("/")    # strip slash for URL parts
+
+    # always build from repo root—no DOCS_DIR at all
+    parts = [GITHUB_USER, GITHUB_REPO, kind, GITHUB_BRANCH] + relpath.split("/")
+    url   = "https://github.com/" + "/".join(parts)
+    display = relpath + ("/" if is_dir else "")
+
+    html = (
+        f'<a class="github-link" href="{url}" target="_blank">'
+        '<i class="fab fa-github"></i> '
+        f'{display}</a>'
+    )
+    return [nodes.raw("", html, format="html")], []
+
+# register the role
+roles.register_local_role("github-file", github_file_role)
