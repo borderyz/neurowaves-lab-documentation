@@ -5,6 +5,13 @@ The MEG Lab has two response boxes which allow the user to provide their input d
 
 The `Left box` is the grey box and the `Right box` is the blue box.
 
+Scripts can be found under
+
+:github-file:`experiments/psychtoolbox/general`
+:github-file:`experiments/psychtoolbox/general/getButton.m`
+:github-file:`experiments/psychtoolbox/general/button_response.m`
+
+
 .. warning::
 
    Both response boxes (left and right) need to be connected in order to have the below functions `getButton` and `listenButton` working.
