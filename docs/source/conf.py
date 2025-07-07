@@ -96,7 +96,8 @@ suppress_warnings = [
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
 html_static_path = ["_static"]
-html_css_files = ["custom.css"]
+html_css_files = ["custom.css",
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
