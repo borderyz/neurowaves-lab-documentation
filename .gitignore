@@ -158,3 +158,12 @@ cython_debug/
 
 *.con
 *.mat
+
+
+
+
+# Moodle runtime files → keep out of normal Git history
+training/moodledata/
+
+training/.backupenv
+box_secret/

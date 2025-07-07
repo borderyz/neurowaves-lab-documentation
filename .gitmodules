@@ -1,4 +1,4 @@
 [submodule "training/moodle"]
 	path = training/moodle
-	url = https://github.com/moodle/moodle.git
+	url = https://github.com/hzaatiti/moodle.git
 	branch = MOODLE_500_STABLE
