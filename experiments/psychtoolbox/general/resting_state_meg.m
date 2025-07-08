@@ -3,6 +3,8 @@ clearvars
 AssertOpenGL;  
 
 
+time2rest = 60*5;
+
 vpix_use = 1; % 0 if vpixx is not conected
 
 % KEYBOARD SETUP
@@ -81,7 +83,7 @@ fixRadius = 30;
 fixRect = CenterRectOnPoint([0, 0, fixRadius*2, fixRadius*2], wx, wy);
 fixColor = [150 150 150];
 
-time2rest = 60*5;
+
 
 % START EXPERIMENT
 

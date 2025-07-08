@@ -12,14 +12,37 @@ import os
 import subprocess
 import logging
 from sphinx.application import Sphinx
+import subprocess
 
 
-project = "MEG Pipeline"
-copyright = "2024, Hadi Zaatiti"
+project = "NeuroWaves NYUAD Documentation"
+copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
+#author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
 author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
+# author = (
+#     "Hadi Zaatiti \\texttt{hadi.zaatiti@nyu.edu}\\\\"
+#     "Haidee Paterson \\texttt{haidee.paterson@nyu.edu}\\\\"
+#     "Osama Abdullah \\texttt{osama.abdullah@nyu.edu}"
+# )
 
 release = "0.1"
 version = "0.1.0"
+
+PDF_GENERATION_INDEX = os.getenv('PDF_GENERATION_INDEX', 'ALL_WEBSITE')
+
+master_doc = 'index'
+
+print('Global variable', PDF_GENERATION_INDEX)
+if PDF_GENERATION_INDEX == 'LABMANUAL':
+    master_doc = 'index_lab_manual'
+
+elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
+    master_doc = 'index'
+
+elif PDF_GENERATION_INDEX == 'EEG_FMRI_MANUAL':
+    master_doc = 'index_eeg_fmri'
+
+
 
 # -- General configuration
 
@@ -32,13 +55,20 @@ extensions = [
     "nbsphinx",
     "sphinx_gallery.load_style",
     "sphinx.ext.mathjax",
+    "sphinx_togglebutton",
+    "sphinx_panels",
+    "sphinxcontrib.mermaid",
 ]
+
+exclude_patterns = ['**/template_*.ipynb']
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
 }
 intersphinx_disabled_domains = ["std"]
+
+
 
 templates_path = ["_templates"]
 
@@ -56,7 +86,7 @@ html_theme_options = {
     # Toc options
     "collapse_navigation": True,
     "sticky_navigation": True,
-    "navigation_depth": 4,
+    "navigation_depth": 3,
     "includehidden": True,
     "titles_only": False,
 }
@@ -65,36 +95,233 @@ suppress_warnings = [
     "epub.unknown_project_files"
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
-html_css_files = [
-    "custom.css",
-]
-
 html_static_path = ["_static"]
+html_css_files = ["custom.css",
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
+
 # -- Options for EPUB output
 epub_show_urls = "footnote"
 
-
-def run_dashboard_generation(app: Sphinx):
+def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
     logger = logging.getLogger(__name__)
-    script_path = os.path.join(app.confdir, "dashboards", "generate_snr_dashboard.py")
+    script_path = os.path.join(
+        app.confdir, "9-dashboard", "dashboard-generating-scripts", "generate_system_status_dashboards.py"
+    )
+
     if os.path.exists(script_path):
-        logger.info(
-            f"Found generate_snr_dashboard.py at {script_path}, running it now."
-        )
+        logger.info(f"Found generate_system_status_dashboards.py at {script_path}, running it now.")
         result = subprocess.run(["python", script_path], capture_output=True, text=True)
         if result.returncode == 0:
-            logger.info("generate_snr_dashboard.py ran successfully.")
+            logger.info("generate_system_status_dashboards.py ran successfully.")
+
         else:
-            logger.error(
-                f"generate_snr_dashboard.py failed with return code {result.returncode}"
-            )
-            logger.error(result.stdout)
+            logger.error(f"generate_system_status_dashboards.py failed with return code {result.returncode}")
+
+        logger.info(result.stdout)
+        logger.error(result.stderr)
+
+    else:
+        logger.error(f"The script {script_path} does not exist.")
+
+def run_box_script(app: Sphinx):
+    """Run the dashboard generation script."""
+    logger = logging.getLogger(__name__)
+    script_path = os.path.join(
+        app.confdir,
+        "9-dashboard",
+        "dashboard-generating-scripts",
+        "box_script.py"
+    )
+
+    if os.path.exists(script_path):
+
+        logger.info(f"Found box_script.py at {script_path}, running it now.")
+
+        result = subprocess.run(["python", script_path], capture_output=True, text=True)
+
+        if result.returncode == 0:
+            logger.info("box_script.py ran successfully.")
+
+        else:
+            logger.error(f"box_script.py failed with return code {result.returncode}")
+
+        if result.stdout:
+            logger.info(result.stdout)
+        if result.stderr:
             logger.error(result.stderr)
+
     else:
         logger.error(f"The script {script_path} does not exist.")
 
 
+def run_processing_empty_room_data_files(app: Sphinx):
+    logger = logging.getLogger(__name__)
+
+    SCRIPT_NAME = "processing_empty_room_data_files.py"
+    script_path = os.path.join(
+        app.confdir,
+        "9-dashboard",
+        "dashboard-generating-scripts",
+        SCRIPT_NAME,
+    )
+
+    if os.path.exists(script_path):
+
+        logger.info(f"Found {SCRIPT_NAME}, running it now.")
+
+        try:
+            result = subprocess.run(
+                ["python", script_path], capture_output=True, text=True
+            )
+
+            if result.returncode == 0:
+                logger.info(f"{SCRIPT_NAME} ran successfully.")
+            else:
+                logger.error(
+                    f"{SCRIPT_NAME} failed with return code {result.returncode}"
+                )
+
+            # Log both stdout and stderr
+            if result.stdout:
+                logger.info(f"Script output: {result.stdout}")
+            if result.stderr:
+                logger.error(f"Script errors: {result.stderr}")
+
+        # except subprocess.CalledProcessError as e:
+        #     logger.error(f"Error running {script_path}: {e}")
+        #     logger.error(f"Stdout: {e.stdout}")
+        #     logger.error(f"Stderr: {e.stderr}")
+        #     raise RuntimeError(
+        #         f"Error while running script: {script_path}. Exit code: {e.returncode}"
+        #     ) from e
+
+        except Exception as e:
+            logger.exception(f"Unexpected error while running {script_path}: {e}")
+            raise
+
+    else:
+        logger.error(f"The script {script_path} does not exist.")
+        raise FileNotFoundError(f"Script {script_path} not found.")
+
+
+def run_update_data_quality_dashboards(app: Sphinx):
+    logger = logging.getLogger(__name__)
+
+    SCRIPT_NAME = "update_data_quality_dashboards.py"
+    script_path = os.path.join(
+        app.confdir,
+        "9-dashboard",
+        "dashboard-generating-scripts",
+        SCRIPT_NAME,
+    )
+
+    if os.path.exists(script_path):
+
+        logger.info(f"Found {SCRIPT_NAME}, running it now.")
+
+        try:
+            result = subprocess.run(
+                ["python", script_path], capture_output=True, text=True
+            )
+
+            if result.returncode == 0:
+                logger.info(f"{SCRIPT_NAME} ran successfully.")
+            else:
+                logger.error(
+                    f"{SCRIPT_NAME} failed with return code {result.returncode}"
+                )
+
+            # Log both stdout and stderr
+            if result.stdout:
+                logger.info(f"Script output: {result.stdout}")
+            if result.stderr:
+                logger.error(f"Script errors: {result.stderr}")
+
+        # except subprocess.CalledProcessError as e:
+        #     logger.error(f"Error running {script_path}: {e}")
+        #     logger.error(f"Stdout: {e.stdout}")
+        #     logger.error(f"Stderr: {e.stderr}")
+        #     raise RuntimeError(
+        #         f"Error while running script: {script_path}. Exit code: {e.returncode}"
+        #     ) from e
+
+        except Exception as e:
+            logger.exception(f"Unexpected error while running {script_path}: {e}")
+            raise
+
+    else:
+        logger.error(f"The script {script_path} does not exist.")
+        raise FileNotFoundError(f"Script {script_path} not found.")
+
+
+def run_csv_conversion(app: Sphinx):
+    logger = logging.getLogger(__name__)
+    script_path = os.path.join(
+        app.confdir,
+        "9-dashboard",
+        "dashboard-generating-scripts",
+        "convert_csv_to_rst.py",
+    )
+
+    if os.path.exists(script_path):
+        logger.info(f"Found convert_csv_to_rst.py at {script_path}, running it now.")
+
+        result = subprocess.run(
+            ["python", script_path], check=True, capture_output=True, text=True
+        )
+
+        if result.returncode == 0:
+            logger.info("convert_csv_to_rst.py ran successfully.")
+        else:
+            logger.error(
+                f"convert_csv_to_rst.py failed with return code {result.returncode}"
+            )
+            logger.error(result.stdout)
+            logger.error(result.stderr)
+            raise RuntimeError(
+                f"CSV to RST conversion script failed with exit code {result.returncode}"
+            )
+    else:
+        logger.error(f"The script {script_path} does not exist.")
+
+
+
 def setup(app: Sphinx):
+
     logging.basicConfig(level=logging.INFO)
-    app.connect("builder-inited", run_dashboard_generation)
+    #app.connect("builder-inited", run_generate_system_status_dashboards_script)
+    #app.connect("builder-inited", run_update_data_quality_dashboards)
+
+
+
+from docutils import nodes
+from docutils.parsers.rst import roles
+
+# -- tweak these to match your repo/branch docs layout --
+GITHUB_USER   = "BioMedicalImaging-Core-NYUAD"
+GITHUB_REPO   = "neurowaves-lab-documentation"
+GITHUB_BRANCH = "main"
+
+
+
+def github_file_role(role, rawtext, text, lineno, inliner, options=None, content=None):
+    # determine if it's a directory
+    is_dir = text.endswith("/")
+    kind   = "tree" if is_dir else "blob"
+    relpath = text.rstrip("/")    # strip slash for URL parts
+
+    # always build from repo root—no DOCS_DIR at all
+    parts = [GITHUB_USER, GITHUB_REPO, kind, GITHUB_BRANCH] + relpath.split("/")
+    url   = "https://github.com/" + "/".join(parts)
+    display = relpath + ("/" if is_dir else "")
+
+    html = (
+        f'<a class="github-link" href="{url}" target="_blank">'
+        '<i class="fab fa-github"></i> '
+        f'{display}</a>'
+    )
+    return [nodes.raw("", html, format="html")], []
+
+# register the role
+roles.register_local_role("github-file", github_file_role)

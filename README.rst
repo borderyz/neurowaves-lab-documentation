@@ -1,31 +1,11 @@
-**MEG/EEG-pipeline** provides documentation for the Magnetoencephalography (MEG) and
-ElectroEncephaloGraphy (EEG) systems in the MEG laboratory and EEG setup
-within Brain Imaging Core Technology Platform. MEG lab is situated in A2, 008, Ground floor, New York University Abu Dhabi.
+
+.. image:: https://raw.githubusercontent.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/main/docs/source/graphic/main.jpg
+  :width: 600
+  :alt: MEG lab at NYUAD
 
 
-.. table:: Contact Information
-   :widths: auto
+**NeuroWaves MEG/EEG NYUAD lab** provides documentation, experiment code and processing pipelines for the Magnetoencephalography (MEG) and
+ElectroEncephaloGraphy (EEG) users at NYUAD. The lab is a core within the BioMedical Imaging Core.
 
-   ====================  =====================  ===========================
-   Name                  Role                   Email
-   ====================  =====================  ===========================
-   Hadi Zaatiti          Research Scientist     hadi.zaatiti@nyu.edu
-   Haidee J Paterson     Radiology Scientist    haidee.paterson@nyu.edu
-   Osama Abdullah        MRI Physicist II       osama.abdullah@nyu.edu
-   ====================  =====================  ===========================
-
-
-
-
-This web-interface offers a *simple* and *intuitive* overview on how MEG machines work, the specification of the system, what kind of data are generated and how to process them using *ready-to-use* pipelines. This documentation additionally provides a guide to build your own MEG-system experiment and what is required to successfully execute the experiment.
-
-If you like to get a PDF document of this website, click here : `Download PDF <https://meg-pipeline.readthedocs.io/_/downloads/en/latest/pdf/>`_
-
-`Development Board Project CLICK HERE <https://github.com/users/hzaatiti-NYU/projects/1>`_
-If you are not a part of the project, the above link will not work, please request access to the project if needed.
-
-.. image:: https://raw.githubusercontent.com/hzaatiti-NYU/meg-pipeline/main/docs/source/graphic/MEG-image.png
-  :width: 400
-  :alt: AI generated MEG-system image
 
 

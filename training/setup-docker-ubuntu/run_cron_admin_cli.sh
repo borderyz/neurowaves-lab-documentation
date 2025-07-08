@@ -1,0 +1,1 @@
+sudo docker exec --user www-data training-moodle-1 php /var/www/html/admin/cli/cron.php

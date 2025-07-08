@@ -1,0 +1,53 @@
+services:
+  db:
+    image: mariadb:11
+    container_name: training-db-1
+    restart: unless-stopped
+    env_file: .env
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./db:/var/lib/mysql
+
+  moodle:
+    image: moodlehq/moodle-php-apache:8.3
+    entrypoint: ["docker-ssl.sh", "docker-php-entrypoint"]
+    command: ["apache2-foreground"]
+    ports:
+      - "45000:443"
+    depends_on: [db]
+    env_file: .env
+    environment:
+      MOODLE_DATABASE_TYPE: mariadb
+      MOODLE_DATABASE_HOST: db
+      PHP_OPCACHE_ENABLE: "1"
+      PHP_OPCACHE_MEMORY_CONSUMPTION: "256"
+      PHP_OPCACHE_MAX_ACCELERATED_FILES: "20000"
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"
+    volumes:
+      - ./moodle:/var/www/html
+      - ./moodledata:/var/www/moodledata
+      - ./certs:/certs:ro
+      - ./ssl.conf:/etc/apache2/conf-enabled/ssl.conf:ro
+      - ./docker-ssl.sh:/usr/local/bin/docker-ssl.sh:ro
+
+  backup-job:
+    build:
+      context: ./backup
+    container_name: moodle-backup
+    env_file:
+      - .backupenv
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock      # allow docker exec
+      - ./moodle:/moodle:ro
+      - ./moodledata:/moodledata:ro
+      - ./backup/backup.sh:/usr/local/bin/backup.sh:ro
+      - ./backups:/backups
+      - ./box_secret/box_config.json:/opt/box_config.json:ro
+
+  cron:
+    build: ./cron
+    depends_on: [moodle]
+    volumes:
+      - ./moodle:/var/www/html:ro      # read-only is fine
