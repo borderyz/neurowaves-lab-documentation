@@ -665,24 +665,24 @@ MSR Preparation
 
 MEG Recording
 ^^^^^^^^^^^^^
-- [ ] Open MEGLaboratory: click Acquire > Autotuning > OK.
-- [ ] Click Sensor Check and wait 1–2 minutes until signals stabilise.
+- [ ] Open **MEGLaboratory**: click **Acquire > Autotuning > OK**.
+- [ ] Click **Sensor Check** and wait 1–2 minutes until signals stabilise.
 - [ ] While waiting, fill in subject details (e.g., “sub-007”).
 - [ ] Create the subject folder and copy/paste the folder path so that the data is saved correctly.
-- [ ] Once signals are stable, click Lock.
+- [ ] Once signals are stable, click **Lock**.
 - [ ] Wait for Lock to complete and for the signals to stabilise again.
-- [ ] Take a marker measurement: click MEG Measurement > Marker Measurement > Start.
+- [ ] Take a marker measurement: click **MEG Measurement > Marker Measurement > Start**.
 - [ ] After the process is complete, ensure accuracy values are around 99.90% or above.
 - [ ] Ensure the screen is displaying the experiment instructions and that the participant is ready to begin the task.
-- [ ] Start recording: click Continuous Mode > Start > Start Acquisition.
+- [ ] Start recording: click **Continuous Mode > Start > Start Acquisition**.
 - [ ] During the session, take note of any signal abnormalities, participant movement, or interruptions with timestamps.
 
 After MEG Session
 ^^^^^^^^^^^^^^^^^^^
-- [ ] Stop recording: click Continuous Mode > Abort.
+- [ ] Stop recording: click **Continuous Mode > Abort**.
 - [ ] Save the .con file to the participant folder.
-- [ ] Take a second marker measurement: click Acquire > MEG Measurement > Marker Measurement.
-- [ ] Once the MEG measurement is complete, click Unlock.
+- [ ] Take a second marker measurement: click **Acquire > MEG Measurement > Marker Measurement**.
+- [ ] Once the MEG measurement is complete, click **Unlock**.
 - [ ] Open the MSR door. Assist the participant in sitting up and carefully remove the HPI coils.
 - [ ] Guide the participant back to the laser scan room and instruct them to change back into their clothes and collect all belongings.
 - [ ] Switch the heater back on.
