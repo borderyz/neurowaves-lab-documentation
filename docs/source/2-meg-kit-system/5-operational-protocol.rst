@@ -629,9 +629,9 @@ Before Participant Arrival
 - [ ] Test speakers, microphones, response boxes, and screen inside Magnetically Shielded Room (MSR).
 - [ ] Call security to request switching off all devices until the session is completed.
 - [ ] If the participant wears hijab:
-  - [ ] Request all male researchers to leave the lab for the session duration.
-  - [ ] Put up the “ladies only” sign on the outside of the lab door.
-  - [ ] Set up the divider near the door.
+    - [ ] Request all male researchers to leave the lab for the session duration.
+    - [ ] Put up the “ladies only” sign on the outside of the lab door.
+    - [ ] Set up the divider near the door.
 
 Participant Preparation
 ^^^^^^^^^^^^^^^^^^^^^^^
