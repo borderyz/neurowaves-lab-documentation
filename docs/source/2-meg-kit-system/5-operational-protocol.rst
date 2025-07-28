@@ -2,12 +2,18 @@
 Operational Protocol
 --------------------
 
-Lead author: Gayathri Satheesh `gs2750@nyu.edu <gs2750@nyu.edu>`_, Haidee Paterson `haidee.paterson@nyu.edu <haidee.paterson@nyu.edu>`_, Hadi Zaatiti `hadi.zaatiti@nyu.edu <hadi.zaatiti@nyu.edu>`_
+**Authors:** Gayathri Satheesh `gs2750@nyu.edu <gs2750@nyu.edu>`_, Maitha Al Shaali `ma6895@nyu.edu <ma6895@nyu.edu>`_, Haidee Paterson `haidee.paterson@nyu.edu <haidee.paterson@nyu.edu>`_, Hadi Zaatiti `hadi.zaatiti@nyu.edu <hadi.zaatiti@nyu.edu>`_
 
 Based on a previous version of the protocol from Aniol Santos Angles.
 
 Find a PDF version of the protocol below:
 - `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
+
+
+.. contents::
+   :local:
+   :depth: 2
+   :backlinks: entry
 
 
 
