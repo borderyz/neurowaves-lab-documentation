@@ -2,12 +2,18 @@
 Operational Protocol
 --------------------
 
-Lead author: Gayathri Satheesh `gs2750@nyu.edu <gs2750@nyu.edu>`_, Haidee Paterson `haidee.paterson@nyu.edu <haidee.paterson@nyu.edu>`_, Hadi Zaatiti `hadi.zaatiti@nyu.edu <hadi.zaatiti@nyu.edu>`_
+**Authors:** Gayathri Satheesh `gs2750@nyu.edu <gs2750@nyu.edu>`_, Maitha Al Shaali `ma6895@nyu.edu`_, Haidee Paterson `haidee.paterson@nyu.edu <haidee.paterson@nyu.edu>`_, Hadi Zaatiti `hadi.zaatiti@nyu.edu <hadi.zaatiti@nyu.edu>`_
 
 Based on a previous version of the protocol from Aniol Santos Angles.
 
 Find a PDF version of the protocol below:
 - `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
+
+
+.. contents::
+   :local:
+   :depth: 2
+   :backlinks: entry
 
 
 
@@ -598,6 +604,145 @@ After the MEG session
 #. Uploading to NYU BOX
     - You should have your own folder on `NYU BOX` named after your project
     - Refer to the uploading data section to upload your data
+
+
+
+
+Step-by-step MEG Session: The ULTIMATE Checklist
+------------------------------------------------
+
+**Author:** Maitha AlShaali
+
+Scheduling A Session
+^^^^^^^^^^^^^^^^^^^^
+- [ ] Confirm the session date and time with the participant using your preferred method (e.g., Sona, Calendly), and cross-check CTPSS to avoid conflicts with other MEG sessions.
+- [ ] Create and send a Google Calendar invite to the participant.
+- [ ] Book the session on CTPSS, including a ~30-minute buffer before and after. Do not include the participant in this booking.
+- [ ] Email the participant the study requirements, consent form, and any pre-experiment surveys (if applicable).
+
+Before Participant Arrival
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+- [ ] Disinfect surfaces (bed, helmet), HPI-coils (gently), and earphones using disinfectant wipes.
+- [ ] Assemble bedsheet, new earphone covers, and pillow cover.
+- [ ] Cut 15 pieces of tape (~3-inches in length) for attaching HPI coils.
+- [ ] Switch on EyeLink and Eye-tracking computer (if applicable).
+- [ ] Test speakers, microphones, response boxes, and screen inside Magnetically Shielded Room (MSR).
+- [ ] Call security to request switching off all devices until the session is completed.
+- [ ] If the participant wears hijab:
+  - [ ] Request all male researchers to leave the lab for the session duration.
+  - [ ] Put up the “ladies only” sign on the outside of the lab door.
+  - [ ] Set up the divider near the door.
+
+Participant Preparation
+^^^^^^^^^^^^^^^^^^^^^^^
+- [ ] Welcome the participant to the lab and confirm their name and/or NetID.
+- [ ] Confirm or remind the participant about the consent form and any pre-experiment surveys (if applicable).
+- [ ] Briefly explain the process and requirements for their participation.
+- [ ] Confirm that the participant does not have any non-removable metal on their body.
+- [ ] If the participant wears glasses, ask for their prescription and provide MEG-compatible glasses.
+- [ ] Ask the participant to change into the scrubs provided and remove all metals (smart watches, jewelry, hair accessories, etc.).
+- [ ] Set all devices to Airplane Mode (phones, smart watches).
+- [ ] Briefly explain the laser scan process.
+- [ ] Equip the participant with a tight-fitting cap to smooth their head shape.
+- [ ] Mark the participant's head with a felt-tip marker.
+- [ ] Ask the participant to close their eyes and remain still during the laser scan.
+- [ ] Conduct the laser scan (sweeps and points).
+- [ ] Guide the participant to the MSR.
+- [ ] Explain the process of attaching HPI coils and the study setup (bed, screen, eye-tracker).
+- [ ] Attach the coils to the participant’s head using the guide on the wall and the cable labels.
+- [ ] Help the participant lie down carefully on the bed, ensuring the coils do not detach or shift.
+- [ ] Equip the participant with one earphone.
+- [ ] Provide the participant with the leg pillow and blanket for comfort.
+
+MSR Preparation
+^^^^^^^^^^^^^^^^
+- [ ] Ensure that the Marker Box is switched on.
+- [ ] Switch on the ProPixx screen from the stimulus computer.
+- [ ] Test the speaker and microphone by asking the participant if they are able to hear you.
+- [ ] Test the eye-tracker calibration (if applicable).
+- [ ] Switch off the lights and shut the MSR door.
+- [ ] Switch off the heater.
+
+MEG Recording
+^^^^^^^^^^^^^
+- [ ] Open MEGLaboratory: click Acquire > Autotuning > OK.
+- [ ] Click Sensor Check and wait 1–2 minutes until signals stabilise.
+- [ ] While waiting, fill in subject details (e.g., “sub-007”).
+- [ ] Create the subject folder and copy/paste the folder path so that the data is saved correctly.
+- [ ] Once signals are stable, click Lock.
+- [ ] Wait for Lock to complete and for the signals to stabilise again.
+- [ ] Take a marker measurement: click MEG Measurement > Marker Measurement > Start.
+- [ ] After the process is complete, ensure accuracy values are around 99.90% or above.
+- [ ] Ensure the screen is displaying the experiment instructions and that the participant is ready to begin the task.
+- [ ] Start recording: click Continuous Mode > Start > Start Acquisition.
+- [ ] During the session, take note of any signal abnormalities, participant movement, or interruptions with timestamps.
+
+After MEG Session
+^^^^^^^^^^^^^^^^^^^
+- [ ] Stop recording: click Continuous Mode > Abort.
+- [ ] Save the .con file to the participant folder.
+- [ ] Take a second marker measurement: click Acquire > MEG Measurement > Marker Measurement.
+- [ ] Once the MEG measurement is complete, click Unlock.
+- [ ] Open the MSR door. Assist the participant in sitting up and carefully remove the HPI coils.
+- [ ] Guide the participant back to the laser scan room and instruct them to change back into their clothes and collect all belongings.
+- [ ] Switch the heater back on.
+- [ ] Provide the participant with compensation (if applicable).
+
+After Participant Leaves
+^^^^^^^^^^^^^^^^^^^^^^^^
+- [ ] Switch Marker Box off.
+- [ ] Remove and stow used bedsheets, earphone covers, and pillow covers in the laundry basket.
+- [ ] Disinfect MSR surfaces (bed, helmet), HPI coils (gently), and earphones using disinfectant wipes.
+- [ ] Call security to inform them that the session is complete (if finished early).
+
+Saving The Data
+^^^^^^^^^^^^^^^^
+
+Experiment Data
+"""""""""""""""
+- [ ] Use the hard drive EXTREME SSD to save and transfer:
+  - [ ] ``sub-007.edf``
+  - [ ] ``trigger_log_s011_YYYYMMDD_000000.txt``
+  - [ ] ``sub-007-vcp.mat``
+
+Laser Scan Data
+"""""""""""""""
+- [ ] Create subject folder with ID (e.g., “sub-007”)
+- [ ] Save raw scan as ``sub-007_laser-scan``
+- [ ] Save filtered scan as ``sub-007_basic-surface``
+- [ ] Export stylus points as ``sub-007_stylus-points``
+- [ ] Upload files:
+  - [ ] ``sub-007_laser-project``
+  - [ ] ``sub-007_basic-surface``
+  - [ ] ``sub-007_stylus-points``
+
+MEG Data
+""""""""
+- [ ] Denoise and save:
+  - [ ] ``sub-007.con``
+  - [ ] ``sub-007_denoised.con``
+  - [ ] ``YYMMDD-1.mrk``
+  - [ ] ``YYMMDD-2.mrk``
+
+Uploading Data to NYU Box
+"""""""""""""""""""""""""
+- [ ] Create folders: ``derivatives``, ``laserscan``, ``meg``
+- [ ] Upload to derivatives:
+  - [ ] ``sub007.edf``
+  - [ ] ``trigger_log_s011_YYYYMMDD_000000.txt``
+  - [ ] ``sub-007-vcp.mat``
+- [ ] Upload to laserscan:
+  - [ ] ``sub-007_laser-project``
+  - [ ] ``sub-007_basic-surface``
+  - [ ] ``sub-007_stylus-points``
+- [ ] Upload to meg:
+  - [ ] ``YYMMDD-1.mrk``
+  - [ ] ``YYMMDD-2.mrk``
+  - [ ] ``sub-007.con``
+  - [ ] ``sub-007_denoised.con``
+
+
+
 
 
 Perspectives for KIT Operational Protocol
