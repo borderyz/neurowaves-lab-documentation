@@ -2,7 +2,7 @@ clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
 
-if vpix_use
+if vpix_use 
     Datapixx('Open')
     Datapixx('DisablePixelMode')
     Datapixx('RegWr')
@@ -14,7 +14,7 @@ PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 
-time2rest = 60*5;
+time2rest = 60*5;   
 
 
 
@@ -97,7 +97,8 @@ fixColor = [150 150 150];
 
 % START EXPERIMENT
 
-Screen('DrawText', w, 'PRESS SPACE and keep Eyes Closed',  wx-250, wy, [255,255,255]);
+Screen('DrawText', w, 'Keep Eyes Closed and relax, we will let you know when you need to open them again',  wx-370, wy, [255,255,255]);
+disp('Press space to start Eyes Closed experiment');
 Screen('Flip', w);
 
 KbWait([],2)
