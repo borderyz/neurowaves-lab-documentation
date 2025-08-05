@@ -154,3 +154,16 @@ dmypy.json
 cython_debug/
 
 # End of https://www.toptal.com/developers/gitignore/api/python,jupyternotebooks
+/.idea
+
+*.con
+*.mat
+
+
+
+
+# Moodle runtime files → keep out of normal Git history
+training/moodledata/
+
+training/.backupenv
+box_secret/

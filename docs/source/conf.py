@@ -15,9 +15,15 @@ from sphinx.application import Sphinx
 import subprocess
 
 
-project = "MEG Pipeline"
-copyright = "2024, Hadi Zaatiti"
+project = "NeuroWaves NYUAD Documentation"
+copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
+#author = "Hadi Zaatiti hadi.zaatiti@nyu.edu, Haidee Paterson haidee.paterson@nyu.edu, Osama Abdullah osama.abdullah@nyu.edu"
 author = "Hadi Zaatiti hadi.zaatiti@nyu.edu"
+# author = (
+#     "Hadi Zaatiti \\texttt{hadi.zaatiti@nyu.edu}\\\\"
+#     "Haidee Paterson \\texttt{haidee.paterson@nyu.edu}\\\\"
+#     "Osama Abdullah \\texttt{osama.abdullah@nyu.edu}"
+# )
 
 release = "0.1"
 version = "0.1.0"
@@ -54,7 +60,7 @@ extensions = [
     "sphinxcontrib.mermaid",
 ]
 
-exclude_patterns = ['5-pipeline/notebooks/fieldtrip/template_*.ipynb']
+exclude_patterns = ['**/template_*.ipynb']
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
@@ -80,26 +86,21 @@ html_theme_options = {
     # Toc options
     "collapse_navigation": True,
     "sticky_navigation": True,
-    "navigation_depth": 4,
+    "navigation_depth": 3,
     "includehidden": True,
     "titles_only": False,
-    "body_max_width": None,
 }
-
-
 
 suppress_warnings = [
     "epub.unknown_project_files"
 ]  # This allows us to avoid the warning caused by html files in _static directory (regarding mime types)
 
-html_css_files = [
-    "custom.css",
-]
-
 html_static_path = ["_static"]
+html_css_files = ["custom.css",
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
+
 # -- Options for EPUB output
 epub_show_urls = "footnote"
-
 
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
@@ -289,6 +290,38 @@ def run_csv_conversion(app: Sphinx):
 def setup(app: Sphinx):
 
     logging.basicConfig(level=logging.INFO)
-    app.connect("builder-inited", run_generate_system_status_dashboards_script)
-    app.connect("builder-inited", run_update_data_quality_dashboards)
+    #app.connect("builder-inited", run_generate_system_status_dashboards_script)
+    #app.connect("builder-inited", run_update_data_quality_dashboards)
 
+
+
+from docutils import nodes
+from docutils.parsers.rst import roles
+
+# -- tweak these to match your repo/branch docs layout --
+GITHUB_USER   = "BioMedicalImaging-Core-NYUAD"
+GITHUB_REPO   = "neurowaves-lab-documentation"
+GITHUB_BRANCH = "main"
+
+
+
+def github_file_role(role, rawtext, text, lineno, inliner, options=None, content=None):
+    # determine if it's a directory
+    is_dir = text.endswith("/")
+    kind   = "tree" if is_dir else "blob"
+    relpath = text.rstrip("/")    # strip slash for URL parts
+
+    # always build from repo root—no DOCS_DIR at all
+    parts = [GITHUB_USER, GITHUB_REPO, kind, GITHUB_BRANCH] + relpath.split("/")
+    url   = "https://github.com/" + "/".join(parts)
+    display = relpath + ("/" if is_dir else "")
+
+    html = (
+        f'<a class="github-link" href="{url}" target="_blank">'
+        '<i class="fab fa-github"></i> '
+        f'{display}</a>'
+    )
+    return [nodes.raw("", html, format="html")], []
+
+# register the role
+roles.register_local_role("github-file", github_file_role)
