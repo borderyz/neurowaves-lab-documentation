@@ -11,6 +11,22 @@ If you publish work using this script the most relevant publication is:
 
 """
 
+#Vpixx import
+
+from pypixxlib import _libdpx as dp
+from utilities import *
+
+USE_VPIXX = True
+
+
+if USE_VPIXX:
+    dp.DPxOpen()
+    dp.DPxDisableDoutPixelMode()
+    dp.DPxWriteRegCache()
+    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+    dp.DPxUpdateRegCache()
+
+
 # --- Import packages ---
 from psychopy import locale_setup
 from psychopy import prefs
@@ -33,6 +49,10 @@ import sys  # to get file system encoding
 import psychopy.iohub as io
 from psychopy.hardware import keyboard
 
+#
+
+
+
 # --- Setup global variables (available in all functions) ---
 # create a device manager to handle hardware (keyboards, mice, mirophones, speakers, etc.)
 deviceManager = hardware.DeviceManager()
@@ -49,6 +69,10 @@ expInfo = {
     'expName|hid': expName,
     'psychopyVersion|hid': psychopyVersion,
 }
+
+
+
+
 
 # --- Define some variables which will change depending on pilot mode ---
 '''
@@ -645,7 +669,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # refresh the screen
         if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
             win.flip()
-    
+
     # --- Ending Routine "B1_Start" ---
     for thisComponent in B1_Start.components:
         if hasattr(thisComponent, "setAutoDraw"):
@@ -938,8 +962,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.addData('VI_Sound.started', t)
                     # update status
                     VI_Sound.status = STARTED
+                    # TODO: Add trigger for sound play
                     VI_Sound.play()  # start the sound (it finishes automatically)
-                
+
+
                 # if VI_Sound is stopping this frame...
                 if VI_Sound.status == STARTED:
                     # is it time to stop? (based on global clock, using actual start)
