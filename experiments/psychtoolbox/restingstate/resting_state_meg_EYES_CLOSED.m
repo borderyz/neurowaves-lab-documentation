@@ -1,4 +1,4 @@
-clearvars
+ clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
 
@@ -14,7 +14,7 @@ PsychDebugWindowConfiguration(0, 1);
 PsychDefaultSetup(2);
 Screen('Preference', 'SkipSyncTests', 1); 
 
-time2rest = 60*5;   
+time2rest = 60*15;   
 
 
 
