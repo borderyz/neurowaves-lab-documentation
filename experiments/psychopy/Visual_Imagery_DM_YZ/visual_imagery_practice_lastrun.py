@@ -10,6 +10,20 @@ If you publish work using this script the most relevant publication is:
         https://doi.org/10.3758/s13428-018-01193-y
 
 """
+#Vpixx import
+
+from pypixxlib import _libdpx as dp
+from utilities import *
+
+USE_VPIXX = True
+
+
+if USE_VPIXX:
+    dp.DPxOpen()
+    dp.DPxDisableDoutPixelMode()
+    dp.DPxWriteRegCache()
+    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+    dp.DPxUpdateRegCache()
 
 # --- Import packages ---
 from psychopy import locale_setup
@@ -916,6 +930,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.timestampOnFlip(win, 'P_BG.stopped')
                     # update status
                     P_BG.status = FINISHED
+                    # TODO: add trigger for 'P_BG end'
                     P_BG.setAutoDraw(False)
             
             # *P_Sound* updates
@@ -930,6 +945,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 thisExp.addData('P_Sound.started', t)
                 # update status
                 P_Sound.status = STARTED
+                # TODO: add trigger for 'P_Sound start'
                 P_Sound.play()  # start the sound (it finishes automatically)
             
             # if P_Sound is stopping this frame...
@@ -944,6 +960,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.addData('P_Sound.stopped', t)
                     # update status
                     P_Sound.status = FINISHED
+                    # TODO: add trigger for 'P_Sound end'
                     P_Sound.stop()
             
             # *P_Cue* updates
@@ -1213,6 +1230,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 win.callOnFlip(P_Key_Resp2.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(P_Key_Resp2.clearEvents, eventType='keyboard')  # clear events on next screen flip
             if P_Key_Resp2.status == STARTED and not waitOnFlip:
+                # TODO: add button press for 'P_key_Resp2 respond', 5 buttons for the left hand controller, little finger for '1', thumb for '5'
                 theseKeys = P_Key_Resp2.getKeys(keyList=['1','2','3','4','5'], ignoreKeys=["escape"], waitRelease=False)
                 _P_Key_Resp2_allKeys.extend(theseKeys)
                 if len(_P_Key_Resp2_allKeys):
@@ -1377,6 +1395,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 win.callOnFlip(P_CQ_Key_Resp.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(P_CQ_Key_Resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
             if P_CQ_Key_Resp.status == STARTED and not waitOnFlip:
+                # TODO: Add button press for 'P_CQ_Key_Resp respond', 3 buttons for right hand controller, index finger for 's', middle for 'd', ring for 'f'
                 theseKeys = P_CQ_Key_Resp.getKeys(keyList=['s','d','f'], ignoreKeys=["escape"], waitRelease=False)
                 _P_CQ_Key_Resp_allKeys.extend(theseKeys)
                 if len(_P_CQ_Key_Resp_allKeys):

@@ -948,6 +948,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         thisExp.timestampOnFlip(win, 'VI_BG.stopped')
                         # update status
                         VI_BG.status = FINISHED
+
+                        # TODO: Add trigger for 'VI_BG end'
                         VI_BG.setAutoDraw(False)
                 
                 # *VI_Sound* updates
@@ -962,7 +964,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.addData('VI_Sound.started', t)
                     # update status
                     VI_Sound.status = STARTED
-                    # TODO: Add trigger for sound play
+                    # TODO: Add trigger for 'VI_Sound start'
                     VI_Sound.play()  # start the sound (it finishes automatically)
 
 
@@ -978,6 +980,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         thisExp.addData('VI_Sound.stopped', t)
                         # update status
                         VI_Sound.status = FINISHED
+
+                        # TODO: Add trigger for 'VI_Sound end'
                         VI_Sound.stop()
                 
                 # *VI_Cue* updates
@@ -1142,6 +1146,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.callOnFlip(VI_Key_Resp2.clock.reset)  # t=0 on next screen flip
                     win.callOnFlip(VI_Key_Resp2.clearEvents, eventType='keyboard')  # clear events on next screen flip
                 if VI_Key_Resp2.status == STARTED and not waitOnFlip:
+                    # TODO: Add button press for 'VI_key_Resp2 respond', 5 buttons for the left hand controller, little finger for '1', thumb for '5'
                     theseKeys = VI_Key_Resp2.getKeys(keyList=['1','2','3','4','5'], ignoreKeys=["escape"], waitRelease=False)
                     _VI_Key_Resp2_allKeys.extend(theseKeys)
                     if len(_VI_Key_Resp2_allKeys):
@@ -1306,6 +1311,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     win.callOnFlip(VI_CQ_Key_Resp.clock.reset)  # t=0 on next screen flip
                     win.callOnFlip(VI_CQ_Key_Resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
                 if VI_CQ_Key_Resp.status == STARTED and not waitOnFlip:
+                    # TODO: Add button press for 'VI_CQ_Key_Resp respond', 3 buttons for right hand controller, index finger for 's', middle for 'd', ring for 'f'
                     theseKeys = VI_CQ_Key_Resp.getKeys(keyList=['s','d','f'], ignoreKeys=["escape"], waitRelease=False)
                     _VI_CQ_Key_Resp_allKeys.extend(theseKeys)
                     if len(_VI_CQ_Key_Resp_allKeys):

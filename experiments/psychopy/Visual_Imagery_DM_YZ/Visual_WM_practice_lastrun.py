@@ -10,6 +10,20 @@ If you publish work using this script the most relevant publication is:
         https://doi.org/10.3758/s13428-018-01193-y
 
 """
+#Vpixx import
+
+from pypixxlib import _libdpx as dp
+from utilities import *
+
+USE_VPIXX = True
+
+
+if USE_VPIXX:
+    dp.DPxOpen()
+    dp.DPxDisableDoutPixelMode()
+    dp.DPxWriteRegCache()
+    dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+    dp.DPxUpdateRegCache()
 
 # --- Import packages ---
 from psychopy import locale_setup
@@ -914,6 +928,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 thisExp.timestampOnFlip(win, 'WM_P_P_Image1.started')
                 # update status
                 WM_P_P_Image1.status = STARTED
+                # TODO: add trigger for 'WM_P_P_Image1 start'
                 WM_P_P_Image1.setAutoDraw(True)
             
             # if WM_P_P_Image1 is active this frame...
@@ -933,6 +948,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.timestampOnFlip(win, 'WM_P_P_Image1.stopped')
                     # update status
                     WM_P_P_Image1.status = FINISHED
+                    # TODO: add trigger for 'WM_P_P_Image1 end'
                     WM_P_P_Image1.setAutoDraw(False)
             
             # *WM_P_P_Image2* updates
@@ -948,6 +964,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 thisExp.timestampOnFlip(win, 'WM_P_P_Image2.started')
                 # update status
                 WM_P_P_Image2.status = STARTED
+                # TODO: add trigger for 'WM_P_P_Image2 start'
                 WM_P_P_Image2.setAutoDraw(True)
             
             # if WM_P_P_Image2 is active this frame...
@@ -967,6 +984,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.timestampOnFlip(win, 'WM_P_P_Image2.stopped')
                     # update status
                     WM_P_P_Image2.status = FINISHED
+                    # TODO: add trigger for 'WM_P_P_Image2 end'
                     WM_P_P_Image2.setAutoDraw(False)
             
             # *WM_P_P_BG* updates
@@ -1130,6 +1148,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.timestampOnFlip(win, 'WM_P_WM_BG.stopped')
                     # update status
                     WM_P_WM_BG.status = FINISHED
+                    # TODO: add trigger for 'WM_P_WM_BG end'
                     WM_P_WM_BG.setAutoDraw(False)
             
             # *WM_P_Cue* updates
@@ -1172,6 +1191,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 thisExp.addData('WM_P_Sound.started', tThisFlipGlobal)
                 # update status
                 WM_P_Sound.status = STARTED
+                # TODO: add trigger for 'WM_P_Sound start'
                 WM_P_Sound.play(when=win)  # sync with win flip
             
             # if WM_P_Sound is stopping this frame...
@@ -1186,6 +1206,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     thisExp.timestampOnFlip(win, 'WM_P_Sound.stopped')
                     # update status
                     WM_P_Sound.status = FINISHED
+                    # TODO: add trigger for 'WM_P_Sound end'
                     WM_P_Sound.stop()
             
             # check for quit (typically the Esc key)
@@ -1331,6 +1352,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 win.callOnFlip(WM_P_Test_Resp.clock.reset)  # t=0 on next screen flip
                 win.callOnFlip(WM_P_Test_Resp.clearEvents, eventType='keyboard')  # clear events on next screen flip
             if WM_P_Test_Resp.status == STARTED and not waitOnFlip:
+                # add button press for 'WM_P_Test_Resp respond', right hand controller, index finger for 's', middle for 'd'
                 theseKeys = WM_P_Test_Resp.getKeys(keyList=['s','d'], ignoreKeys=["escape"], waitRelease=False)
                 _WM_P_Test_Resp_allKeys.extend(theseKeys)
                 if len(_WM_P_Test_Resp_allKeys):
