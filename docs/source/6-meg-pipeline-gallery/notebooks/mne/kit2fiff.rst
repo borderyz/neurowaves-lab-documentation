@@ -12,6 +12,9 @@ There are multiple files produced before and during magnetoencephalography. We w
 Kit2Fiff
 --------
 
+`kit2fiff` is a mne python GUI that converts .con/.sqd to .fif format
+The code launching this command is found in `mne.commands.mne_kit2fiff`
+
 The first step is to convert the recording into a standard format for analysis in MNE, the premier software suite for M/EEG analysis.
 
 1. Launch your terminal and activate your anaconda environment for MNE analysis. If you haven’t set up an environment yet, do so.
