@@ -8,13 +8,16 @@
 
 
 
-visual\_imagery\_practice\_lastrun.py and visual\_imagery\_lastrun.py are code file for practice and official experiment of visual imagery. We want to investigate MEG signal when people hearing language description and imagine according to the description.
+visual\_imagery\_practice\_lastrun.py and visual\_imagery\_lastrun.py are code file for practice and 
+official experiment of visual imagery. 
+We want to investigate MEG signal when people hearing language description and imagine according to the 
+description.
 
 
-
-Visual\_WM\_practice\_lastrun.py and Visual\_WM\_lastrun.py are code file for practice and official experiment of visual working memory. We want to investigate MEG signal when people hearing language description and recall certain image according to the description.
-
-
+Visual\_WM\_practice\_lastrun.py and Visual\_WM\_lastrun.py are code file for 
+practice and official experiment of visual working memory. 
+We want to investigate MEG signal when people hearing language description and 
+recall certain image according to the description.
 
 
 
