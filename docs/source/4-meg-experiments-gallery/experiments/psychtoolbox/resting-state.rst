@@ -9,14 +9,21 @@ Experiments example 1 (Psychtoolbox): Resting state
 
 The participant is asked to close their eyes for some time, then to open their eyes while fixing a centered shape for a same duration.
 Two triggers are sent from the 'Datapixx3' to the KIT-MEG on channels 224 (closing eyes) and 225 (opening eyes).
+In MNE, Channel 224 = MISC 001 and Channel 225 = MISC 002
 The code for the experiment can be found here: Source file link
 `resting_state_meg.m <https://github.com/hzaatiti-NYU/meg-pipeline/blob/main/experiments/psychtoolbox/general/resting_state_meg.m>`_.
 
-.. dropdown:: Resting state task code
 
-    .. literalinclude:: ../../../../../experiments/psychtoolbox/general/resting_state_meg.m
+.. dropdown:: Resting state Eyes Closed task code
+
+    .. literalinclude:: ../../../../../experiments/psychtoolbox/restingstate/resting_state_meg_EYES_CLOSED.m
       :language: matlab
 
+
+.. dropdown:: Resting state Eyes Open task code
+
+    .. literalinclude:: ../../../../../experiments/psychtoolbox/restingstate/resting_state_meg_EYES_OPEN.m
+      :language: matlab
 
 Analysis results
 ^^^^^^^^^^^^^^^^

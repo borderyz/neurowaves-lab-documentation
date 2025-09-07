@@ -128,7 +128,7 @@ iti = 0.5; % 500 ms inter-trial interval
 % Start Task
 Screen('FillRect', window, getRGB(trig.start), trigRect); % Trigger Start
 Screen('Flip', window);
-
+  
 % Keys
 escapeKey = KbName('ESCAPE');
 

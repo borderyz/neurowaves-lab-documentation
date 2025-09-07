@@ -1,7 +1,7 @@
 clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
-
+ 
 if vpix_use
     Datapixx('Open')
     Datapixx('DisablePixelMode')
@@ -18,9 +18,7 @@ Screen('Preference', 'SkipSyncTests', 1);
 % TRIGGERS CHANNEL 225 during the eyes open period
 
 % Time to rest in seconds
-time2rest = 60*5;
-
-
+time2rest = 60*5  ;
 
 
 % KEYBOARD SETUP
@@ -103,7 +101,8 @@ fixColor = [150 150 150];
 % START EXPERIMENT
 
 
-Screen('DrawText', w, 'PRESS SPACE and keep Eyes open on Fixation Cross',  wx-250, wy, [255,255,255]);
+Screen('DrawText', w, 'When fixation cross appears, keep Eyes open on Fixation Cross, please wait',  wx-300, wy, [255,255,255]);
+disp('Press Space to start Eyes Open');
 Screen('Flip', w);
 KbWait([],2)
 

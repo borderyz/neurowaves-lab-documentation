@@ -81,6 +81,18 @@ Vpixx system (New system)
 
 Screen width 65 cm
 
+Responsepixx
+------------
+
+Boxes currently used in the MEG lab
+
+
+.. csv-table:: Responsepixx boxes
+   :file: documents/responsepix_boxes.csv
+   :header-rows: 1
+
+Issue: leftbox has the yellow button stuck so bit number 1 is stuck
+10 buttons in total coded on 10 bits (bit 0 to bit 9)
 
 Electronic lag times between visual stimulus and KIT trigger box
 ----------------------------------------------------------------

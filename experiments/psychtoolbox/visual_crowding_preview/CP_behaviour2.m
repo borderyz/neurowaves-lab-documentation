@@ -6,7 +6,7 @@ clearvars
 % Modes
 use_vpixx = 0;
 use_eyetracker = 0;
-trigger_test = 0;
+trigger_test = 1;
 use_response_box = 0;
 use_keyboard  = 1;
 
@@ -56,8 +56,8 @@ fixRadius = 10;
 black = [0 0 0];
 fixTolerance = 100; % 75 pixels -> 2 dva
 targetTolerance = 100;
-saccadeOffset = 305; % pixel -> 8 dva
-%saccadeOffset = 173; % pixel -> 3 dva
+%saccadeOffset = 305; % pixel -> 8 dva
+saccadeOffset = 500; % pixel ->  dva
 targetDuration = .5; % seconds
 saccThreshold = 7; % pixel -> 0.18 dva
 
@@ -212,9 +212,9 @@ try
     text = {
         'You will see a fixation point in the middle of the screen. Please keep your eyes fixated on it.'
         'Keep your eyes fixated on the point until it turns green.'
-        'When the point turns green, look at the wrod either to the left or righ of the fixation point.'
-        'You will be prompted to answer the question "Is this  the same word you last saw?"'
-        'You can answer with the yellow butto for "YES" or the red button for "NO".'
+        'When the point turns green, look at the word either to the left or right of the fixation point.'
+        'You will be prompted to answer the question "Is this the same word you last saw?"'
+        'You can answer with the yellow button for "YES" or the red button for "NO".'
         'NOTE: The word will appear before the fixation point turns green. Please do not look at the word before the point turns to green.'
         ''
         'PRESS SPACE TO START'
@@ -304,9 +304,9 @@ try
         question_fn = ['img_' num2str(i_trial) '.jpg'];
         % questRect = CenterRectOnPoint([0 0 size(previewMatrix, 1)*2 size(previewMatrix, 2)], wx , wy);
 
-        if expTable.preview(i_trial) == 0
-            previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
-        end
+        % if expTable.preview(i_trial) == 0
+        %     previewTexture = Screen('MakeTexture', w, fliplr(previewMatrix));
+        % end
         expTable.imageFn{i_trial} = preview_fn;
 
         if expTable.questionType(i_trial) == 0
@@ -344,8 +344,8 @@ try
         wQuestion = Screen('OpenOffscreenWindow', w, 255);
         questRect = CenterRectOnPoint([0 0 size(previewMatrix, 2) size(previewMatrix, 1)], wx, wy);
         Screen('DrawTexture', wQuestion, questionTexture, [], questRect);
-        Screen('DrawText', wQuestion, 'yes', wx - 305, wy + 150, black);
-        Screen('DrawText', wQuestion, 'no', wx + 305, wy + 150, black);
+        Screen('DrawText', wQuestion, 'no', wx - 305, wy + 150, black);
+        Screen('DrawText', wQuestion, 'yes', wx + 305, wy + 150, black);
 
 
         if i_trial <= size(expTable, 1)
@@ -389,6 +389,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -491,6 +492,7 @@ try
         while goodTrial
             [~,~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor()
                 RestrictKeysForKbCheck([]);
                 Screen(w,'Close');
@@ -594,11 +596,11 @@ try
             % Simulate saccade detection and proceed
             disp('Simulating saccade detection (no eyetracker).');
             counts.ch228 = counts.ch228 + 1;
-            Screen('FillRect', w, trig.ch228, trigRect);
-
-            Screen('Flip', w);
-            Screen('FillRect', w, black, trigRect);
-            Screen('Flip', w);
+            % Screen('FillRect', w, trig.ch228, trigRect);
+            % 
+            % Screen('Flip', w);
+            % Screen('FillRect', w, black, trigRect);
+            % Screen('Flip', w);
             % Instead of break, use a flag or condition to exit goodTrial loop
             goodTrial = 0; % Exit the goodTrial loop
 
@@ -632,6 +634,7 @@ try
         while GetSecs() - expTable.targetOnsetTime(i_trial) < targetDuration
             [~, ~, keyCode] = KbCheck();
             if find(keyCode) == KbName('escape')
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -684,6 +687,8 @@ try
             % Handle escape key to exit experiment
             [~, secs, keyCode] = KbCheck();
             if keyCode(KbName('escape'))
+                endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+                
                 ShowCursor();
                 RestrictKeysForKbCheck([]);
                 Screen('CloseAll');
@@ -795,17 +800,15 @@ try
     WaitSecs(5);
 
     expTable = expTable(validTrialsIndex, :);
+
+    endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, false)
+
+
     if use_vpixx==1
         Datapixx('DisablePixelMode');
         Datapixx('RegWr');
         Datapixx('Close');
     end
-    % SAVE DATA
-    EXP.DEMO = DEMO;
-    EXP.data = expTable;
-    EXP.trig = trig;
-    EXP.stim = stim_fn;
-    save(['Sub-' answer1{1} '-vcp.mat'], 'EXP')
 
     if use_eyetracker==1
         % SAVE EYE DATA
@@ -833,8 +836,8 @@ try
 
 catch
     % FINISH EXPERIMENT
-    % FINISH EXPERIMENT
-    ShowCursor();
+endExperiment(logFile, DEMO, expTable, trig, stim_fn, answer1, true)
+ShowCursor();
     RestrictKeysForKbCheck([]);
     Screen('CloseAll');
     sca;
