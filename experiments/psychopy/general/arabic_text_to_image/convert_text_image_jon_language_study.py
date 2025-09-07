@@ -787,7 +787,7 @@ if __name__ == "__main__":
     for csv_i in range(len(csv_files)):
         # Load the CSV file
         #csv_file = 'egyptian_backward_debugging.csv'  # Path to your CSV file
-        df = pd.read_csv(csv_files[csv_i])
+        LOG_DATA_FRAME = pd.read_csv(csv_files[csv_i])
 
         # Connects alphabets to each other correctly (shapes alphabets)
         import arabic_reshaper
@@ -807,11 +807,11 @@ if __name__ == "__main__":
         font_path = "C:\Windows\Fonts\\calibri.ttf"
         font_size = 100
 
-        for index in range(df['sentence'].size):
+        for index in range(LOG_DATA_FRAME['sentence'].size):
         #for index in range(1):
             # Correctly shapes text
             print("index", index)
-            text_unshaped = df['sentence'][index]
+            text_unshaped = LOG_DATA_FRAME['sentence'][index]
             #text_unshaped = u"لَكِنَّ لَا بَدَّ أَنَّ أوْضَحَ لَكَ أَنَّ كُلُّ هَذِهِ الْأَفْكَارِ الْمَغْلُوطَةِ حَوْلَ اِسْتِنْكَارِ النَّشْوَةٌ وَتَمْجيدِ الْألَمِ نَشَّأَتٍ بِالْفِعْلِ، وَسَأَعْرُضُ لَكَ التَّفَاصِيلُ لِتَكْتَشِفٌ حَقِيقَةٌ وَأَسَاسٍ تِلْكَ السَّعَادَةً الْبَشَرِيَّةِ، فَلَا أحَدٌ يَرْفُضُ أَوْ يَكْرَهُ أَوْ يَتَجَنَّبُ الشُّعُورٌ بِالسَّعَادَةِ، وَلَكِنَّ بِفَضْلِ هَؤُلَاءِ الْأَشْخَاصِ الَّذِينَ لَا يُدْرِكُونَ بِأَنَّ السَّعَادَةً لَا بَدَّ أَنَّ نَسْتَشْعِرُهَا بِصُورَةِ أَكْثَرِ عَقْلَانِيَّةٍ وَمِنْطَقِيَّةٍ فَيَعْرُضُهُمْ هَذَا لِمُوَاجَهَةُ الظُّروفآ الْألِيمَةِ، وَأُكَرِّرُ بِأَنَّهُ لَا يُوجَدُ مَنْ يَرْغَبُ فِي الْحُبِّ وَنَيْلِ الْمَنَالِ وَيَتَلَذَّذُ بِالْآلَاَمِ، الْألَمَ هُوَ الْألَمُ وَلَكِنَّ نَتِيجَةً لِظُروفٍ مَا قَدْ تَكْمُنُ السعاده فِيمَا نَتَحَمَّلُهُ مِنْ كَدٍّ وَأُسِّيٍّ."
 
             text_shaped = get_display(reshaper.reshape(text_unshaped), base_dir="R")
