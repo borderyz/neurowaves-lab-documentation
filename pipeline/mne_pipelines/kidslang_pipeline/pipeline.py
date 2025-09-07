@@ -13,6 +13,7 @@ ROOT_DIR_MEG = os.path.join(DATASETS_PATH, PROJ_NAME, 'meg')
 ROOT_DIR_MRI = os.path.join(DATASETS_PATH, PROJ_NAME, 'mri')
 
 
+
 SUBJ_ID = ['Y0312',
            'Y0366',
            'Y0367',
@@ -46,10 +47,10 @@ status_csv_path = os.path.join(DATASETS_PATH, PROJ_NAME, 'processing_status.csv'
 if os.path.exists(status_csv_path):
     LOG_DATA_FRAME = pd.read_csv(status_csv_path)
 else:
-    LOG_DATA_FRAME = pd.DataFrame(columns=['Subject_ID', 'Processing status', 'ICA', 'Filter 50 Hz', 'Coregistration'])
+    LOG_DATA_FRAME = pd.DataFrame(columns=['Subject_ID', 'KIT2FIFF', 'Processing status', 'ICA', 'Filter 50 Hz', 'Coregistration'])
 
 # Function to update/add status for a subject
-def update_status(subject_id, status, ica=None, filter50=None, coreg=None):
+def update_status(subject_id, status, kit2fiff=None, ica=None, filter50=None, coreg=None):
     global LOG_DATA_FRAME
     if subject_id in LOG_DATA_FRAME['Subject_ID'].values:
         idx = LOG_DATA_FRAME[LOG_DATA_FRAME['Subject_ID'] == subject_id].index[0]
@@ -60,18 +61,23 @@ def update_status(subject_id, status, ica=None, filter50=None, coreg=None):
             LOG_DATA_FRAME.at[idx, 'Filter 50 Hz'] = filter50
         if coreg is not None:
             LOG_DATA_FRAME.at[idx, 'Coregistration'] = coreg
+        if kit2fiff is not None:
+            LOG_DATA_FRAME.at[idx, 'KIT2FIFF'] = kit2fiff
     else:
         LOG_DATA_FRAME = pd.concat([
             LOG_DATA_FRAME,
             pd.DataFrame([{
                 'Subject_ID': subject_id,
                 'Processing status': status,
+                'KIT2FIFF': kit2fiff,
                 'ICA': ica,
                 'Filter 50 Hz': filter50,
                 'Coregistration': coreg
             }])
         ], ignore_index=True)
 
+    # Save the DataFrame back to CSV
+    LOG_DATA_FRAME.to_csv(status_csv_path, index=False)
 
 def reset_status_csv():
     """Reset the processing status CSV as if no processing was done."""
@@ -93,6 +99,12 @@ def reset_status_csv():
 if __name__ == "__main__":
 
     for subj_id in SUBJ_ID:
+
+
+        # Change directory to subject directory
+
+        work_dir = os.path.join(ROOT_DIR_MEG, subj_id)
+        os.chdir(work_dir)
 
         print('Processing subject', subj_id)
         # Coregistration
@@ -144,13 +156,16 @@ if __name__ == "__main__":
             #stimthresh=stimthresh,
         )
 
-        raw.save(out_fname)
+        raw.save(OUT_FNAME,
+                 overwrite=True)
         raw.close()
 
+
+
         # Example update
-        update_status(subj_id, 'Incomplete', ica=False, filter50=False, coreg=False)
+        update_status(subj_id, 'Incomplete',kit2fiff=True, ica=False, filter50=False, coreg=False)
 
 
+    # Save the DataFrame back to CSV
+    LOG_DATA_FRAME.to_csv(status_csv_path, index=False)
 
-        # Save the DataFrame back to CSV
-        LOG_DATA_FRAME.to_csv(status_csv_path, index=False)
