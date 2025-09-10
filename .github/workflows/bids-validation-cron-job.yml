@@ -20,7 +20,7 @@ jobs:
         python-version: '3.11'
 
     - name: Upload cat pic to Box
-      uses: Hzaatiti/box-upload-gh-actions@v1.2
+      uses: Hzaatiti/box-upload-gh-actions@main
       id: BoxUpload
       with:
         box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
