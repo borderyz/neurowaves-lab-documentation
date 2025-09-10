@@ -28,5 +28,5 @@ jobs:
         id: BoxUpload
         with:
           box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
-          box-folder-id: "0"
+          box-folder-id: "340371145702"
           file: data/test_data/test_box_upload_action/cat.png
