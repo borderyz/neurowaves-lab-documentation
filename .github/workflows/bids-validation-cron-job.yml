@@ -13,6 +13,10 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+        with:
+          # For PRs, get the head commit from your feature branch.
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
