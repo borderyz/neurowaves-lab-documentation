@@ -25,4 +25,4 @@ jobs:
       with:
         box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
         box-folder-id: 340371145702
-        file: .github/workflows/cat.png
+        file: data/test_data/test_box_upload_action/cat.png
