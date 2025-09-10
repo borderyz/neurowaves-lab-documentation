@@ -9,20 +9,20 @@ on:
 
 jobs:
   upload-to-box:
-
     runs-on: ubuntu-latest
-
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Upload cat pic to Box
-      uses: Hzaatiti/box-upload-gh-actions@main
-      id: BoxUpload
-      with:
-        box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
-        box-folder-id: 340371145702
-        file: data/test_data/test_box_upload_action/cat.png
+      - name: Upload cat pic to Box
+        uses: Hzaatiti/box-upload-gh-actions@main
+        id: BoxUpload
+        with:
+          box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+          box-folder-id: 340371145702
+          file: data/test_data/test_box_upload_action/cat.png
