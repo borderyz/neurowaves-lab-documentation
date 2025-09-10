@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Upload cat pic to Box
-      uses: benjaminejarrell/box-upload-gh-actions@v1.2
-      id: BoxUpload
-      with:
-        box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
-        box-folder-id: 340371145702
-        file: cat.png
+      - name: Upload cat pic to Box
+        uses: benjaminejarrell/box-upload-gh-actions@v1.2
+        id: BoxUpload
+        with:
+          box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+          box-folder-id: 340371145702
+          file: cat.png
