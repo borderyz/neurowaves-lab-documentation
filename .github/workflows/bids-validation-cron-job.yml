@@ -9,9 +9,16 @@ on:
 
 jobs:
   upload-to-box:
+
     runs-on: ubuntu-latest
 
     steps:
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'   # or '3.10', '3.9', etc.
+
     - name: Upload cat pic to Box
       uses: benjaminejarrell/box-upload-gh-actions@v1.2
       id: BoxUpload
