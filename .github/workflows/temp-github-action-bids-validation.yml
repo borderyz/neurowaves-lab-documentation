@@ -1,0 +1,101 @@
+name: BIDS validate (Box with .con placeholders)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  validate-datasets:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    env:
+      BOX_FOLDER_ID: "340371145702"  # <-- your Box folder with datasets
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node (Box CLI + bids-validator)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install Box CLI & bids-validator
+        run: |
+          npm install -g @box/cli
+          npm install -g bids-validator
+          # jq for JSON parsing
+          sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Configure Box CLI (JWT from secret)
+        run: |
+          echo '${{ secrets.BOX_CLIENT_SDK_CONFIG }}' > /tmp/box_config.json
+          box configure:environments:add /tmp/box_config.json --name ci
+          box configure:environments:select ci
+
+      - name: Mirror Box -> local, skipping .con but creating placeholders
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p datasets
+
+          walk_folder() {
+            local folder_id="$1"
+            local out_dir="$2"
+            mkdir -p "$out_dir"
+
+            # List items in this folder
+            local json
+            json=$(box folders:items "$folder_id" --json --fields id,name,type --limit 1000)
+
+            # Files
+            echo "$json" | jq -r '.entries[] | select(.type=="file") | [.id,.name] | @tsv' \
+            | while IFS=$'\t' read -r fid fname; do
+                ext="${fname##*.}"
+                # Case-insensitive check for .con
+                shopt -s nocasematch
+                if [[ "$ext" == "con" ]]; then
+                  echo "Creating placeholder for large raw file: $out_dir/$fname"
+                  # Create zero-byte placeholder to satisfy BIDS existence/naming checks
+                  : > "$out_dir/$fname"
+                else
+                  echo "Downloading: $out_dir/$fname"
+                  box files:download "$fid" --destination "$out_dir" --overwrite
+                fi
+                shopt -u nocasematch
+              done
+
+            # Folders (recurse)
+            echo "$json" | jq -r '.entries[] | select(.type=="folder") | [.id,.name] | @tsv' \
+            | while IFS=$'\t' read -r sub_id sub_name; do
+                walk_folder "$sub_id" "$out_dir/$sub_name"
+              done
+          }
+
+          walk_folder "$BOX_FOLDER_ID" "datasets"
+
+          echo "Local mirror (top 3 levels):"
+          find datasets -maxdepth 3 -print
+
+      - name: Validate each dataset
+        shell: bash
+        run: |
+          set -e
+          mkdir -p reports
+          shopt -s nullglob
+          for ds in datasets/*/ ; do
+            ds="${ds%/}"
+            name="$(basename "$ds")"
+            echo "Validating: $ds"
+            bids-validator "$ds" --json --no-color > "reports/${name}_validation_report.json" || true
+          done
+          ls -l reports
+
+      - name: Upload reports back to Box (no placeholders)
+        uses: Hzaatiti/box-upload-gh-actions@main
+        with:
+          box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+          box-folder-id: "${{ env.BOX_FOLDER_ID }}"
+          file: reports
