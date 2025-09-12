@@ -172,6 +172,39 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path, skip_exts=(
     _walk(folder_id, out_dir)
 
 
+def validate_local_root(root: Path, reports_dir: Path | None = None) -> None:
+    """
+    Validate each immediate subdir of `root` as a dataset.
+    - Writes per-dataset JSON to <ds>/bids_validation_report.json
+    - Writes a CSV summary to <root>/bids_validation_summary.csv
+    """
+    rows = []
+    for ds in iter_immediate_subdirs(root):
+        ok, report = run_validator(ds)
+        per_ds_json = ds / "bids_validation_report.json"
+        with open(per_ds_json, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+
+        rows.append({
+            "dataset": ds.name,
+            "is_valid": ok,
+            "n_errors": report["summary"]["n_errors"],
+            "n_warnings": report["summary"]["n_warnings"],
+            "report_path": str(per_ds_json),
+        })
+        LOG.info("Wrote: %s (ok=%s)", per_ds_json, ok)
+
+    # write summary CSV next to datasets
+    import csv
+    summary_csv = root / "bids_validation_summary.csv"
+    with open(summary_csv, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["dataset","is_valid","n_errors","n_warnings","report_path"])
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+    LOG.info("Summary CSV: %s (datasets=%d)", summary_csv, len(rows))
+
+
 def upload_folder_to_box(client: Client, local_dir: Path, dest_folder_id: str, overwrite=True):
     """
     Upload all files under local_dir to dest_folder_id (flat or nested mirrored structure).
@@ -281,6 +314,44 @@ def main():
         skip_exts=tuple(s.lower() for s in args.skip_ext),
         create_placeholders=(not args.no_con_placeholders),
     )
+
+    # --- after mirror_box_folder(...)
+
+    # Validate each dataset root = immediate subfolder under work_dir
+    rows = []
+    for ds in iter_immediate_subdirs(args.work_dir):
+        ok, report = run_validator(ds)
+        per_ds_json = ds / "bids_validation_report.json"
+        with open(per_ds_json, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+        LOG.info("Wrote: %s (ok=%s)", per_ds_json, ok)
+        rows.append({
+            "dataset": ds.name,
+            "is_valid": ok,
+            "n_errors": report["summary"]["n_errors"],
+            "n_warnings": report["summary"]["n_warnings"],
+            "report_path": str(per_ds_json),
+        })
+
+    # summary CSV at the parent (work_dir)
+    import csv
+    summary_csv = args.work_dir / "bids_validation_summary.csv"
+    with open(summary_csv, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=["dataset", "is_valid", "n_errors", "n_warnings", "report_path"])
+        w.writeheader()
+        for r in rows:
+            w.writerow(r)
+    LOG.info("Summary CSV: %s (datasets=%d)", summary_csv, len(rows))
+
+    # ---- Upload back to Box (optional) ----
+    # 1) Upload the summary CSV to the root Box folder
+    upload_folder_to_box(client, summary_csv.parent, dest_folder_id=args.box_folder_id, overwrite=True)
+    # (This will create/update 'bids_validation_summary.csv' in the Box folder.)
+
+    # 2) If you also want per-dataset JSON uploaded in-place under the same Box folder,
+    #    you can upload ONLY the matching files by reusing upload_folder_to_box, which
+    #    mirrors folder structure and uploads files it sees. To avoid sending everything,
+    #    do a small copy into a temp dir or write a filter-uploader. For now we leave JSON local.
 
     # Validate each dataset root = immediate subfolder under work_dir
     args.reports_dir.mkdir(parents=True, exist_ok=True)
