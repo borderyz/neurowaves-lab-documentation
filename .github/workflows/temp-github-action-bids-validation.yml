@@ -61,22 +61,31 @@ jobs:
           echo "BOX_FOLDER_ID: ${{ steps.cfg.outputs.box_folder_id }}"
           echo "CREATE_PLACEHOLDERS: ${{ steps.cfg.outputs.create_placeholders }}"
 
-
       - name: Show Python & boxsdk info
+        shell: bash
         run: |
-          python -c "import sys, pkgutil; print(sys.version); print('\\n'.join(sys.path))"
-          python -c "import importlib, json; 
-            from importlib import util as u; 
-            m=u.find_spec('boxsdk'); 
-            print('boxsdk spec:', m)"
+          python - <<'PY'
+          import sys
+          print(sys.version)
+          print("\n".join(sys.path))
+          try:
+              import importlib.util as u
+              spec = u.find_spec("boxsdk")
+              print("boxsdk spec:", spec)
+          except Exception as e:
+              print("boxsdk spec check failed:", e)
+          PY
+
       - name: Show installed boxsdk
+        shell: bash
         run: |
           python -m pip show boxsdk || true
-          python -c "import boxsdk, inspect; print('boxsdk file:', getattr(boxsdk,'__file__','?'))"
+          python - <<'PY'
+          import boxsdk
+          print('boxsdk file:', getattr(boxsdk, '__file__', '?'))
+          PY
       
       
-
-
 
       - name: Run validation script
         env:
