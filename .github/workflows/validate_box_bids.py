@@ -33,11 +33,25 @@ from pathlib import Path
 from typing import Iterable, Optional, Tuple
 
 # Optional import for Box mode (only needed if --box-folder-id is used)
+HAS_BOXSDK = False
+JWTAuth = None
+Client = None
+
 try:
-    from boxsdk import JWTAuth, Client
+    # Primary import path
+    from boxsdk import JWTAuth as _JWTAuth, Client as _Client  # type: ignore
+    JWTAuth, Client = _JWTAuth, _Client
     HAS_BOXSDK = True
 except Exception:
-    HAS_BOXSDK = False
+    try:
+        # Fallback (older / explicit paths)
+        from boxsdk.auth.jwt_auth import JWTAuth as _JWTAuth  # type: ignore
+        from boxsdk.client import Client as _Client  # type: ignore
+        JWTAuth, Client = _JWTAuth, _Client
+        HAS_BOXSDK = True
+    except Exception:
+        HAS_BOXSDK = False
+
 
 LOG = logging.getLogger("validate_box_bids")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -88,22 +102,41 @@ def iter_immediate_subdirs(root: Path) -> Iterable[Path]:
 # -----------------------
 
 def _require_boxsdk():
-    if not HAS_BOXSDK:
-        raise RuntimeError("boxsdk not installed. Run: pip install boxsdk")
+    if not HAS_BOXSDK or JWTAuth is None or Client is None:
+        raise RuntimeError(
+            "boxsdk not available or import was shadowed. "
+            "Ensure 'pip install boxsdk' ran and that your repo does NOT contain a "
+            "file/folder named 'boxsdk' that could shadow the package."
+        )
 
 def _box_client_from_config(config_json_str: Optional[str], config_path: Optional[Path]) -> Client:
     _require_boxsdk()
+
     if config_json_str:
-        settings = json.loads(config_json_str)
-        auth = JWTAuth.from_settings_dictionary(settings)
+        try:
+            settings = json.loads(config_json_str)
+        except json.JSONDecodeError as e:
+            raise RuntimeError("BOX_CLIENT_SDK_CONFIG is not valid JSON") from e
     elif config_path:
-        auth = JWTAuth.from_settings_file(str(config_path))
+        if not Path(config_path).exists():
+            raise FileNotFoundError(f"Box config file not found: {config_path}")
+        settings = json.loads(Path(config_path).read_text(encoding="utf-8"))
     else:
-        raise ValueError("Provide Box config via env BOX_CLIENT_SDK_CONFIG or --box-config")
+        raise RuntimeError(
+            "Box config not provided. Set BOX_CLIENT_SDK_CONFIG secret or pass --box-config"
+        )
+
+    # Sanity check a couple of keys we expect in JWT app config
+    required_keys = ["boxAppSettings", "enterpriseID"]
+    for k in required_keys:
+        if k not in settings:
+            raise RuntimeError(f"Box JWT config missing key: '{k}'")
+
+    auth = JWTAuth.from_settings_dictionary(settings)  # type: ignore[attr-defined]
     client = Client(auth)
-    # prime access token
-    _ = client.user(user_id="me").get()
+    _ = client.user(user_id="me").get()  # prime / validate token
     return client
+
 
 def mirror_box_folder(client: Client, folder_id: str, out_dir: Path, skip_exts=(".con",), create_placeholders=True):
     """
@@ -208,6 +241,9 @@ def validate_local_root(root: Path, reports_dir: Path) -> None:
         LOG.info("Wrote: %s (ok=%s)", out, ok)
 
 def main():
+
+
+
     ap = argparse.ArgumentParser(description="Validate BIDS datasets (local or Box).")
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--root", type=Path, help="Local root containing dataset subfolders")
@@ -224,6 +260,16 @@ def main():
     ap.add_argument("--skip-ext", action="append", default=[".con"],
                     help="Extra file extensions to skip downloading (repeatable). Default: .con")
     args = ap.parse_args()
+
+
+    import sys, pkgutil
+    LOG.info("Python: %s", sys.version)
+    LOG.info("Sys.path: %s", sys.path)
+    try:
+        import boxsdk as _bx
+        LOG.info("boxsdk module file: %s", getattr(_bx, "__file__", "unknown"))
+    except Exception as e:
+        LOG.warning("boxsdk import failed: %s", e)
 
     if args.root:
         LOG.info("Running in LOCAL mode")

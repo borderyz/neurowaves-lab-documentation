@@ -45,7 +45,7 @@ jobs:
       - name: Install Python deps
         run: |
           python -m pip install --upgrade pip
-          pip install boxsdk pandas
+          pip install "boxsdk>=3" pandas
 
       - name: Set up Node (for bids-validator)
         uses: actions/setup-node@v4
@@ -60,6 +60,23 @@ jobs:
           echo "Event: ${{ github.event_name }}"
           echo "BOX_FOLDER_ID: ${{ steps.cfg.outputs.box_folder_id }}"
           echo "CREATE_PLACEHOLDERS: ${{ steps.cfg.outputs.create_placeholders }}"
+
+
+      - name: Show Python & boxsdk info
+        run: |
+          python -c "import sys, pkgutil; print(sys.version); print('\\n'.join(sys.path))"
+          python -c "import importlib, json; 
+            from importlib import util as u; 
+            m=u.find_spec('boxsdk'); 
+            print('boxsdk spec:', m)"
+      - name: Show installed boxsdk
+        run: |
+          python -m pip show boxsdk || true
+          python -c "import boxsdk, inspect; print('boxsdk file:', getattr(boxsdk,'__file__','?'))"
+      
+      
+
+
 
       - name: Run validation script
         env:
