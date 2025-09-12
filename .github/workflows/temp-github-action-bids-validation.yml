@@ -11,11 +11,20 @@ on:
         description: "Create zero-byte .con placeholders (true/false)"
         required: true
         default: "true"
+  pull_request: {}
 
 jobs:
   validate:
+    # Skip PRs from forks (no secrets available there)
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
+
+    # Compute defaults for PR runs; use inputs for workflow_dispatch
+    env:
+      DEFAULT_BOX_FOLDER_ID: "340371145702"  # <-- your fallback for PR runs
+      BOX_FOLDER_ID: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.box_folder_id || env.DEFAULT_BOX_FOLDER_ID }}
+      CREATE_PLACEHOLDERS: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.create_placeholders || 'true' }}
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -38,12 +47,18 @@ jobs:
       - name: Install bids-validator
         run: npm install -g bids-validator
 
+      - name: Show effective config
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "BOX_FOLDER_ID: $BOX_FOLDER_ID"
+          echo "CREATE_PLACEHOLDERS: $CREATE_PLACEHOLDERS"
+
       - name: Run validation (Box mode)
         env:
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
         run: |
           python validate_box_bids.py \
-            --box-folder-id "${{ github.event.inputs.box_folder_id }}" \
+            --box-folder-id "$BOX_FOLDER_ID" \
             --work-dir datasets \
             --reports-dir reports \
-            $([ "${{ github.event.inputs.create_placeholders }}" = "true" ] || echo "--no-con-placeholders")
+            $([ "$CREATE_PLACEHOLDERS" = "true" ] || echo "--no-con-placeholders")
