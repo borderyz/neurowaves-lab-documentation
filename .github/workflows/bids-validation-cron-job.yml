@@ -1,32 +1,32 @@
-name: bids-validation-cron-job.yml
-on:
-  workflow_dispatch:
-  push:
-    branches: [ main ]
-#  schedule:
-#    - cron: "0 3 * * *" # nightly @ 03:00 UTC
-  pull_request:
-
-jobs:
-  upload-to-box:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          # For PRs, get the head commit from your feature branch.
-          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
-          fetch-depth: 1
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Upload cat pic to Box
-        uses: Hzaatiti/box-upload-gh-actions@main
-        id: BoxUpload
-        with:
-          box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
-          box-folder-id: "340371145702"
-          file: data/test_data/test_box_upload_action/cat.png
+#name: bids-validation-cron-job.yml
+#on:
+#  workflow_dispatch:
+#  push:
+#    branches: [ main ]
+##  schedule:
+##    - cron: "0 3 * * *" # nightly @ 03:00 UTC
+#  pull_request:
+#
+#jobs:
+#  upload-to-box:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Check out repository
+#        uses: actions/checkout@v4
+#        with:
+#          # For PRs, get the head commit from your feature branch.
+#          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+#          fetch-depth: 1
+#
+#      - name: Set up Python
+#        uses: actions/setup-python@v5
+#        with:
+#          python-version: '3.11'
+#
+#      - name: Upload cat pic to Box
+#        uses: Hzaatiti/box-upload-gh-actions@main
+#        id: BoxUpload
+#        with:
+#          box-client-sdk-config: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+#          box-folder-id: "340371145702"
+#          file: data/test_data/test_box_upload_action/cat.png
