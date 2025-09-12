@@ -57,7 +57,7 @@ jobs:
         env:
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
         run: |
-          python validate_box_bids.py \
+          python .github/workflows/validate_box_bids.py \
             --box-folder-id "$BOX_FOLDER_ID" \
             --work-dir datasets \
             --reports-dir reports \
