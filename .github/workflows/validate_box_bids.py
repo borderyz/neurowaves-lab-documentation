@@ -32,25 +32,18 @@ import subprocess
 from pathlib import Path
 from typing import Iterable, Optional, Tuple
 
-# Optional import for Box mode (only needed if --box-folder-id is used)
-HAS_BOXSDK = False
-JWTAuth = None
-Client = None
-
+# --- Box SDK imports (robust) ---
+HAS_BOXSDK = True
 try:
-    # Primary import path
-    from boxsdk import JWTAuth as _JWTAuth, Client as _Client  # type: ignore
-    JWTAuth, Client = _JWTAuth, _Client
-    HAS_BOXSDK = True
-except Exception:
-    try:
-        # Fallback (older / explicit paths)
-        from boxsdk.auth.jwt_auth import JWTAuth as _JWTAuth  # type: ignore
-        from boxsdk.client import Client as _Client  # type: ignore
-        JWTAuth, Client = _JWTAuth, _Client
-        HAS_BOXSDK = True
-    except Exception:
-        HAS_BOXSDK = False
+    from boxsdk import Client  # OK in v2/v3
+    from boxsdk.auth.jwt_auth import JWTAuth  # canonical path for JWT auth
+except Exception as e:
+    HAS_BOXSDK = False
+    Client = None  # type: ignore
+    JWTAuth = None  # type: ignore
+
+
+
 
 
 LOG = logging.getLogger("validate_box_bids")
@@ -102,11 +95,10 @@ def iter_immediate_subdirs(root: Path) -> Iterable[Path]:
 # -----------------------
 
 def _require_boxsdk():
-    if not HAS_BOXSDK or JWTAuth is None or Client is None:
+    if not HAS_BOXSDK or Client is None or JWTAuth is None:
         raise RuntimeError(
-            "boxsdk not available or import was shadowed. "
-            "Ensure 'pip install boxsdk' ran and that your repo does NOT contain a "
-            "file/folder named 'boxsdk' that could shadow the package."
+            "boxsdk not available or was shadowed. Ensure it is installed "
+            "and no local module named 'boxsdk' shadows the package."
         )
 
 def _box_client_from_config(config_json_str: Optional[str], config_path: Optional[Path]) -> Client:
