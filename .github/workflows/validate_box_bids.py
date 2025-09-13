@@ -230,15 +230,20 @@ def upload_summary_and_per_dataset_reports(client: Client, work_dir: Path, dest_
 
 # ----------------------- Local validate (per-dataset JSON + root CSV) -----------------------
 
-def validate_local_root(root: Path) -> Path:
+def validate_local_root(root: Path, exclude: list[str] | None = None) -> Path:
     """
     Validate each immediate subdir of `root` as a dataset.
     - Writes per-dataset JSON to <ds>/bids_validation_report.json
     - Writes a CSV summary to <root>/bids_validation_summary.csv
     Returns the summary CSV path.
     """
+    exclude = set(exclude or [])
     rows = []
     for ds in iter_immediate_subdirs(root):
+        if ds.name in exclude:
+            LOG.info("Skipping excluded dataset: %s", ds.name)
+            continue
+
         ok, report = run_validator(ds)
         per_ds_json = ds / "bids_validation_report.json"
         with open(per_ds_json, "w", encoding="utf-8") as f:
@@ -259,6 +264,7 @@ def validate_local_root(root: Path) -> Path:
         w.writerows(rows)
     LOG.info("Summary CSV: %s (datasets=%d)", summary_csv, len(rows))
     return summary_csv
+
 
 
 # ----------------------- Main -----------------------
@@ -286,9 +292,17 @@ def main():
     )
 
     ap.add_argument(
+        "--exclude-dataset",
+        action="append",
+        default=["kidlang"],
+        help="Dataset folder name(s) to exclude from validation. "
+             "Can be repeated, e.g. --exclude-dataset sub-01 --exclude-dataset sub-99"
+    )
+
+    ap.add_argument(
         "--skip-ext",
         action="append",
-        default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds"],
+        default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds", ".stc"],
         help="Extra file extensions to skip downloading (repeatable).",
     )
 
@@ -298,7 +312,7 @@ def main():
     # Local mode
     if args.root:
         LOG.info("Running in LOCAL mode")
-        summary_csv = validate_local_root(args.root)
+        summary_csv = validate_local_root(args.root, exclude=args.exclude_dataset)
         LOG.info("Done. Summary: %s", summary_csv)
         return
 
@@ -318,7 +332,7 @@ def main():
     )
 
     # Per-dataset JSONs + root CSV under work_dir
-    summary_csv = validate_local_root(args.work_dir)
+    summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset)
 
     # Upload ONLY the summary CSV + per-dataset JSONs back to Box
     upload_summary_and_per_dataset_reports(client, args.work_dir, dest_folder_id=args.box_folder_id)
