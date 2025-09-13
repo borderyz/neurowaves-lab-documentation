@@ -36,7 +36,17 @@ except Exception:
 
 LOG = logging.getLogger("validate_box_bids")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-
+# keep our INFO, mute Box/requests noise
+for _name in (
+    "boxsdk",                      # Box SDK
+    "boxsdk.network.default_network",
+    "urllib3",                     # requests' HTTP layer
+    "requests.packages.urllib3",
+    "chardet.charsetprober",
+):
+    lg = logging.getLogger(_name)
+    lg.setLevel(logging.WARNING)
+    lg.propagate = False
 
 def _check_validator_available() -> None:
     exe = shutil.which("bids-validator")
@@ -121,44 +131,51 @@ def _box_client_from_config(config_json_str: Optional[str], config_path: Optiona
 
 
 def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
-                      skip_exts=(".con",), create_placeholders=True) -> None:
-    """
-    Recursively mirror Box folder -> local out_dir.
-    Skip downloading files with extensions in skip_exts; if create_placeholders=True,
-    create zero-byte files for skipped names (to satisfy BIDS existence checks).
-    """
+                      skip_exts=(".con",), create_placeholders=True, max_bytes: int | None = None) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     root_folder = client.folder(folder_id=folder_id).get()
     LOG.info("Mirroring Box folder '%s' (%s) into %s", root_folder.name, folder_id, out_dir)
 
     def _walk(fid: str, local: Path):
         local.mkdir(parents=True, exist_ok=True)
-        offset = 0
-        limit = 1000
+        offset, limit = 0, 1000
         while True:
-            items = client.folder(fid).get_items(limit=limit, offset=offset, fields=["id", "name", "type"])
+            # include 'size' so we can avoid downloading large files
+            items = client.folder(fid).get_items(
+                limit=limit, offset=offset, fields=["id", "name", "type", "size"]
+            )
             count = 0
             for item in items:
                 count += 1
                 if item.type == "file":
                     name = item.name
-                    ext = Path(name).suffix.lower()
                     tgt = local / name
-                    if ext in skip_exts:
-                        LOG.info("Placeholder for large raw: %s", tgt)
+                    ext = Path(name).suffix.lower()
+                    size = getattr(item, "size", None)  # may be None for some items
+
+                    should_skip_ext = ext in tuple(s.lower() for s in skip_exts)
+                    too_big = max_bytes is not None and isinstance(size, int) and size > max_bytes
+
+                    if should_skip_ext or too_big:
+                        reason = "extension" if should_skip_ext else f"size>{max_bytes}"
+                        LOG.info("Placeholder for large/raw (%s): %s", reason, tgt)
                         if create_placeholders:
-                            tgt.touch(exist_ok=True)
-                    else:
-                        LOG.info("Downloading: %s", tgt)
-                        with open(tgt, "wb") as fh:
-                            client.file(item.id).download_to(fh)
+                            tgt.touch(exist_ok=True)  # zero-byte placeholder
+                        continue
+
+                    LOG.info("Downloading: %s", tgt)
+                    with open(tgt, "wb") as fh:
+                        client.file(item.id).download_to(fh)
+
                 elif item.type == "folder":
                     _walk(item.id, local / item.name)
+
             if count < limit:
                 break
             offset += limit
 
     _walk(folder_id, out_dir)
+
 
 
 def upload_summary_and_per_dataset_reports(client: Client, work_dir: Path, dest_folder_id: str) -> None:
@@ -262,6 +279,22 @@ def main():
                     help="Do NOT create .con placeholders (skip .con files entirely)")
     ap.add_argument("--skip-ext", action="append", default=[".con"],
                     help="Extra file extensions to skip downloading (repeatable). Default: .con")
+
+    ap.add_argument(
+        "--max-bytes",
+        type=int,
+        default=2_000_000,  # 5 MB default; tune as you like
+        help="If a file is larger than this, do not download it (create placeholder instead).",
+    )
+
+    ap.add_argument(
+        "--skip-ext",
+        action="append",
+        default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds"],
+        help="Extra file extensions to skip downloading (repeatable).",
+    )
+
+
     args = ap.parse_args()
 
     # Local mode
@@ -283,6 +316,7 @@ def main():
         args.work_dir,
         skip_exts=tuple(s.lower() for s in args.skip_ext),
         create_placeholders=(not args.no_con_placeholders),
+        max_bytes=args.max_bytes,
     )
 
     # Per-dataset JSONs + root CSV under work_dir

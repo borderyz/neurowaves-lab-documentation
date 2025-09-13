@@ -101,4 +101,6 @@ jobs:
             --skip-ext .ds \
             --skip-ext .dat \
             --skip-ext .mat \
-            --skip-ext .edf
+            --skip-ext .edf \
+            --skip-ext .mgz \
+            --skip-ext .mgz \
