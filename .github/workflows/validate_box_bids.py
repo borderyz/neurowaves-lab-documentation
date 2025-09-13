@@ -48,12 +48,18 @@ for _name in (
     lg.setLevel(logging.WARNING)
     lg.propagate = False
 
+
+def _norm(s: str) -> str:
+    return s.casefold()
+
 def _check_validator_available() -> None:
     exe = shutil.which("bids-validator")
     if not exe:
         raise RuntimeError(
             "bids-validator not found on PATH. Install with: npm install -g bids-validator"
         )
+
+
 
 
 def run_validator(ds: Path) -> Tuple[bool, dict]:
@@ -131,16 +137,21 @@ def _box_client_from_config(config_json_str: Optional[str], config_path: Optiona
 
 
 def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
-                      skip_exts=(".con",), create_placeholders=True, max_bytes: int | None = None) -> None:
+                      skip_exts=(".con",), create_placeholders=True,
+                      max_bytes: int | None = None,
+                      exclude_top_level: Optional[set[str]] = None) -> None:
+
+    exclude_top_level = { _norm(x) for x in (exclude_top_level or set()) }
+
+
     out_dir.mkdir(parents=True, exist_ok=True)
     root_folder = client.folder(folder_id=folder_id).get()
     LOG.info("Mirroring Box folder '%s' (%s) into %s", root_folder.name, folder_id, out_dir)
 
-    def _walk(fid: str, local: Path):
+    def _walk(fid: str, local: Path, depth: int):
         local.mkdir(parents=True, exist_ok=True)
         offset, limit = 0, 1000
         while True:
-            # include 'size' so we can avoid downloading large files
             items = client.folder(fid).get_items(
                 limit=limit, offset=offset, fields=["id", "name", "type", "size"]
             )
@@ -148,33 +159,18 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
             for item in items:
                 count += 1
                 if item.type == "file":
-                    name = item.name
-                    tgt = local / name
-                    ext = Path(name).suffix.lower()
-                    size = getattr(item, "size", None)  # may be None for some items
-
-                    should_skip_ext = ext in tuple(s.lower() for s in skip_exts)
-                    too_big = max_bytes is not None and isinstance(size, int) and size > max_bytes
-
-                    if should_skip_ext or too_big:
-                        reason = "extension" if should_skip_ext else f"size>{max_bytes}"
-                        LOG.info("Placeholder for large/raw (%s): %s", reason, tgt)
-                        if create_placeholders:
-                            tgt.touch(exist_ok=True)  # zero-byte placeholder
-                        continue
-
-                    LOG.info("Downloading: %s", tgt)
-                    with open(tgt, "wb") as fh:
-                        client.file(item.id).download_to(fh)
-
+                    ...
                 elif item.type == "folder":
-                    _walk(item.id, local / item.name)
-
+                    # If we're at the Box root of the dataset tree, optionally skip
+                    if depth == 0 and exclude_top_level and _norm(item.name) in exclude_top_level:
+                        LOG.info("Skipping excluded dataset during mirror: %s", local / item.name)
+                        continue
+                    _walk(item.id, local / item.name, depth + 1)
             if count < limit:
                 break
             offset += limit
 
-    _walk(folder_id, out_dir)
+    _walk(folder_id, out_dir, depth=0)
 
 
 
@@ -237,10 +233,10 @@ def validate_local_root(root: Path, exclude: list[str] | None = None) -> Path:
     - Writes a CSV summary to <root>/bids_validation_summary.csv
     Returns the summary CSV path.
     """
-    exclude = set(exclude or [])
+    exclude_norm = {_norm(x) for x in (exclude or [])}
     rows = []
     for ds in iter_immediate_subdirs(root):
-        if ds.name in exclude:
+        if _norm(ds.name) in exclude_norm:
             LOG.info("Skipping excluded dataset: %s", ds.name)
             continue
 
@@ -329,6 +325,7 @@ def main():
         skip_exts=tuple(s.lower() for s in args.skip_ext),
         create_placeholders=(not args.no_con_placeholders),
         max_bytes=args.max_bytes,
+        exclude_top_level=set(args.exclude_dataset or []),
     )
 
     # Per-dataset JSONs + root CSV under work_dir
