@@ -93,5 +93,12 @@ jobs:
           python .github/workflows/validate_box_bids.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
-            $([ "${{ steps.cfg.outputs.create_placeholders }}" = "true" ] || echo "--no-con-placeholders")
-
+            --skip-ext .con \
+            --skip-ext .fif \
+            --skip-ext .mrk \
+            --skip-ext .bin \
+            --skip-ext .meg4 \
+            --skip-ext .ds \
+            --skip-ext .dat \
+            --skip-ext .mat \
+            --skip-ext .edf
