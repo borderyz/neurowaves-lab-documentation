@@ -277,8 +277,6 @@ def main():
 
     ap.add_argument("--no-con-placeholders", action="store_true",
                     help="Do NOT create .con placeholders (skip .con files entirely)")
-    ap.add_argument("--skip-ext", action="append", default=[".con"],
-                    help="Extra file extensions to skip downloading (repeatable). Default: .con")
 
     ap.add_argument(
         "--max-bytes",
