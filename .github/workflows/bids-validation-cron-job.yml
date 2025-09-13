@@ -84,8 +84,6 @@ jobs:
           import boxsdk
           print('boxsdk file:', getattr(boxsdk, '__file__', '?'))
           PY
-      
-      
 
       - name: Run validation script
         env:
@@ -95,5 +93,5 @@ jobs:
           python .github/workflows/validate_box_bids.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
-            --reports-dir reports \
             $([ "${{ steps.cfg.outputs.create_placeholders }}" = "true" ] || echo "--no-con-placeholders")
+
