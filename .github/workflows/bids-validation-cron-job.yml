@@ -6,7 +6,7 @@ on:
       box_folder_id:
         description: "Box folder ID containing dataset subfolders"
         required: true
-        default: "340371145702"
+        default: "258911132863"
       create_placeholders:
         description: "Create zero-byte .con placeholders (true/false)"
         required: true
@@ -31,7 +31,7 @@ jobs:
             BOX_ID="${{ github.event.inputs.box_folder_id }}"
             PLACEHOLDERS="${{ github.event.inputs.create_placeholders }}"
           else
-            BOX_ID="340371145702"   # <-- default for PRs
+            BOX_ID="258911132863"   # <-- default for PRs
             PLACEHOLDERS="true"
           fi
           echo "box_folder_id=$BOX_ID" >> "$GITHUB_OUTPUT"
