@@ -265,6 +265,59 @@ def validate_local_root(root: Path, reports_dir: Path) -> None:
             json.dump(report, f, indent=2)
         LOG.info("Wrote: %s (ok=%s)", out, ok)
 
+
+def upload_summary_and_per_dataset_reports(client: Client, work_dir: Path, dest_folder_id: str):
+    """
+    Uploads:
+      - work_dir/bids_validation_summary.csv  -> Box root (dest_folder_id)
+      - work_dir/<dataset>/bids_validation_report.json -> Box/<dataset>/
+    Creates subfolders on Box if needed. Does NOT upload other files.
+    """
+    # Reuse a tiny inner helper to ensure subfolders exist
+    def get_or_create_child_folder(parent_id: str, name: str) -> str:
+        items = client.folder(parent_id).get_items(limit=1000, fields=["id", "name", "type"])
+        for it in items:
+            if it.type == "folder" and it.name == name:
+                return it.id
+        return client.folder(parent_id).create_subfolder(name).id
+
+    # 1) Upload summary CSV to Box root
+    summary_csv = work_dir / "bids_validation_summary.csv"
+    if summary_csv.exists():
+        try:
+            client.folder(dest_folder_id).upload(str(summary_csv), file_name=summary_csv.name)
+        except Exception as e:
+            if "item_name_in_use" in str(e):
+                # overwrite by new version
+                items = client.folder(dest_folder_id).get_items(limit=1000, fields=["id","name","type"])
+                file_id = next((it.id for it in items if it.type == "file" and it.name == summary_csv.name), None)
+                if file_id:
+                    client.file(file_id).update_contents(str(summary_csv))
+                else:
+                    raise
+            else:
+                raise
+
+    # 2) Upload each per-dataset JSON into Box/<dataset>/
+    for ds in iter_immediate_subdirs(work_dir):
+        report = ds / "bids_validation_report.json"
+        if not report.exists():
+            continue
+        ds_box_id = get_or_create_child_folder(dest_folder_id, ds.name)
+        try:
+            client.folder(ds_box_id).upload(str(report), file_name=report.name)
+        except Exception as e:
+            if "item_name_in_use" in str(e):
+                items = client.folder(ds_box_id).get_items(limit=1000, fields=["id","name","type"])
+                file_id = next((it.id for it in items if it.type == "file" and it.name == report.name), None)
+                if file_id:
+                    client.file(file_id).update_contents(str(report))
+                else:
+                    raise
+            else:
+                raise
+
+
 def main():
 
 
@@ -334,18 +387,16 @@ def main():
         })
 
     # summary CSV at the parent (work_dir)
-    import csv
-    summary_csv = args.work_dir / "bids_validation_summary.csv"
-    with open(summary_csv, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["dataset", "is_valid", "n_errors", "n_warnings", "report_path"])
-        w.writeheader()
-        for r in rows:
-            w.writerow(r)
-    LOG.info("Summary CSV: %s (datasets=%d)", summary_csv, len(rows))
+    # Per-dataset JSONs + root CSV under work_dir
+    summary_csv = validate_local_root(args.work_dir)
+
+    # Upload summary + per-dataset logs (and nothing else)
+    upload_summary_and_per_dataset_reports(client, args.work_dir, dest_folder_id=args.box_folder_id)
+    LOG.info("Uploaded summary + per-dataset reports to Box folder %s", args.box_folder_id)
 
     # ---- Upload back to Box (optional) ----
     # 1) Upload the summary CSV to the root Box folder
-    upload_folder_to_box(client, summary_csv.parent, dest_folder_id=args.box_folder_id, overwrite=True)
+
     # (This will create/update 'bids_validation_summary.csv' in the Box folder.)
 
     # 2) If you also want per-dataset JSON uploaded in-place under the same Box folder,
@@ -354,17 +405,8 @@ def main():
     #    do a small copy into a temp dir or write a filter-uploader. For now we leave JSON local.
 
     # Validate each dataset root = immediate subfolder under work_dir
-    args.reports_dir.mkdir(parents=True, exist_ok=True)
-    for ds in iter_immediate_subdirs(args.work_dir):
-        ok, report = run_validator(ds)
-        out = args.reports_dir / f"{ds.name}_validation_report.json"
-        with open(out, "w", encoding="utf-8") as f:
-            json.dump(report, f, indent=2)
-        LOG.info("Wrote: %s (ok=%s)", out, ok)
 
-    # Upload reports back to the same Box folder
-    upload_folder_to_box(client, args.reports_dir, dest_folder_id=args.box_folder_id, overwrite=True)
-    LOG.info("Uploaded reports to Box folder %s", args.box_folder_id)
+
 
 
 if __name__ == "__main__":
