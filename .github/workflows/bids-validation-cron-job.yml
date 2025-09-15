@@ -8,7 +8,7 @@ on:
         required: true
         default: "258911132863"
       create_placeholders:
-        description: "Create zero-byte .con placeholders (true/false)"
+        description: "Create zero-byte large file placeholders (true/false)"
         required: true
         default: "true"
   pull_request: {}
