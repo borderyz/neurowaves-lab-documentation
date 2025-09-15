@@ -177,51 +177,37 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
 def upload_summary_and_per_dataset_reports(client: Client, work_dir: Path, dest_folder_id: str) -> None:
     """
     Uploads:
-      - work_dir/bids_validation_summary.csv  -> Box root (dest_folder_id)
+      - work_dir/bids_validation_summary.csv      -> Box root
       - work_dir/<dataset>/bids_validation_report.json -> Box/<dataset>/
-    Creates subfolders on Box if needed. Does NOT upload other files.
     """
+    folder_cache: dict[str, dict[str, str]] = {}  # parent_id -> {name: id}
+
     def get_or_create_child_folder(parent_id: str, name: str) -> str:
+        bucket = folder_cache.setdefault(parent_id, {})
+        if name in bucket:
+            return bucket[name]
         items = client.folder(parent_id).get_items(limit=1000, fields=["id", "name", "type"])
         for it in items:
             if it.type == "folder" and it.name == name:
+                bucket[name] = it.id
                 return it.id
-        return client.folder(parent_id).create_subfolder(name).id
+        new_id = client.folder(parent_id).create_subfolder(name).id
+        bucket[name] = new_id
+        return new_id
 
-    # 1) Upload summary CSV to Box root
+    # 1) summary
     summary_csv = work_dir / "bids_validation_summary.csv"
-    if summary_csv.exists():
-        try:
-            client.folder(dest_folder_id).upload(str(summary_csv), file_name=summary_csv.name)
-        except Exception as e:
-            if "item_name_in_use" in str(e):
-                items = client.folder(dest_folder_id).get_items(limit=1000, fields=["id","name","type"])
-                file_id = next((it.id for it in items if it.type == "file" and it.name == summary_csv.name), None)
-                if file_id:
-                    client.file(file_id).update_contents(str(summary_csv))
-                else:
-                    raise
-            else:
-                raise
+    _upload_or_update_file(client, dest_folder_id, summary_csv, summary_csv.name)
 
-    # 2) Upload each per-dataset JSON into Box/<dataset>/
+    # 2) per-dataset JSONs
     for ds in iter_immediate_subdirs(work_dir):
         report = ds / "bids_validation_report.json"
-        if not report.exists():
-            continue
-        ds_box_id = get_or_create_child_folder(dest_folder_id, ds.name)
-        try:
-            client.folder(ds_box_id).upload(str(report), file_name=report.name)
-        except Exception as e:
-            if "item_name_in_use" in str(e):
-                items = client.folder(ds_box_id).get_items(limit=1000, fields=["id","name","type"])
-                file_id = next((it.id for it in items if it.type == "file" and it.name == report.name), None)
-                if file_id:
-                    client.file(file_id).update_contents(str(report))
-                else:
-                    raise
-            else:
-                raise
+        if report.exists():
+            ds_box_id = get_or_create_child_folder(dest_folder_id, ds.name)
+            _upload_or_update_file(client, ds_box_id, report, report.name)
+
+
+
 
 
 # ----------------------- Local validate (per-dataset JSON + root CSV) -----------------------
@@ -260,6 +246,29 @@ def validate_local_root(root: Path, exclude: list[str] | None = None) -> Path:
         w.writerows(rows)
     LOG.info("Summary CSV: %s (datasets=%d)", summary_csv, len(rows))
     return summary_csv
+
+
+
+from boxsdk.exception import BoxAPIException
+
+def _upload_or_update_file(client, parent_id: str, local_path: Path, fname: str) -> None:
+    if not local_path.exists():
+        LOG.info("Skip upload (missing): %s", local_path)
+        return
+    try:
+        client.folder(parent_id).upload(str(local_path), file_name=fname)
+        LOG.info("Uploaded: %s -> folder %s", fname, parent_id)
+    except BoxAPIException as e:
+        # Box sends 409 + code="item_name_in_use" if the name already exists
+        if e.status == 409 and getattr(e, "code", "") == "item_name_in_use":
+            items = client.folder(parent_id).get_items(limit=1000, fields=["id","name","type"])
+            file_id = next((it.id for it in items if it.type == "file" and it.name == fname), None)
+            if not file_id:
+                raise  # unexpected; bubble up
+            client.file(file_id).update_contents(str(local_path))
+            LOG.info("Uploaded new version: %s -> folder %s", fname, parent_id)
+        else:
+            raise
 
 
 
@@ -330,6 +339,7 @@ def main():
 
     # Per-dataset JSONs + root CSV under work_dir
     summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset)
+
 
     # Upload ONLY the summary CSV + per-dataset JSONs back to Box
     upload_summary_and_per_dataset_reports(client, args.work_dir, dest_folder_id=args.box_folder_id)
