@@ -140,9 +140,7 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
                       skip_exts=(".con",), create_placeholders=True,
                       max_bytes: int | None = None,
                       exclude_top_level: Optional[set[str]] = None) -> None:
-
-    exclude_top_level = { _norm(x) for x in (exclude_top_level or set()) }
-
+    exclude_top_level = { (x or "").casefold() for x in (exclude_top_level or set()) }
 
     out_dir.mkdir(parents=True, exist_ok=True)
     root_folder = client.folder(folder_id=folder_id).get()
@@ -151,6 +149,10 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
     def _walk(fid: str, local: Path, depth: int):
         local.mkdir(parents=True, exist_ok=True)
         offset, limit = 0, 1000
+        downloaded = 0
+        placeholders = 0
+        skipped = 0
+
         while True:
             items = client.folder(fid).get_items(
                 limit=limit, offset=offset, fields=["id", "name", "type", "size"]
@@ -159,18 +161,51 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
             for item in items:
                 count += 1
                 if item.type == "file":
-                    ...
+                    name = item.name
+                    tgt = local / name
+                    ext = Path(name).suffix.lower()
+                    size = getattr(item, "size", None)
+
+                    skip_by_ext = ext in tuple(s.lower() for s in skip_exts)
+                    skip_by_size = (max_bytes is not None and
+                                    isinstance(size, int) and size > max_bytes)
+
+                    if skip_by_ext or skip_by_size:
+                        reason = "ext" if skip_by_ext else f"size>{max_bytes}"
+                        if create_placeholders:
+                            LOG.info("Placeholder for large/raw (%s): %s", reason, tgt)
+                            tgt.parent.mkdir(parents=True, exist_ok=True)
+                            tgt.touch(exist_ok=True)
+                            placeholders += 1
+                        else:
+                            LOG.info("Skipping download (%s): %s", reason, tgt)
+                            skipped += 1
+                        continue
+
+                    LOG.info("Downloading: %s", tgt)
+                    tgt.parent.mkdir(parents=True, exist_ok=True)
+                    with open(tgt, "wb") as fh:
+                        client.file(item.id).download_to(fh)
+                    downloaded += 1
+
                 elif item.type == "folder":
-                    # If we're at the Box root of the dataset tree, optionally skip
-                    if depth == 0 and exclude_top_level and _norm(item.name) in exclude_top_level:
+                    # skip excluded top-level dataset folders
+                    if depth == 0 and exclude_top_level and item.name.casefold() in exclude_top_level:
                         LOG.info("Skipping excluded dataset during mirror: %s", local / item.name)
                         continue
                     _walk(item.id, local / item.name, depth + 1)
+
             if count < limit:
                 break
             offset += limit
 
+        # brief per-folder summary
+        if downloaded or placeholders or skipped:
+            LOG.info("Mirror summary for %s  downloaded=%d  placeholders=%d  skipped=%d",
+                     local, downloaded, placeholders, skipped)
+
     _walk(folder_id, out_dir, depth=0)
+
 
 
 
@@ -336,6 +371,15 @@ def main():
         max_bytes=args.max_bytes,
         exclude_top_level=set(args.exclude_dataset or []),
     )
+
+    for ds in iter_immediate_subdirs(args.work_dir):
+        LOG.info("Sample contents under %s:", ds)
+        # show up to 20 paths
+        for i, p in enumerate(ds.rglob("*")):
+            if i >= 20:
+                LOG.info("... (truncated)")
+                break
+            LOG.info("  %s%s", p, " [0B]" if p.is_file() and p.stat().st_size == 0 else "")
 
     # Per-dataset JSONs + root CSV under work_dir
     summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset)
