@@ -6,9 +6,9 @@ Operational Protocol
 
 Based on a previous version of the protocol from Aniol Santos Angles.
 
-Find a PDF version of the protocol below:
-- `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
 
+- Find a PDF version of the protocol: `MEG Lab manual PDF download <https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/releases/download/v-report-docs/meg-lab-manual.pdf>`_
+- Once you master the current protocol, keep in handy the :ref:`MEG Session Checklist <checklist>`
 
 .. contents::
    :local:

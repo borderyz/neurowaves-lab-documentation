@@ -11,3 +11,4 @@ MEG Lab Manual
 
    2-meg-kit-system/4-training.rst
    2-meg-kit-system/5-operational-protocol.rst
+   2-meg-kit-system/5-operational-protocol-meg-session-checklist.rst

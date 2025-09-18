@@ -8,12 +8,15 @@ from sphinx.application import Sphinx
 
 
 # Dashboard Generation
-import os
+import os, sys
+
+
 import subprocess
 import logging
 from sphinx.application import Sphinx
 import subprocess
 
+sys.path.append(os.path.abspath('_ext'))  # so Sphinx finds _ext/my_checklist
 
 project = "NeuroWaves NYUAD Documentation"
 copyright = "2025, Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
@@ -58,7 +61,10 @@ extensions = [
     "sphinx_togglebutton",
     "sphinx_panels",
     "sphinxcontrib.mermaid",
+    "_checklist",
 ]
+
+
 
 exclude_patterns = ['**/template_*.ipynb']
 
@@ -97,7 +103,9 @@ suppress_warnings = [
 
 html_static_path = ["_static"]
 html_css_files = ["custom.css",
-                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"]
+                  "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css",
+                  "checklist.css"
+                  ]
 
 # -- Options for EPUB output
 epub_show_urls = "footnote"
