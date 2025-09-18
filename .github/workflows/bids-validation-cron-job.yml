@@ -12,6 +12,9 @@ on:
         required: true
         default: "true"
   pull_request: {}
+  schedule:
+    # Runs every day at 20:00 UTC = 00:00 Asia/Dubai
+    - cron: "0 20 * * *"
 
 jobs:
   validate:
