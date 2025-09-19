@@ -96,6 +96,7 @@ jobs:
           python .github/workflows/validate_box_bids.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
+            --bidsignore-template .github/workflows/.bidsignore_template \
             --skip-ext .con \
             --skip-ext .fif \
             --skip-ext .mrk \
@@ -106,4 +107,5 @@ jobs:
             --skip-ext .mat \
             --skip-ext .edf \
             --skip-ext .mgz \
-            --skip-ext .mgz \
+            --skip-ext .nii \
+            --skip-ext .nii.gz \

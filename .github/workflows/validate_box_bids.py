@@ -49,6 +49,39 @@ for _name in (
     lg.propagate = False
 
 
+# add near the top
+from typing import Iterable
+
+def _read_nonempty_lines(p: Path) -> list[str]:
+    return [ln.rstrip("\n") for ln in p.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+def ensure_bidsignore(ds: Path, template_path: Optional[Path]) -> None:
+    """Ensure ds/.bidsignore contains all entries from template_path (append missing)."""
+    if not template_path:
+        return
+    if not template_path.exists():
+        LOG.warning("bidsignore template not found: %s", template_path)
+        return
+
+    target = ds / ".bidsignore"
+    tpl_lines = _read_nonempty_lines(template_path)
+
+    if not target.exists():
+        target.write_text("\n".join(tpl_lines) + "\n", encoding="utf-8")
+        LOG.info("Created .bidsignore in %s from template (%d line(s))", ds.name, len(tpl_lines))
+        return
+
+    have = set(_read_nonempty_lines(target))
+    missing = [ln for ln in tpl_lines if ln not in have]
+    if missing:
+        with open(target, "a", encoding="utf-8") as f:
+            f.write("\n# --- added by validate_box_bids.py ---\n")
+            for ln in missing:
+                f.write(ln + "\n")
+        LOG.info("Updated .bidsignore in %s (+%d line(s))", ds.name, len(missing))
+
+
+
 def _norm(s: str) -> str:
     return s.casefold()
 
@@ -212,7 +245,7 @@ def upload_summary_and_per_dataset_reports(client: Client, work_dir: Path, dest_
 
 # ----------------------- Local validate (per-dataset JSON + root CSV) -----------------------
 
-def validate_local_root(root: Path, exclude: list[str] | None = None) -> Path:
+def validate_local_root(root: Path, exclude: list[str] | None = None, bidsignore_template: Optional[Path] = None) -> Path:
     """
     Validate each immediate subdir of `root` as a dataset.
     - Writes per-dataset JSON to <ds>/bids_validation_report.json
@@ -225,6 +258,9 @@ def validate_local_root(root: Path, exclude: list[str] | None = None) -> Path:
         if _norm(ds.name) in exclude_norm:
             LOG.info("Skipping excluded dataset: %s", ds.name)
             continue
+
+        # ensure .bidsignore exists/updated BEFORE running validator
+        ensure_bidsignore(ds, bidsignore_template)
 
         ok, report = run_validator(ds)
         per_ds_json = ds / "bids_validation_report.json"
@@ -311,13 +347,22 @@ def main():
         help="Extra file extensions to skip downloading (repeatable).",
     )
 
+    # argparse section
+    ap.add_argument(
+        "--bidsignore-template",
+        type=Path,
+        default=None,  # we’ll pass it from the workflow
+        help="Path to a .bidsignore template to apply to each dataset root."
+    )
 
     args = ap.parse_args()
 
     # Local mode
     if args.root:
         LOG.info("Running in LOCAL mode")
-        summary_csv = validate_local_root(args.root, exclude=args.exclude_dataset)
+        summary_csv = validate_local_root(args.root,
+                                          exclude=args.exclude_dataset,
+                                          bidsignore_template=args.bidsignore_template)
         LOG.info("Done. Summary: %s", summary_csv)
         return
 
@@ -338,8 +383,8 @@ def main():
     )
 
     # Per-dataset JSONs + root CSV under work_dir
-    summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset)
-
+    summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset,
+                                      bidsignore_template=args.bidsignore_template)
 
     # Upload ONLY the summary CSV + per-dataset JSONs back to Box
     upload_summary_and_per_dataset_reports(client, args.work_dir, dest_folder_id=args.box_folder_id)
