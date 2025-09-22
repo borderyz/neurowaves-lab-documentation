@@ -56,7 +56,6 @@ import pandas as pd
 
 ## set triggers
 RESPONSES = []
-TRIGGER_DURATION = 10
 
 if DEBUG_MODE:
     CSV_TRIGGER_INFO = pd.read_csv('VI_trig_debug.csv')
@@ -1057,11 +1056,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             VI_Sound_end_trigger_ON = False
             VI_Sound_end_trigger_OFF = False
 
-            while continueRoutine and routineTimer.getTime() < 6.5 and (USE_VPIXX and (
-        (VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF) or
-        (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF) or
-        (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)
-    )):
+            while continueRoutine and (routineTimer.getTime() < 6.5 or (USE_VPIXX and (
+                    (VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF) or
+                    (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF) or
+                    (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)
+            ))):
                 # get current time
                 t = routineTimer.getTime()
                 tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1118,8 +1117,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         VI_BG.setAutoDraw(False)
 
                 # TODO: trigger off for 'VI_BG end'
-                if USE_VPIXX:
-                    if frameN >= VI_BG.frameNStop + TRIGGER_DURATION and not VI_BG_end_trigger_OFF and VI_BG_end_trigger_ON:
+                if USE_VPIXX and VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF:
+                    if frameN >= VI_BG.frameNStop + TRIGGER_DURATION:
                         # Debugging log: Print the calculated combined value
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
@@ -2119,9 +2118,10 @@ def quit(thisExp, win=None, thisSession=None):
     if thisSession is not None:
         thisSession.stop()
     # terminate Python process
-    core.quit()
     if USE_VPIXX:
         dp.DPxClose()
+    core.quit()
+
 
 # if running this experiment as a script...
 if __name__ == '__main__':
