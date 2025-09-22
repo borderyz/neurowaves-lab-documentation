@@ -1056,11 +1056,15 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             VI_Sound_end_trigger_ON = False
             VI_Sound_end_trigger_OFF = False
 
-            while continueRoutine and (routineTimer.getTime() < 6.5 or (USE_VPIXX and (
-                    (VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF) or
-                    (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF) or
-                    (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)
-            ))):
+            pending_triggers = False
+
+            while continueRoutine and (routineTimer.getTime() < 6.5 or pending_triggers):
+
+                pending_triggers = (USE_VPIXX and
+                                    ((VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF)
+                                     or (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF)
+                                     or (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)))
+
                 # get current time
                 t = routineTimer.getTime()
                 tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1268,7 +1272,10 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # refresh the screen
                 if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                     win.flip()
-            
+
+                if not continueRoutine and pending:
+                    continueRoutine = True
+
             # --- Ending Routine "VI_Imagine" ---
             for thisComponent in VI_Imagine.components:
                 if hasattr(thisComponent, "setAutoDraw"):
