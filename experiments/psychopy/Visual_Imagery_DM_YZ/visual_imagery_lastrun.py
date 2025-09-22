@@ -1057,7 +1057,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             VI_Sound_end_trigger_ON = False
             VI_Sound_end_trigger_OFF = False
 
-            while continueRoutine and routineTimer.getTime() < 6.5:
+            while continueRoutine and routineTimer.getTime() < 6.5 and (USE_VPIXX and (
+        (VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF) or
+        (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF) or
+        (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)
+    )):
                 # get current time
                 t = routineTimer.getTime()
                 tThisFlip = win.getFutureFlipTime(clock=routineTimer)
@@ -1654,9 +1658,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
 
 
-
-                        continueRoutine = False
-
                     elif RESPONSE_TYPE == "vpixx_box" and not RESPONSE_VI_CQ_RECEIVED:
                         response = getbuttonColor(RESPONSE_SELECTION_2, blocking=False)
                         if response != None:
@@ -1675,7 +1676,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             RESPONSE_VI_CQ_RECEIVED = True
 
                             Trials.addData('RESPONSE_VI_CQ', response)
-                            continueRoutine = False
+
 
                 if USE_VPIXX and VI_CQ_Key_Resp_trigger_ON and not VI_CQ_Key_Resp_trigger_OFF:
                     if frameN >= VI_CQ_Key_Resp_off_frame:
