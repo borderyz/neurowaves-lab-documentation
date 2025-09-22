@@ -22,7 +22,7 @@ DEBUG_MODE = True
 RESPONSE_TYPE = "simulated"
 #RESPONSE_TYPE = ["keyboard", "simulated", "vpixx_box"]
 SCREEN_INDEX = 1
-
+TRIGGER_DURATION = 10 #Duration of a trigger in frames
 
 if USE_VPIXX:
     dp.DPxOpen()
@@ -1400,12 +1400,12 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                                 dp.DPxSetDoutValue(VI_KEY_RESP2_RESPOND_TRIGGER_CODE, 0xFFFFFF)
                                 dp.DPxUpdateRegCache()
                                 VI_Key_Resp2_respond_trigger_ON = True
+                                VI_Key_Resp2_respond_off_frame = frameN + TRIGGER_DURATION
 
                             print(f"Response VI_KEY_RESP2: {response}")
                             RESPONSE_VI_KEY_RESP2_RECEIVED = True
                             Trials.addData('RESPONSE_VI_KEY_RESP2', response)
                             #RESPONSES.append(response)
-                            continueRoutine = False
 
 
                     elif RESPONSE_TYPE == "keyboard":
@@ -1422,8 +1422,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     elif RESPONSE_TYPE == "simulated":
                         # directly assign simulated response
 
-
-
                         VI_Key_Resp2.keys = '3'
                         VI_Key_Resp2.rt = 0  # you can set a fake RT if you want
                         VI_Key_Resp2.duration = None
@@ -1433,24 +1431,20 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxUpdateRegCache()
                             VI_Key_Resp2_respond_trigger_ON = True
 
-                            core.Wait(0.008)
-                            dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                            dp.DPxUpdateRegCache()
-
-                            VI_Key_Resp2_respond_trigger_OFF = True
+                            VI_Key_Resp2_respond_off_frame = frameN + TRIGGER_DURATION
 
 
 
-                        continueRoutine = False
-
-                    # TODO: trigger off for VI_Key_Resp2_respond
-                if USE_VPIXX:
-                    if frameN >= VI_Key_Resp2.frameNStart + TRIGGER_DURATION and not VI_Key_Resp2_respond_trigger_OFF and VI_Key_Resp2_respond_trigger_ON:
-                        # Debugging log: Print the calculated combined value
+                if USE_VPIXX and VI_Key_Resp2_respond_trigger_ON and not VI_Key_Resp2_respond_trigger_OFF:
+                    if frameN >= VI_Key_Resp2_respond_off_frame:
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
-
                         VI_Key_Resp2_respond_trigger_OFF = True
+                        continueRoutine = False  # now we can end
+
+                        #continueRoutine = False
+
+
 
                 # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
@@ -1634,7 +1628,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # TODO: trigger on for 'VI_CQ_Key_Resp respond', 3 buttons for right hand controller, index finger for 's', middle for 'd', ring for 'f'
 
 
-
                     if RESPONSE_TYPE == "keyboard":
 
                         theseKeys = VI_CQ_Key_Resp.getKeys(keyList=['s', 'd', 'f'], ignoreKeys=["escape"],
@@ -1657,12 +1650,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxSetDoutValue(VI_CQ_KEY_RESP_RESPOND_TRIGGER_CODE, 0xFFFFFF)
                             dp.DPxUpdateRegCache()
                             VI_CQ_Key_Resp_trigger_ON = True
+                            VI_CQ_Key_Resp_off_frame = frameN + TRIGGER_DURATION
 
-                            core.Wait(0.008)
-                            dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                            dp.DPxUpdateRegCache()
 
-                            VI_CQ_Key_Resp_trigger_OFF = True
 
 
                         continueRoutine = False
@@ -1677,7 +1667,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                                 dp.DPxSetDoutValue(VI_CQ_KEY_RESP_RESPOND_TRIGGER_CODE, 0xFFFFFF)
                                 dp.DPxUpdateRegCache()
                                 VI_CQ_Key_Resp_trigger_ON = True
-
+                                VI_CQ_Key_Resp_off_frame = frameN + TRIGGER_DURATION
 
 
                             #TODO: remove later
@@ -1687,14 +1677,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             Trials.addData('RESPONSE_VI_CQ', response)
                             continueRoutine = False
 
-                    # TODO: trigger off for VI_Key_Resp2_respond
-                    if USE_VPIXX:
-                        if frameN >= VI_CQ_Key_Resp.frameNStart + TRIGGER_DURATION and not VI_CQ_Key_Resp_trigger_OFF and VI_CQ_Key_Resp_trigger_ON:
-                            # Debugging log: Print the calculated combined value
-                            dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                            dp.DPxUpdateRegCache()
+                if USE_VPIXX and VI_CQ_Key_Resp_trigger_ON and not VI_CQ_Key_Resp_trigger_OFF:
+                    if frameN >= VI_CQ_Key_Resp_off_frame:
+                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
+                        dp.DPxUpdateRegCache()
+                        VI_CQ_Key_Resp_trigger_OFF = True
+                        continueRoutine = False
 
-                            VI_CQ_Key_Resp_trigger_OFF = True
+
 
                 # check for quit (typically the Esc key)
                 if defaultKeyboard.getKeys(keyList=["escape"]):
