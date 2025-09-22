@@ -20,8 +20,9 @@ import json
 USE_VPIXX = True
 DEBUG_MODE = True
 RESPONSE_TYPE = "simulated"
-SCREEN_INDEX = 1
 #RESPONSE_TYPE = ["keyboard", "simulated", "vpixx_box"]
+SCREEN_INDEX = 1
+
 
 if USE_VPIXX:
     dp.DPxOpen()
