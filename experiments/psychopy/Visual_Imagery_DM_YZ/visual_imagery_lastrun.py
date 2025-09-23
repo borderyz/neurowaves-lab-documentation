@@ -1273,7 +1273,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                     win.flip()
 
-                if not continueRoutine and pending:
+                if not continueRoutine and pending_triggers:
                     continueRoutine = True
 
             # --- Ending Routine "VI_Imagine" ---
