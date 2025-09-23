@@ -22,7 +22,7 @@ DEBUG_MODE = True
 RESPONSE_TYPE = "simulated"
 #RESPONSE_TYPE = ["keyboard", "simulated", "vpixx_box"]
 SCREEN_INDEX = 1
-TRIGGER_DURATION = 10 #Duration of a trigger in frames
+TRIGGER_DURATION = 100 #Duration of a trigger in frames
 
 if USE_VPIXX:
     dp.DPxOpen()
@@ -1060,10 +1060,6 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
             while continueRoutine and (routineTimer.getTime() < 6.5 or pending_triggers):
 
-                pending_triggers = (USE_VPIXX and
-                                    ((VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF)
-                                     or (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF)
-                                     or (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)))
 
                 # get current time
                 t = routineTimer.getTime()
@@ -1117,16 +1113,20 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxSetDoutValue(VI_BG_END_TRIGGER_CODE, 0xFFFFFF)
                             dp.DPxUpdateRegCache()
                             VI_BG_end_trigger_ON = True
-
+                            VI_BG_end_off_at = win._frameN + TRIGGER_DURATION
                         VI_BG.setAutoDraw(False)
 
+
+
                 # TODO: trigger off for 'VI_BG end'
+
                 if USE_VPIXX and VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF:
-                    if frameN >= VI_BG.frameNStop + TRIGGER_DURATION:
+
+                    if win._frameN >= VI_BG_end_off_at:
                         # Debugging log: Print the calculated combined value
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
-
+                        print('TRigger off BG End')
                         VI_BG_end_trigger_OFF = True
 
 
@@ -1273,8 +1273,18 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if continueRoutine:  # don't flip if this routine is over or we'll get a blank screen
                     win.flip()
 
-                if not continueRoutine and pending_triggers:
-                    continueRoutine = True
+                pending_triggers = USE_VPIXX and (
+                        (VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF) or
+                        (VI_Sound_begin_trigger_ON and not VI_Sound_begin_trigger_OFF) or
+                        (VI_Sound_end_trigger_ON and not VI_Sound_end_trigger_OFF)
+                )
+
+                # keep routine alive if all components finished but OFFs still pending
+                if not continueRoutine:
+                    if pending_triggers:
+                        continueRoutine = True
+
+
 
             # --- Ending Routine "VI_Imagine" ---
             for thisComponent in VI_Imagine.components:
