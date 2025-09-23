@@ -1,0 +1,17 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer
+red,a red bus,bus,Is it an animal?,NO
+yellow,a yellow sunflower,sunflower,Is it a cloth?,NO
+green,a green cabbage,cabbage,Is it a food?,YES
+red,a red strawberry,strawberry,Is it a tool?,NO
+yellow,a yellow pineapple,pineapple,Is it a food?,YES
+yellow,a yellow trumpet,trumpet,Is it an instrument?,YES
+grey,a grey bowl,bowl,Is it a food?,NO
+black,a black pan,pan,Is it a food?,NO
+brown,a brown backpack,backpack,Is it an instrument?,NO
+brown,a brown bench,bench,Is it a cloth?,NO
+black,a black clock,clock,Is it an animal?,NO
+black,a black train,train,Is it a food?,NO
+blue,a blue helicopter,helicopter,Is it a cloth?,NO
+green,a green lizard,lizard,Is it an animal?,YES
+grey,a grey squirrel,squirrel,Is it an instrument?,NO
+orange,an orange pumpkin,pumpkin,Is it a food?,YES
