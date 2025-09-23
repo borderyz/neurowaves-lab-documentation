@@ -22,7 +22,7 @@ DEBUG_MODE = True
 RESPONSE_TYPE = "simulated"
 #RESPONSE_TYPE = ["keyboard", "simulated", "vpixx_box"]
 SCREEN_INDEX = 1
-TRIGGER_DURATION = 100 #Duration of a trigger in frames
+TRIGGER_DURATION = 20 #Duration of a trigger in frames
 
 if USE_VPIXX:
     dp.DPxOpen()
@@ -30,6 +30,7 @@ if USE_VPIXX:
     dp.DPxWriteRegCache()
     dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
     dp.DPxUpdateRegCache()
+    print('Trigger off beginning of Experiment')
 
 # --- Import packages ---
 from psychopy import locale_setup
@@ -700,10 +701,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # if VI_Intro is starting this frame...
         if VI_Intro.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
 
-            #TODO: Check if this can be removed later
-            if USE_VPIXX:
-                dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                dp.DPxUpdateRegCache()
+
             # keep track of start time/frame for later
             VI_Intro.frameNStart = frameN  # exact frame index
             VI_Intro.tStart = t  # local t and not account for scr refresh
@@ -726,9 +724,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
         # if VI_Key_Resp1 is starting this frame...
         if VI_Key_Resp1.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
             #TODO: Check if this can be removed later
-            if USE_VPIXX:
-                dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                dp.DPxUpdateRegCache()
+
             # keep track of start time/frame for later
             VI_Key_Resp1.frameNStart = frameN  # exact frame index
             VI_Key_Resp1.tStart = t  # local t and not account for scr refresh
@@ -920,9 +916,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # if VI_Inter is starting this frame...
                 if VI_Inter.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # TODO: Check if this can be removed later
-                    if USE_VPIXX:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+
                     # keep track of start time/frame for later
                     VI_Inter.frameNStart = frameN  # exact frame index
                     VI_Inter.tStart = t  # local t and not account for scr refresh
@@ -1056,7 +1050,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             VI_Sound_end_trigger_ON = False
             VI_Sound_end_trigger_OFF = False
 
-            pending_triggers = False
+            pending_triggers = False # No trigger are pending
 
             while continueRoutine and (routineTimer.getTime() < 6.5 or pending_triggers):
 
@@ -1073,9 +1067,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # if VI_BG is starting this frame...
                 if VI_BG.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # TODO: Check if this can be removed later
-                    if USE_VPIXX:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+
                     # keep track of start time/frame for later
                     VI_BG.frameNStart = frameN  # exact frame index
                     VI_BG.tStart = t  # local t and not account for scr refresh
@@ -1094,9 +1086,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 
                 # if VI_BG is stopping this frame...
                 if VI_BG.status == STARTED:
+                    #print('VI_BG started')
                     # is it time to stop? (based on global clock, using actual start)
                     if tThisFlipGlobal > VI_BG.tStartRefresh + 6.5-frameTolerance:
                         # keep track of stop time/frame for later
+                        print('VI_BG Stop', frameN)
                         VI_BG.tStop = t  # not accounting for scr refresh
                         VI_BG.tStopRefresh = tThisFlipGlobal  # on global time
                         VI_BG.frameNStop = frameN  # exact frame index
@@ -1113,7 +1107,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxSetDoutValue(VI_BG_END_TRIGGER_CODE, 0xFFFFFF)
                             dp.DPxUpdateRegCache()
                             VI_BG_end_trigger_ON = True
-                            VI_BG_end_off_at = win._frameN + TRIGGER_DURATION
+                            print('Trigger On VI BG END', frameN)
+
                         VI_BG.setAutoDraw(False)
 
 
@@ -1122,11 +1117,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
                 if USE_VPIXX and VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF:
 
-                    if win._frameN >= VI_BG_end_off_at:
+                    if frameN >= VI_BG.frameNStop + TRIGGER_DURATION:
                         # Debugging log: Print the calculated combined value
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
-                        print('TRigger off BG End')
+                        print('Trigger off BG End', frameN)
                         VI_BG_end_trigger_OFF = True
 
 
@@ -1138,9 +1133,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # if VI_Sound is starting this frame...
                 if VI_Sound.status == NOT_STARTED and t >= 1.0-frameTolerance:
                     # TODO: Check if this can be removed later
-                    if USE_VPIXX:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+
                     # keep track of start time/frame for later
                     VI_Sound.frameNStart = frameN  # exact frame index
 
@@ -1159,6 +1152,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         dp.DPxSetDoutValue(VI_SOUND_START_TRIGGER_CODE, 0xFFFFFF)
                         dp.DPxUpdateRegCache()
                         VI_Sound_begin_trigger_ON = True
+                        print('Trigger On VI SOUND START', frameN)
 
 
 
@@ -1175,8 +1169,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             # Debugging log: Print the calculated combined value
                             dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                             dp.DPxUpdateRegCache()
-
                             VI_Sound_begin_trigger_OFF = True
+                            print('Trigger off SOUND START', frameN)
 
 
                     # is it time to stop? (based on global clock, using actual start)
@@ -1198,6 +1192,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxSetDoutValue(VI_SOUND_END_TRIGGER_CODE, 0xFFFFFF)
                             dp.DPxUpdateRegCache()
                             VI_Sound_end_trigger_ON = True
+                            print('Trigger On VI SOUND END', frameN)
 
 
                         VI_Sound.stop()
@@ -1209,15 +1204,14 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
                         VI_Sound_end_trigger_OFF = True
+                        print('Trigger off SOUND END', frameN)
 
                 # *VI_Cue* updates
                 
                 # if VI_Cue is starting this frame...
                 if VI_Cue.status == NOT_STARTED and tThisFlip >= 0.0-frameTolerance:
                     # TODO: Check if this can be removed later
-                    if USE_VPIXX:
-                        dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
-                        dp.DPxUpdateRegCache()
+                    print('Start VI_CUE', frameN)
                     # keep track of start time/frame for later
                     VI_Cue.frameNStart = frameN  # exact frame index
                     VI_Cue.tStart = t  # local t and not account for scr refresh
@@ -1232,6 +1226,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 if VI_Cue.status == STARTED:
                     # is it time to stop? (based on global clock, using actual start)
                     if tThisFlipGlobal > VI_Cue.tStartRefresh + 1.0-frameTolerance or VI_Cue.isFinished:
+
+                        print('Stop VI_CUE', frameN)
                         # keep track of stop time/frame for later
                         VI_Cue.tStop = t  # not accounting for scr refresh
                         VI_Cue.tStopRefresh = tThisFlipGlobal  # on global time
@@ -1282,6 +1278,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                 # keep routine alive if all components finished but OFFs still pending
                 if not continueRoutine:
                     if pending_triggers:
+                        print('pending triggers')
                         continueRoutine = True
 
 
@@ -1419,6 +1416,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             if USE_VPIXX and not VI_Key_Resp2_respond_trigger_ON:
                                 dp.DPxSetDoutValue(VI_KEY_RESP2_RESPOND_TRIGGER_CODE, 0xFFFFFF)
                                 dp.DPxUpdateRegCache()
+
                                 VI_Key_Resp2_respond_trigger_ON = True
                                 VI_Key_Resp2_respond_off_frame = frameN + TRIGGER_DURATION
 
