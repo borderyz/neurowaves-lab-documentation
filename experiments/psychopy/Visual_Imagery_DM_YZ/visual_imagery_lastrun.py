@@ -22,7 +22,7 @@ DEBUG_MODE = True
 RESPONSE_TYPE = "simulated"
 #RESPONSE_TYPE = ["keyboard", "simulated", "vpixx_box"]
 SCREEN_INDEX = 1
-TRIGGER_DURATION = 20 #Duration of a trigger in frames
+TRIGGER_DURATION = 0.500 #Duration of a trigger in frames
 
 if USE_VPIXX:
     dp.DPxOpen()
@@ -1108,6 +1108,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxUpdateRegCache()
                             VI_BG_end_trigger_ON = True
                             print('Trigger On VI BG END', frameN)
+                            VI_BG_end_trigger_ON_time = globalClock.getTime()
 
                         VI_BG.setAutoDraw(False)
 
@@ -1117,7 +1118,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
                 if USE_VPIXX and VI_BG_end_trigger_ON and not VI_BG_end_trigger_OFF:
 
-                    if frameN >= VI_BG.frameNStop + TRIGGER_DURATION:
+                    if globalClock.getTime() >= VI_BG_end_trigger_ON_time + TRIGGER_DURATION:
                         # Debugging log: Print the calculated combined value
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
@@ -1153,6 +1154,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                         dp.DPxUpdateRegCache()
                         VI_Sound_begin_trigger_ON = True
                         print('Trigger On VI SOUND START', frameN)
+                        VI_Sound_begin_trigger_ON_time = globalClock.getTime()
 
 
 
@@ -1165,7 +1167,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                     # TODO: Turn off trigger for 'VI_Sound start'
 
                     if USE_VPIXX:
-                        if frameN >= VI_Sound.frameNStart + TRIGGER_DURATION and not VI_Sound_begin_trigger_OFF and VI_Sound_begin_trigger_ON:
+                        if globalClock.getTime() >= VI_Sound_begin_trigger_ON_time + TRIGGER_DURATION and not VI_Sound_begin_trigger_OFF and VI_Sound_begin_trigger_ON:
                             # Debugging log: Print the calculated combined value
                             dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                             dp.DPxUpdateRegCache()
@@ -1193,13 +1195,13 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxUpdateRegCache()
                             VI_Sound_end_trigger_ON = True
                             print('Trigger On VI SOUND END', frameN)
-
+                            VI_Sound_end_trigger_ON_time = globalClock.getTime()
 
                         VI_Sound.stop()
 
                 if USE_VPIXX and not VI_Sound_end_trigger_OFF and VI_Sound_end_trigger_ON:
 
-                    if frameN >= VI_Sound.frameNStop + TRIGGER_DURATION:
+                    if globalClock.getTime() >= VI_Sound_end_trigger_ON_time + TRIGGER_DURATION:
                         # Debugging log: Print the calculated combined value
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
@@ -1420,6 +1422,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                                 VI_Key_Resp2_respond_trigger_ON = True
                                 VI_Key_Resp2_respond_off_frame = frameN + TRIGGER_DURATION
 
+                                VI_Key_Resp2_respond_trigger_ON_time = globalClock.getTime()
+
                             print(f"Response VI_KEY_RESP2: {response}")
                             RESPONSE_VI_KEY_RESP2_RECEIVED = True
                             Trials.addData('RESPONSE_VI_KEY_RESP2', response)
@@ -1450,11 +1454,11 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             VI_Key_Resp2_respond_trigger_ON = True
 
                             VI_Key_Resp2_respond_off_frame = frameN + TRIGGER_DURATION
-
+                            VI_Key_Resp2_respond_trigger_ON_time = globalClock.getTime()
 
 
                 if USE_VPIXX and VI_Key_Resp2_respond_trigger_ON and not VI_Key_Resp2_respond_trigger_OFF:
-                    if frameN >= VI_Key_Resp2_respond_off_frame:
+                    if globalClock.getTime() >= VI_Key_Resp2_respond_trigger_ON_time+TRIGGER_DURATION:
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
                         VI_Key_Resp2_respond_trigger_OFF = True
@@ -1668,8 +1672,9 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                             dp.DPxSetDoutValue(VI_CQ_KEY_RESP_RESPOND_TRIGGER_CODE, 0xFFFFFF)
                             dp.DPxUpdateRegCache()
                             VI_CQ_Key_Resp_trigger_ON = True
-                            VI_CQ_Key_Resp_off_frame = frameN + TRIGGER_DURATION
 
+                            VI_CQ_Key_Resp_off_frame = frameN + TRIGGER_DURATION
+                            VI_CQ_Key_Resp_off_time = globalClock.getTime()
 
 
                     elif RESPONSE_TYPE == "vpixx_box" and not RESPONSE_VI_CQ_RECEIVED:
@@ -1683,6 +1688,8 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
                                 dp.DPxUpdateRegCache()
                                 VI_CQ_Key_Resp_trigger_ON = True
                                 VI_CQ_Key_Resp_off_frame = frameN + TRIGGER_DURATION
+                                VI_CQ_Key_Resp_off_time = globalClock.getTime()
+
 
 
                             #TODO: remove later
@@ -1693,7 +1700,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
 
 
                 if USE_VPIXX and VI_CQ_Key_Resp_trigger_ON and not VI_CQ_Key_Resp_trigger_OFF:
-                    if frameN >= VI_CQ_Key_Resp_off_frame:
+                    if globalClock.getTime() >= VI_CQ_Key_Resp_off_time+TRIGGER_DURATION:
                         dp.DPxSetDoutValue(RGB2Trigger(black), 0xFFFFFF)
                         dp.DPxUpdateRegCache()
                         VI_CQ_Key_Resp_trigger_OFF = True
