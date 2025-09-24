@@ -1,4 +1,4 @@
-name: BIDS validate (Box via Python + Deno)
+name: BIDS validate (Box via Deno)
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ on:
         default: "true"
   pull_request: {}
   schedule:
-    - cron: "0 20 * * *"
+    - cron: "0 20 * * *"  # 20:00 UTC
 
 jobs:
   validate:
@@ -48,28 +48,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install "boxsdk[jwt]==3.14.0" pandas
 
-      - name: Set up Deno (latest)
+      - name: Install Deno
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
 
-      # Optional but speeds things up by caching the validator module ahead of time
       - name: Pre-cache BIDS validator (Deno)
         run: deno cache jsr:@bids/validator
 
-      - name: Show versions
+      - name: Show effective config
         run: |
-          python -c "import sys; print(sys.version)"
+          echo "Event: ${{ github.event_name }}"
+          echo "BOX_FOLDER_ID: ${{ steps.cfg.outputs.box_folder_id }}"
+          echo "CREATE_PLACEHOLDERS: ${{ steps.cfg.outputs.create_placeholders }}"
           deno --version
           deno run -ERWN jsr:@bids/validator --version
 
-      - name: Run validation script (Deno preferred)
+      - name: Run validation script (Deno-based validator)
         env:
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
           PYTHONUNBUFFERED: "1"
-          USE_DENO: "1"   # force Deno path
         run: |
-          python .github/workflows/validate_box_deno.py \
+          python .github/workflows/validate_box_bids.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
             --skip-ext .con \
@@ -83,4 +83,5 @@ jobs:
             --skip-ext .edf \
             --skip-ext .mgz \
             --skip-ext .nii \
-            --skip-ext .nii.gz
+            --skip-ext .nii.gz \
+            --bidsignore-template ".bidsignore_template"

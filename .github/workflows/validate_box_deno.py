@@ -51,52 +51,48 @@ for _name in (
 from typing import Iterable
 
 
+
+
 import shutil
 import subprocess
 
-def _detect_validator_cmd(ds: Path) -> list[str]:
-    """
-    Prefer the Deno validator (latest). Fall back to the Node CLI if needed.
-    - Force Deno via env USE_DENO=1
-    """
-    use_deno = os.environ.get("USE_DENO", "").strip() in ("1", "true", "yes")
-
+def _ensure_deno_validator_cached() -> None:
+    """Pre-cache the BIDS validator so deno run is faster for multiple datasets."""
     deno = shutil.which("deno")
-    node_cli = shutil.which("bids-validator")
+    if not deno:
+        raise RuntimeError("'deno' not found on PATH. Install Deno first.")
+    # No permission flags needed for `deno cache`
+    subprocess.run([deno, "cache", "jsr:@bids/validator"], check=True)
 
-    if use_deno and not deno:
-        raise RuntimeError("USE_DENO=1 but 'deno' not found on PATH.")
-
-    # Try Deno first if requested or if no Node CLI
-    if use_deno or (deno and not node_cli):
-        # Deno flags:
-        # -E allow-env, -R allow-read, -W allow-write, -N allow-net
-        # (these permissions are needed by the jsr validator package)
-        return ["deno", "run", "-ERWN", "jsr:@bids/validator", str(ds), "--json", "--no-color"]
-
-    if node_cli:
-        return ["bids-validator", str(ds), "--json", "--no-color"]
-
-    # If neither is present, tell the user how to install
-    raise RuntimeError(
-        "No validator found. Install one of:\n"
-        "  • Deno validator:  deno run -ERWN jsr:@bids/validator --help\n"
-        "  • Node CLI:        npm install -g bids-validator\n"
-    )
+def _validator_cmd(ds: Path) -> list[str]:
+    """Deno-only validator invocation."""
+    deno = shutil.which("deno")
+    if not deno:
+        raise RuntimeError("'deno' not found on PATH. Install Deno first.")
+    # Permissions: -E allow-env, -R allow-read, -W allow-write, -N allow-net
+    return [deno, "run", "-ERWN", "jsr:@bids/validator", str(ds), "--json", "--no-color"]
 
 def run_validator(ds: Path) -> Tuple[bool, dict]:
-    cmd = _detect_validator_cmd(ds)
+    """Run (Deno) bids-validator on a dataset path and return (ok, normalized-json)."""
+    # Build cmd and execute
+    cmd = _validator_cmd(ds)
     LOG.info("Validating dataset: %s", ds)
     proc = subprocess.run(cmd, capture_output=True, text=True)
     stdout = (proc.stdout or "").strip()
     stderr = (proc.stderr or "").strip()
 
-    # Try to parse JSON; if it’s not JSON (e.g., older CLI output), wrap it
-    payload: dict
+    # Parse JSON (Deno validator prints JSON on stdout with { issues, summary?, version? })
     try:
         payload = json.loads(stdout) if stdout else {}
     except json.JSONDecodeError:
         payload = {"raw_stdout": stdout}
+
+    # try a couple of version fields that have appeared in validator outputs
+    version = (
+        payload.get("version")
+        or (payload.get("validator") or {}).get("version")
+        or (payload.get("summary") or {}).get("validator", {}).get("version")
+    )
 
     issues = payload.get("issues", {}) if isinstance(payload, dict) else {}
     errors = issues.get("errors", []) if isinstance(issues, dict) else []
@@ -105,7 +101,7 @@ def run_validator(ds: Path) -> Tuple[bool, dict]:
     normalized = {
         "summary": {
             "dataset_path": str(ds),
-            "bids_validator_version": payload.get("version"),
+            "bids_validator_version": version,
             "n_errors": len(errors),
             "n_warnings": len(warnings),
             "stderr": stderr or None,
