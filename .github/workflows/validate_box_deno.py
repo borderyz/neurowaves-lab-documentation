@@ -1,17 +1,18 @@
-#!/usr/bin/env python3
 """
-Validate BIDS datasets locally or from Box with minimal data transfer using deno Javascript runtime for bids-validator.
+Validate BIDS datasets locally or from Box with minimal data transfer using the
+Deno-based BIDS validator (jsr:@bids/validator).
 
 Modes:
   1) Local: --root <dir>  → validate each immediate subfolder as a dataset root.
   2) Box:   --box-folder-id <id> (+ BOX_CLIENT_SDK_CONFIG or --box-config)
-            → mirror to --work-dir (skip .con, optional placeholders),
-              validate, write per-dataset JSONs + root CSV, upload both.
+            → mirror to --work-dir (skip large/known-raws with placeholders),
+              validate, write per-dataset JSONs, and upload as we go.
 
 Prereqs (CI):
-  - npm install -g bids-validator
+  - Install Deno (no Node/npm needed)
   - pip install "boxsdk[jwt]" pandas
 """
+
 
 from __future__ import annotations
 import argparse
@@ -55,6 +56,105 @@ from typing import Iterable
 
 import shutil
 import subprocess
+
+
+def _append_summary_row(summary_csv: Path, row: dict, header: list[str]) -> None:
+    """Append one row to the summary CSV, creating it with header if needed (atomic-ish)."""
+    summary_csv.parent.mkdir(parents=True, exist_ok=True)
+    exists = summary_csv.exists()
+
+    # write/append
+    with open(summary_csv, "a", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=header)
+        if not exists:
+            w.writeheader()
+        w.writerow(row)
+
+
+def _get_or_create_child_folder_cached(client: Client):
+    """Return a closure get_or_create_child_folder(parent_id, name) with an in-memory cache."""
+    folder_cache: dict[str, dict[str, str]] = {}
+
+    def get_or_create_child_folder(parent_id: str, name: str) -> str:
+        bucket = folder_cache.setdefault(parent_id, {})
+        if name in bucket:
+            return bucket[name]
+        items = client.folder(parent_id).get_items(limit=1000, fields=["id", "name", "type"])
+        for it in items:
+            if it.type == "folder" and it.name == name:
+                bucket[name] = it.id
+                return it.id
+        new_id = client.folder(parent_id).create_subfolder(name).id
+        bucket[name] = new_id
+        return new_id
+
+    return get_or_create_child_folder
+
+def validate_and_upload_streaming(
+    client: Client,
+    work_dir: Path,
+    dest_folder_id: str,
+    exclude: list[str] | None = None,
+    bidsignore_template: Optional[Path] = None,
+) -> Path:
+    """
+    For each dataset dir under work_dir:
+      - ensure .bidsignore from template
+      - run validator
+      - write per-dataset JSON
+      - upload JSON immediately to Box/<dataset>/
+      - append one row to root summary CSV
+      - upload/update summary CSV immediately to Box root
+    """
+    exclude_norm = { (x or "").casefold() for x in (exclude or []) }
+    header = ["dataset", "is_valid", "n_errors", "n_warnings", "report_path"]
+    summary_csv = work_dir / "bids_validation_summary.csv"
+
+    get_or_create = _get_or_create_child_folder_cached(client)
+
+    # pre-cache the Deno validator once
+    _ensure_deno_validator_cached()
+
+    total = 0
+    for ds in iter_immediate_subdirs(work_dir):
+        if ds.name.casefold() in exclude_norm:
+            LOG.info("Skipping excluded dataset: %s", ds.name)
+            continue
+
+        total += 1
+        # 1) make sure .bidsignore is in place
+        ensure_bidsignore(ds, bidsignore_template)
+
+        # 2) validate
+        ok, report = run_validator(ds)
+
+        # 3) write JSON report
+        per_ds_json = ds / "bids_validation_report.json"
+        with open(per_ds_json, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2)
+        LOG.info("Wrote: %s (ok=%s)", per_ds_json, ok)
+
+        # 4) upload JSON to Box/<dataset>/
+        ds_box_id = get_or_create(dest_folder_id, ds.name)
+        _upload_or_update_file(client, ds_box_id, per_ds_json, per_ds_json.name)
+
+        # 5) append one row locally
+        row = {
+            "dataset": ds.name,
+            "is_valid": ok,
+            "n_errors": report["summary"]["n_errors"],
+            "n_warnings": report["summary"]["n_warnings"],
+            "report_path": str(per_ds_json),
+        }
+        _append_summary_row(summary_csv, row, header)
+
+        # 6) upload/update the CSV at Box root right away
+        _upload_or_update_file(client, dest_folder_id, summary_csv, summary_csv.name)
+
+    LOG.info("Streaming validation complete. Summary CSV: %s (datasets=%d)", summary_csv, total)
+    return summary_csv
+
+
 
 def _ensure_deno_validator_cached() -> None:
     """Pre-cache the BIDS validator so deno run is faster for multiple datasets."""
@@ -380,60 +480,42 @@ def main():
 
     ap.add_argument("--work-dir", type=Path, default=Path("datasets"),
                     help="Local workdir for mirrored datasets (Box mode)")
-
     ap.add_argument("--box-config", type=Path, default=None,
                     help="Path to Box JWT config JSON (alternative to env BOX_CLIENT_SDK_CONFIG)")
-
     ap.add_argument("--no-con-placeholders", action="store_true",
                     help="Do NOT create .con placeholders (skip .con files entirely)")
-
-    ap.add_argument(
-        "--max-bytes",
-        type=int,
-        default=2_000_000,  # 5 MB default; tune as you like
-        help="If a file is larger than this, do not download it (create placeholder instead).",
-    )
-
-    ap.add_argument(
-        "--exclude-dataset",
-        action="append",
-        default=["kidlang"],
-        help="Dataset folder name(s) to exclude from validation. "
-             "Can be repeated, e.g. --exclude-dataset sub-01 --exclude-dataset sub-99"
-    )
-
-    ap.add_argument(
-        "--skip-ext",
-        action="append",
-        default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds", ".stc"],
-        help="Extra file extensions to skip downloading (repeatable).",
-    )
-
-    # argparse section
-    ap.add_argument(
-        "--bidsignore-template",
-        type=Path,
-        default=None,  # we’ll pass it from the workflow
-        help="Path to a .bidsignore template to apply to each dataset root."
-    )
+    ap.add_argument("--max-bytes", type=int, default=2_000_000,
+                    help="If a file is larger than this, do not download it (create placeholder instead).")
+    ap.add_argument("--exclude-dataset", action="append", default=["kidlang"],
+                    help="Dataset folder name(s) to exclude. Repeatable.")
+    ap.add_argument("--skip-ext", action="append",
+                    default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds", ".stc"],
+                    help="File extensions to skip downloading (repeatable).")
+    ap.add_argument("--bidsignore-template", type=Path, default=None,
+                    help="Path to a .bidsignore template to apply to each dataset root.")
 
     args = ap.parse_args()
 
-    # Local mode
+    # ---------- Local mode ----------
     if args.root:
-        LOG.info("Running in LOCAL mode")
-        summary_csv = validate_local_root(args.root,
-                                          exclude=args.exclude_dataset,
-                                          bidsignore_template=args.bidsignore_template)
+        LOG.info("Running in LOCAL mode under %s", args.root)
+        # (Optional) Pre-cache the Deno validator for speed in local runs:
+        _ensure_deno_validator_cached()
+        summary_csv = validate_local_root(
+            args.root,
+            exclude=args.exclude_dataset,
+            bidsignore_template=args.bidsignore_template
+        )
         LOG.info("Done. Summary: %s", summary_csv)
         return
 
-    # Box mode
+    # ---------- Box mode ----------
     LOG.info("Running in BOX mode (folder %s)", args.box_folder_id)
     config_json_str = os.environ.get("BOX_CLIENT_SDK_CONFIG")
     client = _box_client_from_config(config_json_str, args.box_config)
 
     args.work_dir.mkdir(parents=True, exist_ok=True)
+
     mirror_box_folder(
         client,
         args.box_folder_id,
@@ -444,22 +526,26 @@ def main():
         exclude_top_level=set(args.exclude_dataset or []),
     )
 
+    # Optional: brief peek at mirrored contents (kept lightweight)
     for ds in iter_immediate_subdirs(args.work_dir):
         LOG.info("Sample contents under %s:", ds)
-        # show up to 20 paths
         for i, p in enumerate(ds.rglob("*")):
             if i >= 20:
                 LOG.info("... (truncated)")
                 break
             LOG.info("  %s%s", p, " [0B]" if p.is_file() and p.stat().st_size == 0 else "")
 
-    # Per-dataset JSONs + root CSV under work_dir
-    summary_csv = validate_local_root(args.work_dir, exclude=args.exclude_dataset,
-                                      bidsignore_template=args.bidsignore_template)
+    #  STREAMING: validate+upload per dataset (runs once, not inside the loop!)
+    summary_csv = validate_and_upload_streaming(
+        client,
+        args.work_dir,
+        dest_folder_id=args.box_folder_id,
+        exclude=args.exclude_dataset,
+        bidsignore_template=args.bidsignore_template,
+    )
+    LOG.info("Uploaded per-dataset reports + rolling summary to Box folder %s", args.box_folder_id)
 
-    # Upload ONLY the summary CSV + per-dataset JSONs back to Box
-    upload_summary_and_per_dataset_reports(client, args.work_dir, dest_folder_id=args.box_folder_id)
-    LOG.info("Uploaded summary + per-dataset reports to Box folder %s", args.box_folder_id)
+
 
 
 if __name__ == "__main__":
