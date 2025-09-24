@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Validate BIDS datasets locally or from Box with minimal data transfer.
+Validate BIDS datasets locally or from Box with minimal data transfer using deno Javascript runtime for bids-validator.
 
 Modes:
   1) Local: --root <dir>  → validate each immediate subfolder as a dataset root.
