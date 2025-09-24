@@ -55,12 +55,13 @@ jobs:
 
       # Optional but speeds things up by caching the validator module ahead of time
       - name: Pre-cache BIDS validator (Deno)
-        run: deno cache -R jsr:@bids/validator
+        run: deno cache jsr:@bids/validator
 
       - name: Show versions
         run: |
           python -c "import sys; print(sys.version)"
           deno --version
+          deno run -ERWN jsr:@bids/validator --version
 
       - name: Run validation script (Deno preferred)
         env:
