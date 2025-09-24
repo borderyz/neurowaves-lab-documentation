@@ -850,7 +850,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             extraInfo=expInfo,
             originPath=-1,
             trialList=data.importConditions(
-            'WM_practice_trial_file.csv',
+                'WM_practice_trial_file.csv',
             selection='1:4'
         )
         ,
@@ -864,7 +864,7 @@ def run(expInfo, thisExp, win, globalClock=None, thisSession=None):
             extraInfo=expInfo,
             originPath=-1,
             trialList=data.importConditions(
-            'WM_practice_trial_file_debug.csv',
+                'WM_practice_trial_file_debug.csv',
             selection='1:4'
         )
         ,

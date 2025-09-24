@@ -1,12 +1,16 @@
 %% Visual Imagery Official
 clear; clc; close all;
-  
+
+Datapixx('Open');
+Datapixx('DisablePixelMode'); 
+Datapixx('RegWr');
+
 %% Setup 
 Screen('Preference', 'SkipSyncTests', 1);  % only for debugging
 white = [255 255 255];
 black = [0 0 0];
 KbName('UnifyKeyNames');
-
+black_rgb = [0 0 0];
 % Keys
 escapeKey = KbName('ESCAPE');
 
@@ -46,7 +50,7 @@ trig.PromptStart = [4  0  0]; % ch224
 trig.PromptEnd   = [16  0  0]; % ch225
 trig.ImagineEnd = [64 0 0]; % ch226
 trig.RateResp = [0  1 0]; % ch227
-trig.QuestionResp = [0  4 0]; % ch228 
+trig.QuestionResp = [0  4 0]; % ch228
 % trig.go_noresp = [0 16 0];  % ch229 % Go trials with NO Responses (Too Slow/Error)
 % trig.nogo_resp = [0 64 0]; % ch230 NoGo trials with Responses (Error)
 % trig.nogo_noresp = [0 0  1]; % ch231 NoGo trials with NO Responses (Correct)
@@ -81,11 +85,13 @@ textYPos = round(screenY*0.8);    % rating text lower
 %%  Instruction 
 Instruction = 'MEG Recording is being setup please be patient, press any key to continue';
 DrawFormattedText(win, Instruction, 'center', 'center', black);
+Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbStrokeWait;  % wait for any key
 
 %% Persistent blank screen
 Screen('FillRect', win, white);
+Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 
 % Load block file
@@ -119,8 +125,10 @@ for b = 1:nBlocks
     DrawFormattedText(win, sprintf(['Starting Block %d of %d\n\n' ...
     'Press any key to continue.'], ...
     b, nBlocks), 'center', 'center', black);
-
-    Screen('Flip', win); KbStrokeWait;
+    
+    Screen('FillRect', win, black_rgb, trigRect);
+    Screen('Flip', win); 
+    KbStrokeWait;
 
     trialOrder = randperm(height(T));
 
@@ -135,7 +143,10 @@ for b = 1:nBlocks
         end
 
         % Stage 1: Blank screen
-        Screen('FillRect', win, white); Screen('Flip', win); WaitSecs(blankTime);
+        Screen('FillRect', win, white); 
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win); 
+        WaitSecs(blankTime);
 
         %  Stage 2: Cue Audio
         % (If you have a special Cue file)
@@ -178,40 +189,37 @@ for b = 1:nBlocks
 
         PsychPortAudio('FillBuffer', pahandle, y_trim);
 
-%         Screen('FillRect', window, getRGB(PromptStartTrig), trigRect); %% set trigger for prompt start
-%         Screen('Flip', window);
-%         WaitSecs(0.005); % Short pulse for trigger
 
-        Screen('FillRect', window, PromptStartTrig, trigRect);
-        Screen('Flip', window);
-        Screen('FillRect', window, black_rgb);
-
+        Screen('FillRect', win, PromptStartTrig, trigRect);
+        Screen('Flip', win);
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win);
         PsychPortAudio('Start', pahandle, 1, 0, 1);   % start audio
 
 
-
-%         Screen('FillRect', window, getRGB(PromptEndTrig), trigRect); %% set trigger for prompt end
-%         Screen('Flip', window);
-%         WaitSecs(0.005); % Short pulse for trigger
-        Screen('FillRect', window, PromptEndTrig, trigRect);
-        Screen('Flip', window);
-        Screen('FillRect', window, black_rgb);
-
-        PsychPortAudio('Stop', pahandle, 1);          % stop audio
+        PsychPortAudio('Stop', pahandle, 1);    % stop audio
+        Screen('FillRect', win, PromptEndTrig, trigRect);
+        Screen('Flip', win);
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win);
 
         %% Stage 4: Imagination period
         Screen('FillRect', win, white); 
+        %When changing the background color to anything, make sure the trigRect is staying black, so just before the flip add it to black again
+        Screen('FillRect', win, black_rgb, trigRect); 
         Screen('Flip', win); 
         WaitSecs(imagine_time);
-        Screen('FillRect', window, getRGB(ImagineEndTrig), trigRect); %% set trigger for prompt end
-        WaitSecs(0.005); % Short pulse for trigger
-
+        Screen('FillRect', win, ImagineEndTrig, trigRect); %% set trigger for prompt end
+        Screen('Flip', win);
+        Screen('FillRect', win, black_rgb, trigRect); 
+        Screen('Flip', win); 
         %% Stage 5: Imagination Vividness Rating
 
         % set rate text
         Screen('TextSize', win, 80);
         DrawFormattedText(win, 'Please rate your imagination vividness', 'center', screenY*0.25, black);
         % Flip once to show images and record onset
+        Screen('FillRect', win, black_rgb, trigRect);
         Rate_Onset = Screen('Flip', win);
     
         % Wait for numeric key 1-5
@@ -233,10 +241,11 @@ for b = 1:nBlocks
             WaitSecs(0.001);
         end
 
-        Screen('FillRect', window, getRGB(RateRespTrig), trigRect); %% trigger for rate response
-        Screen('Flip', window);
+        Screen('FillRect', win, RateRespTrig, trigRect); %% trigger for rate response
+        Screen('Flip', win);
         WaitSecs(0.005); % Short trigger pulse
-
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win);
         Rate_Resptime = GetSecs();  
 
         %% Stage 6: Catch Question
@@ -245,6 +254,7 @@ for b = 1:nBlocks
         DrawFormattedText(win, question, 'center', screenY*0.4, black);
         optionText = 'YES        NO        DON''T KNOW';
         DrawFormattedText(win, optionText, 'center', round(screenY*0.6), black);
+        Screen('FillRect', win, black_rgb, trigRect);
         CatchQuestion_Onset = Screen('Flip', win);
     
         % Wait for key s/d/f
@@ -271,9 +281,11 @@ for b = 1:nBlocks
             WaitSecs(0.001);
         end
 
-        Screen('FillRect', window, getRGB(QuestionRespTrig), trigRect); %% trigger for question resp
-        Screen('Flip', window);
+        Screen('FillRect', win, QuestionRespTrig, trigRect); %% trigger for question resp
+        Screen('Flip', win);
         WaitSecs(0.005); % Short trigger pulse
+        Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
+        Screen('Flip', win);
 
         CatchQuestion_Resptime = GetSecs();
     
@@ -293,8 +305,9 @@ for b = 1:nBlocks
 
         % Optional: block break before next block
     if b < numel(T_blocks)
-        breakMsg = sprintf('End of Block of %d\n\nYou can take a short break. When you are ready, start next block by pressing space.', b);
+        breakMsg = sprintf('End of Block of %d\n\nYou can take a short break. \n\n When you are ready, start next block by pressing space.', b);
         DrawFormattedText(win, breakMsg, 'center', 'center', black);
+        Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
         KbStrokeWait;
     end
@@ -302,6 +315,7 @@ end
 
 %%  Stage 7: End Page 
 DrawFormattedText(win, 'End. Please wait for experimenter for further action.', 'center', 'center', black);
+Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbWait([], 2);
 
