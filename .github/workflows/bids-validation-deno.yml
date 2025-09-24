@@ -69,7 +69,7 @@ jobs:
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
           PYTHONUNBUFFERED: "1"
         run: |
-          python .github/workflows/validate_box_bids.py \
+          python .github/workflows/validate_box_deno.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
             --skip-ext .con \
