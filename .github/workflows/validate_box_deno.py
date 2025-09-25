@@ -90,6 +90,76 @@ def _get_or_create_child_folder_cached(client: Client):
 
     return get_or_create_child_folder
 
+def iter_box_top_level_datasets(client: Client, root_folder_id: str, exclude: set[str] | None = None):
+    """Yield (name, id) for each top-level folder under the Box root, honoring exclude (case-insensitive)."""
+    exclude_norm = { (x or "").casefold() for x in (exclude or set()) }
+    offset, limit = 0, 1000
+    while True:
+        items = client.folder(root_folder_id).get_items(limit=limit, offset=offset, fields=["id","name","type"])
+        count = 0
+        for it in items:
+            count += 1
+            if it.type == "folder":
+                if it.name.casefold() in exclude_norm:
+                    LOG.info("Skipping excluded dataset at Box root: %s", it.name)
+                    continue
+                yield it.name, it.id
+        if count < limit:
+            break
+        offset += limit
+
+
+def mirror_validate_upload_one_dataset(
+    client: Client,
+    box_dataset_id: str,
+    box_dataset_name: str,
+    work_dir: Path,
+    dest_folder_id: str,
+    skip_exts: tuple[str, ...],
+    create_placeholders: bool,
+    max_bytes: Optional[int],
+    bidsignore_template: Optional[Path],
+    get_or_create_child_folder,  # closure from _get_or_create_child_folder_cached
+    summary_csv: Path,
+):
+    # mirror only this dataset into work_dir/<dataset>
+    local_ds = work_dir / box_dataset_name
+    LOG.info("Mirroring single dataset: %s (%s) -> %s", box_dataset_name, box_dataset_id, local_ds)
+    mirror_box_folder(
+        client,
+        box_dataset_id,
+        local_ds,
+        skip_exts=skip_exts,
+        create_placeholders=create_placeholders,
+        max_bytes=max_bytes,
+        exclude_top_level=None,  # not used for nested walk
+    )
+
+    # ensure .bidsignore, validate, write report
+    ensure_bidsignore(local_ds, bidsignore_template)
+    ok, report = run_validator(local_ds)
+    per_ds_json = local_ds / "bids_validation_report.json"
+    with open(per_ds_json, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2)
+    LOG.info("Wrote report: %s (ok=%s)", per_ds_json, ok)
+
+    # upload JSON to Box/<dataset> immediately
+    ds_box_id = get_or_create_child_folder(dest_folder_id, box_dataset_name)
+    _upload_or_update_file(client, ds_box_id, per_ds_json, per_ds_json.name)
+
+    # append & upload summary immediately
+    row = {
+        "dataset": box_dataset_name,
+        "is_valid": ok,
+        "n_errors": report["summary"]["n_errors"],
+        "n_warnings": report["summary"]["n_warnings"],
+        "report_path": str(per_ds_json),
+    }
+    _append_summary_row(summary_csv, row, ["dataset","is_valid","n_errors","n_warnings","report_path"])
+    _upload_or_update_file(client, dest_folder_id, summary_csv, summary_csv.name)
+
+
+
 def validate_and_upload_streaming(
     client: Client,
     work_dir: Path,
@@ -172,31 +242,52 @@ def _validator_cmd(ds: Path) -> list[str]:
     # Permissions: -E allow-env, -R allow-read, -W allow-write, -N allow-net
     return [deno, "run", "-ERWN", "jsr:@bids/validator", str(ds), "--json", "--no-color"]
 
+def _split_issues(payload):
+    """Return (errors, warnings) from multiple possible validator JSON shapes."""
+    errors, warnings = [], []
+    if isinstance(payload, dict):
+        issues = payload.get("issues")
+        if isinstance(issues, dict):
+            errors = issues.get("errors") or []
+            warnings = issues.get("warnings") or []
+        elif isinstance(issues, list):
+            for it in issues:
+                if (it or {}).get("severity") == "error":
+                    errors.append(it)
+                else:
+                    warnings.append(it)
+        else:
+            # older/newer shapes
+            errors = payload.get("errors") or []
+            warnings = payload.get("warnings") or []
+    elif isinstance(payload, list):
+        # whole payload is a list of issues
+        for it in payload:
+            if (it or {}).get("severity") == "error":
+                errors.append(it)
+            else:
+                warnings.append(it)
+    return errors, warnings
+
 def run_validator(ds: Path) -> Tuple[bool, dict]:
-    """Run (Deno) bids-validator on a dataset path and return (ok, normalized-json)."""
-    # Build cmd and execute
     cmd = _validator_cmd(ds)
     LOG.info("Validating dataset: %s", ds)
     proc = subprocess.run(cmd, capture_output=True, text=True)
     stdout = (proc.stdout or "").strip()
     stderr = (proc.stderr or "").strip()
 
-    # Parse JSON (Deno validator prints JSON on stdout with { issues, summary?, version? })
     try:
         payload = json.loads(stdout) if stdout else {}
     except json.JSONDecodeError:
         payload = {"raw_stdout": stdout}
 
-    # try a couple of version fields that have appeared in validator outputs
     version = (
-        payload.get("version")
-        or (payload.get("validator") or {}).get("version")
+        (payload.get("validator") or {}).get("version")
         or (payload.get("summary") or {}).get("validator", {}).get("version")
+        or payload.get("version")
     )
 
-    issues = payload.get("issues", {}) if isinstance(payload, dict) else {}
-    errors = issues.get("errors", []) if isinstance(issues, dict) else []
-    warnings = issues.get("warnings", []) if isinstance(issues, dict) else []
+    errors, warnings = _split_issues(payload)
 
     normalized = {
         "summary": {
@@ -209,8 +300,15 @@ def run_validator(ds: Path) -> Tuple[bool, dict]:
             "validator_returncode": proc.returncode,
         },
         "issues": (errors or []) + (warnings or []),
+        # keep full payload + raw streams for debugging
+        "validator_raw": {
+            "stdout": stdout[:200000],  # cap to avoid huge files
+            "stderr": stderr[:200000],
+            "parsed": payload,
+        },
     }
     return proc.returncode == 0, normalized
+
 
 
 
@@ -516,36 +614,31 @@ def main():
 
     args.work_dir.mkdir(parents=True, exist_ok=True)
 
-    mirror_box_folder(
-        client,
-        args.box_folder_id,
-        args.work_dir,
-        skip_exts=tuple(s.lower() for s in args.skip_ext),
-        create_placeholders=(not args.no_con_placeholders),
-        max_bytes=args.max_bytes,
-        exclude_top_level=set(args.exclude_dataset or []),
-    )
+    # Pre-cache Deno validator once
+    _ensure_deno_validator_cached()
 
-    # Optional: brief peek at mirrored contents (kept lightweight)
-    for ds in iter_immediate_subdirs(args.work_dir):
-        LOG.info("Sample contents under %s:", ds)
-        for i, p in enumerate(ds.rglob("*")):
-            if i >= 20:
-                LOG.info("... (truncated)")
-                break
-            LOG.info("  %s%s", p, " [0B]" if p.is_file() and p.stat().st_size == 0 else "")
+    # Prepare helpers
+    get_or_create = _get_or_create_child_folder_cached(client)
+    summary_csv = args.work_dir / "bids_validation_summary.csv"
 
-    #  STREAMING: validate+upload per dataset (runs once, not inside the loop!)
-    summary_csv = validate_and_upload_streaming(
-        client,
-        args.work_dir,
-        dest_folder_id=args.box_folder_id,
-        exclude=args.exclude_dataset,
-        bidsignore_template=args.bidsignore_template,
-    )
-    LOG.info("Uploaded per-dataset reports + rolling summary to Box folder %s", args.box_folder_id)
+    # Stream: process one dataset at a time
+    for ds_name, ds_id in iter_box_top_level_datasets(client, args.box_folder_id,
+                                                      exclude=set(args.exclude_dataset or [])):
+        mirror_validate_upload_one_dataset(
+            client=client,
+            box_dataset_id=ds_id,
+            box_dataset_name=ds_name,
+            work_dir=args.work_dir,
+            dest_folder_id=args.box_folder_id,
+            skip_exts=tuple(s.lower() for s in args.skip_ext),
+            create_placeholders=(not args.no_con_placeholders),
+            max_bytes=args.max_bytes,
+            bidsignore_template=args.bidsignore_template,
+            get_or_create_child_folder=get_or_create,
+            summary_csv=summary_csv,
+        )
 
-
+    LOG.info("All datasets processed in streaming mode. Latest summary: %s", summary_csv)
 
 
 if __name__ == "__main__":

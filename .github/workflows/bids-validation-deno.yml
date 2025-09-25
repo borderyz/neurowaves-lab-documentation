@@ -85,4 +85,4 @@ jobs:
             --skip-ext .mgz \
             --skip-ext .nii \
             --skip-ext .nii.gz \
-            --bidsignore-template ".bidsignore_template"
+            --bidsignore-template ".github/workflows/.bidsignore_template"
