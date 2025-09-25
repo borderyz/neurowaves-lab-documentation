@@ -335,7 +335,7 @@ def ensure_bidsignore(ds: Path, template_path: Optional[Path]) -> None:
     missing = [ln for ln in tpl_lines if ln not in have]
     if missing:
         with open(target, "a", encoding="utf-8") as f:
-            f.write("\n# --- added by validate_box_bids.py ---\n")
+            f.write("\n# --- added by validate_box_deno.py ---\n")
             for ln in missing:
                 f.write(ln + "\n")
         LOG.info("Updated .bidsignore in %s (+%d line(s))", ds.name, len(missing))
