@@ -1,4 +1,4 @@
-name: BIDS validate (Box via Deno)
+name: Automated BIDS validation
 
 on:
   workflow_dispatch:
