@@ -7,5 +7,11 @@
 **NeuroWaves MEG/EEG NYUAD lab** provides documentation, experiment code and processing pipelines for the Magnetoencephalography (MEG) and
 ElectroEncephaloGraphy (EEG) users at NYUAD. The lab is a core within the BioMedical Imaging Core.
 
+.. image:: https://readthedocs.org/projects/neurowaves/badge/?version=latest
+  :target: https://example-sphinx-basic.readthedocs.io/en/latest/?badge=latest
+  :alt: Documentation Status
 
 
+.. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/bids-validation-deno.yml/badge.svg
+   :alt: BIDS validation for all datasets
+   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/bids-validation-deno.yml
