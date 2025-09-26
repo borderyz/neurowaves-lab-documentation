@@ -70,7 +70,7 @@ jobs:
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
           PYTHONUNBUFFERED: "1"
         run: |
-          python .github/workflows/validate_box_deno.py \
+          python pipeline/bids_validation/validate_box_deno.py \
             --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
             --work-dir datasets \
             --skip-ext .con \
@@ -85,4 +85,4 @@ jobs:
             --skip-ext .mgz \
             --skip-ext .nii \
             --skip-ext .nii.gz \
-            --bidsignore-template ".github/workflows/.bidsignore_template"
+            --bidsignore-template "pipeline/bids_validation/.bidsignore_template"
