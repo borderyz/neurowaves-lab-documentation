@@ -121,6 +121,7 @@ def mirror_validate_upload_one_dataset(
     bidsignore_template: Optional[Path],
     get_or_create_child_folder,  # closure from _get_or_create_child_folder_cached
     summary_csv: Path,
+    placeholder_size: int,
 ):
     # mirror only this dataset into work_dir/<dataset>
     local_ds = work_dir / box_dataset_name
@@ -133,7 +134,8 @@ def mirror_validate_upload_one_dataset(
         create_placeholders=create_placeholders,
         max_bytes=max_bytes,
         exclude_top_level=None,  # not used for nested walk
-    )
+        placeholder_size=placeholder_size,  # ← new
+            )
 
     # ensure .bidsignore, validate, write report
     ensure_bidsignore(local_ds, bidsignore_template)
@@ -397,7 +399,9 @@ def _box_client_from_config(config_json_str: Optional[str], config_path: Optiona
 def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
                       skip_exts=(".con",), create_placeholders=True,
                       max_bytes: int | None = None,
-                      exclude_top_level: Optional[set[str]] = None) -> None:
+                      exclude_top_level: Optional[set[str]] = None,
+                      placeholder_size: int = 4096) -> None:
+
     exclude_top_level = { (x or "").casefold() for x in (exclude_top_level or set()) }
 
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -421,19 +425,25 @@ def mirror_box_folder(client: Client, folder_id: str, out_dir: Path,
                 if item.type == "file":
                     name = item.name
                     tgt = local / name
-                    ext = Path(name).suffix.lower()
                     size = getattr(item, "size", None)
-
-                    skip_by_ext = ext in tuple(s.lower() for s in skip_exts)
+                    lname = name.lower()
+                    skip_exts_lc = tuple(s.lower() for s in skip_exts)
+                    skip_by_ext = any(lname.endswith(s) for s in skip_exts_lc)
                     skip_by_size = (max_bytes is not None and
                                     isinstance(size, int) and size > max_bytes)
 
                     if skip_by_ext or skip_by_size:
                         reason = "ext" if skip_by_ext else f"size>{max_bytes}"
                         if create_placeholders:
-                            LOG.info("Placeholder for large/raw (%s): %s", reason, tgt)
+                            LOG.info("Placeholder for large/raw (%s): %s (%d bytes)", reason, tgt, placeholder_size)
                             tgt.parent.mkdir(parents=True, exist_ok=True)
-                            tgt.touch(exist_ok=True)
+                            if placeholder_size > 0:
+                                # write deterministic, low-entropy bytes (not all-zero to avoid some heuristics)
+                                chunk = (b"BIDS-PLACEHOLDER\n" * ((placeholder_size // 18) + 1))[:placeholder_size]
+                                with open(tgt, "wb") as fh:
+                                    fh.write(chunk)
+                            else:
+                                tgt.touch(exist_ok=True)  # legacy: 0-byte
                             placeholders += 1
                         else:
                             LOG.info("Skipping download (%s): %s", reason, tgt)
@@ -592,6 +602,15 @@ def main():
     ap.add_argument("--bidsignore-template", type=Path, default=None,
                     help="Path to a .bidsignore template to apply to each dataset root.")
 
+    # argparse (near your other args)
+    ap.add_argument(
+        "--placeholder-size",
+        type=int,
+        default=4096,  # 4 KiB sentinel; set 0 to keep old behavior
+        help="Size in bytes for placeholder files (when skipping by ext/size). "
+             "If 0, create 0-byte files. Default: 4096.",
+    )
+
     args = ap.parse_args()
 
     # ---------- Local mode ----------
@@ -636,6 +655,7 @@ def main():
             bidsignore_template=args.bidsignore_template,
             get_or_create_child_folder=get_or_create,
             summary_csv=summary_csv,
+            placeholder_size=args.placeholder_size,  # ← new
         )
 
     LOG.info("All datasets processed in streaming mode. Latest summary: %s", summary_csv)
