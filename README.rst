@@ -8,4 +8,7 @@
 ElectroEncephaloGraphy (EEG) users at NYUAD. The lab is a core within the BioMedical Imaging Core.
 
 
+.. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/bids-validation-deno.yml/badge.svg
+   :alt: BIDS validation for all datasets
+   :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/bids-validation-deno.yml
 
