@@ -1,0 +1,88 @@
+name: BIDS validate (Box via Deno)
+
+on:
+  workflow_dispatch:
+    inputs:
+      box_folder_id:
+        description: "Box folder ID containing dataset subfolders"
+        required: true
+        default: "258911132863"
+      create_placeholders:
+        description: "Create zero-byte large file placeholders (true/false)"
+        required: true
+        default: "true"
+  pull_request: {}
+  schedule:
+    - cron: "0 20 * * *"  # 20:00 UTC
+
+jobs:
+  validate:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Compute effective config
+        id: cfg
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            BOX_ID="${{ github.event.inputs.box_folder_id }}"
+            PLACEHOLDERS="${{ github.event.inputs.create_placeholders }}"
+          else
+            BOX_ID="258911132863"
+            PLACEHOLDERS="true"
+          fi
+          echo "box_folder_id=$BOX_ID" >> "$GITHUB_OUTPUT"
+          echo "create_placeholders=$PLACEHOLDERS" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install "boxsdk[jwt]==3.14.0" pandas
+
+      - name: Install Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - name: Pre-cache validator
+        env:
+          DENO_DIR: .deno_cache
+        run: deno cache jsr:@bids/validator
+
+      - name: Show effective config
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "BOX_FOLDER_ID: ${{ steps.cfg.outputs.box_folder_id }}"
+          echo "CREATE_PLACEHOLDERS: ${{ steps.cfg.outputs.create_placeholders }}"
+          deno --version
+          deno run -ERWN jsr:@bids/validator --version
+
+      - name: Run validation script (Deno-based validator)
+        env:
+          BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python pipeline/bids_validation/validate_box_deno.py \
+            --box-folder-id "${{ steps.cfg.outputs.box_folder_id }}" \
+            --work-dir datasets \
+            --skip-ext .con \
+            --skip-ext .fif \
+            --skip-ext .mrk \
+            --skip-ext .bin \
+            --skip-ext .meg4 \
+            --skip-ext .ds \
+            --skip-ext .dat \
+            --skip-ext .mat \
+            --skip-ext .edf \
+            --skip-ext .mgz \
+            --skip-ext .nii \
+            --skip-ext .nii.gz \
+            --bidsignore-template "pipeline/bids_validation/.bidsignore_template"

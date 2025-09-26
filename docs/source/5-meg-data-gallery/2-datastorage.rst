@@ -38,6 +38,10 @@ MRI data is hosted on XNAT
 Data naming and uploading protocol
 ----------------------------------
 
+
+Your data should be stored in the BIDS format.
+Find a template to be used under `bids-template`
+
 In the following, [SUB_ID] should be replaced with the ID of the subject for naming purposes.
 The different data files generated from a MEG experiment are the following.
 
