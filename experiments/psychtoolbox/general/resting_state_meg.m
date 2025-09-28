@@ -6,7 +6,8 @@ AssertOpenGL;
 time2rest = 60*5;
 
 vpix_use = 1; % 0 if vpixx is not conected
-
+PsychDebugWindowConfiguration(0, 1); % 1 for running exp; 0.5 for debugging
+PsychDefaultSetup(2);
 % KEYBOARD SETUP
 responseKeys = {'2', '3', 'y', 'n'};
 KbName('UnifyKeyNames');  

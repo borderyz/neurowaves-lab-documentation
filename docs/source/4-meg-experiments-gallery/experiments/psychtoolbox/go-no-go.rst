@@ -1,5 +1,5 @@
-Experiment example 10: Go-No/Go experiment
-------------------------------------------
+Experiment example: Go-No/Go experiment
+---------------------------------------
 
 Author: Gianluca Marsciano, gm3598@nyu.edu
 

@@ -14,3 +14,7 @@ MEG data:
   - "fail + some information on what is missing" when trigger count is missing
 
 
+Problems:
+
+- Sound on trigger should go off earlier
+- Sound off trigger should go off earlier

@@ -30,7 +30,7 @@ white = [255 255 255];
 red = [255 0 0];
 black = [0 0 0];
 gray = [255/2 255/2 255/2];
-alpha = 0.03*255; % transparency
+alpha = 0.06*255; % transparency
 % targetGray = (white/2)/255;
 targetColor = [black, alpha]; % combine color with alpha
 
