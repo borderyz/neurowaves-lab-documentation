@@ -2,11 +2,17 @@
 Data Naming and Storing
 -----------------------
 
-
+.. contents::
+   :local:
+   :depth: 4
 
 
 Data Naming and Storing: MEG
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+Data host
+"""""""""
 
 The MEG data is securely stored on NYU BOX, access is given through invitations.
 The *Data* folder is structured in the **BIDS** standardized format.
@@ -29,8 +35,8 @@ If you are unable to access the datasets it means you do not have the permission
 
 
 
-BIDS standard Data naming and uploading protocol
-------------------------------------------------
+Data naming BIDS protocol
+"""""""""""""""""""""""""
 
 A typical MEG dataset from NYUAD contains the following files and folders in BIDS-standard:
 
@@ -46,7 +52,7 @@ The different data files generated from a MEG experiment are the following.
 
 
 Directory structuring
-#####################
+~~~~~~~~~~~~~~~~~~~~~
 
 Your file structure should look like this:
 
@@ -61,8 +67,8 @@ Your file structure should look like this:
         - If the `ses-[SES_ID]` folder is not there, it means you do not have multiple sessions for the subject, in that case you will directly find `meg` and `sourcedata` within the `sub-[SUB_ID]` folder
 
 
-Laser scan files
-################
+MEG-Laserscan files
+~~~~~~~~~~~~~~~~~~~
 
 #. A .fsn filename that should be named ``sub-\[SUB_ID\]_task-[TASK_NAME]_acq-fullproject_headshape.fsn`` : This file is obtained by saving
    the whole fastscan laser project (File Save)
@@ -73,8 +79,8 @@ Laser scan files
     * ``sub-001_ses-01_acq-points_headshape.pos`` is the stylus points location file of the participant
         - all should be stored under `meg`
 
-KIT-MEG files
-#############
+MEG-KIT files
+~~~~~~~~~~~~~
 
 Depending on the experiment, many .con files can be produced by the KIT machine.
 
@@ -88,12 +94,13 @@ Depending on the experiment, many .con files can be produced by the KIT machine.
         * The `task` should be set to `rest` because there is no stimuli events involved (if not we get warning from the BIDS-Validator)
         * The `space` refers to the coordinate system type, for Yokogawa/KIT it is Anterior on X-axis, Left on Y-axis, Superior on Z-axis, therfore it is ALS
     * all `.con` files should be stored under `meg`
+
 .. note::
         - The `ses` is optional, but must be present if the same subject had multiple sessions
         - The `run` is optional, but must be present if in the same session, a subject had multiple MEG acquisitions leading to multiple `.con` files
 
-OPM files
-#########
+MEG-OPM files
+~~~~~~~~~~~~~
 
 The OPM system generates a BIDS directory with the .fif files
 
@@ -102,7 +109,7 @@ The OPM system generates a BIDS directory with the .fif files
 
 
 Data uploading
-##############
+""""""""""""""
 
 Data will be uploaded to NYU BOX, to the following link
 
@@ -113,15 +120,9 @@ Data will be uploaded to NYU BOX, to the following link
 Steps
 
 #. Access the folder of NYU Box
-#. Identify the project that the data belongs to
+#. Identify the project that the data belongs to, or request for a new project folder
 #. Access the folder for that project or create a new folder if non-existent
-
-#. Follow the BIDS structure format, within each project file, we find subjects file named by their ID
-    * Within each subjects folder we find, *anat*, *meg-kit*, *meg-opm* folders
-    * Place the corresponding files into the right folder: all headscan files go to *anat*, the .con and .mrk goes to *meg-kit*, the .fif goes to *meg-opm*
-#. The subject ID must be added to the Excel sheet on `Participant_ID_Generator.csv` in the NYU BOX `MEG/DATA` folder. You have two options here, either name the subjects by adding an index number starting from the last one available in the Excel sheet, or use your own numbering followed by a `-[name of your project]`
-
-
+#. Follow the BIDS structure format described above, within each project file,
 #. Make sure that all files have been uploaded to the folder
 
 
@@ -133,5 +134,6 @@ MRI data is hosted on XNAT
 .. admonition:: Link to MRI data (Access given after requesting and upon eligibility)
 
     `https://xnat.abudhabi.nyu.edu/#/login <https://xnat.abudhabi.nyu.edu/#/login>`_
+    Contact the xnat administrator `admin.nyuad.xnat@nyu.edu`
 
 
