@@ -1,8 +1,12 @@
-Data storage
-------------
+-----------------------
+Data Naming and Storing
+-----------------------
 
-MEG Data storage
-################
+
+
+
+Data Naming and Storing: MEG
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The MEG data is securely stored on NYU BOX, access is given through invitations.
 The *Data* folder is structured in the **BIDS** standardized format.
@@ -21,22 +25,12 @@ Or directly from the below widget
 
     <iframe src="https://nyu.app.box.com/embed/s/wefkhu5yn7tzzhw2gcr45zvnsqqnbyuf?sortColumn=name&expandSidebars=true" width="650" height="550" frameborder="0" allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>
 
-If you are unable to access the datasets it means you do not have the permission to. Kindly contact us to get permission.
+If you are unable to access the datasets it means you do not have the permission to. Kindly send an email to `nyuad.meg@nyu.edu`
 
 
 
-MRI Data storage
-^^^^^^^^^^^^^^^^
-
-MRI data is hosted on XNAT
-
-.. admonition:: Link to MRI data (Access given after requesting and upon eligibility)
-
-    `https://xnat.abudhabi.nyu.edu/#/login <https://xnat.abudhabi.nyu.edu/#/login>`_
-
-
-Data naming and uploading protocol
-----------------------------------
+BIDS standard Data naming and uploading protocol
+------------------------------------------------
 
 A typical MEG dataset from NYUAD contains the following files and folders in BIDS-standard:
 
@@ -76,7 +70,7 @@ Laser scan files
 
 #. Several .txt should be converted to .pos by just renaming the file extension
     * ``sub-001_ses-01_acq-head_headshape.pos``  is the head scan of the participant
-    * ``sub-001_ses-01_acq-points_headshape.pos`` is the stylus location file of the participant
+    * ``sub-001_ses-01_acq-points_headshape.pos`` is the stylus points location file of the participant
         - all should be stored under `meg`
 
 KIT-MEG files
@@ -87,10 +81,13 @@ Depending on the experiment, many .con files can be produced by the KIT machine.
 #. .con files are named:
     * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_meg.con``
     * example: `sub-001_ses-01_task-audiovisualmotor_run-03_meg.con`
-
+    * all `.con` files should be stored under `meg`
 #. .mrk files are named:
-   * ``sub-[SUB_ID]_[marker_number]_ses-[date]_meg.mrk`` where [marker_number] is replaced with the number of the marker (representing the time-order of acquisition of that marker) and [data] is in the format `yyyy-mm-dd`
-
+    * ``sub-[SUB_ID]_ses-[SES_ID]_task-rest_acq-[MARKER_ORDER_NUMBER]_space-ALS_markers.mrk`` where:
+        * [MARKER_ORDER_NUMBER] is the chronological order in which the marker has been acquired at in that session
+        * The `task` should be set to `rest` because there is no stimuli events involved (if not we get warning from the BIDS-Validator)
+        * The `space` refers to the coordinate system type, for Yokogawa/KIT it is Anterior on X-axis, Left on Y-axis, Superior on Z-axis, therfore it is ALS
+    * all `.con` files should be stored under `meg`
 .. note::
         - The `ses` is optional, but must be present if the same subject had multiple sessions
         - The `run` is optional, but must be present if in the same session, a subject had multiple MEG acquisitions leading to multiple `.con` files
@@ -126,3 +123,15 @@ Steps
 
 
 #. Make sure that all files have been uploaded to the folder
+
+
+Data Naming and Storing: MRI
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+MRI data is hosted on XNAT
+
+.. admonition:: Link to MRI data (Access given after requesting and upon eligibility)
+
+    `https://xnat.abudhabi.nyu.edu/#/login <https://xnat.abudhabi.nyu.edu/#/login>`_
+
+
