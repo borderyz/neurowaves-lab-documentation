@@ -5,6 +5,8 @@ Datasets
 .. raw:: html
     :file: ../graphic/data_preparation.html
 
+
+
 Head surface scan generates:
 - _basic.txt  : is a laser scan head points
 - _points.txt : is the fiducial points recorded in the order described under the `Operation Protocol`

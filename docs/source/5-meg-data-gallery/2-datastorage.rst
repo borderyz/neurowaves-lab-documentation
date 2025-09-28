@@ -38,26 +38,46 @@ MRI data is hosted on XNAT
 Data naming and uploading protocol
 ----------------------------------
 
+A typical MEG dataset from NYUAD contains the following files and folders in BIDS-standard:
 
 Your data should be stored in the BIDS format.
-Find a template to be used under `bids-template`
+Find a template to be used under `bids-template`, the template contains all the information that you should have in each file.
 
 In the following, [SUB_ID] should be replaced with the ID of the subject for naming purposes.
 The different data files generated from a MEG experiment are the following.
 
 .. note::
-    If you have suggestions to make the naming convention better, please raise an issue on github
+    If you have found a bug in the BIDS naming format please raise an issue on github
     or create a pull request with your proposed modifications.
+
+
+Directory structuring
+#####################
+
+Your file structure should look like this:
+
+- **root** level directory named after your project 'PROJECT_NAME'
+- within the **root** directory, you should have:
+    - `README.md`: general information on your project
+    - `dataset_description.json`: a JSON object detailing authors, project name, grants and so on
+    - `sub-[SUB_ID]`: a folder for each subject, within which there should be:
+        - Optionally a `ses-[SES_ID]` where SES_ID is a numeric session ID, inside which you will find:
+            - `meg` (must have one): will contain your MEG data and other meta-data
+            - `sourcedata` (not necessary)
+        - If the `ses-[SES_ID]` folder is not there, it means you do not have multiple sessions for the subject, in that case you will directly find `meg` and `sourcedata` within the `sub-[SUB_ID]` folder
+
 
 Laser scan files
 ################
 
 #. A .fsn filename that should be named ``sub-\[SUB_ID\]_scan.fsn`` : This file is obtained by saving
    the whole fastscan laser project (File Save)
+    - is stored under `sourcedata`
 
-#. Several .txt
+#. Several .txt should be converted to .pos by just renaming the file extension
     * ``sub-[SUB_ID]_scan.txt``  is the head scan of the participant
     * ``sub-[SUB_ID]_scan_stylus.txt`` is the stylus location file of the participant
+        - all should be stored under `meg`
 
 KIT-MEG files
 #############
