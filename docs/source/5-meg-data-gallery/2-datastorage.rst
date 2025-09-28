@@ -70,13 +70,13 @@ Your file structure should look like this:
 Laser scan files
 ################
 
-#. A .fsn filename that should be named ``sub-\[SUB_ID\]_scan.fsn`` : This file is obtained by saving
+#. A .fsn filename that should be named ``sub-\[SUB_ID\]_task-[TASK_NAME]_acq-fullproject_headshape.fsn`` : This file is obtained by saving
    the whole fastscan laser project (File Save)
     - is stored under `sourcedata`
 
 #. Several .txt should be converted to .pos by just renaming the file extension
-    * ``sub-[SUB_ID]_scan.txt``  is the head scan of the participant
-    * ``sub-[SUB_ID]_scan_stylus.txt`` is the stylus location file of the participant
+    * ``sub-001_ses-01_acq-head_headshape.pos``  is the head scan of the participant
+    * ``sub-001_ses-01_acq-points_headshape.pos`` is the stylus location file of the participant
         - all should be stored under `meg`
 
 KIT-MEG files
@@ -85,10 +85,15 @@ KIT-MEG files
 Depending on the experiment, many .con files can be produced by the KIT machine.
 
 #. .con files are named:
-   * ``sub-[SUB_ID]_ses-[date]_meg.con`` where [data] is in the format `yyyy-mm-dd`
+    * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_meg.con``
+    * example: `sub-001_ses-01_task-audiovisualmotor_run-03_meg.con`
 
 #. .mrk files are named:
    * ``sub-[SUB_ID]_[marker_number]_ses-[date]_meg.mrk`` where [marker_number] is replaced with the number of the marker (representing the time-order of acquisition of that marker) and [data] is in the format `yyyy-mm-dd`
+
+.. note::
+        - The `ses` is optional, but must be present if the same subject had multiple sessions
+        - The `run` is optional, but must be present if in the same session, a subject had multiple MEG acquisitions leading to multiple `.con` files
 
 OPM files
 #########
