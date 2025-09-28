@@ -67,6 +67,11 @@ Your file structure should look like this:
         - If the `ses-[SES_ID]` folder is not there, it means you do not have multiple sessions for the subject, in that case you will directly find `meg` and `sourcedata` within the `sub-[SUB_ID]` folder
 
 
+.. note::
+    General BIDS notes:
+    - If a particular file applies to all runs, then it should not have the `run` descriptor in its name
+    - If a particular file applies to all sessions, then it should not have the `ses` descriptor in its name
+
 MEG-Laserscan files
 ~~~~~~~~~~~~~~~~~~~
 
