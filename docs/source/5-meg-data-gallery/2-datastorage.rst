@@ -38,7 +38,7 @@ If you are unable to access the datasets it means you do not have the permission
 Data naming BIDS protocol
 """""""""""""""""""""""""
 
-A typical MEG dataset from NYUAD contains the following files and folders in BIDS-standard:
+A typical MEG dataset from NYUAD contains the following files and folders in BIDS-specification `https://bids-specification.readthedocs.io/ <https://bids-specification.readthedocs.io/>`_ :
 
 Your data should be stored in the BIDS format.
 Find a template to be used under `bids-template`, the template contains all the information that you should have in each file.
