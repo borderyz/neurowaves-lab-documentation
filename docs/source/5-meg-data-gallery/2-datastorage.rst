@@ -75,7 +75,7 @@ Your file structure should look like this:
 MEG-Laserscan files
 ~~~~~~~~~~~~~~~~~~~
 
-#. A `.fsn` filename that should be named ``sub-\[SUB_ID\]_task-[TASK_NAME]_acq-fullproject_headshape.fsn`` : This file is obtained by saving the whole fastscan laser project (File Save)
+#. A `.fsn` filename that should be named ``sub-\[SUB_ID\]_acq-laserproject_headshape.fsn`` : This file is obtained by saving the whole fastscan laser project (File Save)
     * The `.fsn` file is stored under `sourcedata`
 
 #. Several .txt should be converted to .pos by just renaming the file extension
