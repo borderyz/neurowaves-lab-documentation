@@ -38,7 +38,7 @@ If you are unable to access the datasets it means you do not have the permission
 Data naming BIDS protocol
 """""""""""""""""""""""""
 
-A typical MEG dataset from NYUAD contains the following files and folders in BIDS-standard:
+A typical MEG dataset from NYUAD contains the following files and folders in BIDS-specification `https://bids-specification.readthedocs.io/ <https://bids-specification.readthedocs.io/>`_ :
 
 Your data should be stored in the BIDS format.
 Find a template to be used under `bids-template`, the template contains all the information that you should have in each file.
@@ -66,6 +66,14 @@ Your file structure should look like this:
             - `sourcedata` (not necessary)
         - If the `ses-[SES_ID]` folder is not there, it means you do not have multiple sessions for the subject, in that case you will directly find `meg` and `sourcedata` within the `sub-[SUB_ID]` folder
 
+Additionally, it can have:
+    - `events.json` should have meta-data about the device used for presenting Stimulus
+    - `events.tsv` should have information about the types of trials, onset and duration
+    - `task-[PROJECT_NAME]_meg.json` should have information about the MEG system used, sampling frequency and so on
+
+If the three above files are not found at the root of your dataset, it means that each subject or session might have a specific configuration, in that case make sure to have these files within the subject or session, while adding the sub/ses ID's to the name of the file.
+The three above files can be found at the root of your dataset, while having the same files within each session/subject under the following condition:
+- when some parameters are specified at the level of the dataset, while other are specific for the session/subject
 
 .. note::
     General BIDS notes:
@@ -75,7 +83,7 @@ Your file structure should look like this:
 MEG-Laserscan files
 ~~~~~~~~~~~~~~~~~~~
 
-#. A `.fsn` filename that should be named ``sub-\[SUB_ID\]_task-[TASK_NAME]_acq-fullproject_headshape.fsn`` : This file is obtained by saving the whole fastscan laser project (File Save)
+#. A `.fsn` filename that should be named ``sub-\[SUB_ID\]_acq-laserproject_headshape.fsn`` : This file is obtained by saving the whole fastscan laser project (File Save)
     * The `.fsn` file is stored under `sourcedata`
 
 #. Several .txt should be converted to .pos by just renaming the file extension
