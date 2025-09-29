@@ -70,6 +70,21 @@ If you'd like to contribute to this documentation, please follow the heading-ado
 
 
 
+Adding a toctree within a page
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To add a toctree with the content of your page, copy the following code at the beginning of your page contents::
+
+   .. contents::
+      :local:
+      :depth: 2
+
+This will render as:
+
+.. contents::
+   :local:
+   :depth: 2
+
 Reference links from within the repository
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
