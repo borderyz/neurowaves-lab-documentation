@@ -73,7 +73,7 @@ Additionally, it can have:
 
 If the three above files are not found at the root of your dataset, it means that each subject or session might have a specific configuration, in that case make sure to have these files within the subject or session, while adding the sub/ses ID's to the name of the file.
 The three above files can be found at the root of your dataset, while having the same files within each session/subject under the following condition:
-    - when some parameters are specified at the level of the dataset, while other are specific for the session/subject
+- when some parameters are specified at the level of the dataset, while other are specific for the session/subject
 
 .. note::
     General BIDS notes:
