@@ -66,6 +66,14 @@ Your file structure should look like this:
             - `sourcedata` (not necessary)
         - If the `ses-[SES_ID]` folder is not there, it means you do not have multiple sessions for the subject, in that case you will directly find `meg` and `sourcedata` within the `sub-[SUB_ID]` folder
 
+Additionally, it can have:
+    - `events.json` should have meta-data about the device used for presenting Stimulus
+    - `events.tsv` should have information about the types of trials, onset and duration
+    - `task-[PROJECT_NAME]_meg.json` should have information about the MEG system used, sampling frequency and so on
+
+If the three above files are not found at the root of your dataset, it means that each subject or session might have a specific configuration, in that case make sure to have these files within the subject or session, while adding the sub/ses ID's to the name of the file.
+The three above files can be found at the root of your dataset, while having the same files within each session/subject under the following condition:
+    - when some parameters are specified at the level of the dataset, while other are specific for the session/subject
 
 .. note::
     General BIDS notes:
