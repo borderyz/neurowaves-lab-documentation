@@ -67,9 +67,9 @@ end
 
 APPLY_FILTERS = false;
 
-%%
+%% Loading data and concatenating from the different .con files
 
-% Initialize FieldTrip configuration
+% Initialize FieldTrip configuration for loading data
 cfg = [];
 cfg.coilaccuracy = 0;
 
@@ -97,9 +97,7 @@ combinedData = ft_appenddata([], dataList{:});
 disp('Data concatenation complete.');
 
 
-
-
-%% Filtering data
+%% Filtering data (not used for this pipeline)
 
 if APPLY_FILTERS
     % Notch filter the data at 50 Hz
@@ -168,7 +166,7 @@ TRIALS_STIM{chIdx} = ft_appenddata(cfg, TRIALS{1,chIdx}, TRIALS{2,chIdx}, TRIALS
 VISUAL_TRIALS = TRIALS_STIM{1}
 
 
-%% Visual Inspection ALTL
+%% Inspection of trials and rejection of bad trials 
 
 
 cfg = [];
@@ -189,7 +187,7 @@ AVG_TRIALS_VISUAL= ft_timelockanalysis(cfg, VISUAL_TRIALS_REJ);
 
 
 
-%% Get KIT Sensors
+%% Get KIT Sensor layout
 
 kit_layout = create_kit_layout(conFile);
 
@@ -197,16 +195,17 @@ figure('Position', [100, 100, 1000, 800]); % Adjust the width and height (1000 a
 ft_plot_layout(kit_layout, 'box', 1);
 
 
-
-
-
 %% Plotting in space
 
 % for a single trial type, for each channel, average over time the trial
 % and plot the average value on the helmet
-% You can still see the time behavior when clicking on one sensor
+% You can still see the time behavior when clicking on one sensor or even
+% select a bunch of sensors to see the average over those selected sensors
 
-
+% What should be done in this plot, is select a bunch of occipital lobe
+% sensors, click on them to see the averaged ERP, then select the p100 peak
+% from the averaged erp then click on it to see the topology at the peak
+% time (you should see a strong dipole in the Occipital lobe)
 
 cfg = [];
 cfg.xlim = [0.05 1.2];
@@ -218,15 +217,14 @@ ft_topoplotER(cfg, AVG_TRIALS_VISUAL);
 
 
 
-%%
-
+%% Plot of the averaged VEF
 
 % List of occipital sensors of interest
 occipital_sensors = { ...
     'AG162','AG164','AG165','AG184','AG185','AG186','AG187', ...
     'AG195','AG196','AG197','AG199','AG201','AG202'};
 
-% Select those channels from your averaged ERP
+% Select those channels from your averaged VEF
 cfg = [];
 cfg.channel = occipital_sensors;
 VISUAL_OCC = ft_selectdata(cfg, AVG_TRIALS_VISUAL);
@@ -234,7 +232,7 @@ VISUAL_OCC = ft_selectdata(cfg, AVG_TRIALS_VISUAL);
 % Compute the average across those channels
 occipital_avg = mean(VISUAL_OCC.avg, 1);
 
-% Plot ERP (time vs amplitude)
+% Plot VEF (amplitude vs time)
 figure;
 plot(VISUAL_OCC.time, occipital_avg, 'b','LineWidth',1.5);
 xlabel('Time (s)');
@@ -248,21 +246,7 @@ grid on;
 
 %% PDF Plot generation
 
-% --- Channels of interest ---
-
-
-% --- Select channels from your averaged ERP ---
-cfg = [];
-cfg.channel = occipital_sensors;
-VISUAL_OCC = ft_selectdata(cfg, AVG_TRIALS_VISUAL);
-
-% --- NO delay correction here ---
-% (keep VISUAL_OCC.time as it is)
-
-% --- Mean across the selected channels ---
-occipital_avg = mean(VISUAL_OCC.avg, 1);
-
-% --- Find P100 (positive peak) in 80–130 ms (trigger-locked) ---
+% Find P100 (positive peak) in 80–130 ms
 p100_win = [0.080 0.130];             
 winMask  = VISUAL_OCC.time >= p100_win(1) & VISUAL_OCC.time <= p100_win(2);
 
@@ -276,7 +260,7 @@ tP100 = VISUAL_OCC.time(idxPeak);     % latency relative to trigger
 yP100 = occipital_avg(idxPeak);       % amplitude at peak
 
 
-% --- Plot ---
+% Plot
 figure('Color','w','Units','inches','Position',[1 1 9 4]); % wider figure
 plot(VISUAL_OCC.time, occipital_avg, 'b','LineWidth',2); hold on;
 xline(tP100,'--','LineWidth',1.5);
@@ -290,7 +274,7 @@ grid on; box on; set(gca,'FontSize',12,'LineWidth',1);
 % Stretch/zoom the x-axis
 xlim([-0.1 0.6]);  % adjust as needed for your epoch
 
-% --- Label on the x-axis ---
+% Label on the x-axis 
 yl = ylim;   
 text(tP100, yl(1) - 0.05*range(yl), ...   
      sprintf('P100: %.1f ms', tP100*1000), ...
@@ -299,17 +283,12 @@ text(tP100, yl(1) - 0.05*range(yl), ...
 
 legend({'Occipital mean','P100 time','P100 peak'},'Location','best');
 
-% --- Save high-quality PDF ---
+% --- Save PDF ---
 print(gcf,'Occipital_ERP_P100_triggerLocked.pdf','-dpdf','-bestfit');
 
 
 
-
-%% ---- Inputs ----
-% Timelock average (FieldTrip) you already have:
-% VISUAL_AVG_TRIALS
-% Layout you already have:
-% kit_layout
+%% Plot heatmap of the p100 latency across a selection of occipital sensors
 
 % Occipital sensors of interest
 occipital_sensors = { ...
@@ -325,14 +304,15 @@ occipital_sensors_2 = { ...
 occipital_sensors= [occipital_sensors, occipital_sensors_2];
 
 % P100 search window (in seconds)
-p100_win = [0.080 0.130];   % tweak if your paradigm shifts it
+p100_win = [0.080 0.130];   
 
-% ---- 1) Select only those channels
+% Select Occipital lobe sensors
 cfg = [];
 cfg.channel = occipital_sensors;
 VIS_OCC = ft_selectdata(cfg, AVG_TRIALS_VISUAL);   % keeps dimord 'chan_time'
 
-% ---- 2) Find P100 latency per channel
+% Find p100 latency
+
 tmask = VIS_OCC.time >= p100_win(1) & VIS_OCC.time <= p100_win(2);
 lat_sec = nan(numel(VIS_OCC.label),1);
 
@@ -344,7 +324,7 @@ for ch = 1:numel(VIS_OCC.label)
     end
 end
 
-% ---- 3) Build a “latency map” timelock for topoplot
+%Build a “latency map” timelock for topoplot
 % Put latencies at a single time point for topographic plotting.
 LATMAP = AVG_TRIALS_VISUAL;              % copy structure to keep meta/layout info
 LATMAP.time   = 0;                       % single time sample
@@ -356,30 +336,6 @@ LATMAP.dimord = 'chan_time';             % ensure correct dim order
 LATMAP.avg(idx_all,1) = lat_sec;         % seconds
 
 
-% --- limit plot to the selected sensors and their convex hull
-cfg = [];
-cfg.parameter   = 'avg';
-cfg.xlim        = [0 0];
-cfg.layout      = kit_layout;
-cfg.comment     = 'no';
-cfg.zlim        = p100_win;           % [0.080 0.130] s
-cfg.colorbar    = 'yes';
-cfg.marker      = 'on';
-cfg.highlightsymbol = '.';
-cfg.highlightsize   = 16;
-cfg.highlightchannel = occipital_sensors;
-
-cfg.channel     = occipital_sensors;  % <-- only use these channels
-cfg.interplimits= 'electrodes';       % <-- interpolate only within their convex hull
-cfg.interpmethod= 'natural';          % or 'linear', 'nearest' (try what looks best)
-cfg.gridscale   = 150;                % smoother shading
-
-figure;
-ft_topoplotER(cfg, LATMAP);
-title(sprintf('P100 latency (s) — occipital sensors (%.0f–%.0f ms)', ...
-      p100_win(1)*1e3, p100_win(2)*1e3));
-
-%% 
 % Reduced layout with only occipital sensors
 cfg_lay = [];
 cfg_lay.layout  = kit_layout;
@@ -407,124 +363,17 @@ title(sprintf('Spatial view of P100 latency, a focused view on the Occipital lob
 exportgraphics(gca, 'topoplot_latency100.pdf', 'ContentType', 'vector', ...
                'BackgroundColor', 'white');
 
-% % ---- 4) Plot: topographic heatmap of P100 latency
-% cfg = [];
-% cfg.parameter = 'avg';
-% cfg.xlim      = [0 0];           % the single time point we set above
-% cfg.layout    = kit_layout;
-% cfg.comment   = 'no';
-% cfg.zlim      = p100_win;        % colorbar range (80–130 ms)
-% cfg.colorbar  = 'yes';
-% cfg.marker    = 'on';
-% cfg.highlight = 'on';
-% cfg.highlightsymbol = '.';
-% cfg.highlightsize   = 16;
-% cfg.highlightchannel = occipital_sensors;
-% 
-% figure; 
-% ft_topoplotER(cfg, LATMAP);
-% title(sprintf('P100 latency (s) — occipital sensors (window %.0f–%.0f ms)', ...
-%       p100_win(1)*1e3, p100_win(2)*1e3));
-% 
-% % ---- 5) (Optional) print a small table
-% T = table(VIS_OCC.label, round(lat_sec*1000,1), 'VariableNames', {'Channel','Latency_ms'});
-% disp(T);
 
 
-%% Heamap with all the sensors
 
-% --- Settings ---
-p100_win = [0.080 0.130];     % seconds (search window for P100)
-use_abs  = true;              % true = find max |amplitude| in window (recommended for axial grads)
 
-% --- Use ALL channels from your timelock average
-VIS_ALL = AVG_TRIALS_VISUAL;           % FieldTrip timelock (dimord: 'chan_time')
-
-% Build time mask once
-tmask = VIS_ALL.time >= p100_win(1) & VIS_ALL.time <= p100_win(2);
-t_idx = find(tmask);
-
-% Preallocate
-nChan   = numel(VIS_ALL.label);
-lat_sec = nan(nChan,1);
-
-% Channel-wise latency (P100) detection across ALL sensors
-for ch = 1:nChan
-    seg = VIS_ALL.avg(ch, tmask);
-    if all(~isfinite(seg)), continue; end  % skip empty/NaN channels
-    if use_abs
-        [~, idx_rel] = max(abs(seg));      % polarity-agnostic (good for axial)
-    else
-        [~, idx_rel] = max(seg);           % positive-only peak
-    end
-    lat_sec(ch) = VIS_ALL.time(t_idx(idx_rel));
-end
-
-% --- Build a topoplot-able structure with latencies per channel
-LATMAP = VIS_ALL;                   % copy meta (labels, grad, etc.)
-LATMAP.time   = 0;                  % single time sample
-LATMAP.avg    = lat_sec(:);         % chan x 1 (seconds)
-LATMAP.dimord = 'chan_time';
-
-% --- Topographic heatmap over ALL sensors
-% pick a nice colormap
-try, cmap = turbo(256); catch, cmap = parula(256); end
-
-fig = figure('Color','w','Units','inches','Position',[1 1 7.5 5]);
-
-cfg = [];
-cfg.parameter = 'avg';
-cfg.xlim      = [0 0];              % the single time we set
-cfg.layout    = kit_layout;
-cfg.comment   = 'no';
-cfg.zlim      = p100_win;           % colorbar range (80–130 ms)
-cfg.colorbar  = 'yes';
-cfg.marker    = 'on';
-cfg.markersize = 8;
-cfg.markersymbol = '.';
-cfg.markercolor = [0.25 0.25 0.25];
-
-ft_topoplotER(cfg, LATMAP);
-colormap(cmap);
-title(sprintf('P100 latency topography (%.0f–%.0f ms window, all sensors)', ...
-      p100_win(1)*1e3, p100_win(2)*1e3), 'FontSize',14,'FontWeight','bold');
-
-% Colorbar in milliseconds
-cb = colorbar;
-cb.Label.String = 'Latency (ms)';
-cb.Label.FontWeight = 'bold';
-cb.Ticks = linspace(cfg.zlim(1), cfg.zlim(2), 6);
-cb.TickLabels = arrayfun(@(x) sprintf('%.0f', x*1000), cb.Ticks, 'UniformOutput', false);
-set(gca,'FontSize',11,'LineWidth',1);
-
-%% --- Optional: flag tiny responses (set to NaN) to avoid noisy latencies
-% thr = 0.15 * max(abs(VIS_ALL.avg(:, tmask)), [], 'all'); % 15% of max as example
-% for ch = 1:nChan
-%     if max(abs(VIS_ALL.avg(ch, tmask))) < thr
-%         LATMAP.avg(ch,1) = NaN;   % will not plot/interpolate that channel
-%     end
-% end
-% clf; ft_topoplotER(cfg, LATMAP); colormap(cmap); colorbar; title(...)
-
-%% --- High-quality vector export (no GUI cropping)
-if exist('exportgraphics','file')
-    exportgraphics(fig, 'P100_latency_topography_ALL.pdf', ...
-                   'ContentType','vector','BackgroundColor','white');
-else
-    set(fig,'PaperUnits','inches','PaperPosition',[0 0 7.5 5]);
-    print(fig,'P100_latency_topography_ALL.pdf','-dpdf','-r0');
-end
-
-%% --- (Optional) Table of all-channel latencies (ms)
-T_all = table(VIS_ALL.label(:), round(lat_sec*1000,1), ...
-              'VariableNames', {'Channel','Latency_ms'});
-disp(T_all);
 
 
 %% Histogram
 
+T = table(VIS_OCC.label, round(lat_sec*1000,1), 'VariableNames', {'Channel','Latency_ms'});
+disp(T);
 
-% ---- 6) Sort the table by latency and plot histogram ----
 T_sorted = sortrows(T, 'Latency_ms', 'descend');
 
 figure('Color','w');
@@ -533,14 +382,15 @@ set(gca,'YTick',1:height(T_sorted),'YTickLabel',T_sorted.Channel, ...
     'YDir','reverse','FontSize',10);
 xlabel('Latency (ms)','FontSize',12,'FontWeight','bold');
 ylabel('Channel','FontSize',12,'FontWeight','bold');
-title('P100 latency by occipital channel','FontSize',14,'FontWeight','bold');
+title('P100 latency by occipital channel (sorted high→low)','FontSize',14,'FontWeight','bold');
 grid on; box on;
 
 % Export to PDF
 exportgraphics(gca, 'histogram.pdf', 'ContentType', 'vector', ...
                'BackgroundColor', 'white');
 
-%%
+
+%% Spatial distribution (not so good plot for a report, but good interactively)
 
 cfg = [];
 cfg.parameter = 'avg';
@@ -559,9 +409,11 @@ ft_topoplotER(cfg, LATMAP);
 title('Spatial distribution of P100 latencies (s)');
 
 
+%% Plot spatially while labelling the p100 latency
 
-
-%%
+% Get XY positions from layout
+lay = ft_prepare_layout([], AVG_TRIALS_VISUAL);
+[~, idx_occ] = ismember(VIS_OCC.label, lay.label);
 
 % Scatter with latency as color
 figure;
