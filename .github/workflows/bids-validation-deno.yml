@@ -13,6 +13,15 @@ on:
         default: "true"
   schedule:
     - cron: "0 20 * * *"  # 20:00 UTC
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - ".github/workflows/bids-validation-deno.yml"
+      - "pipeline/bids_validation/github_action_validate_box_deno.py"
+      - "pipeline/bids_validation/.bidsignore_template"
+
 
 jobs:
   validate:
