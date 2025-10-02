@@ -4,10 +4,10 @@ Datapixx('DisablePixelMode');
 Datapixx('RegWr');
 
 
-sel = struct('right box', {{'blue'}}, 'left box',  {{'white','red'}});
-%sel.('right box') = {'blue'};
-%sel.('left box')  = {'white','red'};
 
+sel = struct();
+sel.right_box = {'blue'};
+sel.left_box  = {'white','red'};
 
 while true
     % Block until any mapped button is pressed:

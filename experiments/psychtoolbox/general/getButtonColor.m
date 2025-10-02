@@ -107,29 +107,35 @@ function listen_pairs = normalizeSelection(selection)
         return
     end
 
-    % selection is a struct with fields 'right box'/'left box' holding cell arrays of colors
+    % selection can use right_box/left_box OR 'right box'/'left box'
     listen_pairs = {};
     fns = fieldnames(selection);
     for i = 1:numel(fns)
-        box = lower(strtrim(fns{i}));
+        rawBox = lower(strtrim(fns{i}));
+        % allow underscores
+        rawBox = strrep(rawBox, '_', ' ');
+        if ~ismember(rawBox, {'right box','left box'})
+            error('Unknown selection box: %s (use right_box/left_box or "right box"/"left box")', fns{i});
+        end
         colors = selection.(fns{i});
         if ischar(colors), colors = {colors}; end
         for j = 1:numel(colors)
             color = lower(strtrim(colors{j}));
-            % validate against mapping
-            key = [box '|' color];
+            key = [rawBox '|' color];
             if ~buttonMapping().isKey(key)
-                error('Unknown selection: %s / %s', box, color);
+                error('Unknown selection: %s / %s', rawBox, color);
             end
-            listen_pairs(end+1,:) = {box, color}; %#ok<AGROW>
+            listen_pairs(end+1,:) = {rawBox, color}; %#ok<AGROW>
         end
     end
-    % de-duplicate pairs
+    % de-duplicate
     if ~isempty(listen_pairs)
-        [~, ia] = unique(cellfun(@(a,b)[a '|' b], listen_pairs(:,1), listen_pairs(:,2), 'uni',0));
-        listen_pairs = listen_pairs(sort(ia),:);
+        tags = cellfun(@(a,b)[a '|' b], listen_pairs(:,1), listen_pairs(:,2), 'uni',0);
+        [~, ia] = unique(tags, 'stable');
+        listen_pairs = listen_pairs(ia,:);
     end
 end
+
 
 % =====================================================================
 function RESP_TO_PAIRS = buildRespToPairs()
