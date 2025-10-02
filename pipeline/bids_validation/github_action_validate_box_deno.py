@@ -592,7 +592,7 @@ def main():
                     help="Path to Box JWT config JSON (alternative to env BOX_CLIENT_SDK_CONFIG)")
     ap.add_argument("--no-con-placeholders", action="store_true",
                     help="Do NOT create .con placeholders (skip .con files entirely)")
-    ap.add_argument("--max-bytes", type=int, default=2_000_000,
+    ap.add_argument("--max-bytes", type=int, default=6_000_000,
                     help="If a file is larger than this, do not download it (create placeholder instead).")
     ap.add_argument("--exclude-dataset", action="append", default=["kidlang"],
                     help="Dataset folder name(s) to exclude. Repeatable.")
@@ -606,7 +606,7 @@ def main():
     ap.add_argument(
         "--placeholder-size",
         type=int,
-        default=4096000,  # 4 KiB sentinel; set 0 to keep old behavior
+        default=4096,  # 4 KiB sentinel; set 0 to keep old behavior
         help="Size in bytes for placeholder files (when skipping by ext/size). "
              "If 0, create 0-byte files. Default: 4096.",
     )
