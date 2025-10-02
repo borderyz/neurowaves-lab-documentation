@@ -606,7 +606,7 @@ def main():
     ap.add_argument(
         "--placeholder-size",
         type=int,
-        default=4096,  # 4 KiB sentinel; set 0 to keep old behavior
+        default=4096000,  # 4 KiB sentinel; set 0 to keep old behavior
         help="Size in bytes for placeholder files (when skipping by ext/size). "
              "If 0, create 0-byte files. Default: 4096.",
     )
