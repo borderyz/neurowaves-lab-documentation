@@ -3,13 +3,22 @@ Experiments example 5: Response buttons experiment
 
 The MEG Lab has two response boxes which allow the user to provide their input during an experiment.
 
-The `Left box` is the grey box and the `Right box` is the blue box.
+For the right box the colors of the buttons from left side to right side are:
+- white
+- red
+- yellow
+- green
+- blue
+
+For the left box it is the same order above, but from right side to left side.
 
 Scripts can be found under
 
 :github-file:`experiments/psychtoolbox/general`
 
 :github-file:`experiments/psychtoolbox/general/getButton.m`
+
+:github-file:`experiments/psychtoolbox/general/getButtonColor.m`
 
 :github-file:`experiments/psychtoolbox/general/button_response.m`
 
@@ -40,7 +49,7 @@ The above function will return an integer `resp` which you will have to translat
 +=============+==============+===================+===========================+===============+
 | Left Box    | Red          | 0001100000        | 4                         | 5             |
 +-------------+--------------+-------------------+---------------------------+---------------+
-| Left Box    | Yellow       | STUCK             | 3                         | 6             |
+| Left Box    | Yellow       | 000               | 3                         | 6             |
 +-------------+--------------+-------------------+---------------------------+---------------+
 | Left Box    | Green        | 0011000000        | 2                         | 7             |
 +-------------+--------------+-------------------+---------------------------+---------------+

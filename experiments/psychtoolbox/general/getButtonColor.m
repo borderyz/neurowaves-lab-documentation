@@ -1,4 +1,4 @@
-function out = getbuttonColor(selection, blocking)
+function out = getButtonColor(selection, blocking)
 %GETBUTTONCOLOR Return the (box,color) of the pressed response button.
 %
 % Usage:
@@ -140,11 +140,13 @@ function RESP_TO_PAIRS = buildRespToPairs()
     keys = M.keys;
     for i = 1:numel(keys)
         info = M(keys{i});
+    
         resp = info.response;
         if resp < 1 || resp > numel(RESP_TO_PAIRS), continue; end
         if isempty(RESP_TO_PAIRS{resp})
             RESP_TO_PAIRS{resp} = {};
         end
+        
         parts = strsplit(keys{i}, '|');
         RESP_TO_PAIRS{resp}(end+1,:) = {parts{1}, parts{2}}; %#ok<AGROW>
     end
@@ -160,18 +162,18 @@ function M = buttonMapping()
     V = {};
 
     % right box
-    K{end+1} = 'right box|white';  V{end+1} = struct('response', 6, 'listen_to', 5);
-    K{end+1} = 'right box|red';    V{end+1} = struct('response',10, 'listen_to', 1);
-    K{end+1} = 'right box|yellow'; V{end+1} = struct('response', 9, 'listen_to', 2);
-    K{end+1} = 'right box|green';  V{end+1} = struct('response', 8, 'listen_to', 3);
-    K{end+1} = 'right box|blue';   V{end+1} = struct('response', 7, 'listen_to', 4);
+    K{end+1} = 'right box|white';  V{end+1} = struct('response', 5 );
+    K{end+1} = 'right box|red';    V{end+1} = struct('response', 1);
+    K{end+1} = 'right box|yellow'; V{end+1} = struct('response', 2);
+    K{end+1} = 'right box|green';  V{end+1} = struct('response', 3);
+    K{end+1} = 'right box|blue';   V{end+1} = struct('response', 4);
 
     % left box
-    K{end+1} = 'left box|white';  V{end+1} = struct('response', 1, 'listen_to',10);
-    K{end+1} = 'left box|red';    V{end+1} = struct('response', 5, 'listen_to', 6);
-    K{end+1} = 'left box|yellow'; V{end+1} = struct('response', 4, 'listen_to', 7);
-    K{end+1} = 'left box|green';  V{end+1} = struct('response', 3, 'listen_to', 8);
-    K{end+1} = 'left box|blue';   V{end+1} = struct('response', 2, 'listen_to', 9);
+    K{end+1} = 'left box|white';  V{end+1} = struct('response', 10);
+    K{end+1} = 'left box|red';    V{end+1} = struct('response', 6);
+    K{end+1} = 'left box|yellow'; V{end+1} = struct('response', 7);
+    K{end+1} = 'left box|green';  V{end+1} = struct('response', 8);
+    K{end+1} = 'left box|blue';   V{end+1} = struct('response', 9);
 
     M = containers.Map(K, V);
 end
