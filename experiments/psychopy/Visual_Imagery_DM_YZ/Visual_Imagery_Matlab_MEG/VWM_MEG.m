@@ -393,7 +393,7 @@ for b = 1:nBlocks
 
         Screen('FillRect', win, trigQuestionResp, trigRect); %% trigger for question resp
         Screen('Flip', win);
-        WaitSecs(0.005); % Short trigger pulse
+        %WaitSecs(0.005); % Short trigger pulse
         Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
         Screen('Flip', win);
 
