@@ -204,6 +204,13 @@ for b = 1:nBlocks
             [Obj1, num2str(10), '.jpg']);
         
         img1 = imread(imgPath);
+
+        imgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
+            [Obj2, num2str(10), '.jpg']);
+        
+        img2 = imread(imgPath);
+
+        % present img1
         tex = Screen('MakeTexture', win, img1);
         Screen('DrawTexture', win, tex, [], ...
             CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
@@ -212,6 +219,12 @@ for b = 1:nBlocks
         % the next 4 lines is a whole process of turn on and turn off a trigger
         Screen('FillRect', win, trigImg1Start, trigRect); %% set trigger for img1 start
         Screen('Flip', win);
+        
+        % present img1 again after flip, we want it to stay, or the image just flash
+        tex = Screen('MakeTexture', win, img1);
+        Screen('DrawTexture', win, tex, [], ...
+        CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+        
         Screen('FillRect', win, black_rgb, trigRect); % turn off trigger for img1 start
         Screen('Flip', win);
 
@@ -233,10 +246,7 @@ for b = 1:nBlocks
         Screen('Flip', win);
         WaitSecs(blankTime);
         
-        imgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
-            [Obj2, num2str(10), '.jpg']);
-        
-        img2 = imread(imgPath);
+        % present img2
         tex = Screen('MakeTexture', win, img2);
         Screen('DrawTexture', win, tex, [], ...
             CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
@@ -244,6 +254,12 @@ for b = 1:nBlocks
         % Flip and show
         Screen('FillRect', win, trigImg2Start, trigRect); %% set trigger for Img2 start
         Screen('Flip', win);
+
+        % present img2 again after flip
+        tex = Screen('MakeTexture', win, img2);
+        Screen('DrawTexture', win, tex, [], ...
+            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
 
@@ -349,7 +365,8 @@ for b = 1:nBlocks
 
         DrawFormattedText(win, question, 'center', screenY*0.2, black);
         optionText = 'YES                NO';
-        DrawFormattedText(win, optionText, 'center', round(screenY*0.8), black);
+        DrawFormattedText(win, optionText, 'center', round(screenY*0.9), black);
+        Screen('FillRect', win, black_rgb, trigRect); 
         CatchQuestion_Onset = Screen('Flip', win);
 
         catchAnswer = '';
