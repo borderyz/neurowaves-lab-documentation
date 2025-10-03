@@ -1,7 +1,0 @@
-Block,BlockImagineTime,Prompt,Object,Rate,Rate_RT,Question_Resp,Question_CorAnswer,Question_RT
-1,4,a grey mouse,mouse,1,55.4365090999927,YES,YES,0.678538100008154
-1,4,a red apple,apple,2,0.669863499992061,YES,YES,0.504974999988917
-1,4,a yellow banana,banana,3,0.460285699984524,YES,YES,0.517686100007268
-2,4,a black truck,truck,4,0.566448900004616,YES,NO,0.51130379998358
-2,4,a blue cup,cup,5,0.524719499982893,YES,NO,0.47749729998759
-2,4,a black bear,bear,1,0.62023390000104,NO,YES,0.506730299995979

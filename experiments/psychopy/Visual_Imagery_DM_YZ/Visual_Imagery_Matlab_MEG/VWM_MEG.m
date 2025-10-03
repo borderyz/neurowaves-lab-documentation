@@ -28,6 +28,15 @@ DEMO.sex = answer1{3};
 DEMO.age = str2double(answer1{4});
 DEMO.Nationality = answer1{5};
 
+% set path and filename for saving beh results
+subNumStr = answer1{1};  % e.g., '07'
+
+% Create folder path
+beh_datafolder = fullfile(pwd, 'Beh_Data')
+
+% Build filename
+filename = fullfile(beh_datafolder, sprintf('Visual_WorkingMemory_MEG_Sub%s.csv', subNumStr));
+
 % Open window (use 'win' consistently)
 [win, rect] = PsychImaging('OpenWindow', max(Screen('Screens')), white);
 [screenX, screenY] = RectSize(rect);
@@ -63,16 +72,14 @@ Datapixx('Open');
 Datapixx('EnablePixelMode');   % open pixel model
 Datapixx('RegWr');
 
-
-
 %% set up buttons for MEG controller
 % set button for CatchQuestion
 buttonMap = containers.Map;
-buttonMap('right box|white')   = 'YES'; % YES
-buttonMap('right box|red')  = 'NO'; % NO
+buttonMap('right box|red')   = 'YES'; % YES
+buttonMap('right box|yellow')  = 'NO'; % NO
 
 % Define which buttons to listen to (example: right box colors)
-selection_CatchQuestion = struct('right_box', {{'red', 'white'}});
+selection_CatchQuestion = struct('right_box', {{'red', 'yellow'}});
 
 % Audio setup
 InitializePsychSound(1);
@@ -105,6 +112,9 @@ blockFiles = {
     'C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\Visual_Imagery_Matlab_MEG\VWM_B1_trials.csv'
     'C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\Visual_Imagery_Matlab_MEG\VWM_B2_trials.csv'
 };
+
+% audio cue file
+[cueWave, cueFs] = audioread(fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt\', 'Cue.mp3'));
 
 %% Assign one random imagine_time per block
 nBlocks = numel(blockFiles);  
@@ -141,11 +151,13 @@ for b = 1:nBlocks
     %%  Trial Loop
     for idx = 1:height(T)
         tr = trialOrder(idx);
-
-        % Check ESC
-        [keyIsDown, ~, keyCode] = KbCheck;
-        if keyIsDown && keyCode(escapeKey)
-            Screen('CloseAll'); PsychPortAudio('Close', pahandle); error('Experiment terminated by user.');
+        
+        % check esc
+        [~, ~, keyCode] = KbCheck;
+        if  keyCode(escapeKey)
+            Screen('CloseAll'); 
+            PsychPortAudio('Close', pahandle); 
+            error('Experiment terminated by user.');
         end
 
         % Stage 1: Blank screen
@@ -209,6 +221,13 @@ for b = 1:nBlocks
             [Obj2, num2str(10), '.jpg']);
         
         img2 = imread(imgPath);
+
+        % load audio file in advance, so loading won't
+        % affect timing for trigger
+        TargetObjPrompt = string(T.ObjectPrompt{tr}); 
+        TargetObjName = string(T.Object{tr}); % ensure we use table row 'tr' 
+        audioFile = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt\', TargetObjName + ".mp3"); 
+        [y, Fs] = audioread(audioFile);
 
         % present img1
         tex = Screen('MakeTexture', win, img1);
@@ -284,7 +303,6 @@ for b = 1:nBlocks
         %  Stage 3: Cue Audio 
         % (If you have a special Cue file)
         try
-            [cueWave, cueFs] = audioread(fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt\', 'Cue.mp3'));
             % Ensure cueWave is channels x samples for PsychPortAudio:
             PsychPortAudio('FillBuffer', pahandle, cueWave'); % audioread gives samples x ch
             PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -296,12 +314,8 @@ for b = 1:nBlocks
         end
     
         % Stage 4: Target Object Audio
-        TargetObjPrompt = string(T.ObjectPrompt{tr}); 
-        TargetObjName = string(T.Object{tr}); % ensure we use table row 'tr' 
-
-        audioFile = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt\', TargetObjName + ".mp3"); 
         numChannels = 2;   % must match pahandle
-        [y, Fs] = audioread(audioFile);
+
         numSamples = min(round(1.5*Fs), size(y,1));
 
         y_trim = y(1:numSamples, :);   % samples × channels
@@ -373,6 +387,16 @@ for b = 1:nBlocks
 
         % set button for MEG controller (catch question)
         while true
+            
+            % set escape
+            [~, ~, keyCode] = KbCheck;
+            if  keyCode(escapeKey)
+
+                Screen('CloseAll'); 
+                PsychPortAudio('Close', pahandle); 
+                error('Experiment terminated by user.'); %%%%% well, seems we need to press esc for many times to escape
+            end
+
             % Blocking call: waits until a valid button press is detected
             pair_CatchQuestion = getButtonColor(selection_CatchQuestion,true);  % blocking = true
 
@@ -427,6 +451,12 @@ for b = 1:nBlocks
         results(trialCounter).Question_CorIMG = testImgNum;
         results(trialCounter).Question_RT = CatchQuestion_Resptime - CatchQuestion_Onset;
 
+        % Convert results struct to table
+        resultsTable = struct2table(results);
+
+        % Save as CSV
+        writetable(resultsTable, filename);
+
         trialCounter = trialCounter + 1;
     end
 
@@ -451,17 +481,5 @@ PsychPortAudio('Close', pahandle);
 Screen('CloseAll');
 
 %% save results
-% Convert results struct to table
-resultsTable = struct2table(results);
-subNumStr = answer1{1};  % e.g., '07'
 
-% Create folder path
-beh_datafolder = fullfile(pwd, 'Beh_Data')
-
-% Build filename
-% filename = sprintf('Visual_Imagery_MEG_Practice_Sub%s.csv', subNumStr);
-filename = fullfile(beh_datafolder, sprintf('Visual_WorkingMemory_MEG_Official_Sub%s.csv', subNumStr));
-
-% Save as CSV
-writetable(resultsTable, filename);
-fprintf('Results saved to %s\n', filename);
+% fprintf('Results saved to %s\n', filename);

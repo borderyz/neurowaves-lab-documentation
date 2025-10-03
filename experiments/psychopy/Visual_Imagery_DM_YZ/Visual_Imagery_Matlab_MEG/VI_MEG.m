@@ -27,6 +27,15 @@ DEMO.sex = answer1{3};
 DEMO.age = str2double(answer1{4});
 DEMO.Nationality = answer1{5};
 
+% set path and filename for saving beh results
+subNumStr = answer1{1};  % e.g., '07'
+
+% Create folder path
+beh_datafolder = fullfile(pwd, 'Beh_Data')
+
+% Build filename
+filename = fullfile(beh_datafolder, sprintf('Visual_Imagery_MEG_Sub%s.csv', subNumStr));
+
 % Open window (use 'win' consistently)
 [win, rect] = PsychImaging('OpenWindow', max(Screen('Screens')), white);
 [screenX, screenY] = RectSize(rect);
@@ -82,14 +91,14 @@ buttonMap('left box|white')  = 5; % value 5
 selection_rate = struct('left_box', {{'red', 'green', 'blue', 'yellow', 'white'}});
 
 % set button for CatchQuestion
-buttonMap('right box|white')   = 'YES'; % YES
-buttonMap('right box|red')  = 'NO'; % NO
-buttonMap('right box|yellow') = 'DONT KNOWN'; % DONT KNOWN
+buttonMap('right box|red')   = 'YES'; % YES
+buttonMap('right box|yellow')  = 'NO'; % NO
+buttonMap('right box|green') = 'DONT KNOWN'; % DONT KNOWN
 %         buttonMap('right box|green')    = 4;
 %         buttonMap('right box|blue')  = 5;
 
 % Define which buttons to listen to (example: right box colors)
-selection_CatchQuestion = struct('right_box', {{'red', 'yellow', 'white'}});
+selection_CatchQuestion = struct('right_box', {{'red', 'yellow', 'green'}});
 
 % Audio setup
 InitializePsychSound(1);
@@ -380,6 +389,13 @@ for b = 1:nBlocks
         results(trialCounter).Question_CorAnswer = string(T.CorrectAnswer{tr});
         results(trialCounter).Question_RT = CatchQuestion_Resptime - CatchQuestion_Onset;
 
+        %% save results
+        % Convert results struct to table
+        resultsTable = struct2table(results);
+
+        % Save as CSV
+        writetable(resultsTable, filename);
+
         trialCounter = trialCounter + 1;
     end
 
@@ -408,17 +424,4 @@ Datapixx('Close');
 PsychPortAudio('Close', pahandle);
 Screen('CloseAll');
 
-%% save results
-% Convert results struct to table
-resultsTable = struct2table(results);
-subNumStr = answer1{1};  % e.g., '07'
-
-% Create folder path
-beh_datafolder = fullfile(pwd, 'Beh_Data')
-
-% Build filename
-filename = fullfile(beh_datafolder, sprintf('Visual_Imagery_MEG_Sub%s.csv', subNumStr));
-
-% Save as CSV
-writetable(resultsTable, filename);
-fprintf('Results saved to %s\n', filename);
+% fprintf('Results saved to %s\n', filename);

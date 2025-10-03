@@ -66,11 +66,11 @@ Datapixx('RegWr');
 %% set up buttons for MEG controller
 % set button for CatchQuestion
 buttonMap = containers.Map;
-buttonMap('right box|white')   = 'YES'; % YES
-buttonMap('right box|red')  = 'NO'; % NO
+buttonMap('right box|red')   = 'YES'; % YES
+buttonMap('right box|yellow')  = 'NO'; % NO
 
 % Define which buttons to listen to (example: right box colors)
-selection_CatchQuestion = struct('right_box', {{'red', 'white'}});
+selection_CatchQuestion = struct('right_box', {{'red', 'yellow'}});
 
 % Audio setup
 InitializePsychSound(1);
@@ -87,8 +87,18 @@ recall_time = 4.0;
 textYPos = round(screenY*0.8);    % rating text lower
 
 %% ------------------- Stage 1: Instruction -------------------
-Instruction = 'MEG Recording is being setup please be patient, press any key to continue';
+Instruction = ['This is a memory test.' newline newline ...
+    'First, you will see two pictures of different objects one by one. Try to remember them carefully.' newline newline ...
+    'Then, you will hear a "Ding", followed by a short description (e.g., "a red bus").' newline newline ...
+    'As soon as you hear the description, try to recall the object image you just saw as best as you can,' newline newline ...
+    'and hold the image until the next stage.' newline newline ...
+    'Finally, you will see a new image.' newline newline ...
+    'Your task is to decide quickly if this image is one of the pictures you saw earlier.' newline newline ...
+    'Respond with your right hand, index finger for "YES", middle finger for "NO".' newline newline ...
+    'Please let the experimenter know when you are ready to begin.'];
+
 DrawFormattedText(win, Instruction, 'center', 'center', black);
+
 Screen('FillRect', win, black_rgb, trigRect);  % need black_rgb for left top corner pixel before each Screen('Flip', win)
 Screen('Flip', win);
 KbStrokeWait;  % wait for any key
@@ -198,7 +208,7 @@ for b = 1:nBlocks
         
         % Load and show the image
         imgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
-            [Obj1, num2str(10), '.jpg']);
+            [Obj1, num2str(50), '.jpg']);
         
         img1 = imread(imgPath);
         tex = Screen('MakeTexture', win, img1);
@@ -231,7 +241,7 @@ for b = 1:nBlocks
         WaitSecs(blankTime);
         
         imgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
-            [Obj2, num2str(10), '.jpg']);
+            [Obj2, num2str(50), '.jpg']);
         
         img2 = imread(imgPath);
         tex = Screen('MakeTexture', win, img2);
@@ -329,7 +339,7 @@ for b = 1:nBlocks
 
         %% Stage 6: Catch Question
         % present target object
-        testImgNum = randsample([6 8 50], 1);  %%%%%%% check this again!!! practice is different
+        testImgNum = randsample([5 8 50], 1);  %%%%%%% check this again!!! practice is different
 
         targetImgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
             [targetObj, num2str(testImgNum), '.jpg']);
@@ -346,7 +356,7 @@ for b = 1:nBlocks
 
         DrawFormattedText(win, question, 'center', screenY*0.2, black);
         optionText = 'YES                NO';
-        DrawFormattedText(win, optionText, 'center', round(screenY*0.8), black);
+        DrawFormattedText(win, optionText, 'center', round(screenY*0.9), black);
         CatchQuestion_Onset = Screen('Flip', win);
 
         catchAnswer = '';
@@ -440,7 +450,7 @@ beh_datafolder = fullfile(pwd, 'Beh_Data')
 
 % Build filename
 % filename = sprintf('Visual_Imagery_MEG_Practice_Sub%s.csv', subNumStr);
-filename = fullfile(beh_datafolder, sprintf('Visual_WorkingMemory_MEG_Official_Sub%s.csv', subNumStr));
+filename = fullfile(beh_datafolder, sprintf('Visual_WorkingMemory_MEG_Practice_Sub%s.csv', subNumStr));
 
 % Save as CSV
 writetable(resultsTable, filename);
