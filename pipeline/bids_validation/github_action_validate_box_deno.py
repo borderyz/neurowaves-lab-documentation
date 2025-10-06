@@ -592,9 +592,9 @@ def main():
                     help="Path to Box JWT config JSON (alternative to env BOX_CLIENT_SDK_CONFIG)")
     ap.add_argument("--no-con-placeholders", action="store_true",
                     help="Do NOT create .con placeholders (skip .con files entirely)")
-    ap.add_argument("--max-bytes", type=int, default=2_000_000,
+    ap.add_argument("--max-bytes", type=int, default=6_000_000,
                     help="If a file is larger than this, do not download it (create placeholder instead).")
-    ap.add_argument("--exclude-dataset", action="append", default=["kidlang"],
+    ap.add_argument("--exclude-dataset", action="append", default=["kidlang", "non-nyu-data", "opm-install", "arabic-localizer"],
                     help="Dataset folder name(s) to exclude. Repeatable.")
     ap.add_argument("--skip-ext", action="append",
                     default=[".con", ".fif", ".mgz", ".nii", ".nii.gz", ".mat", ".mrk", ".ds", ".stc"],
