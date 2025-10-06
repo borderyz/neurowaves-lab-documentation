@@ -11,7 +11,7 @@ MNE-Python Pipeline Notebooks
     :glob:
 
     notebooks/mne/mne*
-    kit2fiff
+    kit2fiff.rst
 
 FieldTrip MATLAB Pipeline Notebooks
 -----------------------------------
