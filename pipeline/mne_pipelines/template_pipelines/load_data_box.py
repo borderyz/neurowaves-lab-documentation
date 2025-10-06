@@ -118,6 +118,8 @@ if len(con_bids_path) ==1 and len(head_bids_path) ==1 and len(points_bids_path)=
         # stimthresh=stimthresh,
     )
 
+    #TODO: Ensure that the multiple MRK's are taken into account in the .fif
+
     out_fname = 'sub-' + sub_id + '_task-' + PROJECT_NAME + '_meg_raw.fif'
     SAVE_PATH = os.path.join(DERIVATIVES_FOLDER, out_fname)
     raw_sub_test.save(SAVE_PATH)
