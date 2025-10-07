@@ -11,7 +11,7 @@ Description
 In this experiment implemented using the Psychtoolbox framework, a random sequence of three stimulus is performed:
 
 - an auditory stimulus with a 200 Hz audio of 500 ms duration
-- a visual stimulus with a white flash appearing on screen
+- a visual stimulus with a full field white flash appearing on screen
 
     .. figure:: figures/visual_stimulus.pdf
         :alt: Visual Stimulus

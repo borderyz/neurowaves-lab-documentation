@@ -5,8 +5,8 @@
 
 % Experiment: Visual vs Auditory vs Motor activation
 % Description: three types of conditions randomly permuted
-    % Visual: White screen appear for two seconds
-    % Auditory: 200hz frequency audio for 0.5 second
+    % Visual: White screen appear for 500 ms
+    % Auditory: 200hz frequency audio for 500 ms
     % Motor: A button press is requested
 
 
