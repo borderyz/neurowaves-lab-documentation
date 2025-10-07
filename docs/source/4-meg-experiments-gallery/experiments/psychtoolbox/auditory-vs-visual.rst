@@ -13,7 +13,7 @@ In this experiment implemented using the Psychtoolbox framework, a random sequen
 - an auditory stimulus with a 200 Hz audio of 500 ms duration
 - a visual stimulus with a full field white flash appearing on screen
 
-    .. figure:: figures/visual_stimulus.pdf
+    .. figure:: figures/visual_stimulus.png
         :alt: Visual Stimulus
         :width: 80%
 
