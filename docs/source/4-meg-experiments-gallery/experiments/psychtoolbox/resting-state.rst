@@ -40,4 +40,4 @@ Analysis results
 
 The notebook provides analysis results after running the experiment on a participant (Sub-01).
 
-`Resting State Pipeline Notebook <../../../6-meg-pipeline-gallery/notebooks/mne/resting_state_pipeline.ipynb>`_
+`Resting State Pipeline Notebook <../../../6-meg-pipeline-gallery/fieldtrip/fieldtrip_kit_restingstate.ipynb>`_
