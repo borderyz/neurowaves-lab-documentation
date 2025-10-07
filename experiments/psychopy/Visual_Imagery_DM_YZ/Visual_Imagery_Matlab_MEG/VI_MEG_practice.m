@@ -60,7 +60,8 @@ PromptEndTrig = trig.PromptEnd;
 ImagineEndTrig = trig.ImagineEnd;
 RateRespTrig = trig.RateResp;
 QuestionRespTrig = trig.QuestionResp;
-
+Screen('FillRect', win, black_rgb, trigRect);
+Screen('Flip', win);
 %-------------------------------------------
 % VPIXX SETUP
 %-------------------------------------------
@@ -100,36 +101,38 @@ blankTime = 0.5; % inter-trial blank interval (seconds)
 cuePlaySecs = 1.0; % seconds to play cue
 audioTrimSecs = 1.5; % how long to trim object audio for playback
 imgNums = [1, 3, 5, 8, 50];  % as in your code
-imgWidth = 500; imgHeight = 500;
+imgWidth = 380; 
+imgHeight = 380;
 imagine_time = 4; 
 textYPos = round(screenY*0.8);    % rating text lower
 
 %%  Instruction 
-Instruction = ['Welcome to the experiment!' newline newline ...
-    'Each trial has two parts: imagining and rating.' newline newline ...
+Instruction = ['Welcome to the experiment! Each trial has 3 parts: imagining, rating and answering a question.' newline newline...
     'In the imagination stage, you will see only a white background. ' ...
-    'First, you will hear a "Ding", followed by a brief description of an object (e.g., "A red bus").' newline newline ...
-    'Your task is to vividly imagine the object in your mind, as clearly and quickly as you can, against the white background. ' ...
+    'First, you will hear a "Ding", followed by a brief description of an object (e.g., "A red bus").' newline ...
+    'Your task is to vividly imagine the object in the middle of screen, as clearly and quickly as you can, against the white background. ' newline newline ...
     'After imagination, five reference images of the object will appear on the screen. You must stop imagining when you see them. ' ...
     'Then press buttons on left box to choose the image that best matches how vivid your mental image felt.' ...
-    'Not the one that looks the most vivid or normal.' newline newline ...
-    'Left little finger = 1, left ring finger = 2, left middle finger = 3, left index finger = 4, left thumb = 5.' newline newline ...
+    'Not the one that looks the most vivid or normal.' newline ...
+    'Left little finger = 1, left ring finger = 2, left middle finger = 3, left index finger = 4, left thumb = 5.' newline ...
     'Please focus only on vividness. Use your first impression — there are no right or wrong answers, ' ...
     'and no penalty if your mental image is not very clear.' newline newline ...
     'Then you need to answer a simple YES/NO/DONT KNOW question about the object (e.g., "Is it food?").' ...
     'Please respond by pressing right box:' newline ...
-    'Right index finger = YES, right middle finger = NO,' ...
-    'Right ring finger = DONT KNOW (if you did not understand the object).' newline newline ...
+    'Right index finger = YES, right middle finger = NO, Right ring finger = DONT KNOW (if you did not understand the object).' newline ...
     'Each trial ends with a brief rest period showing only the white background.' newline newline ...
-    'Now you will have a short practice before the main experiment.' newline newline ...
+    'Now you will have a short practice before the main experiment.' ...
     'Please tell the experimenter if you understand everything.'];
 
-DrawFormattedText(win, Instruction, 'center', 'center', black, 70);  % 70 = wrap at 70 chars per line
+Screen('TextSize', win, 40);  % Set font size (you can adjust this)
+DrawFormattedText(win, Instruction, 'center', 'center', black, 80);  % 70 = wrap at 70 chars per line
+Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbStrokeWait;
 
 %% Persistent blank screen
 Screen('FillRect', win, white);
+Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 
 % Load block file
@@ -270,6 +273,7 @@ for b = 1:nBlocks
         randObj = char(objName); % convert to char for file name concat
         imgTextures = zeros(1, numel(imgNums));
         xPos = linspace(screenX*0.1, screenX*0.9, numel(imgNums)) - imgWidth/2;
+%         yPos = screenY*0.2;
         yPos = (screenY*0.5) - (imgHeight*0.5);
 
         for i = 1:numel(imgNums)
@@ -347,9 +351,9 @@ for b = 1:nBlocks
         %% Stage 6: Catch Question
         question = T.CatchQuestion{tr};
         Screen('TextSize', win, 80); % set font size
-        DrawFormattedText(win, question, 'center', screenY*0.4, black);
+        DrawFormattedText(win, question, 'center', screenY*0.25, black);
         optionText = 'YES        NO        DONT KNOW';
-        DrawFormattedText(win, optionText, 'center', round(screenY*0.6), black);
+        DrawFormattedText(win, optionText, 'center', round(screenY*0.5), black);
         Screen('FillRect', win, black_rgb, trigRect);
         CatchQuestion_Onset = Screen('Flip', win);
 

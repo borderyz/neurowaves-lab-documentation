@@ -114,8 +114,11 @@ imagine_time = 4;
 textYPos = round(screenY*0.8);    % rating text lower
 
 %%  Instruction 
-Instruction = 'MEG Recording is being setup please be patient, press space to continue';
-DrawFormattedText(win, Instruction, 'center', 'center', black);
+Instruction = ['The official experiment is as similar as the practice you just had. ' newline newline ...
+    'Only difference is no reference image is presented, ' ...
+    'please use the stardard you learned in practice to rate for your imagination each trial. ' newline newline ...
+    'MEG Recording is being setup please be patient, press space to continue'];
+DrawFormattedText(win, Instruction, 'center', 'center', black, 80);  % 70 = wrap at 70 chars per line
 Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbStrokeWait;  % wait for any key
@@ -154,7 +157,7 @@ for b = 1:nBlocks
 
     % Optional block start screen
     DrawFormattedText(win, sprintf(['Starting Block %d of %d\n\n' ...
-    'Press any key to continue.'], ...
+    'Press space to continue.'], ...
     b, nBlocks), 'center', 'center', black);
     
     Screen('FillRect', win, black_rgb, trigRect);
@@ -311,9 +314,9 @@ for b = 1:nBlocks
         %% Stage 6: Catch Question
         question = T.CatchQuestion{tr};
         Screen('TextSize', win, 80); % set font size
-        DrawFormattedText(win, question, 'center', screenY*0.4, black);
+        DrawFormattedText(win, question, 'center', screenY*0.25, black);
         optionText = 'YES        NO        DONT KNOW';
-        DrawFormattedText(win, optionText, 'center', round(screenY*0.6), black);
+        DrawFormattedText(win, optionText, 'center', round(screenY*0.5), black);
         Screen('FillRect', win, black_rgb, trigRect);
         CatchQuestion_Onset = Screen('Flip', win);
     

@@ -91,7 +91,7 @@ imageDur = 2.0;   % seconds to show each image
 cuePlaySecs = 1.0; % seconds to play cue
 audioTrimSecs = 1.5; % how long to trim object audio for playback
 imgNums = [1, 3, 5, 7, 10];  % as in your code
-imgWidth = 600; imgHeight = 600;
+imgWidth = 380; imgHeight = 380;
 recall_time = 4.0; 
 textYPos = round(screenY*0.8);    % rating text lower
 
@@ -232,7 +232,7 @@ for b = 1:nBlocks
         % present img1
         tex = Screen('MakeTexture', win, img1);
         Screen('DrawTexture', win, tex, [], ...
-            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY*0.5));
         
         % Flip and show
         % the next 4 lines is a whole process of turn on and turn off a trigger
@@ -242,7 +242,7 @@ for b = 1:nBlocks
         % present img1 again after flip, we want it to stay, or the image just flash
         tex = Screen('MakeTexture', win, img1);
         Screen('DrawTexture', win, tex, [], ...
-        CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY*0.5));
         
         Screen('FillRect', win, black_rgb, trigRect); % turn off trigger for img1 start
         Screen('Flip', win);
@@ -268,7 +268,7 @@ for b = 1:nBlocks
         % present img2
         tex = Screen('MakeTexture', win, img2);
         Screen('DrawTexture', win, tex, [], ...
-            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY*0.5));
         
         % Flip and show
         Screen('FillRect', win, trigImg2Start, trigRect); %% set trigger for Img2 start
@@ -277,7 +277,7 @@ for b = 1:nBlocks
         % present img2 again after flip
         tex = Screen('MakeTexture', win, img2);
         Screen('DrawTexture', win, tex, [], ...
-            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY/2));
+            CenterRectOnPoint([0 0 imgWidth imgHeight], screenX/2, screenY*0.5));
 
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
@@ -379,7 +379,7 @@ for b = 1:nBlocks
 
         DrawFormattedText(win, question, 'center', screenY*0.2, black);
         optionText = 'YES                NO';
-        DrawFormattedText(win, optionText, 'center', round(screenY*0.9), black);
+        DrawFormattedText(win, optionText, 'center', round(screenY*0.8), black);
         Screen('FillRect', win, black_rgb, trigRect); 
         CatchQuestion_Onset = Screen('Flip', win);
 
