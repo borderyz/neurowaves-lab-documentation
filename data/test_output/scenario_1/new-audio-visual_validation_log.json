@@ -1,0 +1,157 @@
+{
+  "issues": {
+    "errors": [
+      {
+        "key": "NOT_INCLUDED",
+        "severity": "error",
+        "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+        "files": [
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-001_ses-001_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\GitHub\\neurowaves-lab-documentation\\data\\test_output\\scenario_1\\new-audio-visual\\sub-001\\ses-001\\meg\\sub-001_ses-001_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 1970324837167885,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753440587609.3982,
+                "mtimeMs": 1753346538252.7258,
+                "ctimeMs": 1753346538252.7258,
+                "birthtimeMs": 1753440587608.8984
+              }
+            },
+            "evidence": "sub-001_ses-001_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-001_ses-001_acq-styluspoints_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\GitHub\\neurowaves-lab-documentation\\data\\test_output\\scenario_1\\new-audio-visual\\sub-001\\ses-001\\meg\\sub-001_ses-001_acq-styluspoints_headshape.txt",
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_acq-styluspoints_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 1970324837167890,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753440587609.898,
+                "mtimeMs": 1753346538253.2302,
+                "ctimeMs": 1753346538253.2302,
+                "birthtimeMs": 1753440587609.3982
+              }
+            },
+            "evidence": "sub-001_ses-001_acq-styluspoints_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED",
+        "code": 1
+      }
+    ],
+    "warnings": [
+      {
+        "key": "TOO_FEW_AUTHORS",
+        "severity": "warning",
+        "reason": "The Authors field of dataset_description.json should contain an array of fields - with one author per field. This was triggered based on the presence of only one author field. Please ignore if all contributors are already properly listed.",
+        "files": [
+          {
+            "key": "TOO_FEW_AUTHORS",
+            "code": 102,
+            "file": null,
+            "evidence": "Research Team",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "The Authors field of dataset_description.json should contain an array of fields - with one author per field. This was triggered based on the presence of only one author field. Please ignore if all contributors are already properly listed.",
+            "helpUrl": "https://neurostars.org/search?q=TOO_FEW_AUTHORS"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=TOO_FEW_AUTHORS",
+        "code": 102
+      }
+    ],
+    "ignored": [
+      {
+        "key": "NO_T1W",
+        "severity": "ignore",
+        "reason": "Dataset does not contain any T1w scans.",
+        "files": [
+          {
+            "key": "NO_T1W",
+            "code": 53,
+            "file": null,
+            "evidence": null,
+            "line": null,
+            "character": null,
+            "severity": "ignore",
+            "reason": "Dataset does not contain any T1w scans.",
+            "helpUrl": "https://neurostars.org/search?q=NO_T1W"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=NO_T1W",
+        "code": 53
+      }
+    ]
+  },
+  "summary": {
+    "sessions": [
+      "001"
+    ],
+    "subjects": [
+      "001"
+    ],
+    "subjectMetadata": [
+      {
+        "participantId": "001",
+        "age": null,
+        "sex": "n/a",
+        "group": "n/a"
+      }
+    ],
+    "tasks": [
+      "task"
+    ],
+    "modalities": [
+      "MEG"
+    ],
+    "secondaryModalities": [],
+    "totalFiles": 15,
+    "size": 4423,
+    "dataProcessed": false,
+    "pet": null,
+    "dataTypes": [
+      "coordsystem",
+      "headshape",
+      "markers",
+      "meg"
+    ]
+  }
+}

@@ -1,0 +1,79 @@
+/* _static/checklist.css */
+.task-list {
+  list-style: none;
+  padding-left: 0;
+  margin: .25rem 0 1rem;
+}
+
+.task-list li {
+  margin: .25rem 0;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+}
+
+.task-list input[type="checkbox"] {
+  accent-color: var(--color-brand, #3f51b5);
+  transform: translateY(2px);
+}
+
+.task-list label { cursor: pointer; }
+
+
+
+
+/* make group label look nice */
+.task-group { margin: .4rem 0; }
+.group-label {
+  font-weight: 600;
+  display: inline-block;
+  margin: 0 0 .25rem 0;
+}
+
+
+
+/* === Checklist reset inside our wrapper only === */
+.checklist-wrap ul {                /* wipe theme ul/ul defaults */
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+}
+.checklist-wrap li {                /* some themes indent li instead of ul */
+  margin-left: 0 !important;
+}
+
+/* Base task list box & items */
+.checklist-wrap .task-list {
+  margin: .25rem 0 1rem !important;
+}
+.checklist-wrap .task-list > li {
+  margin-top: .25rem !important;
+  line-height: 1.5;
+  display: flex;
+  align-items: flex-start;
+  gap: .5rem;
+}
+
+/* Final, single source of truth for nested indent */
+.checklist-wrap .task-list .task-list,
+.checklist-wrap .task-group > .task-list {
+  margin-left: 0 !important;  /* was 0.75rem */
+  padding-left: 0 !important;
+}
+
+/* Inputs & labels */
+.checklist-wrap .task-list input[type="checkbox"] {
+  accent-color: var(--color-brand, #3f51b5);
+  transform: translateY(2px);
+}
+.checklist-wrap .task-list label { cursor: pointer; }
+
+/* Group label styling */
+.checklist-wrap .task-group { margin: .5rem 0 .25rem 0; }
+.checklist-wrap .group-label {
+  font-weight: 600;
+  display: inline-block;
+  margin: 0 0 .25rem 0;
+}
+

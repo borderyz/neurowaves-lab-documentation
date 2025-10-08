@@ -1,5 +1,5 @@
-Experiments example 2 (Psychtoolbox): Triggering all channels on KIT
---------------------------------------------------------------------
+Experiment example (Psychtoolbox): Triggering all channels on KIT
+-----------------------------------------------------------------
 
 - Triggering all channels on the KIT machine one by one
 

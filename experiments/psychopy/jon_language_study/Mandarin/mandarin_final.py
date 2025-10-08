@@ -5,7 +5,7 @@ from psychopy import core, visual, event, parallel, data, monitors, gui
 from pypixxlib import _libdpx as dp
 
 
-from utilities import *
+from experiments.psychopy.general.utilities import *
 
 # Setup the connection with the Vpixx systems and disable Pixel Mode
 
@@ -15,6 +15,10 @@ TIME_WAIT_BREAK = 0.5
 trigger = [[4, 0, 0], [16, 0, 0], [64, 0, 0], [0, 1, 0], [0, 4, 0], [0, 16, 0], [0, 64, 0], [0, 0, 1]]
 channel_names  = ['224', '225', '226', '227', '228', '229', '230', '231']
 black = [0, 0, 0]
+
+RESPONSE_SELECTION = {
+    "right box": ["red", "yellow"],
+}
 
 def RGB2Trigger(color):
     # helper function determines expected trigger from a given RGB 255 colour value
@@ -215,6 +219,14 @@ for trialIndex in range(startItem - 1, totalTrials):
 
             totalCorrectResponses = 0
             print('congratulations window')
+            stim.setPos((0, 0))
+            stim.draw()
+            win.flip()
+            print('listening to button')
+            core.wait(TIME_WAIT_BREAK)
+            # Pause until response
+            event.waitKeys(keyList=['space', 'enter'])
+
         else:
             stim = visual.TextStim(win, text='自上一次休息后，您已经正确回答了%i个问题中的%i道。\n\n '
                                              '你已经完成了%i句句子，还有%i句句子。\n\n'
@@ -224,13 +236,13 @@ for trialIndex in range(startItem - 1, totalTrials):
                                    font= 'SimSun', units=instructionUnits, color=instructionColor, height = 1, alignText = 'center', wrapWidth= 30)
             print('break window')
 
-        stim.setPos((0, 0))
-        stim.draw()
-        win.flip()
-        print('listening to button')
-        core.wait(TIME_WAIT_BREAK)
-        # Pause until response
-        listenbutton(9)
+            stim.setPos((0, 0))
+            stim.draw()
+            win.flip()
+            print('listening to button')
+            core.wait(TIME_WAIT_BREAK)
+            # Pause until response
+            listenbutton(9)
         # response = getbutton()  # listen to a button
         # responses.append(response)
 
@@ -405,7 +417,7 @@ for trialIndex in range(startItem - 1, totalTrials):
         win.flip()
 
         # Wait until button press to proceed to next trial
-        response = getbutton()  # listen to a button
+        response = getbuttonColor(RESPONSE_SELECTION)  # listen to a button
 
         responses.append(response)
 
@@ -424,13 +436,19 @@ for trialIndex in range(startItem - 1, totalTrials):
             win.close()
             core.quit()
 
-        if responses[-1] == trialList[trialIndex]['correctAnswer']:
+        if trialList[trialIndex]['correctAnswer'] == 9 and responses[-1]==('right box', 'red'):
+
+            recentCorrectResponses += 1
+            totalCorrectResponses += 1
+            answer = 1
+        elif trialList[trialIndex]['correctAnswer'] == 7 and responses[-1]==('right box', 'yellow'):
+
             recentCorrectResponses += 1
             totalCorrectResponses += 1
             answer = 1
         else:
-            answer = 0
 
+            answer = 0
         # Wait a little longer before moving on
         #core.wait(0.5)  # This ensures that the yellow text stays for an additional moment; here it awaits indefinitely
 
@@ -452,7 +470,7 @@ for trialIndex in range(startItem - 1, totalTrials):
 
     if isinstance(trialList[trialIndex]['taskQuestion'], str) and len(trialList[trialIndex]['taskQuestion']) >= 4:
         results.loc[trialIndex, 'expectedAnswer'] = trialList[trialIndex]['correctAnswer']
-        results.loc[trialIndex, 'participantAnswer'] = responses[-1]
+        results.loc[trialIndex, 'participantAnswer'] = responses[-1][1]
         results.loc[trialIndex, 'answer'] = answer
     else:
         results.loc[trialIndex, 'expectedAnswer'] = ''

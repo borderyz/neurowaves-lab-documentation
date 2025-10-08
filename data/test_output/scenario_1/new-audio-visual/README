@@ -1,0 +1,19 @@
+# new-audio-visual
+
+## Description
+
+This dataset contains MEG data collected using a Yokogawa/KIT system.
+Converted to BIDS format using automated MEG-to-BIDS converter.
+
+## Data Collection
+
+- **MEG System**: Yokogawa/KIT
+- **Conversion Date**: 2025-07-25
+
+## Files
+
+The dataset follows the Brain Imaging Data Structure (BIDS) specification.
+
+## Usage
+
+Please refer to the BIDS specification for information on how to use this dataset.

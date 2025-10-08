@@ -1,0 +1,5 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer
+red,a red bus,bus,Is it an animal?,NO
+yellow,a yellow sunflower,sunflower,Is it a cloth?,NO
+green,a green cabbage,cabbage,Is it a food?,YES
+yellow,a yellow pineapple,pineapple,Is it a food?,YES

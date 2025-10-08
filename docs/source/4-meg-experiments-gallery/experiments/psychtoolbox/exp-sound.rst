@@ -1,5 +1,5 @@
-Experiment example 6: The oddball paradigm
-------------------------------------------
+Experiment example: The oddball paradigm
+----------------------------------------
 
 The oddball paradigm is an experimental design used within psychology research.
 The oddball paradigm relies on the brain's sensitivity to rare deviant stimuli presented

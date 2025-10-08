@@ -1,0 +1,560 @@
+{
+  "issues": {
+    "errors": [
+      {
+        "key": "NOT_INCLUDED",
+        "severity": "error",
+        "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+        "files": [
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-001_ses-002_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-001\\ses-002\\meg\\sub-001_ses-002_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-001/ses-002/meg/sub-001_ses-002_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 3096224743989951,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753362910493.4878,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753362772733.7524
+              }
+            },
+            "evidence": "sub-001_ses-002_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-002_ses-001_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-002\\ses-001\\meg\\sub-002_ses-001_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-002/ses-001/meg/sub-002_ses-001_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 2814749767291194,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753362908380.6533,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753362849704.8
+              }
+            },
+            "evidence": "sub-002_ses-001_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-002_ses-002_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-002\\ses-002\\meg\\sub-002_ses-002_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-002/ses-002/meg/sub-002_ses-002_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 4503599627950066,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753362909418.8027,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753362873779.1658
+              }
+            },
+            "evidence": "sub-002_ses-002_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-002_ses-003_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-002\\ses-003\\meg\\sub-002_ses-003_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-002/ses-003/meg/sub-002_ses-003_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 2814749767686149,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753363003739.2588,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753363003738.7583
+              }
+            },
+            "evidence": "sub-002_ses-003_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-002_ses-004_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-002\\ses-004\\meg\\sub-002_ses-004_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-002/ses-004/meg/sub-002_ses-004_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 4222124651239638,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753363063895.1382,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753363063894.638
+              }
+            },
+            "evidence": "sub-002_ses-004_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          },
+          {
+            "key": "NOT_INCLUDED",
+            "code": 1,
+            "file": {
+              "name": "sub-002_ses-005_acq-basicsurface_headshape.txt",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\sub-002\\ses-005\\meg\\sub-002_ses-005_acq-basicsurface_headshape.txt",
+              "relativePath": "/sub-002/ses-005/meg/sub-002_ses-005_acq-basicsurface_headshape.txt",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 2533274790975869,
+                "size": 63,
+                "blocks": 0,
+                "atimeMs": 1753363131103.3633,
+                "mtimeMs": 1753346538264.2422,
+                "ctimeMs": 1753346538264.2422,
+                "birthtimeMs": 1753363131103.3633
+              }
+            },
+            "evidence": "sub-002_ses-005_acq-basicsurface_headshape.txt",
+            "line": null,
+            "character": null,
+            "severity": "error",
+            "reason": "Files with such naming scheme are not part of BIDS specification. This error is most commonly caused by typos in file names that make them not BIDS compatible. Please consult the specification and make sure your files are named correctly. If this is not a file naming issue (for example when including files not yet covered by the BIDS specification) you should include a \".bidsignore\" file in your dataset (see https://github.com/bids-standard/bids-validator#bidsignore for details). Please note that derived (processed) data should be placed in /derivatives folder and source data (such as DICOMS or behavioural logs in proprietary formats) should be placed in the /sourcedata folder.",
+            "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=NOT_INCLUDED",
+        "code": 1
+      }
+    ],
+    "warnings": [
+      {
+        "key": "INCONSISTENT_SUBJECTS",
+        "severity": "warning",
+        "reason": "Not all subjects contain the same files. Each subject should contain the same number of files with the same naming unless some files are known to be missing.",
+        "files": [
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-01_markers.mrk",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-01_markers.mrk",
+              "name": "sub-001_ses-001_task-task_acq-01_markers.mrk",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-01_markers.mrk"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_acq-01_markers.mrk",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-02_markers.mrk",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-02_markers.mrk",
+              "name": "sub-001_ses-001_task-task_acq-02_markers.mrk",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-02_markers.mrk"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_acq-02_markers.mrk",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-03_markers.mrk",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-03_markers.mrk",
+              "name": "sub-001_ses-001_task-task_acq-03_markers.mrk",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_acq-03_markers.mrk"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_acq-03_markers.mrk",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.con",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.con",
+              "name": "sub-001_ses-001_task-task_run-01_meg.con",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.con"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-01_meg.con",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.json",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.json",
+              "name": "sub-001_ses-001_task-task_run-01_meg.json",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-01_meg.json"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-01_meg.json",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.con",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.con",
+              "name": "sub-001_ses-001_task-task_run-02_meg.con",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.con"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-02_meg.con",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.json",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.json",
+              "name": "sub-001_ses-001_task-task_run-02_meg.json",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-02_meg.json"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-02_meg.json",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.con",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.con",
+              "name": "sub-001_ses-001_task-task_run-03_meg.con",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.con"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-03_meg.con",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.json",
+              "webkitRelativePath": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.json",
+              "name": "sub-001_ses-001_task-task_run-03_meg.json",
+              "path": "/sub-001/ses-001/meg/sub-001_ses-001_task-task_run-03_meg.json"
+            },
+            "evidence": "Subject: sub-001; Missing file: sub-001_ses-001_task-task_run-03_meg.json",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-001, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          },
+          {
+            "key": "INCONSISTENT_SUBJECTS",
+            "code": 38,
+            "file": {
+              "relativePath": "/sub-002/ses-001/meg/sub-002_ses-001_task-existing_markers.mrk",
+              "webkitRelativePath": "/sub-002/ses-001/meg/sub-002_ses-001_task-existing_markers.mrk",
+              "name": "sub-002_ses-001_task-existing_markers.mrk",
+              "path": "/sub-002/ses-001/meg/sub-002_ses-001_task-existing_markers.mrk"
+            },
+            "evidence": "Subject: sub-002; Missing file: sub-002_ses-001_task-existing_markers.mrk",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "This file is missing for subject sub-002, but is present for at least one other subject.",
+            "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS"
+          }
+        ],
+        "additionalFileCount": 2,
+        "helpUrl": "https://neurostars.org/search?q=INCONSISTENT_SUBJECTS",
+        "code": 38
+      },
+      {
+        "key": "MISSING_SESSION",
+        "severity": "warning",
+        "reason": "Not all subjects contain the same sessions.",
+        "files": [
+          {
+            "key": "MISSING_SESSION",
+            "code": 97,
+            "file": {
+              "relativePath": "/sub-001/ses-003",
+              "webkitRelativePath": "/sub-001/ses-003",
+              "name": "ses-003",
+              "path": "/sub-001/ses-003"
+            },
+            "evidence": "Subject: sub-001; Missing session: ses-003",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "A session is missing from one subject that is present in at least one other subject",
+            "helpUrl": "https://neurostars.org/search?q=MISSING_SESSION"
+          },
+          {
+            "key": "MISSING_SESSION",
+            "code": 97,
+            "file": {
+              "relativePath": "/sub-001/ses-004",
+              "webkitRelativePath": "/sub-001/ses-004",
+              "name": "ses-004",
+              "path": "/sub-001/ses-004"
+            },
+            "evidence": "Subject: sub-001; Missing session: ses-004",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "A session is missing from one subject that is present in at least one other subject",
+            "helpUrl": "https://neurostars.org/search?q=MISSING_SESSION"
+          },
+          {
+            "key": "MISSING_SESSION",
+            "code": 97,
+            "file": {
+              "relativePath": "/sub-001/ses-005",
+              "webkitRelativePath": "/sub-001/ses-005",
+              "name": "ses-005",
+              "path": "/sub-001/ses-005"
+            },
+            "evidence": "Subject: sub-001; Missing session: ses-005",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "A session is missing from one subject that is present in at least one other subject",
+            "helpUrl": "https://neurostars.org/search?q=MISSING_SESSION"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=MISSING_SESSION",
+        "code": 97
+      },
+      {
+        "key": "TOO_FEW_AUTHORS",
+        "severity": "warning",
+        "reason": "The Authors field of dataset_description.json should contain an array of fields - with one author per field. This was triggered based on the presence of only one author field. Please ignore if all contributors are already properly listed.",
+        "files": [
+          {
+            "key": "TOO_FEW_AUTHORS",
+            "code": 102,
+            "file": null,
+            "evidence": "Test Author",
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "The Authors field of dataset_description.json should contain an array of fields - with one author per field. This was triggered based on the presence of only one author field. Please ignore if all contributors are already properly listed.",
+            "helpUrl": "https://neurostars.org/search?q=TOO_FEW_AUTHORS"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=TOO_FEW_AUTHORS",
+        "code": 102
+      },
+      {
+        "key": "README_FILE_SMALL",
+        "severity": "warning",
+        "reason": "The recommended file /README is very small. Please consider expanding it with additional information about the dataset.",
+        "files": [
+          {
+            "key": "README_FILE_SMALL",
+            "code": 213,
+            "file": {
+              "name": "README",
+              "path": "C:\\Users\\abrai\\Documents\\MEG_migration\\test_data\\scenario_3_existing_subject\\multi-session-project\\README",
+              "relativePath": "/README",
+              "stats": {
+                "dev": 2659742629,
+                "mode": 33206,
+                "nlink": 1,
+                "uid": 0,
+                "gid": 0,
+                "rdev": 0,
+                "blksize": 4096,
+                "ino": 3096224743989560,
+                "size": 72,
+                "blocks": 0,
+                "atimeMs": 1753362903055.5388,
+                "mtimeMs": 1753346538261.2317,
+                "ctimeMs": 1753346538261.2317,
+                "birthtimeMs": 1753346398534.846
+              }
+            },
+            "evidence": null,
+            "line": null,
+            "character": null,
+            "severity": "warning",
+            "reason": "The recommended file /README is very small. Please consider expanding it with additional information about the dataset.",
+            "helpUrl": "https://neurostars.org/search?q=README_FILE_SMALL"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=README_FILE_SMALL",
+        "code": 213
+      }
+    ],
+    "ignored": [
+      {
+        "key": "NO_T1W",
+        "severity": "ignore",
+        "reason": "Dataset does not contain any T1w scans.",
+        "files": [
+          {
+            "key": "NO_T1W",
+            "code": 53,
+            "file": null,
+            "evidence": null,
+            "line": null,
+            "character": null,
+            "severity": "ignore",
+            "reason": "Dataset does not contain any T1w scans.",
+            "helpUrl": "https://neurostars.org/search?q=NO_T1W"
+          }
+        ],
+        "additionalFileCount": 0,
+        "helpUrl": "https://neurostars.org/search?q=NO_T1W",
+        "code": 53
+      }
+    ]
+  },
+  "summary": {
+    "sessions": [
+      "001",
+      "002",
+      "003",
+      "004",
+      "005"
+    ],
+    "subjects": [
+      "001",
+      "002"
+    ],
+    "subjectMetadata": [
+      {
+        "participantId": "001",
+        "age": 25,
+        "sex": "F",
+        "group": "control"
+      },
+      {
+        "participantId": "002",
+        "age": 30,
+        "sex": "M",
+        "group": "patient"
+      }
+    ],
+    "tasks": [
+      "task"
+    ],
+    "modalities": [
+      "MEG"
+    ],
+    "secondaryModalities": [],
+    "totalFiles": 75,
+    "size": 27237,
+    "dataProcessed": false,
+    "pet": null,
+    "dataTypes": [
+      "coordsystem",
+      "markers",
+      "meg"
+    ]
+  }
+}

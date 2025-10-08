@@ -141,6 +141,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    2-meg-kit-system/3-main-applications
    2-meg-kit-system/4-training
    2-meg-kit-system/5-operational-protocol
+   2-meg-kit-system/5-operational-protocol-meg-session-checklist
    2-meg-kit-system/6-experiment-design
    2-meg-kit-system/7-dashboards
 

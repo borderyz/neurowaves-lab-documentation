@@ -1,7 +1,7 @@
 .. _attention_exp:
 
-Experiment example 7: Attention Task
-------------------------------------
+Experiment example: Attention Task
+----------------------------------
 
 Authors: Karima Raafat <karima.raafat@nyu.edu>, Hadi Zaatiti <hadi.zaatiti@nyu.edu>
 

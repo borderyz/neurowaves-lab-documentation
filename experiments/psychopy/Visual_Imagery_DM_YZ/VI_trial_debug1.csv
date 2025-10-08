@@ -1,0 +1,9 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer
+brown,a brown jacket,jacket,Is it a cloth?,YES
+orange,an orange cat,cat,Is it an animal?,YES
+green,a green cucumber,cucumber,Is it a food?,YES
+brown,a brown coconut,coconut,Is it a food?,YES
+red,a red chilli,chilli,Is it a cloth?,NO
+blue,a blue butterfly,butterfly,Is it a tool?,NO
+silver,a silver spoon,spoon,Is it an animal?,NO
+silver,a silver watch,watch,Is it a animal?,NO

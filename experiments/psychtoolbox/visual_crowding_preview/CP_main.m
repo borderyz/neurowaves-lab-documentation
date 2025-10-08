@@ -937,8 +937,10 @@ logEvent(logFile, i_trial, 'N/A', 'Start Trial', 'N/A', 'N/A', 'Starting trial')
             end
 
             if use_response_box == 1
+                disp('Getting Button')
                 % Actual experiment: wait for participant's response via the response box
                 [response, ResponseTime] = getButton();  % Function to capture MEG button press
+                disp('Button Pressed')
                 if response == 8 || response == 9  % Valid responses (8 = yes, 9 = no)
                     % Log the response
                     expTable.response(i_trial) = response;
