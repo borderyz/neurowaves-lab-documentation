@@ -40,8 +40,8 @@ The paper shows that :math:`\alpha`-band power increases ipsilateral to the atte
 Code Access
 ^^^^^^^^^^^
 
-:github-file:`Attention task <experiments/psychtoolbox/attention/meg_attention_task.m>`
+:github-file:`Attention task launch experiment <experiments/psychtoolbox/attention/meg_attention_task.m>`
 
-:github-file:`Attention task <experiments/psychtoolbox/attention/>`
+:github-file:`Attention task project directory <experiments/psychtoolbox/attention/>`
 
 
