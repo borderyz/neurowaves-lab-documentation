@@ -27,6 +27,7 @@ either left or right side.
 
         Target shown on the right side.
 
+The target is almost isoluminant with the background in order to minimise the effect of the visual sensory confounds, ensuring that the measurements reflect the attentional preparation mechanism of the brain rather than obvious visual differences.
 
 [Worden2000]_ investigates the brain oscillations, specifically the :math:`\alpha`-band (8-14 Hz) when attention is directed to a spatial location (right or left side).
 The paper shows that :math:`\alpha`-band power increases ipsilateral to the attended side and contralateral to the ignored side, prior to the appearence of a visual target.
