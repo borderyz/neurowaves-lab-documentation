@@ -181,7 +181,6 @@ for b = 1:length(blockAttentionCondition) % 2 blocks, one side each
     Screen('FillRect', window, black, trigRect);
     Screen('Flip', window)
     WaitSecs(cueDuration)
-    WaitSecs(10)
 
     % blank screen for delay
     DrawFixation()
