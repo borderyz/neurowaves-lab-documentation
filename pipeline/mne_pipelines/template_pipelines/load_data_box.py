@@ -22,13 +22,15 @@ from mne_bids import (
 
 MEG_DATA_PATH = os.getenv("MEG_DATA")
 
-PROJECT_NAME = "egyptian-language-study"  #The name of your dataset folder on NYU-BOX
+# Set the name of your dataset folder on NYU-BOX
+PROJECT_NAME = "egyptian-language-study"
 
-
+# Define the path to your dataset folder
+# Using the `os` library ensure that this script is cross-platform (Linux, MacOS, Windows)
 DATASET_PATH = os.path.join(MEG_DATA_PATH, PROJECT_NAME)
 
 
-#Dataset is BIDS so we can use the following functions
+# Dataset is BIDS structured so we can use the following functions
 print_dir_tree(DATASET_PATH)
 print(make_report(DATASET_PATH))
 
@@ -36,53 +38,73 @@ datatypes = get_datatypes(DATASET_PATH)
 
 print("Dataset type", datatypes)
 
+# Define subject ID's that should be ignored from the pipeline
+ignore_subjects = ["trigger", "sanity"]
 
-
-# Get subjects ID's while ignoring the trigger test and sanity check subjects
+# Get subjects ID's while ignoring unwanted ones
+# If your dataset has sessions then do not ignore sessions
+# Here we are assuming there is no "sessions" layer between the subject and the scans
 subjects = get_entity_vals(DATASET_PATH,
                            entity_key="subject",
                            ignore_sessions="on",
-                           ignore_subjects=["trigger", "sanity"])
+                           ignore_subjects=ignore_subjects)
 
 print("Found", len(subjects), "subjects")
 
-meg_extensions = [".con"]
-headshape_extensions = [".txt"]
-processings = "CALMnoisereduction"
+# These are static variables specific to the NYUAD setup and BIDS-naming scheme
+# You do not need to change any of those variables
 
-ignore_processing = "CALMnoisereduction"
+# Type of scan we are interested in for this pipeline
+# This assumes we have an `meg` folder within each subject
+DATATYPE = "meg"
 
-acq_points = "points"
-datatype = "meg"
-acq_head = "head"
-mrk_extensions = [".mrk"]
+# MEG scan and marker coils files extension
+MEG_EXTENSIONS = [".con"]
+HEAD_POSITION_INDICATOR_EXTENSIONS = [".mrk"]
+
+# MEG Noise reduction algorithm label
+NOISE_PROCESSING_LABEL = "CALMnoisereduction"
+IGNORE_PROCESSING_LABEL = "CALMnoisereduction"
+
+# MEG headshape digitizer file extention
+HEADSHAPE_EXTENSIONS = [".txt"]
+
+# ACQ Label used for files containing the stylus points digitization of fiducials
+# Your stylus points has "...acq_points..." somewhere in its name
+
+ACQ_LABEL_DIGITIZER_POINTS = "points"
+
+# Same for headshape digitzation
+# Your head surface digization file has "...acq_head..." somewhere in its name
+
+ACQ_LABEL_DIGITIZER_HEAD = "head"
+
 
 for sub_id in subjects:
 
     print("Start KIT2FIFF Processing for subject ID ", sub_id)
 
-
     # Find CALM noise reduced data set:
 
-    if processings != None:
+    if NOISE_PROCESSING_LABEL != None:
         con_bids_path = find_matching_paths(DATASET_PATH,
-                                         datatypes=datatype,
-                                         subjects=sub_id,
-                                         processings=processings,
-                                         extensions=meg_extensions)
+                                            datatypes=DATATYPE,
+                                            subjects=sub_id,
+                                            processings=NOISE_PROCESSING_LABEL,
+                                            extensions=MEG_EXTENSIONS)
 
         get_entity_vals(DATASET_PATH,
                         entity_key=sub_id,
-                        ignore_processings=ignore_processing)
+                        ignore_processings=IGNORE_PROCESSING_LABEL)
 
 
 
 
     points_bids_path = find_matching_paths(DATASET_PATH,
-                                     datatypes=datatype,
-                                     subjects=sub_id,
-                                     acquisitions=acq_points,
-                                     extensions=headshape_extensions)
+                                           datatypes=DATATYPE,
+                                           subjects=sub_id,
+                                           acquisitions=ACQ_LABEL_DIGITIZER_POINTS,
+                                           extensions=HEADSHAPE_EXTENSIONS)
 
 
     # read in the txt, make a copy to work on just in case
@@ -102,18 +124,18 @@ for sub_id in subjects:
 
 
     head_bids_path = find_matching_paths(DATASET_PATH,
-                                     datatypes=datatype,
-                                     subjects=sub_id,
-                                     acquisitions=acq_head,
-                                     extensions=headshape_extensions)
+                                         datatypes=DATATYPE,
+                                         subjects=sub_id,
+                                         acquisitions=ACQ_LABEL_DIGITIZER_HEAD,
+                                         extensions=HEADSHAPE_EXTENSIONS)
 
 
 
 
     mrk_bids_path = find_matching_paths(DATASET_PATH,
-                                     datatypes=datatype,
-                                     subjects=sub_id,
-                                     extensions=mrk_extensions)
+                                        datatypes=DATATYPE,
+                                        subjects=sub_id,
+                                        extensions=HEAD_POSITION_INDICATOR_EXTENSIONS)
 
 
 
