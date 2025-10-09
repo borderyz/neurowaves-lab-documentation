@@ -79,7 +79,7 @@ ACQ_LABEL_DIGITIZER_POINTS = "points"
 
 ACQ_LABEL_DIGITIZER_HEAD = "head"
 
-
+sub_id = "001"
 for sub_id in subjects:
 
     print("Start KIT2FIFF Processing for subject ID ", sub_id)
@@ -87,15 +87,20 @@ for sub_id in subjects:
     # Find CALM noise reduced data set:
 
     if NOISE_PROCESSING_LABEL != None:
-        con_bids_path = find_matching_paths(DATASET_PATH,
+
+        con_bids_path_no_proc = find_matching_paths(DATASET_PATH,
+                                                       datatypes=DATATYPE,
+                                                       subjects=sub_id,
+                                                       extensions=MEG_EXTENSIONS)
+
+        con_bids_path_noise_proc = find_matching_paths(DATASET_PATH,
                                             datatypes=DATATYPE,
                                             subjects=sub_id,
                                             processings=NOISE_PROCESSING_LABEL,
                                             extensions=MEG_EXTENSIONS)
 
-        get_entity_vals(DATASET_PATH,
-                        entity_key=sub_id,
-                        ignore_processings=IGNORE_PROCESSING_LABEL)
+
+
 
 
 
