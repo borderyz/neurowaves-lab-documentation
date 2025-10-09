@@ -452,13 +452,8 @@ Perform the MEG Experiment (Participant is present)
 
     - Remove the cap from the participant's head and toss into the washing bin
     - Remove the neck brace
-    - Save as (this is the .fsn files)
-    - Create folder: FastScan Files/<Lab_Name>/<Study CODE>/sub_<subjectID>/ sess_<session_number>
-    - [e.g. sub_12/sess_01]
-    - Filename: `sub-<subjectID>-sess-<session_number>_<data in yyyymmdd>_raw.fsn`
-    - Export as basic surface   (check)
-    - Save the file as `sub-<subjectID>_basicsurface.txt`
-    - Press `Yes` to export stylus points aswell name the file as `sub-<subjectID>_laserpoints.txt`
+    - Files must be saved amd stored according to BIDS protocol format
+    - Please refer to `Data Naming and Storing: MEG <https://neurowaves.readthedocs.io/en/latest/6-meg-data-gallery/2-datanaming-and-storing-meg.html>`_
 
 
 #. Participant goes into the MSR
@@ -601,16 +596,15 @@ After the MEG session
             - Smoothing = 5mm
             - Decimation = 3mm
     - In the pop-up, click on Apply Basic Surface, then close it
-    - To save your head scan, go to File > Save As > [attention to path] FastScan Files/sreenivasan_lab/sub_<subjectID>/ sess_<session_number>/<projectname>_sub<subjectID>_sess<session_number>_<date in ddmmyyyy>.fsn
+    - To save your head scan, please refer to `MEG-Laserscan files <https://neurowaves.readthedocs.io/en/latest/5-meg-data-gallery/2-datastorage.html#meg-laserscan-files>`_
     - Edit > Generate surface > Apply basic surface
         - Basic surface has fewer than 10,000 points
         - If not, decimate: Generate > Surface Simplification = 0.10 > Apply (Basic Surface)
     - File > Export > save as
-        - sweeps by appending ‘_basic’ to the filename: <projectname>_sub<subjectID>_sess<session_number>_<date in ddmmyyyy>_basic
-        - points by appending  ‘_points’ to the filename: <projectname>_sub<subjectID>_sess<session_number>_<date in ddmmyyyy>_points
+        Please refer to `MEG-Laserscan files <https://neurowaves.readthedocs.io/en/latest/5-meg-data-gallery/2-datastorage.html#meg-laserscan-files>`_
 #. Uploading to NYU BOX
     - You should have your own folder on `NYU BOX` named after your project
-    - Refer to the uploading data section to upload your data
+    - Refer to the `Data Uploading <https://neurowaves.readthedocs.io/en/latest/5-meg-data-gallery/2-datastorage.html#data-uploading>`_ section to upload your data
 
 
 Appendix. A: Stylus location and markers
