@@ -9,7 +9,7 @@ Description
 ^^^^^^^^^^^
 
 In this experiment, the participant is asked to pay attention (attend) to the left side of the screen, then
-targets will appear randomly either on the right or the left side for 10 minutes.
+targets will appear randomly either on the right or the left side for 10 minutes every 1.3 seconds.
 The participant is then asked again to attend to the right side of the screen and the targets will appear aswell randomly
 either left or right side.
 
@@ -26,6 +26,7 @@ either left or right side.
         :width: 80%
 
         Target shown on the right side.
+
 
 The target is almost isoluminant with the background in order to minimise the effect of the visual sensory confounds, ensuring that the measurements reflect the attentional preparation mechanism of the brain rather than obvious visual differences.
 The target appears randomly either to the right or left regardless of the cued spatial location, since the goal is not to study motor reflexes or anticipatory behavior.
