@@ -5,64 +5,45 @@ Pipelines Overview
 Different pipelines can be built using the available software at NYUAD MEG Lab tailored to best answer your research questions.
 
 
+.. note:: Problem setting up your ethernet connection
 
-
-.. raw:: html
-    :file: ../graphic/general_pipeline.drawio.html
-
-
-
-
-
-
-
+    Network setting up: To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
+    Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
 
 
 Software stack and installation
-===============================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The folowing software/library are available MEG/EEG data analysis:
 
-* BESA
 * MNE Python library
 * FieldTrip
+* BESA
+
 
 Sample pipelines are provided for each one of them
 
 
-BESA installation
-=================
+MNE Python
+^^^^^^^^^^
 
-Download BESA from `https://www.besa.de/ <https://www.besa.de/>`_
-
-The BESA license available at NYUAD-MEG lab will be soon hosted on a server, and instructions to use it will be made shortly available on this page.
-
-
-MNE Python library installation
-===============================
+Installation
+""""""""""""
 
 Follow instructions here `MNE Install <https://mne.tools/stable/install/index.html>`_
 Ideally, choose the standalone installer it usually has the complete suite.
-
 We recommend to install MNE as a standalone installer.
 
 The data of the MNE environment will be under ``C:\ProgramData\mne-python\1.x.y_z``
 
-You can setup Pycharm to use this environment as a Python environment for your pipeline project.
+You can setup Pycharm (or your favorite IDE) to use this environment as a Python environment for your pipeline project.
 
 The configuration file for setting ``SUBJECTS_DIR``, the directory to the data of your subject, can be set in:
 ``C:\Users\user_name\.mne\mne-python.json``
 
 
-
-Network setting up
-==================
-To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
-Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
-
-
 Installing freesurfer on windows (For source localization with MNE)
-===================================================================
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 If you want to do source localization in MNE, you will need to install freesurfer.
 
 If you are under windows, configure WSL2 on windows. You can then access the files of the ubuntu distribution by typing ``\\wsl$\Ubuntu`` in the file explorer in windows.
@@ -71,7 +52,7 @@ Install freesurfer following their documentation page. https://surfer.nmr.mgh.ha
 
 
 FieldTrip
-=========
+^^^^^^^^^
 
 First download fieldtrip from here `https://www.fieldtriptoolbox.org/download/ <https://www.fieldtriptoolbox.org/download/>`_
 Then, install fieldtrip folowing `https://www.fieldtriptoolbox.org/download/ <https://www.fieldtriptoolbox.org/download/>`_
@@ -464,6 +445,13 @@ at the stimulus level but also the brain response, computed at each time point i
 
 
 
+
+BESA installation
+=================
+
+Download BESA from `https://www.besa.de/ <https://www.besa.de/>`_
+
+The BESA license available at NYUAD-MEG lab will be soon hosted on a server, and instructions to use it will be made shortly available on this page.
 
 
 
