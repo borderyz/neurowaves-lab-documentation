@@ -38,3 +38,6 @@ ACQ_LABEL_DIGITIZER_POINTS = "points"
 # Your head surface digization file has "...acq_head..." somewhere in its name
 
 ACQ_LABEL_DIGITIZER_HEAD = "head"
+
+TRIGGER_MODE = ["Single-channel trigger mode",
+                "Binary-coded trigger mode"]
