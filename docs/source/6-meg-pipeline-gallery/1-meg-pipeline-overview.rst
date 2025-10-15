@@ -20,9 +20,7 @@ The folowing software/library are available MEG/EEG data analysis:
 * FieldTrip
 * BESA
 
-
 Sample pipelines are provided for each one of them
-
 
 MNE Python
 ^^^^^^^^^^
@@ -34,12 +32,12 @@ Follow instructions here `MNE Install <https://mne.tools/stable/install/index.ht
 Ideally, choose the standalone installer it usually has the complete suite.
 We recommend to install MNE as a standalone installer.
 
-The data of the MNE environment will be under ``C:\ProgramData\mne-python\1.x.y_z``
+The data of the MNE environment will be under ``C:\ProgramData\mne-python\1.x.y_z`` (for Windows)
 
 You can setup Pycharm (or your favorite IDE) to use this environment as a Python environment for your pipeline project.
 
 The configuration file for setting ``SUBJECTS_DIR``, the directory to the data of your subject, can be set in:
-``C:\Users\user_name\.mne\mne-python.json``
+``C:\Users\user_name\.mne\mne-python.json`` (for Windows)
 
 
 Installing freesurfer on windows (For source localization with MNE)

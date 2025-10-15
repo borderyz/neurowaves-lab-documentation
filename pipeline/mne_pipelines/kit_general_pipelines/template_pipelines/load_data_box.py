@@ -16,6 +16,7 @@ from mne_bids import (
     get_datatypes
 )
 
+from pipeline.mne_pipelines.kit_general_pipelines.utilities import *
 
 # Define this environment variable and point it to the path that holds the NYU-BOX datasets
 # Or just set the path to the folder parent of your dataset folder
@@ -51,33 +52,7 @@ subjects = get_entity_vals(DATASET_PATH,
 
 print("Found", len(subjects), "subjects")
 
-# These are static variables specific to the NYUAD setup and BIDS-naming scheme
-# You do not need to change any of those variables
 
-# Type of scan we are interested in for this pipeline
-# This assumes we have an `meg` folder within each subject
-DATATYPE = "meg"
-
-# MEG scan and marker coils files extension
-MEG_EXTENSIONS = [".con"]
-HEAD_POSITION_INDICATOR_EXTENSIONS = [".mrk"]
-
-# MEG Noise reduction algorithm label
-NOISE_PROCESSING_LABEL = "CALMnoisereduction"
-IGNORE_PROCESSING_LABEL = "CALMnoisereduction"
-
-# MEG headshape digitizer file extention
-HEADSHAPE_EXTENSIONS = [".txt"]
-
-# ACQ Label used for files containing the stylus points digitization of fiducials
-# Your stylus points has "...acq_points..." somewhere in its name
-
-ACQ_LABEL_DIGITIZER_POINTS = "points"
-
-# Same for headshape digitzation
-# Your head surface digization file has "...acq_head..." somewhere in its name
-
-ACQ_LABEL_DIGITIZER_HEAD = "head"
 
 sub_id = "001"
 for sub_id in subjects:
