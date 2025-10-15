@@ -9,8 +9,16 @@ There are multiple files produced before and during magnetoencephalography. We w
 - HPI coils `Marker` measurements (x2 files atleast) .mrk  (each .mrk contains the position of 5 fiducial points on the face)
 - MEG recording .con
 
+
+
+
 Kit2Fiff
 --------
+
+.. note::
+
+    This has been tested with MNE version 1.7.0.
+    `mne kit2fiff` seems to have a bug with newer version of MNE
 
 The first step is to convert the recording into a standard format for analysis in MNE, the premier software suite for M/EEG analysis.
 
