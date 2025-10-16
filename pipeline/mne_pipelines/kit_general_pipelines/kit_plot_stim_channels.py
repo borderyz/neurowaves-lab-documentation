@@ -51,10 +51,13 @@ meg_data_file = find_matching_paths(DATASET_PATH,
 
 RAW_DATA = mne.io.read_raw_kit(meg_data_file[0], preload=False, verbose=False)
 
-RAW_DATA.plot(picks=trigger_channels,
+
+RAW_DATA.plot(picks=trigger_channels_MNE,
          block=True,
          scalings={"misc": DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE},
          duration=DEFAULT_TIME_SCALE)
+
+
 
 
 

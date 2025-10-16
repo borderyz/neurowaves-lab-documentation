@@ -4,7 +4,9 @@
 
 # Trigger channels name in MNE standard
 
-trigger_channels = ['MISC 001', 'MISC 002', 'MISC 003', 'MISC 004', 'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008']
+trigger_channels_MNE = ['MISC 001', 'MISC 002', 'MISC 003', 'MISC 004', 'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008']
+
+trigger_channels_KIT = [224, 225, 226, 227, 228, 229, 230, 231]
 
 # Recommended scales for plotting stimulus channels
 DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE  = 1.5
@@ -41,3 +43,6 @@ ACQ_LABEL_DIGITIZER_HEAD = "head"
 
 TRIGGER_MODE = ["Single-channel trigger mode",
                 "Binary-coded trigger mode"]
+
+EVENTS_EXTENSIONS=[".csv"]
+METADATA_EXTENSIONS=[".json"]
