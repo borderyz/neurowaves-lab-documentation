@@ -64,7 +64,7 @@ stimuliSize = 2
 instructionSize = 1
 wordOn = 42 #350ms
 wordOff = 24 #200ms
-lastWordOn =  132  #1100
+lastWordOn = 132  #1100
 
 boxHeight = stimuliSize + 1.5
 boxWidth = 11

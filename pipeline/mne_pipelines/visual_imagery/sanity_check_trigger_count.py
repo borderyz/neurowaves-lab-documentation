@@ -2,7 +2,7 @@
 from pathlib import Path
 from pipeline.mne_pipelines.kit_general_pipelines.trigger_count_sanity_check import run_trigger_count
 
-CON = Path(r"sub-test-visual-imagery.con")
+CON = Path(r"sub-test_ses-04_task-visualimagery_meg.con")
 CSV = Path(r"VI_trig_debug.csv")
 
 res = run_trigger_count(

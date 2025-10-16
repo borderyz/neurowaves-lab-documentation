@@ -61,9 +61,9 @@ stimuliFont = 'Noto Naskh Arabic' #'Times New Roman'
 stimuliColor = 'gold' #rgb(255, 215, 0)
 stimuliUnits = 'deg'
 stimuliSize = 2
-wordOn = 54  #54 # 450ms #48 #400ms
-wordOff = 18 #18 #150ms #24 #200ms
-lastWordOn = 144 #144 #1200ms
+wordOn = 15 #54  #54 # 450ms #48 #400ms
+wordOff = 5 #18 #18 #150ms #24 #200ms
+lastWordOn = 15 #144 #144 #1200ms
 
 boxHeight = stimuliSize + 2
 boxWidth = 11
