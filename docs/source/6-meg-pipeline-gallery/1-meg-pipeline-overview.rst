@@ -5,64 +5,43 @@ Pipelines Overview
 Different pipelines can be built using the available software at NYUAD MEG Lab tailored to best answer your research questions.
 
 
+.. note:: Problem setting up your ethernet connection
 
-
-.. raw:: html
-    :file: ../graphic/general_pipeline.drawio.html
-
-
-
-
-
-
-
+    Network setting up: To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
+    Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
 
 
 Software stack and installation
-===============================
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The folowing software/library are available MEG/EEG data analysis:
 
-* BESA
 * MNE Python library
 * FieldTrip
+* BESA
 
 Sample pipelines are provided for each one of them
 
+MNE Python
+^^^^^^^^^^
 
-BESA installation
-=================
-
-Download BESA from `https://www.besa.de/ <https://www.besa.de/>`_
-
-The BESA license available at NYUAD-MEG lab will be soon hosted on a server, and instructions to use it will be made shortly available on this page.
-
-
-MNE Python library installation
-===============================
+Installation
+""""""""""""
 
 Follow instructions here `MNE Install <https://mne.tools/stable/install/index.html>`_
 Ideally, choose the standalone installer it usually has the complete suite.
-
 We recommend to install MNE as a standalone installer.
 
-The data of the MNE environment will be under ``C:\ProgramData\mne-python\1.x.y_z``
+The data of the MNE environment will be under ``C:\ProgramData\mne-python\1.x.y_z`` (for Windows)
 
-You can setup Pycharm to use this environment as a Python environment for your pipeline project.
+You can setup Pycharm (or your favorite IDE) to use this environment as a Python environment for your pipeline project.
 
 The configuration file for setting ``SUBJECTS_DIR``, the directory to the data of your subject, can be set in:
-``C:\Users\user_name\.mne\mne-python.json``
-
-
-
-Network setting up
-==================
-To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
-Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
+``C:\Users\user_name\.mne\mne-python.json`` (for Windows)
 
 
 Installing freesurfer on windows (For source localization with MNE)
-===================================================================
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 If you want to do source localization in MNE, you will need to install freesurfer.
 
 If you are under windows, configure WSL2 on windows. You can then access the files of the ubuntu distribution by typing ``\\wsl$\Ubuntu`` in the file explorer in windows.
@@ -71,19 +50,89 @@ Install freesurfer following their documentation page. https://surfer.nmr.mgh.ha
 
 
 FieldTrip
-=========
+^^^^^^^^^
 
 First download fieldtrip from here `https://www.fieldtriptoolbox.org/download/ <https://www.fieldtriptoolbox.org/download/>`_
 Then, install fieldtrip folowing `https://www.fieldtriptoolbox.org/download/ <https://www.fieldtriptoolbox.org/download/>`_
 
 
+Fieldtrip coregistration with OPM data
+""""""""""""""""""""""""""""""""""""""
+
+You will need the headshape.pos matrix containing the head shape grid and 3 fiducials: the nasion, the lpa and the RPA
+(those three fiducials are at the end of the .pos file)
+
+
+Remind that:
+Using the LaserScanner generates a basic_surface.txt file (which contains the head points)
+and a stylus.txt file containing 8 reference points: we will need the first three points
+`Laser Scanner protocol reminder <https://meg-pipeline.readthedocs.io/en/latest/2-operationprotocol/operationprotocol.html>`_
+
+Use the ft_read_head_shape to read the .pos matrix and fiducials
+
+
+
+Information on head coordinate systems https://www.fieldtriptoolbox.org/faq/coordsys/
+
+
+Beamforming, source reconstruction
+""""""""""""""""""""""""""""""""""
+
+- measuring the contribution of a specific sensor in a soruce signal (weighing of the sensor w.r.t a specific source)
+
+S(r,t) = W(r)b(t)
+
+S rouce estimate,
+W beamformer weights (3 columns because 3 orientations of each dipole (add location and so on can be extended))
+b channel measurement
+
+The question is finding W (the right one among the different possible ones)
+adding constriants will reduce the ill-posedness of the problem
+- forward model constraints cfrom physiological data
+- inverse problem constraints
+
+spatial filtering: assume there is only one source and estimate its activity independetly from the other sources ( the estimation is the multiplication of the weight matrix with the chanenl measurements) repeated over the number of sources
+
+The lead matrix L is the inverse of the weight matrix W (simple assumption)
+Additional constraint to take the neighborhood sources into account, the W at a source r should not give high gain for another source q at a certain distance from r ( q should not be the direct neighbor)
+so for the direct neighbor, we wana minimise by a bit the gain and not ocmpletely set it to 0
+the variance over the position  is therefore minimised (ensuring smoothness, and reduced gain in neighbors)
+(beamformer Linearly constrained minimum variance (LCMV))
+
+W and S are unknowns, minimising var(S) requires knowing W, but there is a relationship between W, L and C (the measured data covariance matrix, how dep/independent each measurement is with the others)
+
+(In fieldtrip, the configuration points to LCMV  or DICS(for frequency analysis) algorithm to use this beamformer)
+
+Computing the inverse of C (used for the solution) requires that C is not rank deficient (a measure of the dependency between the rows/columns), small time window, ICA can increase deficiency
+
+
+
+
+Continuous stimulus
+"""""""""""""""""""
+
+The use of Dissimilarity matrix (is a comparison measure between two different stimulus), the matrix is low in values when the sitmulus are similar
+
+at the stimulus level but also the brain response, computed at each time point is a way of measuring brain activity in time-continuous stimuli (video, speech,
+
+
+
+
 BESA Software
-=============
+^^^^^^^^^^^^^
 
 The following steps are primary to process MEG data using the BESA MRI and BESA Research suite
 
+BESA installation
+"""""""""""""""""
+
+Download BESA from `https://www.besa.de/ <https://www.besa.de/>`_
+
+The BESA license available at NYUAD-MEG lab will be soon hosted on a server, and instructions to use it will be made shortly available on this page.
+
+
 You have MRI data of your participant
--------------------------------------
+"""""""""""""""""""""""""""""""""""""
 
 Open BESA MRI, start a new segmentation project, check all the segmentation options (especially BEM and FEM), pick the landmarks for segmentation
 and start the process. Once done, BESA will save the segmentation, BEM, FEM model outputs.
@@ -270,15 +319,6 @@ Pause: it stops after a step in oredr for tghe user to check for things or take 
 
 
 
-Fieldtrip pipeline
-------------------
-
-
-
-
-Visual rejection
-
-using ft_rejectvisual(cfg, data);
 
 
 
@@ -290,28 +330,13 @@ using ft_rejectvisual(cfg, data);
 
 
 
-Fieldtrip coregistration with OPM data
---------------------------------------
-
-You will need the headshape.pos matrix containing the head shape grid and 3 fiducials: the nasion, the lpa and the RPA
-(those three fiducials are at the end of the .pos file)
 
 
-Remind that:
-Using the LaserScanner generates a basic_surface.txt file (which contains the head points)
-and a stylus.txt file containing 8 reference points: we will need the first three points
-`Laser Scanner protocol reminder <https://meg-pipeline.readthedocs.io/en/latest/2-operationprotocol/operationprotocol.html>`_
-
-Use the ft_read_head_shape to read the .pos matrix and fiducials
-
-
-
-Information on head coordinate systems https://www.fieldtriptoolbox.org/faq/coordsys/
 
 
 
 Installation
-------------
+^^^^^^^^^^^^
 
 To use MEG-Pipeline, first install it using pip:
 
@@ -320,7 +345,7 @@ To use MEG-Pipeline, first install it using pip:
    (.venv) $ pip install megpipeline
 
 Reading the Raw Data
---------------------
+""""""""""""""""""""
 
 The ``kind`` parameter should be either ``"raw"``, ``"fif"``,
 or ``"fll"``.
@@ -349,11 +374,11 @@ For example:
 
 
 Manual labelling of "bad" channels
-----------------------------------
+""""""""""""""""""""""""""""""""""
 
 
 Denoising
----------
+"""""""""
 
 Awareness of the many sources of noise:
 
@@ -367,7 +392,7 @@ that could identify the noise coming from the different sources and be able to d
 
 
 Independent component analysis
-------------------------------
+""""""""""""""""""""""""""""""
 
 Independent component analysis (ICA) is commonly used to generate what is supposed a set of independent
 signals from a given set of assumingly correlated signals.
@@ -388,7 +413,7 @@ ICA can perform well to identify the noise signals that has a certain long lasti
 
 
 Frequency Analysis
-------------------
+""""""""""""""""""
 Fast-oscillating signals means high frequencies, while slow oscillations are low frequencies.
 In fourier space (signal represented by its Fourier transform) we can see the frequency components constituting
 the signal. FFT (Fast Fourier Transform) algorithm is commonly to identify the frequency components.
@@ -399,7 +424,7 @@ In other words, given a region of the brain, signals of frequency 8Hz are respon
 
 
 Brain Source Estimate
----------------------
+"""""""""""""""""""""
 
 When neurons become active, they do so in large groups.
 
@@ -407,7 +432,7 @@ When neurons become active, they do so in large groups.
 
 
 Code Overview
--------------
+"""""""""""""
 
 The code for an example.
 
@@ -421,45 +446,6 @@ The code for an example.
 
 
 
-Beamforming, source reconstruction
-----------------------------------
-
-- measuring the contribution of a specific sensor in a soruce signal (weighing of the sensor w.r.t a specific source)
-
-S(r,t) = W(r)b(t)
-
-S rouce estimate,
-W beamformer weights (3 columns because 3 orientations of each dipole (add location and so on can be extended))
-b channel measurement
-
-The question is finding W (the right one among the different possible ones)
-adding constriants will reduce the ill-posedness of the problem
-- forward model constraints cfrom physiological data
-- inverse problem constraints
-
-spatial filtering: assume there is only one source and estimate its activity independetly from the other sources ( the estimation is the multiplication of the weight matrix with the chanenl measurements) repeated over the number of sources
-
-The lead matrix L is the inverse of the weight matrix W (simple assumption)
-Additional constraint to take the neighborhood sources into account, the W at a source r should not give high gain for another source q at a certain distance from r ( q should not be the direct neighbor)
-so for the direct neighbor, we wana minimise by a bit the gain and not ocmpletely set it to 0
-the variance over the position  is therefore minimised (ensuring smoothness, and reduced gain in neighbors)
-(beamformer Linearly constrained minimum variance (LCMV))
-
-W and S are unknowns, minimising var(S) requires knowing W, but there is a relationship between W, L and C (the measured data covariance matrix, how dep/independent each measurement is with the others)
-
-(In fieldtrip, the configuration points to LCMV  or DICS(for frequency analysis) algorithm to use this beamformer)
-
-Computing the inverse of C (used for the solution) requires that C is not rank deficient (a measure of the dependency between the rows/columns), small time window, ICA can increase deficiency
-
-
-
-
-Continuous stimulus
--------------------
-
-The use of Dissimilarity matrix (is a comparison measure between two different stimulus), the matrix is low in values when the sitmulus are similar
-
-at the stimulus level but also the brain response, computed at each time point is a way of measuring brain activity in time-continuous stimuli (video, speech,
 
 
 
