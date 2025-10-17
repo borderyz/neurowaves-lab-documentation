@@ -9,6 +9,7 @@ from pathlib import Path
 
 import json
 import pandas as pd
+import numpy as np
 
 import mne
 from mne.io import read_raw_kit
@@ -88,14 +89,6 @@ if metadata_events["TriggerMode"]=="single_channel":
 KIT_from_MNE = dict(zip(trigger_channels_MNE, trigger_channels_KIT))
 MNE_from_KIT = dict(zip(trigger_channels_KIT, trigger_channels_MNE))
 
-import numpy as np
-import pandas as pd
-import mne
-
-
-
-KIT_from_MNE = dict(zip(trigger_channels_MNE, trigger_channels_KIT))
-MNE_from_KIT = dict(zip(trigger_channels_KIT, trigger_channels_MNE))
 
 # -----------------------------
 # Robust per-channel pulse detector
@@ -109,13 +102,14 @@ def detect_pulses_on_channel(
     min_distance_ms=6.0,     # refractory between pulses
     baseline_s=None          # optional (start_s, stop_s) for baseline estimation (e.g., first 5–10s)
 ):
-    sfreq = raw.info['sfreq']
+    sfreq = raw.info['sfreq']   # Sampling frequency (is typically 1Khz)
     min_width_samp = max(1, int(round((min_width_ms/1000.0)*sfreq)))
     min_distance_samp = max(1, int(round((min_distance_ms/1000.0)*sfreq)))
 
     pick = mne.pick_channels(raw.ch_names, [ch_name])
     if len(pick) != 1:
         raise ValueError(f"Channel {ch_name} not found.")
+
     x = raw.get_data(picks=pick, reject_by_annotation='omit')[0]
 
     # Use a baseline window if provided to estimate noise; else use the whole trace robustly
