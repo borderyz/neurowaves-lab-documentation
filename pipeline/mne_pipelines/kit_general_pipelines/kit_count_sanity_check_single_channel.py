@@ -299,9 +299,13 @@ for sub in subjects:
         print("\n=== Count comparison per KIT channel (224–231) ===")
         print(counts_compare)
 
+        # Build lists for correct/incorrect counts
+        correct_count_chs = counts_compare[counts_compare["diff"] == 0].index.tolist()
+        incorrect_count_df = counts_compare[counts_compare["diff"] != 0].copy()  # keep details for log
+
         # 2) Sequence check:
         # CSV row order (events_ref as-is) vs detected chronological order (detected_df sorted by sample)
-        seq_ref_row = events_ref["channel"].to_numpy()  # preserve CSV row order
+        seq_ref_row = events_ref["channel"].to_numpy()     # preserve CSV row order
         seq_det_time = detected_df.sort_values("sample")["channel"].to_numpy()
 
         row_order_ok = (len(seq_ref_row) == len(seq_det_time)) and np.array_equal(seq_ref_row, seq_det_time)
@@ -316,24 +320,72 @@ for sub in subjects:
         pass_flag = counts_ok and row_order_ok
         print(f"\n=== FINAL RESULT: {'PASS ✅' if pass_flag else 'FAIL ❌'} ===")
 
-        # Save run log
+        # -----------------------------
+        # Build logfile text (with extra troubleshooting info on mismatches)
+        # -----------------------------
         sub_dir = DERIV_ROOT / f"sub-{sub}"
         if entities.get("session"):
             sub_dir = sub_dir / f"ses-{entities['session']}"
         sub_dir.mkdir(parents=True, exist_ok=True)
         log_file = sub_dir / f"{bids_name_from_entities(entities, 'desc-sanitycheck', '_log.txt')}"
-        log_text = "\n".join([
+
+        # Always include core sections
+        log_lines = [
             f"Raw: {raw_path}",
             f"Events: {events_table_path}",
             f"TriggerMode: {trigger_mode}",
-            "\nThresholds:\n" + thr_df.to_string(index=False),
-            "\nCounts:\n" + counts_compare.to_string(),
-            "\nSequence (CSV row order vs detected chronological): "
-                f"CSV n={len(seq_ref_row)} | Detected n={len(seq_det_time)} | match={row_order_ok}",
-            f"\nFinal result: {'PASS ✅' if pass_flag else 'FAIL ❌'}"
-        ])
-        write_run_log(log_file, log_text)
+            "",
+            "[Thresholds per channel]",
+            thr_df.to_string(index=False),
+            "",
+            "[Counts per KIT channel]",
+            counts_compare.to_string(),
+        ]
 
+        # If counts mismatch, add which channels are correct vs incorrect (with details)
+        if not counts_ok:
+            log_lines += [
+                "",
+                "[Counts check details]",
+                f"Correct count channels: {correct_count_chs if correct_count_chs else 'None'}",
+            ]
+            if not incorrect_count_df.empty:
+                log_lines += [
+                    "Incorrect count channels (csv_count / detected_count / diff):",
+                    incorrect_count_df.to_string(),
+                ]
+
+        # Sequence section
+        log_lines += [
+            "",
+            "[Sequence check: CSV row order vs detected chronological]",
+            f"match={row_order_ok} | CSV n={len(seq_ref_row)} | Detected n={len(seq_det_time)}",
+        ]
+
+        # If sequence mismatch, dump both sequences to help troubleshooting
+        if not row_order_ok:
+            # Represent sequences on one (wrapped) line each
+            csv_seq_str = ", ".join(map(str, seq_ref_row.tolist()))
+            det_seq_str = ", ".join(map(str, seq_det_time.tolist()))
+            log_lines += [
+                "CSV channel sequence (row order):",
+                csv_seq_str,
+                "Detected channel sequence (chronological):",
+                det_seq_str,
+            ]
+
+        # Final flag
+        log_lines += [
+            "",
+            f"Final result: {'PASS ✅' if pass_flag else 'FAIL ❌'}"
+        ]
+
+        # Write logfile
+        write_run_log(log_file, "\n".join(log_lines))
+
+        # -----------------------------
+        # Add to summary
+        # -----------------------------
         summary_records.append({
             "subject": sub,
             "file": str(raw_path),
@@ -345,6 +397,7 @@ for sub in subjects:
             "pass": bool(pass_flag),
             "log_file": str(log_file)
         })
+
 
 # -------------------------------
 # Root-level summary table
