@@ -13,8 +13,6 @@ from mne_bids import (
     get_datatypes,
 )
 
-import matplotlib
-matplotlib.use('TkAgg')
 
 # Use the constants instance
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C

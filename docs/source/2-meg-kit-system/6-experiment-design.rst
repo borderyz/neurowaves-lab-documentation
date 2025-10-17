@@ -7,7 +7,7 @@ Experiment design
 Purpose
 -------
 
-This section provides information to help you out designing your MEG experiment.
+This section provides information to help you implement the concept you have about your MEG experiment into runnable code.
 What is meant by experiment, is the stimuli involving usually visual and auditory or other perception-type stimulus.
 The experiment defines the timing of display of the stimuli, tracks responses from the participants and controls the different settings related
 to the content being presented to the participant.
@@ -17,7 +17,7 @@ Roughly speaking, the experiment should be designed in a way such that:
 - when the participant performs the experiment, a specific behavior in the brain is triggered due to the stimulus from the experiment
 - which you should "beleive" that, when MEG/EEG measurements are obtained, would nicely `highlight` the specific behavior
 
-Therefore, the design of an experiment should come after extensive research about the phenomena that we would like to characterize.
+Therefore, the design of an experiment should come after extensive research about the phenomena that we would like to characterize and related details are not covered in this page.
 
 
 There are three tools primarily used for designing the experiment used in NYUAD MEG Lab
@@ -54,6 +54,17 @@ The eyetracker sends three different signals to the MEG/EEG channels:
 - The Area of the pupil of the eye as function of time
 
 
+Define your events and trigger protocol
+---------------------------------------
+
+The KIT system has 8 channels (Channels 224 to 231 in KIT indexing) that can be used for coding trigger events.
+Depending on the number of different event types that you require for your experiment you can use one of the two trigger-coding modes:
+
+- TriggerMode: `single_channel` : in single channel mode, each event code is associated to a single channel, whenever this event should happen, a pulse is sent on that channel typically lasting for a single frame (8.3 ms when using a 120Hz frequency monitor)
+- TriggerMode: `binary_coded` : in binary coded mode, each event code is interpreted as a byte over the 8 channels, allows to represent maximum 255 event types (the zero code is not usable to code an event)
+
+
+
 Files produced by the experiment design
 ---------------------------------------
 
@@ -66,7 +77,6 @@ If using python library PsychoPy:
 
 * Open the file with .psyexp extension
 * you can run from within the psycopy builder the experiment file with .psyexp extension c
-
 
 
 Pixel mode experiments
