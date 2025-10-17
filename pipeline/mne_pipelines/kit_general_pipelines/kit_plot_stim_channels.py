@@ -1,8 +1,8 @@
+# plot_triggers.py
 import os
 from pathlib import Path
 
 import mne
-from mne.io import read_raw_kit
 from mne_bids import (
     BIDSPath,
     find_matching_paths,
@@ -10,54 +10,58 @@ from mne_bids import (
     make_report,
     print_dir_tree,
     read_raw_bids,
-    get_datatypes
+    get_datatypes,
 )
 
 import matplotlib
 matplotlib.use('TkAgg')
 
+# Use the constants instance
+from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C
 
-from pipeline.mne_pipelines.kit_general_pipelines.utilities import *
-
+# Resolve dataset root from env
 MEG_DATA_PATH = os.getenv("MEG_DATA")
-
-# Convert to a Path object
-if MEG_DATA_PATH:
-    data_path = Path(MEG_DATA_PATH)
-    print(f"Resolved path: {data_path.resolve()}")
-else:
+if not MEG_DATA_PATH:
     raise EnvironmentError("MEG_DATA is not set.")
 
+data_path = Path(MEG_DATA_PATH)
+print(f"Resolved path: {data_path.resolve()}")
 
-# Set the name of your dataset folder on NYU-BOX
+# Project folder (adjust or move into your YAML config if you prefer)
 PROJECT_NAME = "script-testing-dataset"
+DATASET_PATH = str(data_path / PROJECT_NAME)
 
-# Define the path to your dataset folder
-# Using the `os` library ensure that this script is cross-platform (Linux, MacOS, Windows)
-DATASET_PATH = os.path.join(MEG_DATA_PATH, PROJECT_NAME)
-
-
-# Dataset is BIDS structured so we can use the following functions
+# Show the BIDS tree
 print_dir_tree(DATASET_PATH)
 
-
+# Subject to plot
 sub_id = "test1"
 
-meg_data_file = find_matching_paths(DATASET_PATH,
-                    datatypes=DATATYPE,
-                    subjects=sub_id,
-                    extensions=MEG_EXTENSIONS)
+# Find the KIT raw file(s) for this subject using constants
+meg_matches = find_matching_paths(
+    DATASET_PATH,
+    datatypes=C.DATATYPE,
+    subjects=sub_id,
+    extensions=tuple(C.MEG_EXTENSIONS),
+)
+if not meg_matches:
+    raise FileNotFoundError(f"No MEG files found for sub-{sub_id} in {DATASET_PATH}")
 
+meg_path = meg_matches[0].fpath
+print(f"Plotting from: {meg_path}")
 
-RAW_DATA = mne.io.read_raw_kit(meg_data_file[0], preload=False, verbose=False)
+# Load raw
+RAW_DATA = mne.io.read_raw_kit(meg_path, preload=False, verbose=False)
 
+# Ensure the requested trigger channels exist; warn if any are missing
+missing = [ch for ch in C.trigger_channels_MNE if ch not in RAW_DATA.ch_names]
+if missing:
+    print(f"Warning: the following trigger channels are not present in raw: {missing}")
 
-RAW_DATA.plot(picks=trigger_channels_MNE,
-         block=True,
-         scalings={"misc": DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE},
-         duration=DEFAULT_TIME_SCALE)
-
-
-
-
-
+# Plot MISC trigger channels
+RAW_DATA.plot(
+    picks=[ch for ch in C.trigger_channels_MNE if ch in RAW_DATA.ch_names],
+    block=True,
+    scalings={"misc": C.DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE},
+    duration=C.DEFAULT_TIME_SCALE,
+)
