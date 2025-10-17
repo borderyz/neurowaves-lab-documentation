@@ -1,4 +1,4 @@
-name: Pipelines Automated Testing - MNE(MNE 1.10 on all OS)
+name: Automated Testing (MNE 1.10 on all OS)
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.9, 3.10, 3.11]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
       - name: Checkout repository
@@ -35,7 +35,6 @@ jobs:
 
       - name: Run pytest
         env:
-          # Ensure your MEG_DATA environment variable points to a dummy dataset
           MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
         run: |
           pytest -v tests/
