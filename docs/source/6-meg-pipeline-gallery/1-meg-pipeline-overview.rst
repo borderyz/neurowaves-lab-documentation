@@ -58,7 +58,7 @@ You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing 
 .. toctree::
    :maxdepth: 1
 
-    mne/mne_sanity_check_single-channel
+    notebooks/mne/mne_sanity_check_single-channel
 
 
 FieldTrip
