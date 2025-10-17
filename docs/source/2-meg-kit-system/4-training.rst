@@ -14,6 +14,7 @@ Once the all training sessions are fully completed, the following forms should b
 .. note::
 
     `Access to CTP training attendance form <https://docs.google.com/forms/d/e/1FAIpQLScLW1MOvo-9aAwX2_04FcyLGPR9xtDso9hu9SEixUy2VzuAiw/viewform>`_
+
     `Access to MEG training validation <https://docs.google.com/forms/d/e/1FAIpQLSd1njYqrKPcR_2rEsWsQhmnY1Sz7XyXA4k5PYxjqC_XDqcIxw/viewform?usp=dialog>`_
 
 
