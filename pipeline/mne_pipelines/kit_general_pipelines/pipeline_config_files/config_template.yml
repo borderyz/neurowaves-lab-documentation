@@ -1,0 +1,20 @@
+project:
+  # Dataset folder name under the root path
+  name: "script-testing-dataset"
+
+  # Where the dataset root comes from:
+  # - If root_override is null, read from this env var.
+  root_env: "MEG_DATA"
+  root_override: null   # e.g., "/mnt/meg" to bypass the env var
+
+subjects:
+  # If empty (or missing), process ALL subjects found in the BIDS root
+  include: []
+  # Always skip these (useful to omit pilot/bad subs)
+  exclude: []
+
+# Optional selection filters (empty => all)
+bids_selection:
+  sessions: []    # e.g., ["01", "02"]
+  tasks: []       # e.g., ["language"]
+  runs: []        # e.g., [1, 2]

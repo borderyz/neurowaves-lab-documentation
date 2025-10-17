@@ -1,48 +1,49 @@
-# NYUAD KIT-SQUID system MNE-based utilities
+from dataclasses import dataclass, field, asdict
+from typing import List, Dict
 
+@dataclass(frozen=True)
+class _NYUADKitConstants:
 
+    # Trigger channels
+    trigger_channels_MNE: List[str] = field(default_factory=lambda: [
+        'MISC 001', 'MISC 002', 'MISC 003', 'MISC 004',
+        'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008'
+    ])
+    trigger_channels_KIT: List[int] = field(default_factory=lambda: [224, 225, 226, 227, 228, 229, 230, 231])
 
-# Trigger channels name in MNE standard
+    # Plotting defaults
+    DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE: float = 1.5
+    DEFAULT_TIME_SCALE: float = 100.0
 
-trigger_channels_MNE = ['MISC 001', 'MISC 002', 'MISC 003', 'MISC 004', 'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008']
+    # BIDS / file-naming constants (static for your setup)
+    DATATYPE: str = "meg"
+    MEG_EXTENSIONS: List[str] = field(default_factory=lambda: [".con"])
+    HEAD_POSITION_INDICATOR_EXTENSIONS: List[str] = field(default_factory=lambda: [".mrk"])
+    NOISE_PROCESSING_LABEL: str = "CALMnoisereduction"
+    IGNORE_PROCESSING_LABEL: str = "CALMnoisereduction"
+    HEADSHAPE_EXTENSIONS: List[str] = field(default_factory=lambda: [".txt"])
+    ACQ_LABEL_DIGITIZER_POINTS: str = "points"
+    ACQ_LABEL_DIGITIZER_HEAD: str = "head"
+    TRIGGER_MODE: List[str] = field(default_factory=lambda: [
+        "Single-channel trigger mode",
+        "Binary-coded trigger mode"
+    ])
+    EVENTS_EXTENSIONS: List[str] = field(default_factory=lambda: [".csv"])
+    METADATA_EXTENSIONS: List[str] = field(default_factory=lambda: [".json"])
 
-trigger_channels_KIT = [224, 225, 226, 227, 228, 229, 230, 231]
+    # Derived mappings
+    KIT_from_MNE: Dict[str, int] = field(init=False)
+    MNE_from_KIT: Dict[int, str] = field(init=False)
 
-# Recommended scales for plotting stimulus channels
-DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE  = 1.5
-DEFAULT_TIME_SCALE = 100.0
+    def __post_init__(self):
+        object.__setattr__(self, "KIT_from_MNE",
+                           dict(zip(self.trigger_channels_MNE, self.trigger_channels_KIT)))
+        object.__setattr__(self, "MNE_from_KIT",
+                           dict(zip(self.trigger_channels_KIT, self.trigger_channels_MNE)))
 
+    # Optional: quick dict view
+    def asdict(self) -> Dict:
+        return asdict(self)
 
-# These are static variables specific to the NYUAD setup and BIDS-naming scheme
-# You do not need to change any of those variables
-
-# Type of scan we are interested in for this pipeline
-# This assumes we have an `meg` folder within each subject
-DATATYPE = "meg"
-
-# MEG scan and marker coils files extension
-MEG_EXTENSIONS = [".con"]
-HEAD_POSITION_INDICATOR_EXTENSIONS = [".mrk"]
-
-# MEG Noise reduction algorithm label
-NOISE_PROCESSING_LABEL = "CALMnoisereduction"
-IGNORE_PROCESSING_LABEL = "CALMnoisereduction"
-
-# MEG headshape digitizer file extention
-HEADSHAPE_EXTENSIONS = [".txt"]
-
-# ACQ Label used for files containing the stylus points digitization of fiducials
-# Your stylus points has "...acq_points..." somewhere in its name
-
-ACQ_LABEL_DIGITIZER_POINTS = "points"
-
-# Same for headshape digitzation
-# Your head surface digization file has "...acq_head..." somewhere in its name
-
-ACQ_LABEL_DIGITIZER_HEAD = "head"
-
-TRIGGER_MODE = ["Single-channel trigger mode",
-                "Binary-coded trigger mode"]
-
-EVENTS_EXTENSIONS=[".csv"]
-METADATA_EXTENSIONS=[".json"]
+# Single, shared instance to import elsewhere
+NYUAD_KIT_CONSTANTS = _NYUADKitConstants()

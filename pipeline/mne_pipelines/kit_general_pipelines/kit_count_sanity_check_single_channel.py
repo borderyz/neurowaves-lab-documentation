@@ -4,9 +4,11 @@
 # - Trigger events are coded on single channel of KIT system using channels 224-231
 # - The analog signal is a single-frame pulse (typically lasting around 8.3 ms for 120Hz refresh rate screen)
 
+import argparse
 import os
 from pathlib import Path
 
+import yaml
 import json
 import pandas as pd
 import numpy as np
@@ -29,6 +31,28 @@ matplotlib.use('TkAgg')
 
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import *
 
+
+parser = argparse.ArgumentParser(
+    description="Run sanity single-channel trigger count check for MEG dataset."
+)
+parser.add_argument(
+    "--config", "-c",
+    type=str,
+    default="pipeline_config_files/config_template.yml",
+    help="Path to the YAML config file (default: pipeline_config_files/config_template.yml)"
+)
+args = parser.parse_args()
+
+config_path = Path(args.config).expanduser()
+if not config_path.exists():
+    raise FileNotFoundError(f"Config file not found: {config_path}")
+
+with open(config_path, "r") as f:
+    CFG = yaml.safe_load(f)
+
+print(f"Loaded config from: {config_path}")
+
+
 MEG_DATA_PATH = os.getenv("MEG_DATA")
 
 # Convert to a Path object
@@ -38,6 +62,14 @@ if MEG_DATA_PATH:
 else:
     raise EnvironmentError("MEG_DATA is not set.")
 
+
+# ---- Load user config
+with open("config.yaml", "r") as f:
+    cfg = yaml.safe_load(f)
+
+
+# ---- Resolve dataset root
+root = cfg["project"].get("root_override")
 
 # Set the name of your dataset folder on NYU-BOX
 PROJECT_NAME = "script-testing-dataset"
