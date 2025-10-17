@@ -48,6 +48,18 @@ If you are under windows, configure WSL2 on windows. You can then access the fil
 
 Install freesurfer following their documentation page. https://surfer.nmr.mgh.harvard.edu/fswiki/FS7_wsl_ubuntu
 
+Order of notebooks for general MNE-KIT pipelines
+""""""""""""""""""""""""""""""""""""""""""""""""
+
+You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing of your data:
+
+
+
+.. toctree::
+   :maxdepth: 1
+
+    mne/mne_sanity_check_single-channel
+
 
 FieldTrip
 ^^^^^^^^^
