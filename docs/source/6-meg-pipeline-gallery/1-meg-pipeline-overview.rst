@@ -54,11 +54,10 @@ Order of notebooks for general MNE-KIT pipelines
 You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing of your data:
 
 
+.. nbgallery::
+    :glob:
 
-.. toctree::
-   :maxdepth: 1
-
-    6-meg-pipeline-gallery/notebooks/mne/mne_sanity_check_single-channel.rst
+    notebooks/mne/mne_sanity_check_single-channel
 
 FieldTrip
 ^^^^^^^^^
