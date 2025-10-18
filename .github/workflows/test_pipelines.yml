@@ -65,8 +65,11 @@ jobs:
       - name: Run pytest
         shell: bash
         env:
+          PYTHONPATH: ${{ github.workspace }}
           MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
+          MPLBACKEND: Agg   # avoid TkAgg on headless CI
         run: pytest -v tests/
+
 
       - name: Upload pytest results (on failure)
         if: failure()
