@@ -26,8 +26,6 @@ jobs:
           cache: pip
           # include the subdir requirements file so cache keys update when it changes
           cache-dependency-path: |
-            requirements.txt
-            docs/requirements.txt
             pipeline/mne_pipelines/requirements.txt
 
       - name: Upgrade pip tooling
@@ -39,12 +37,8 @@ jobs:
         env:
           PIP_PREFER_BINARY: "1"
         run: |
-          # Install main requirements if present
-          if [[ -f requirements.txt ]]; then python -m pip install -r requirements.txt; fi
           # Install the subdir requirements you added (pandas + mne==1.10.2)
           python -m pip install -r pipeline/mne_pipelines/requirements.txt
-          # (Optional) docs requirements if you really need them for tests
-          # if [[ -f docs/requirements.txt ]]; then python -m pip install -r docs/requirements.txt; fi
           # PyTest itself
           python -m pip install pytest pytest-cov
 
