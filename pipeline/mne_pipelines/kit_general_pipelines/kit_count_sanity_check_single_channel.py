@@ -12,8 +12,6 @@ import numpy as np
 import mne
 from mne_bids import find_matching_paths, get_entity_vals, BIDSPath
 
-import matplotlib
-matplotlib.use('TkAgg')
 
 # Constants instance
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C
