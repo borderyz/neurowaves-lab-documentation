@@ -35,10 +35,6 @@ jobs:
       - name: Install deps (tests + subdir requirements)
         shell: bash
         env:
-          MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
-          MPLBACKEND: Agg
-          BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
-          BOX_MEG_DATA_PARENT_FOLDER_ID: ${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}
           PIP_PREFER_BINARY: "1"
         run: |
           # Install the subdir requirements you added (pandas + mne==1.10.2)
@@ -64,8 +60,11 @@ jobs:
         shell: bash
         env:
           PYTHONPATH: ${{ github.workspace }}
-          MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
           MPLBACKEND: Agg   # avoid TkAgg on headless CI
+          MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
+          BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
+          BOX_MEG_DATA_PARENT_FOLDER_ID: ${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}
+
         run: pytest -v tests/
 
 
