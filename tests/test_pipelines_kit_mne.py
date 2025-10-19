@@ -3,9 +3,12 @@ import os
 import sys
 import json
 from pathlib import Path
+import runpy
 import subprocess
 import pandas as pd
 import yaml
+from unittest.mock import patch
+
 
 def _has_local_dataset(p: Path) -> bool:
     return p.exists() and any(p.iterdir())
@@ -120,3 +123,39 @@ def test_sanity_check_pipeline():
     assert df["row_order_match"].all(), "Unexpected order mismatch"
 
     print("\n✅ Sanity check pipeline test passed successfully!")
+
+
+def test_plot_triggers_runs_headless_without_gui(tmp_path, monkeypatch):
+    """
+    Executes plot_triggers.py headlessly:
+      - Ensures dataset present locally or downloads from Box.
+      - Forces a non-interactive backend.
+      - Patches Raw.plot to avoid opening a window (block=True in script).
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "plot_triggers.py"
+
+    # The script hardcodes:
+    project_name = "script-testing-dataset"
+
+    # MEG_DATA root (provided by CI env; local users already have it)
+    meg_data_root = os.getenv("MEG_DATA")
+    assert meg_data_root, "MEG_DATA environment variable not set"
+    meg_data_root = Path(meg_data_root)
+
+    # Ensure dataset exists (local or Box)
+    _ensure_dataset_present(project_name, meg_data_root)
+
+    # Headless plotting: force non-GUI backend for matplotlib used inside the script
+    monkeypatch.setenv("MPLBACKEND", "Agg")
+
+    # Patch mne Raw.plot to a no-op so the script doesn't block on GUI
+    # (The method lives on BaseRaw; accept any args/kwargs)
+    def _noop_plot(*args, **kwargs):
+        return None
+
+    with patch("mne.io.base.BaseRaw.plot", side_effect=_noop_plot):
+        # Run the script as __main__ so its top-level code executes
+        result = runpy.run_path(str(script_path), run_name="__main__")
+        # No specific outputs to assert; success means no exceptions.
+        assert result is not None

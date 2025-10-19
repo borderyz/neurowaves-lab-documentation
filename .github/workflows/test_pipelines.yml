@@ -64,7 +64,7 @@ jobs:
           MEG_DATA: ${{ github.workspace }}/pipeline/mne_pipelines/kit_general_pipelines
           BOX_CLIENT_SDK_CONFIG: ${{ secrets.BOX_CLIENT_SDK_CONFIG }}
           BOX_MEG_DATA_PARENT_FOLDER_ID: ${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}
-
+          PYTHONIOENCODING: "utf-8"   # ← add this line
         run: pytest -v tests/
 
 
