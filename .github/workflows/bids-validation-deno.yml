@@ -6,7 +6,7 @@ on:
       box_folder_id:
         description: "Box folder ID containing dataset subfolders"
         required: true
-        default: "258911132863"
+        default: ""
       create_placeholders:
         description: "Create zero-byte large file placeholders (true/false)"
         required: true
@@ -38,13 +38,17 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             BOX_ID="${{ github.event.inputs.box_folder_id }}"
+            if [ -z "$BOX_ID" ]; then
+              BOX_ID="${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}"
+            fi
             PLACEHOLDERS="${{ github.event.inputs.create_placeholders }}"
           else
-            BOX_ID="258911132863"
+            BOX_ID="${{ secrets.BOX_MEG_DATA_PARENT_FOLDER_ID }}"
             PLACEHOLDERS="true"
           fi
           echo "box_folder_id=$BOX_ID" >> "$GITHUB_OUTPUT"
           echo "create_placeholders=$PLACEHOLDERS" >> "$GITHUB_OUTPUT"
+
 
       - name: Set up Python
         uses: actions/setup-python@v5
