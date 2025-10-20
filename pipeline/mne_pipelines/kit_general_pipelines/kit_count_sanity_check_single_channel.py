@@ -12,8 +12,6 @@ import numpy as np
 import mne
 from mne_bids import find_matching_paths, get_entity_vals, BIDSPath
 
-import matplotlib
-matplotlib.use('TkAgg')
 
 # Constants instance
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C
@@ -278,15 +276,18 @@ for sub in subjects:
         print(thr_df)
         print(f"\nDetected {len(detected_df)} pulses total across 8 trigger channels.")
 
-        # Reference events
+        # -----------------------------------------
+        # Reference events (CSV row order as time)
+        # -----------------------------------------
         events_ref = events_data.copy()
-        if "sample" not in events_ref.columns and "onset" in events_ref.columns:
-            events_ref["sample"] = np.round(events_ref["onset"].astype(float) * sfreq).astype(int)
+        # filter only KIT trigger channels; DO NOT compute/require 'sample'/'onset'; DO NOT sort
         events_ref = events_ref[events_ref["channel"].isin(C.trigger_channels_KIT)].copy()
         events_ref["channel_mne"] = events_ref["channel"].map(C.MNE_from_KIT)
-        events_ref = events_ref.sort_values(["sample", "channel"]).reset_index(drop=True)
 
+        # -----------------------------
         # Compare
+        # -----------------------------
+        # 1) Counts per channel (unchanged)
         counts_ref = events_ref["channel"].value_counts().sort_index().reindex(C.trigger_channels_KIT, fill_value=0)
         counts_det = detected_df["channel"].value_counts().sort_index().reindex(C.trigger_channels_KIT, fill_value=0)
         counts_compare = pd.DataFrame({
@@ -296,45 +297,105 @@ for sub in subjects:
         print("\n=== Count comparison per KIT channel (224–231) ===")
         print(counts_compare)
 
-        seq_ref = events_ref.sort_values("sample")["channel"].to_numpy()
-        seq_det = detected_df.sort_values("sample")["channel"].to_numpy()
-        order_ok = (len(seq_ref) == len(seq_det)) and np.array_equal(seq_ref, seq_det)
-        print("\n=== Global order check ===")
-        print(f"CSV events:      {len(seq_ref)}")
-        print(f"Detected events: {len(seq_det)}")
-        print("✅ Order matches exactly." if order_ok else "❌ Order mismatch (or different lengths).")
+        # Build lists for correct/incorrect counts
+        correct_count_chs = counts_compare[counts_compare["diff"] == 0].index.tolist()
+        incorrect_count_df = counts_compare[counts_compare["diff"] != 0].copy()  # keep details for log
 
-        pass_flag = (counts_compare["diff"] == 0).all() and order_ok
+        # 2) Sequence check:
+        # CSV row order (events_ref as-is) vs detected chronological order (detected_df sorted by sample)
+        seq_ref_row = events_ref["channel"].to_numpy()     # preserve CSV row order
+        seq_det_time = detected_df.sort_values("sample")["channel"].to_numpy()
+
+        row_order_ok = (len(seq_ref_row) == len(seq_det_time)) and np.array_equal(seq_ref_row, seq_det_time)
+
+        print("\n=== Sequence check (CSV row order vs detected chronological) ===")
+        print(f"CSV events:      {len(seq_ref_row)}")
+        print(f"Detected events: {len(seq_det_time)}")
+        print("✅ Sequence matches exactly." if row_order_ok else "❌ Sequence mismatch (or different lengths).")
+
+        # Final PASS/FAIL: both counts and row-order sequence must match
+        counts_ok = (counts_compare["diff"] == 0).all()
+        pass_flag = counts_ok and row_order_ok
         print(f"\n=== FINAL RESULT: {'PASS ✅' if pass_flag else 'FAIL ❌'} ===")
 
-        # Save run log
+        # -----------------------------
+        # Build logfile text (with extra troubleshooting info on mismatches)
+        # -----------------------------
         sub_dir = DERIV_ROOT / f"sub-{sub}"
         if entities.get("session"):
             sub_dir = sub_dir / f"ses-{entities['session']}"
         sub_dir.mkdir(parents=True, exist_ok=True)
         log_file = sub_dir / f"{bids_name_from_entities(entities, 'desc-sanitycheck', '_log.txt')}"
-        log_text = "\n".join([
+
+        # Always include core sections
+        log_lines = [
             f"Raw: {raw_path}",
             f"Events: {events_table_path}",
             f"TriggerMode: {trigger_mode}",
-            "\nThresholds:\n" + thr_df.to_string(index=False),
-            "\nCounts:\n" + counts_compare.to_string(),
-            f"\nOrder OK: {order_ok}",
-            f"Final result: {'PASS ✅' if pass_flag else 'FAIL ❌'}"
-        ])
-        write_run_log(log_file, log_text)
+            "",
+            "[Thresholds per channel]",
+            thr_df.to_string(index=False),
+            "",
+            "[Counts per KIT channel]",
+            counts_compare.to_string(),
+        ]
 
+        # If counts mismatch, add which channels are correct vs incorrect (with details)
+        if not counts_ok:
+            log_lines += [
+                "",
+                "[Counts check details]",
+                f"Correct count channels: {correct_count_chs if correct_count_chs else 'None'}",
+            ]
+            if not incorrect_count_df.empty:
+                log_lines += [
+                    "Incorrect count channels (csv_count / detected_count / diff):",
+                    incorrect_count_df.to_string(),
+                ]
+
+        # Sequence section
+        log_lines += [
+            "",
+            "[Sequence check: CSV row order vs detected chronological]",
+            f"match={row_order_ok} | CSV n={len(seq_ref_row)} | Detected n={len(seq_det_time)}",
+        ]
+
+        # If sequence mismatch, dump both sequences to help troubleshooting
+        if not row_order_ok:
+            # Represent sequences on one (wrapped) line each
+            csv_seq_str = ", ".join(map(str, seq_ref_row.tolist()))
+            det_seq_str = ", ".join(map(str, seq_det_time.tolist()))
+            log_lines += [
+                "CSV channel sequence (row order):",
+                csv_seq_str,
+                "Detected channel sequence (chronological):",
+                det_seq_str,
+            ]
+
+        # Final flag
+        log_lines += [
+            "",
+            f"Final result: {'PASS ✅' if pass_flag else 'FAIL ❌'}"
+        ]
+
+        # Write logfile
+        write_run_log(log_file, "\n".join(log_lines))
+
+        # -----------------------------
+        # Add to summary
+        # -----------------------------
         summary_records.append({
             "subject": sub,
             "file": str(raw_path),
             "trigger_mode": trigger_mode,
-            "csv_events": len(seq_ref),
-            "detected_events": len(seq_det),
-            "counts_match": (counts_compare["diff"] == 0).all(),
-            "order_match": order_ok,
-            "pass": pass_flag,
+            "csv_events": int(len(seq_ref_row)),
+            "detected_events": int(len(seq_det_time)),
+            "counts_match": bool(counts_ok),
+            "row_order_match": bool(row_order_ok),
+            "pass": bool(pass_flag),
             "log_file": str(log_file)
         })
+
 
 # -------------------------------
 # Root-level summary table
