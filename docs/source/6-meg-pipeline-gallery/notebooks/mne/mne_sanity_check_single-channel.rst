@@ -50,7 +50,7 @@ Your dataset must include:
      }
 
 Configuration file
--------------------
+^^^^^^^^^^^^^^^^^^
 
 The script reads its configuration from a YAML file, typically located at:
 
@@ -61,7 +61,7 @@ The script reads its configuration from a YAML file, typically located at:
 This file defines the dataset, subjects, and optional filtering settings.
 
 Example configuration
-^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""
 
 .. code-block:: yaml
 
@@ -91,10 +91,10 @@ The BIDS root will be resolved as:
    $MEG_DATA/<project.name>
 
 How to run
------------
+^^^^^^^^^^
 
 Basic command
-^^^^^^^^^^^^^^
+"""""""""""""
 
 .. code-block:: bash
 
@@ -110,7 +110,7 @@ This will automatically:
 
 
 What the script does
----------------------
+^^^^^^^^^^^^^^^^^^^^
 
 1. **Discovers** all subjects/runs matching your config.
 2. **Validates trigger mode** using the events JSON (only “single-channel” runs are processed).
@@ -126,11 +126,12 @@ What the script does
    - Stability across channels
 6. **Summarizes results** into log files and one summary CSV.
 
+
 Outputs
---------
+^^^^^^^
 
 Derivative output directory
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""
 
 .. code-block:: text
 
@@ -139,7 +140,7 @@ Derivative output directory
      sanity_check_overview.csv
 
 Per-run log file contents
-""""""""""""""""""""""""""
+"""""""""""""""""""""""""
 
 - Paths to raw and events files
 - Trigger mode confirmation
@@ -185,7 +186,7 @@ Columns:
 - ``log_file`` (path to corresponding log)
 
 Pass/Fail criteria
-^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 A run **passes** only if:
 
@@ -193,10 +194,13 @@ A run **passes** only if:
 2. The detected chronological order matches the CSV row order.
 
 Tuning & interpretation
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
+
+You do not need to change any of the default values in the script unless you think there is a good reason for it.
+The following is provided only for information.
 
 Threshold parameters (in-script)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""
 
 - ``absolute_floor`` (default: 0.3) → minimum threshold floor
 - ``mad_mult`` (default: 12.0) → multiplier for MAD noise estimate
@@ -207,47 +211,48 @@ Threshold parameters (in-script)
 - ``min_distance_ms`` (default: 6.0) → debounce spacing
 
 Interpreting pulse stats
-^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""
 
 - **amp_max_mean / amp_mean_mean**: measure signal strength; high variance suggests unstable amplifier scaling.
 - **width_ms_mean / width_ms_var**: uniform width = consistent trigger pulses.
   Wide variation = possible timing drift or clipping.
 
 Troubleshooting
-----------------
+^^^^^^^^^^^^^^^
 
 Skipped run (not single-channel)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""""""""
 
 - Ensure your `*_events.json` includes `"TriggerMode": "single-channel"`.
   Runs missing this key will be **skipped** automatically.
 
 No MEG files found
-^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""
 
 - Check your ``project.name`` and ``root_env`` or ``root_override`` in the config.
 - Ensure `.con` files exist under `sub-*/meg/`.
 
 Count mismatch or sequence mismatch
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+"""""""""""""""""""""""""""""""""""
 
 - Inspect the per-run log for details.
   - Channels with mismatched counts are listed.
   - Sequence mismatches include both the CSV and detected sequences.
 
 Too few or too many pulses
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""""""
 
 - Adjust detection parameters (`mad_mult`, `absolute_floor`, `min_width_ms`).
 - Provide a cleaner baseline window (`baseline_s`) if the early segment is noisy.
 
 Windows console output
-^^^^^^^^^^^^^^^^^^^^^^^
+""""""""""""""""""""""
 
 - The script automatically switches to ASCII (“OK” / “FAIL”) if the console doesn’t support Unicode checkmarks.
 
+
 Summary
---------
+^^^^^^^
 
 This sanity check provides a **quantitative validation** that your MEG triggers and events tables are synchronized, consistent, and reliable.
 Always run it after dataset conversion to BIDS before proceeding to downstream MNE or FieldTrip analyses.
