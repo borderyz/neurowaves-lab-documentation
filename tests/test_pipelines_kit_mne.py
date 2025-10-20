@@ -62,6 +62,8 @@ def test_plot_triggers_runs_headless_without_gui(tmp_path, monkeypatch):
     # The script hardcodes:
     project_name = "script-testing-dataset"
 
+    monkeypatch.setenv("MPLBACKEND", "Agg")  # No GUI needed in the testing script
+
     # MEG_DATA root (provided by CI env; local users already have it)
     meg_data_root = os.getenv("MEG_DATA")
     assert meg_data_root, "MEG_DATA environment variable not set"

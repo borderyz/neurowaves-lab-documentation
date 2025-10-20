@@ -3,6 +3,7 @@
 
 import argparse
 import os
+import sys
 from pathlib import Path
 import json
 import yaml
@@ -10,10 +11,8 @@ import pandas as pd
 import numpy as np
 
 import mne
-from mne_bids import find_matching_paths, get_entity_vals, BIDSPath
+from mne_bids import find_matching_paths, get_entity_vals
 
-
-# Constants instance
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C
 
 
@@ -59,7 +58,7 @@ bids_root = str(root / project_name)
 print(f"Resolved BIDS root: {bids_root}")
 
 # -------------------------------
-# Subjects: empty include => ALL subjects in BIDS
+# Subjects: empty include => ALL
 # -------------------------------
 sub_cfg = CFG.get("subjects", {}) or {}
 include = sub_cfg.get("include") or []
@@ -97,8 +96,15 @@ def write_run_log(log_path: Path, text: str):
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_path.write_text(text, encoding="utf-8")
 
+def _glyph(ok: bool) -> str:
+    """Windows-safe status glyph."""
+    enc = (sys.stdout.encoding or "").lower()
+    if "utf" in enc:
+        return "✅" if ok else "❌"
+    return "OK" if ok else "FAIL"
+
 # -------------------------------
-# Pulse detector
+# Pulse detector (robust thresholds + metrics)
 # -------------------------------
 def detect_pulses_on_channel(
     raw, ch_name,
@@ -107,46 +113,100 @@ def detect_pulses_on_channel(
     hysteresis_frac=0.8,
     min_width_ms=3.0,
     min_distance_ms=6.0,
-    baseline_s=None
+    baseline_s=None,
+    baseline_q=0.7,      # use only lower tail (<= quantile) for baseline
+    min_baseline_n=256   # minimum samples required in baseline pool
 ):
+    """
+    Detect digital-like trigger pulses on a single MNE Raw channel using
+    trimmed (lower-tail) robust thresholding, hysteresis, and debouncing.
+
+    Returns:
+      pulses_idx (np.ndarray): start sample indices of accepted pulses.
+      thr_hi (float): high threshold.
+      thr_lo (float): low threshold (hysteresis).
+      pulse_metrics (list[dict]): one dict per pulse with:
+         - start (int): start sample
+         - end (int): end sample (first sample below thr_lo)
+         - width_samp (int)
+         - width_ms (float)
+         - amp_max (float): max |amplitude| within [start:end)
+         - amp_mean (float): mean |amplitude| within [start:end)
+    """
     sfreq = raw.info['sfreq']
-    min_width_samp = max(1, int(round((min_width_ms/1000.0)*sfreq)))
-    min_distance_samp = max(1, int(round((min_distance_ms/1000.0)*sfreq)))
+    min_width_samp = max(1, int(round((min_width_ms / 1000.0) * sfreq)))
+    min_distance_samp = max(1, int(round((min_distance_ms / 1000.0) * sfreq)))
 
     pick = mne.pick_channels(raw.ch_names, [ch_name])
+    if len(pick) == 0:
+        raise ValueError(f"Channel '{ch_name}' not found in raw.")
     x = raw.get_data(picks=pick, reject_by_annotation='omit')[0]
 
-    xb = x
+    # Threshold estimation segment
     if baseline_s is not None:
         start_s, stop_s = baseline_s
         start = max(0, int(round(start_s * sfreq)))
         stop  = min(len(x), int(round(stop_s * sfreq)))
         xb = x[start:stop] if stop > start else x
+    else:
+        xb = x
 
+    # Lower-tail robust baseline
     ax = np.abs(xb)
-    med = np.median(ax)
-    mad = np.median(np.abs(ax - med)) + 1e-12
+    if ax.size == 0:
+        raise RuntimeError("Empty data segment for threshold estimation.")
+    baseline_q = float(baseline_q)
+    baseline_q = 0.99 if baseline_q > 0.99 else (0.01 if baseline_q < 0.01 else baseline_q)
+    qv = np.quantile(ax, baseline_q)
+    pool = ax[ax <= qv]
+    if pool.size < min_baseline_n:
+        qv2 = np.quantile(ax, 0.9)
+        pool = ax[ax <= qv2]
+        if pool.size < min_baseline_n:
+            pool = ax  # last resort
+
+    med = np.median(pool)
+    mad = np.median(np.abs(pool - med)) + 1e-12
+
     thr_hi = max(absolute_floor, med + mad_mult * mad)
     thr_lo = hysteresis_frac * thr_hi
 
+    # Hysteretic detection + per-pulse metrics
     pulses = []
+    metrics = []
     i = 1
     n = x.size
     last_accept = -10**9
 
     while i < n:
-        if x[i-1] < thr_hi <= x[i]:
-            start = i
+        if x[i - 1] < thr_hi <= x[i]:
+            start_i = i
             while i < n and x[i] >= thr_lo:
                 i += 1
-            width = i - start
-            if width >= min_width_samp and (start - last_accept) >= min_distance_samp:
-                pulses.append(start)
-                last_accept = start
+            end_i = i  # first sample below thr_lo
+            width = end_i - start_i
+            if width >= min_width_samp and (start_i - last_accept) >= min_distance_samp:
+                pulses.append(start_i)
+                last_accept = start_i
+
+                seg = np.abs(x[start_i:end_i]) if end_i > start_i else np.empty(0, dtype=float)
+                amp_max = float(np.max(seg)) if seg.size else 0.0
+                amp_mean = float(np.mean(seg)) if seg.size else 0.0
+                width_ms = (width / sfreq) * 1000.0
+
+                metrics.append({
+                    "start": int(start_i),
+                    "end": int(end_i),
+                    "width_samp": int(width),
+                    "width_ms": float(width_ms),
+                    "amp_max": amp_max,
+                    "amp_mean": amp_mean,
+                })
         else:
             i += 1
 
-    return np.asarray(pulses, dtype=int), thr_hi, thr_lo
+    return np.asarray(pulses, dtype=int), float(thr_hi), float(thr_lo), metrics
+
 
 # -------------------------------
 # Pairing helpers
@@ -194,6 +254,7 @@ def resolve_events_json_with_inheritance(raw_match):
             return cands[0].fpath
     print(f"⚠️  No events JSON sidecar found (inheritance) for raw: {raw_match.fpath}")
     return None
+
 
 # -------------------------------
 # Main loop
@@ -258,14 +319,21 @@ for sub in subjects:
             if ch_mne not in RAW_DATA.ch_names:
                 print(f"Warning: {ch_mne} missing; skipping.")
                 continue
-            pulses, thr_hi, thr_lo = detect_pulses_on_channel(
+
+            pulses, thr_hi, thr_lo, metrics = detect_pulses_on_channel(
                 RAW_DATA, ch_mne, baseline_s=(0.0, 10.0)
             )
             threshold_log.append({"channel_mne": ch_mne, "thr_hi": thr_hi, "thr_lo": thr_lo, "n": len(pulses)})
-            for s in pulses:
+
+            for m in metrics:
                 detected_rows.append({
-                    "sample": s,
-                    "onset": s / sfreq,
+                    "sample": m["start"],
+                    "onset": m["start"] / sfreq,
+                    "end_sample": m["end"],
+                    "width_samp": m["width_samp"],
+                    "width_ms": m["width_ms"],
+                    "amp_max": m["amp_max"],
+                    "amp_mean": m["amp_mean"],
                     "channel_mne": ch_mne,
                     "channel": C.KIT_from_MNE[ch_mne],
                 })
@@ -280,14 +348,13 @@ for sub in subjects:
         # Reference events (CSV row order as time)
         # -----------------------------------------
         events_ref = events_data.copy()
-        # filter only KIT trigger channels; DO NOT compute/require 'sample'/'onset'; DO NOT sort
         events_ref = events_ref[events_ref["channel"].isin(C.trigger_channels_KIT)].copy()
         events_ref["channel_mne"] = events_ref["channel"].map(C.MNE_from_KIT)
 
         # -----------------------------
         # Compare
         # -----------------------------
-        # 1) Counts per channel (unchanged)
+        # 1) Counts per channel
         counts_ref = events_ref["channel"].value_counts().sort_index().reindex(C.trigger_channels_KIT, fill_value=0)
         counts_det = detected_df["channel"].value_counts().sort_index().reindex(C.trigger_channels_KIT, fill_value=0)
         counts_compare = pd.DataFrame({
@@ -297,29 +364,51 @@ for sub in subjects:
         print("\n=== Count comparison per KIT channel (224–231) ===")
         print(counts_compare)
 
-        # Build lists for correct/incorrect counts
-        correct_count_chs = counts_compare[counts_compare["diff"] == 0].index.tolist()
-        incorrect_count_df = counts_compare[counts_compare["diff"] != 0].copy()  # keep details for log
-
-        # 2) Sequence check:
-        # CSV row order (events_ref as-is) vs detected chronological order (detected_df sorted by sample)
-        seq_ref_row = events_ref["channel"].to_numpy()     # preserve CSV row order
+        # 2) Sequence check (CSV row order vs detected chronological)
+        seq_ref_row = events_ref["channel"].to_numpy()
         seq_det_time = detected_df.sort_values("sample")["channel"].to_numpy()
-
         row_order_ok = (len(seq_ref_row) == len(seq_det_time)) and np.array_equal(seq_ref_row, seq_det_time)
 
         print("\n=== Sequence check (CSV row order vs detected chronological) ===")
         print(f"CSV events:      {len(seq_ref_row)}")
         print(f"Detected events: {len(seq_det_time)}")
-        print("✅ Sequence matches exactly." if row_order_ok else "❌ Sequence mismatch (or different lengths).")
+        print(f"{_glyph(row_order_ok)} Sequence matches exactly." if row_order_ok
+              else f"{_glyph(False)} Sequence mismatch (or different lengths).")
 
         # Final PASS/FAIL: both counts and row-order sequence must match
         counts_ok = (counts_compare["diff"] == 0).all()
         pass_flag = counts_ok and row_order_ok
-        print(f"\n=== FINAL RESULT: {'PASS ✅' if pass_flag else 'FAIL ❌'} ===")
+        print(f"\n=== FINAL RESULT: {'PASS ' + _glyph(True) if pass_flag else 'FAIL ' + _glyph(False)} ===")
 
         # -----------------------------
-        # Build logfile text (with extra troubleshooting info on mismatches)
+        # Per-channel & overall pulse stats (amplitude/width)
+        # -----------------------------
+        if not detected_df.empty:
+            per_ch_stats = detected_df.groupby("channel").agg(
+                n_pulses=("sample", "count"),
+                amp_max_mean=("amp_max", "mean"),
+                amp_max_var=("amp_max", "var"),
+                amp_mean_mean=("amp_mean", "mean"),
+                amp_mean_var=("amp_mean", "var"),
+                width_ms_mean=("width_ms", "mean"),
+                width_ms_var=("width_ms", "var"),
+                width_ms_min=("width_ms", "min"),
+                width_ms_max=("width_ms", "max"),
+            ).reindex(C.trigger_channels_KIT, fill_value=0)
+            overall_stats = detected_df.agg({
+                "amp_max": ["mean", "var", "max"],
+                "amp_mean": ["mean", "var"],
+                "width_ms": ["mean", "var", "min", "max"],
+            })
+        else:
+            per_ch_stats = pd.DataFrame(columns=[
+                "n_pulses","amp_max_mean","amp_max_var","amp_mean_mean","amp_mean_var",
+                "width_ms_mean","width_ms_var","width_ms_min","width_ms_max"
+            ], index=C.trigger_channels_KIT)
+            overall_stats = None
+
+        # -----------------------------
+        # Build logfile text
         # -----------------------------
         sub_dir = DERIV_ROOT / f"sub-{sub}"
         if entities.get("session"):
@@ -327,7 +416,6 @@ for sub in subjects:
         sub_dir.mkdir(parents=True, exist_ok=True)
         log_file = sub_dir / f"{bids_name_from_entities(entities, 'desc-sanitycheck', '_log.txt')}"
 
-        # Always include core sections
         log_lines = [
             f"Raw: {raw_path}",
             f"Events: {events_table_path}",
@@ -340,8 +428,9 @@ for sub in subjects:
             counts_compare.to_string(),
         ]
 
-        # If counts mismatch, add which channels are correct vs incorrect (with details)
         if not counts_ok:
+            correct_count_chs = counts_compare[counts_compare["diff"] == 0].index.tolist()
+            incorrect_count_df = counts_compare[counts_compare["diff"] != 0].copy()
             log_lines += [
                 "",
                 "[Counts check details]",
@@ -359,10 +448,7 @@ for sub in subjects:
             "[Sequence check: CSV row order vs detected chronological]",
             f"match={row_order_ok} | CSV n={len(seq_ref_row)} | Detected n={len(seq_det_time)}",
         ]
-
-        # If sequence mismatch, dump both sequences to help troubleshooting
         if not row_order_ok:
-            # Represent sequences on one (wrapped) line each
             csv_seq_str = ", ".join(map(str, seq_ref_row.tolist()))
             det_seq_str = ", ".join(map(str, seq_det_time.tolist()))
             log_lines += [
@@ -372,13 +458,25 @@ for sub in subjects:
                 det_seq_str,
             ]
 
+        # Pulse stats
+        log_lines += [
+            "",
+            "[Pulse amplitude & width stats per KIT channel]",
+            per_ch_stats.round(6).to_string(),
+        ]
+        if overall_stats is not None:
+            log_lines += [
+                "",
+                "[Overall pulse stats (all trigger channels combined)]",
+                overall_stats.round(6).to_string(),
+            ]
+
         # Final flag
         log_lines += [
             "",
-            f"Final result: {'PASS ✅' if pass_flag else 'FAIL ❌'}"
+            f"Final result: {'PASS ' + _glyph(True) if pass_flag else 'FAIL ' + _glyph(False)}"
         ]
 
-        # Write logfile
         write_run_log(log_file, "\n".join(log_lines))
 
         # -----------------------------
