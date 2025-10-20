@@ -1,9 +1,11 @@
 import os
 
 import json
+from pathlib import Path
 
 from boxsdk import Client
 from boxsdk.auth.jwt_auth import JWTAuth
+
 
 def _has_local_dataset(p: Path) -> bool:
     return p.exists() and any(p.iterdir())
