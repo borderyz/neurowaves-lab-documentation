@@ -86,9 +86,9 @@ MEG-Laserscan files
 #. A `.fsn` filename that should be named ``sub-\[SUB_ID\]_acq-laserproject_headshape.fsn`` : This file is obtained by saving the whole fastscan laser project (File Save)
     * The `.fsn` file is stored under `sourcedata`
 
-#. Several .txt should be converted to .pos by just renaming the file extension
-    * ``sub-001_ses-01_acq-head_headshape.pos``  is the head scan of the participant
-    * ``sub-001_ses-01_acq-points_headshape.pos`` is the stylus points location file of the participant
+#. Two .txt files holding the head surface scan and stylus points should be named:
+    * ``sub-001_ses-01_acq-head_headshape.txt``  is the head scan of the participant
+    * ``sub-001_ses-01_acq-points_headshape.txt`` is the stylus points location file of the participant
         - all should be stored under `meg`
 
 
@@ -125,7 +125,7 @@ MEG-OPM files
 The OPM system generates a BIDS directory with the .fif files
 
 #. The generated .fif files are named:
-   * ``sub-[SUB_ID]_ses-[date]_meg_raw.fif``  where [data] is in the format `yyyy-mm-dd`
+   * ``sub-[SUB_ID]_ses-[SES_ID]_meg_raw.fif``
 
 
 Data uploading
