@@ -464,13 +464,14 @@ Perform the MEG Experiment (Participant is present)
         - Bring the forehead markers over the top of the head so the wires are not in the participant’s face
         - The position of the HPI coil on the participant's head should follow the following mapping:
 
-    .. figure:: figures/meg-operationprotocol/Colour_coded_marker_placement.png
+    .. figure:: figures/meg-operationprotocol/Marker-placement.png
         :alt: Colour coded marker placement
         :align: center
         :scale: 30%
 
         Position of Marker Coils also called Head Position Indicator (HPI) coils
 
+    - As a note, the red and yellow markers should be placed in anterior to the tragus at marked points 4 and 5
 
     - Place earphones
     - Assist the participant with the wires while they move into the helmet
