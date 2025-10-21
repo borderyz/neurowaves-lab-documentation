@@ -1,7 +1,6 @@
 
 # In OPM sensor space coordinates, the (0, 0, 0) correspond to the center of the helmet
 # (x, y, z)
-
 # The x-axis is right to left
 # The y-axis is anterior to posterior
 # the z-axis is superior to inferior
@@ -9,8 +8,6 @@
 # the y-axis increases from posterior to anterior
 # the z-axis increases from inferior to superior
 # therefore it is a RAS coordinate system
-
-
 
 import numpy as np
 import mne
