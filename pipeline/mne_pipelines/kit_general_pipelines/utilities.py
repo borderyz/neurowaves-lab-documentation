@@ -104,7 +104,7 @@ def _entities_exact_match(candidate, scope):
 
 
 def _first_matching_path_exact(
-    *, subjects, sessions, tasks, acquisitions, runs, extensions, datatypes
+    *, bids_root, subjects, sessions, tasks, acquisitions, runs, extensions, datatypes
 ):
     """
     Find the first file whose entities match the query *exactly*.
@@ -132,7 +132,7 @@ def _first_matching_path_exact(
             return cand.fpath
     return None
 
-def resolve_events_pair_with_joint_fallback(raw_match):
+def resolve_events_pair_with_joint_fallback(raw_match, bids_root):
     """
     Return (events_table_path, events_json_path, scope_dict) where table (.tsv/.csv)
     and JSON sidecar exist and share the SAME entity scope.
@@ -169,6 +169,7 @@ def resolve_events_pair_with_joint_fallback(raw_match):
 
         # Table
         tbl = _first_matching_path_exact(
+            bids_root=bids_root,
             subjects=scope["subject"],
             sessions=scope["session"],
             tasks=scope["task"],
@@ -189,6 +190,7 @@ def resolve_events_pair_with_joint_fallback(raw_match):
 
         # JSON
         js = _first_matching_path_exact(
+            bids_root=bids_root,
             subjects=scope["subject"],
             sessions=scope["session"],
             tasks=scope["task"],

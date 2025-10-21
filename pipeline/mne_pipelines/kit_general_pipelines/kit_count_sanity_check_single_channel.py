@@ -117,7 +117,7 @@ for sub in subjects:
         print(f"\n--- Processing: {raw_path}")
 
         # Resolve a PAIRED table+json with safe fallback
-        events_table_path, events_json_path, scope = resolve_events_pair_with_joint_fallback(raw_match)
+        events_table_path, events_json_path, scope = resolve_events_pair_with_joint_fallback(raw_match, bids_root)
 
         if not events_json_path:
             print(f"⚠️  No suitable events JSON (paired) for: {raw_path} — skipping.")
