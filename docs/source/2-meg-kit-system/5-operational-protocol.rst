@@ -471,6 +471,7 @@ Perform the MEG Experiment (Participant is present)
 
         Position of Marker Coils also called Head Position Indicator (HPI) coils
 
+    - As a note, the red and yellow markers should be placed in anterior to the tragus at marked points 4 and 5
 
     - Place earphones
     - Assist the participant with the wires while they move into the helmet
