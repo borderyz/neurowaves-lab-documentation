@@ -372,9 +372,9 @@ Perform the MEG Experiment (Participant is present)
 
             Fiducials numbered by the order they should be laser scanned with.
 
-        - Mark the left and right pre-auriculars (1cm anterior to the tragi) and the right and left tragi (2, 3, 4,and 5)
+        - Mark the the right and left tragi and left and right pre-auricular regions (1cm anterior to the tragi) - (points 2, 3, 4,and 5)
+        - Place a tissue on the neck brace over the area closest to the mouth for sanitary purposes - see picture
         - Put on the neck brace
-            - Place a tissue over the area closest to the mouth on the neck brace for sanitary purposes - see picture
 
         .. figure:: figures/meg-operationprotocol/neckbrace.png
             :alt: Neck brace with tissue for sanitary purposes
@@ -401,7 +401,7 @@ Perform the MEG Experiment (Participant is present)
                 :alt: Neck brace with tissue for sanitary purposes
                 :align: center
 
-                Neckbrace with laser scanner reference point on the bottom left
+                Neck brace with laser scanner reference point on the bottom left
 
             .. warning::
 
@@ -591,8 +591,7 @@ After the MEG session
             - Transfer both files to NYU BOX as detailed in the data uploading section.
     - FastScan Instructions
         - Open FastScanII software (icon on desktop)
-        - Open <projectname>_sub<subjectID>_sess<session_number>_<date in ddmmyyyy>_raw.fsn file previously generated (Desktop > FastScan Files)
-        - Click on ‘Select’ and start dragging your mouse over areas you want to delete
+        - Please refer to `Data Naming and Storing: MEG <https://neurowaves.readthedocs.io/en/latest/6-meg-data-gallery/2-datanaming-and-storing-meg.html>`_ dragging your mouse over areas you want to delete
         - To delete points you’ve selected, simply click on the backspace key on your keyboard
         - Then go to Edit > Generate Surface
             - Smoothing = 5mm
