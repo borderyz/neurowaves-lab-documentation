@@ -231,15 +231,16 @@ def _entities_exact_match(candidate, scope):
     return True
 
 
-def _first_matching_path_exact(*, subjects, sessions, tasks, acquisitions, runs, extensions):
+def _first_matching_path_exact(
+    *, subjects, sessions, tasks, acquisitions, runs, extensions, datatypes
+):
     """
     Find the first file whose entities match the query *exactly*.
-    Unlike passing None to find_matching_paths (which means 'no filtering'),
-    this enforces that missing entities remain missing.
+    If a scope key is None, the candidate must *not* have that entity.
     """
     cands = find_matching_paths(
         bids_root,
-        datatypes=C.DATATYPE,
+        datatypes=datatypes,
         subjects=subjects,
         sessions=sessions,
         tasks=tasks,
@@ -263,7 +264,23 @@ def _first_matching_path_exact(*, subjects, sessions, tasks, acquisitions, runs,
 
 
 
+
 def resolve_events_pair_with_joint_fallback(raw_match):
+    """
+    Return (events_table_path, events_json_path, scope_dict) where table (.tsv/.csv)
+    and JSON sidecar exist and share the SAME entity scope.
+
+    Fallback order (most specific → least), always keeping subject/session fixed until dataset root:
+      1) exact: subject[/session][task][run][acq]
+      2) subject[/session][task]         (drop run,acq)
+      3) subject[/session]               (drop task,run,acq)
+      4) dataset root                    (no subject/session/task/run/acq)
+
+    Rules:
+      - Never borrow files from another subject/session/task/run.
+      - Accept a level only if BOTH the table and JSON exist at that same level.
+      - Dataset-root files must have NO entities (apply to all data).
+    """
     e = raw_match.entities or {}
     subj = e.get("subject")
     sess = e.get("session")
@@ -271,34 +288,62 @@ def resolve_events_pair_with_joint_fallback(raw_match):
     run  = e.get("run")
     acq  = e.get("acquisition")
 
+    # Build candidate scopes (most specific → least)
     scopes = [
-        dict(subject=subj, session=sess, task=task, run=run, acquisition=acq),           # exact
-        dict(subject=subj, session=sess, task=task, run=None, acquisition=None),         # drop run/acq
-        dict(subject=subj, session=sess, task=None, run=None, acquisition=None),         # subject(/session) only
-        dict(subject=None, session=None, task=None, run=None, acquisition=None),         # dataset root
+        dict(subject=subj, session=sess, task=task, run=run, acquisition=acq),
+        dict(subject=subj, session=sess, task=task, run=None, acquisition=None),
+        dict(subject=subj, session=sess, task=None, run=None, acquisition=None),
+        dict(subject=None, session=None, task=None, run=None, acquisition=None),  # dataset root
     ]
 
     for scope in scopes:
+        at_root = all(scope.get(k) is None for k in ("subject","session","task","run","acquisition"))
+        dtype = None if at_root else C.DATATYPE  # search whole dataset at root
+
+        # Table
         tbl = _first_matching_path_exact(
-            subjects=scope["subject"], sessions=scope["session"],
-            tasks=scope["task"], acquisitions=scope["acquisition"],
-            runs=scope["run"], extensions=tuple(C.EVENTS_EXTENSIONS),
+            subjects=scope["subject"],
+            sessions=scope["session"],
+            tasks=scope["task"],
+            acquisitions=scope["acquisition"],
+            runs=scope["run"],
+            extensions=tuple(C.EVENTS_EXTENSIONS),
+            datatypes=dtype,
         )
+        if not tbl and at_root:
+            # Explicit root fallback: events.csv/tsv sitting at BIDS root
+            for ext in (".csv", ".tsv"):
+                cand = Path(bids_root) / f"events{ext}"
+                if cand.exists():
+                    tbl = str(cand)
+                    break
         if not tbl:
-            continue
+            continue  # need a PAIR at this scope
 
+        # JSON
         js = _first_matching_path_exact(
-            subjects=scope["subject"], sessions=scope["session"],
-            tasks=scope["task"], acquisitions=scope["acquisition"],
-            runs=scope["run"], extensions=tuple(C.METADATA_EXTENSIONS),
+            subjects=scope["subject"],
+            sessions=scope["session"],
+            tasks=scope["task"],
+            acquisitions=scope["acquisition"],
+            runs=scope["run"],
+            extensions=tuple(C.METADATA_EXTENSIONS),
+            datatypes=dtype,
         )
+        if not js and at_root:
+            cand = Path(bids_root) / "events.json"
+            if cand.exists():
+                js = str(cand)
         if not js:
-            # Require a *paired* JSON at the *same* scope
-            continue
+            continue  # require a PAIR at the same scope
 
+        # Pair found at the same scope
         return tbl, js, scope
 
+    # No paired files at any scope
     return None, None, None
+
+
 
 
 
@@ -479,7 +524,8 @@ for sub in subjects:
 
         log_lines = [
             f"Raw: {raw_path}",
-            f"Events: {events_table_path}",
+            f"Events CSV: {events_table_path}",
+            f"Events JSON: {events_json_path}",
             f"TriggerMode: {trigger_mode}",
             "",
             "[Thresholds per channel]",
