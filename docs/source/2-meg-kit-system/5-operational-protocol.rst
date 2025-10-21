@@ -464,7 +464,7 @@ Perform the MEG Experiment (Participant is present)
         - Bring the forehead markers over the top of the head so the wires are not in the participant’s face
         - The position of the HPI coil on the participant's head should follow the following mapping:
 
-    .. figure:: figures/meg-operationprotocol/Colour_coded_marker_placement.png
+    .. figure:: figures/meg-operationprotocol/Marker-placement.png
         :alt: Colour coded marker placement
         :align: center
         :scale: 30%
