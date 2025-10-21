@@ -105,7 +105,8 @@ for sub in subjects:
         print(f"\n--- Processing: {raw_path}")
 
         # Use the *paired* selection (JSON+table) from your sanity checker
-        tbl_path, json_path, scope = resolve_events_pair_with_joint_fallback(bids_root, raw_match)
+        tbl_path, json_path, scope = resolve_events_pair_with_joint_fallback(raw_match=raw_match,
+                                                                             bids_root=bids_root)
         if not (tbl_path and json_path):
             print(f"⚠️  Missing paired events files for {raw_path} — skipping.")
             continue
