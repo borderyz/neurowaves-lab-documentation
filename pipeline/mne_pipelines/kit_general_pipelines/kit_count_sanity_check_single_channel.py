@@ -211,49 +211,96 @@ def detect_pulses_on_channel(
 # -------------------------------
 # Pairing helpers
 # -------------------------------
-def resolve_events_table_for_raw(raw_match):
-    e = raw_match.entities
-    candidates = find_matching_paths(
+
+def _entities_exact_match(candidate, scope):
+    """
+    Return True iff the candidate's entities match the scope *exactly*:
+      - If scope[k] is None -> candidate must NOT have that entity.
+      - If scope[k] has a value -> candidate must have the same value.
+    """
+    ents = (getattr(candidate, "entities", None) or {})
+    for k in ("subject", "session", "task", "acquisition", "run"):
+        want = scope.get(k)
+        have = ents.get(k)
+        if want is None:
+            if have is not None:
+                return False
+        else:
+            if have != want:
+                return False
+    return True
+
+
+def _first_matching_path_exact(*, subjects, sessions, tasks, acquisitions, runs, extensions):
+    """
+    Find the first file whose entities match the query *exactly*.
+    Unlike passing None to find_matching_paths (which means 'no filtering'),
+    this enforces that missing entities remain missing.
+    """
+    cands = find_matching_paths(
         bids_root,
         datatypes=C.DATATYPE,
-        subjects=e.get("subject"),
-        sessions=e.get("session"),
-        tasks=e.get("task"),
-        runs=e.get("run"),
-        extensions=tuple(C.EVENTS_EXTENSIONS),
+        subjects=subjects,
+        sessions=sessions,
+        tasks=tasks,
+        acquisitions=acquisitions,
+        runs=runs,
+        extensions=extensions,
         suffixes="events",
     )
-    if candidates:
-        return candidates[0].fpath
-    print(f"⚠️  No events table for raw: {raw_match.fpath}")
+    if not cands:
+        return None
+
+    scope = dict(subject=subjects, session=sessions, task=tasks,
+                 acquisition=acquisitions, run=runs)
+
+    for cand in cands:
+        if _entities_exact_match(cand, scope):
+            return cand.fpath
     return None
 
-def resolve_events_json_with_inheritance(raw_match):
-    e = raw_match.entities
-    ladder = []
-    cur = {k: e.get(k) for k in ("subject", "session", "task", "acquisition", "run")}
-    ladder.append(dict(cur))
-    for drop in ("run", "acquisition", "task", "session"):
-        cur = dict(cur); cur[drop] = None
-        ladder.append(dict(cur))
-    ladder.append({"subject": e.get("subject"), "session": None, "task": None, "acquisition": None, "run": None})
 
-    for ent in ladder:
-        cands = find_matching_paths(
-            bids_root,
-            datatypes=C.DATATYPE,
-            subjects=ent["subject"],
-            sessions=ent["session"],
-            tasks=ent["task"],
-            acquisitions=ent["acquisition"],
-            runs=ent["run"],
-            extensions=tuple(C.METADATA_EXTENSIONS),
-            suffixes="events",
+
+
+
+def resolve_events_pair_with_joint_fallback(raw_match):
+    e = raw_match.entities or {}
+    subj = e.get("subject")
+    sess = e.get("session")
+    task = e.get("task")
+    run  = e.get("run")
+    acq  = e.get("acquisition")
+
+    scopes = [
+        dict(subject=subj, session=sess, task=task, run=run, acquisition=acq),           # exact
+        dict(subject=subj, session=sess, task=task, run=None, acquisition=None),         # drop run/acq
+        dict(subject=subj, session=sess, task=None, run=None, acquisition=None),         # subject(/session) only
+        dict(subject=None, session=None, task=None, run=None, acquisition=None),         # dataset root
+    ]
+
+    for scope in scopes:
+        tbl = _first_matching_path_exact(
+            subjects=scope["subject"], sessions=scope["session"],
+            tasks=scope["task"], acquisitions=scope["acquisition"],
+            runs=scope["run"], extensions=tuple(C.EVENTS_EXTENSIONS),
         )
-        if cands:
-            return cands[0].fpath
-    print(f"⚠️  No events JSON sidecar found (inheritance) for raw: {raw_match.fpath}")
-    return None
+        if not tbl:
+            continue
+
+        js = _first_matching_path_exact(
+            subjects=scope["subject"], sessions=scope["session"],
+            tasks=scope["task"], acquisitions=scope["acquisition"],
+            runs=scope["run"], extensions=tuple(C.METADATA_EXTENSIONS),
+        )
+        if not js:
+            # Require a *paired* JSON at the *same* scope
+            continue
+
+        return tbl, js, scope
+
+    return None, None, None
+
+
 
 
 # -------------------------------
@@ -284,24 +331,38 @@ for sub in subjects:
         raw_path = raw_match.fpath
         print(f"\n--- Processing: {raw_path}")
 
-        # Resolve sidecars
-        events_table_path = resolve_events_table_for_raw(raw_match)
-        events_json_path  = resolve_events_json_with_inheritance(raw_match)
+        # Resolve a PAIRED table+json with safe fallback
+        events_table_path, events_json_path, scope = resolve_events_pair_with_joint_fallback(raw_match)
 
-        # Get trigger mode
-        trigger_mode = None
-        if events_json_path and Path(events_json_path).exists():
-            with open(events_json_path, "r") as jf:
-                metadata_events = json.load(jf)
-            trigger_mode = str(metadata_events.get("TriggerMode", "")).lower().replace("-", " ").strip()
+        if not events_json_path:
+            print(f"⚠️  No suitable events JSON (paired) for: {raw_path} — skipping.")
+            summary_records.append({
+                "subject": sub, "file": raw_path, "pass": False,
+                "comments": "Missing/invalid events JSON (no paired scope)"
+            })
+            continue
 
-        if not trigger_mode or "single" not in trigger_mode:
-            print(f"ℹ️  TriggerMode='{trigger_mode}' → not single-channel; skipping run.")
+        if not events_table_path:
+            print(f"⚠️  Single-channel requires events table, but none found (paired) for: {raw_path}")
+            summary_records.append({
+                "subject": sub, "file": raw_path, "pass": False,
+                "comments": "Missing events table (no paired scope)"
+            })
+            continue
+
+        # Load TriggerMode from the EXACT SAME scope JSON
+        with open(events_json_path, "r") as jf:
+            metadata_events = json.load(jf)
+
+        trigger_mode = str(metadata_events.get("TriggerMode", "")).strip().lower().replace("-", "_").replace(" ", "_")
+        if trigger_mode != "single_channel":
+            print(f"ℹ️  TriggerMode='{trigger_mode}' → not single_channel; skipping run.")
             summary_records.append({
                 "subject": sub, "file": raw_path, "pass": False,
                 "comments": f"Skipped (TriggerMode={trigger_mode})"
             })
             continue
+
 
         print("Sanity check of data with single-channel trigger.")
 

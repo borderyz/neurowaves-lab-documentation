@@ -9,14 +9,7 @@ import pyvista as pv
 # Load the raw data
 raw = mne.io.read_raw_fif(PATH_FILE, preload=False)
 
-# Plot the sensors and retrieve the Matplotlib figure
-# Set show_names=False to prevent default labeling
-# fig = mne.viz.plot_sensors(raw.info, kind='3d', show_names=False, show=False)
-#
-# # Get the current 3D Axes from the figure
-# ax = fig.gca()
-#
-# plt.show()
+
 
 fig = mne.viz.plot_alignment(raw.info,
                              meg=["helmet", "sensors"],
@@ -25,6 +18,3 @@ fig = mne.viz.plot_alignment(raw.info,
 
 app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
 app.exec_()
-
-
-#fig.plotter.show()
