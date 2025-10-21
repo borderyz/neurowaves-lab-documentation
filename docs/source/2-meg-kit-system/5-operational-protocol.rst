@@ -591,7 +591,7 @@ After the MEG session
             - Transfer both files to NYU BOX as detailed in the data uploading section.
     - FastScan Instructions
         - Open FastScanII software (icon on desktop)
-        - Please refer to `Data Naming and Storing: MEG <https://neurowaves.readthedocs.io/en/latest/6-meg-data-gallery/2-datanaming-and-storing-meg.html>`_ dragging your mouse over areas you want to delete
+        - Please refer to `MEG-Laserscan files <https://neurowaves.readthedocs.io/en/latest/5-meg-data-gallery/2-datastorage.html#meg-laserscan-files>`_
         - To delete points you’ve selected, simply click on the backspace key on your keyboard
         - Then go to Edit > Generate Surface
             - Smoothing = 5mm
@@ -622,25 +622,25 @@ Appendix. A: Stylus location and markers
 
 The following table is a summary of the position of each registered stylus location and whether or not a KIT coil will be placed on that position.
 
-+-------+-----------------+--------------------------------------+
-| Index | Body Part       | Marker Coil Information              |
-+=======+=================+======================================+
-| 1     | Nasion          | KIT: NO, OPM:                        |
-+-------+-----------------+--------------------------------------+
-| 2     | Left Tragus     | KIT: NO, OPM:                        |
-+-------+-----------------+--------------------------------------+
-| 3     | Right Tragus    | KIT: NO, OPM:                        |
-+-------+-----------------+--------------------------------------+
-| 4     | Left Ear        | KIT: YES, OPM:                       |
-+-------+-----------------+--------------------------------------+
-| 5     | Right Ear       | KIT: YES, OPM:                       |
-+-------+-----------------+--------------------------------------+
-| 6     | Center Forehead | KIT: YES, OPM:                       |
-+-------+-----------------+--------------------------------------+
-| 7     | Left Forehead   | KIT: YES, OPM:                       |
-+-------+-----------------+--------------------------------------+
-| 8     | Right Forehead  | KIT: YES, OPM:                       |
-+-------+-----------------+--------------------------------------+
++-------+---------------------+--------------------------------------+
+| Index | Body Part           | Marker Coil Information              |
++=======+=====================+======================================+
+| 1     | Nasion              | KIT: NO, OPM:                        |
++-------+---------------------+--------------------------------------+
+| 2     | Left Tragus         | KIT: NO, OPM:                        |
++-------+---------------------+--------------------------------------+
+| 3     | Right Tragus        | KIT: NO, OPM:                        |
++-------+---------------------+--------------------------------------+
+| 4     | Left Pre-Auricular  | KIT: YES, OPM:                       |
++-------+---------------------+--------------------------------------+
+| 5     | Right Pre-Auricular | KIT: YES, OPM:                       |
++-------+---------------------+--------------------------------------+
+| 6     | Center Forehead     | KIT: YES, OPM:                       |
++-------+---------------------+--------------------------------------+
+| 7     | Left Forehead       | KIT: YES, OPM:                       |
++-------+---------------------+--------------------------------------+
+| 8     | Right Forehead      | KIT: YES, OPM:                       |
++-------+---------------------+--------------------------------------+
 
 
 Appendix. B: Marker coils for KIT order of appearence in .mrk
@@ -657,9 +657,9 @@ This has been tested with many `.mrk` files in the current pluggin setting (last
 +======================+=============================+=======+=====================+
 | 1                    | Central Forehead (CF)       | Blue  | 2                   |
 +----------------------+-----------------------------+-------+---------------------+
-| 2                    | Left Ear (LE)               | Red   | 0                   |
+| 2                    | Left Pre-Auricular (LE)     | Red   | 0                   |
 +----------------------+-----------------------------+-------+---------------------+
-| 3                    | Right Ear (RE)              | Yellow| 1                   |
+| 3                    | Right Pre-Auricular (RE)    | Yellow| 1                   |
 +----------------------+-----------------------------+-------+---------------------+
 | 4                    | Left Forehead (LF)          | White | 3                   |
 +----------------------+-----------------------------+-------+---------------------+
