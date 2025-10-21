@@ -3,7 +3,7 @@
 
 import argparse
 import os
-import sys
+
 from pathlib import Path
 import json
 import yaml
@@ -13,7 +13,7 @@ import numpy as np
 import mne
 from mne_bids import find_matching_paths, get_entity_vals
 
-from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C, detect_pulses_on_channel
+from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C, detect_pulses_on_channel, resolve_events_pair_with_joint_fallback, _glyph, bids_name_from_entities, write_run_log
 
 
 # -------------------------------
@@ -81,37 +81,6 @@ runs     = sel.get("runs") or None
 # -------------------------------
 DERIV_ROOT = Path(bids_root) / "derivatives" / "sanity_check"
 DERIV_ROOT.mkdir(parents=True, exist_ok=True)
-
-def bids_name_from_entities(entities: dict, suffix: str, ext: str = "") -> str:
-    parts = []
-    if entities.get("subject"): parts.append(f"sub-{entities['subject']}")
-    if entities.get("session"): parts.append(f"ses-{entities['session']}")
-    if entities.get("task"): parts.append(f"task-{entities['task']}")
-    if entities.get("run"): parts.append(f"run-{entities['run']}")
-    if suffix: parts.append(suffix)
-    name = "_".join(parts)
-    return name + ext
-
-def write_run_log(log_path: Path, text: str):
-    log_path.parent.mkdir(parents=True, exist_ok=True)
-    log_path.write_text(text, encoding="utf-8")
-
-def _glyph(ok: bool) -> str:
-    """Windows-safe status glyph."""
-    enc = (sys.stdout.encoding or "").lower()
-    if "utf" in enc:
-        return "✅" if ok else "❌"
-    return "OK" if ok else "FAIL"
-
-
-
-
-
-
-
-
-
-
 
 
 

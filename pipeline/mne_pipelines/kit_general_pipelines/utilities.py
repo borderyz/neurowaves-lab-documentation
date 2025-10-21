@@ -1,8 +1,14 @@
-import mne
-import numpy as np
+import sys
 
+from pathlib import Path
 from dataclasses import dataclass, field, asdict
 from typing import List, Dict
+
+import mne
+from mne_bids import find_matching_paths
+import numpy as np
+
+
 
 @dataclass(frozen=True)
 class _NYUADKitConstants:
@@ -51,6 +57,28 @@ class _NYUADKitConstants:
 # Single, shared instance to import elsewhere
 NYUAD_KIT_CONSTANTS = _NYUADKitConstants()
 
+
+
+def bids_name_from_entities(entities: dict, suffix: str, ext: str = "") -> str:
+    parts = []
+    if entities.get("subject"): parts.append(f"sub-{entities['subject']}")
+    if entities.get("session"): parts.append(f"ses-{entities['session']}")
+    if entities.get("task"): parts.append(f"task-{entities['task']}")
+    if entities.get("run"): parts.append(f"run-{entities['run']}")
+    if suffix: parts.append(suffix)
+    name = "_".join(parts)
+    return name + ext
+
+def write_run_log(log_path: Path, text: str):
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text(text, encoding="utf-8")
+
+def _glyph(ok: bool) -> str:
+    """Windows-safe status glyph."""
+    enc = (sys.stdout.encoding or "").lower()
+    if "utf" in enc:
+        return "✅" if ok else "❌"
+    return "OK" if ok else "FAIL"
 
 # -------------------------------
 # Pairing helpers
@@ -137,7 +165,7 @@ def resolve_events_pair_with_joint_fallback(raw_match):
 
     for scope in scopes:
         at_root = all(scope.get(k) is None for k in ("subject","session","task","run","acquisition"))
-        dtype = None if at_root else C.DATATYPE  # search whole dataset at root
+        dtype = None if at_root else NYUAD_KIT_CONSTANTS.DATATYPE  # search whole dataset at root
 
         # Table
         tbl = _first_matching_path_exact(
@@ -146,7 +174,7 @@ def resolve_events_pair_with_joint_fallback(raw_match):
             tasks=scope["task"],
             acquisitions=scope["acquisition"],
             runs=scope["run"],
-            extensions=tuple(C.EVENTS_EXTENSIONS),
+            extensions=tuple(NYUAD_KIT_CONSTANTS.EVENTS_EXTENSIONS),
             datatypes=dtype,
         )
         if not tbl and at_root:
@@ -166,7 +194,7 @@ def resolve_events_pair_with_joint_fallback(raw_match):
             tasks=scope["task"],
             acquisitions=scope["acquisition"],
             runs=scope["run"],
-            extensions=tuple(C.METADATA_EXTENSIONS),
+            extensions=tuple(NYUAD_KIT_CONSTANTS.METADATA_EXTENSIONS),
             datatypes=dtype,
         )
         if not js and at_root:
