@@ -13,7 +13,13 @@ import numpy as np
 import mne
 from mne_bids import find_matching_paths, get_entity_vals
 
-from pipeline.mne_pipelines.kit_general_pipelines.utilities import NYUAD_KIT_CONSTANTS as C, detect_pulses_on_channel, resolve_events_pair_with_joint_fallback, _glyph, bids_name_from_entities, write_run_log
+from pipeline.mne_pipelines.kit_general_pipelines.utilities import (
+    NYUAD_KIT_CONSTANTS as C,
+    detect_pulses_on_channel,
+    resolve_events_pair_with_joint_fallback,
+    _glyph,
+    bids_name_from_entities,
+    write_run_log )
 
 
 # -------------------------------
