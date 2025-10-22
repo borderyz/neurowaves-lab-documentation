@@ -18,3 +18,5 @@ bids_selection:
   sessions: []    # e.g., ["01", "02"]
   tasks: []       # e.g., ["language"]
   runs: []        # e.g., [1, 2]
+  splits: []         # e.g., ["01","02"] to constrain splits
+  processings: []
