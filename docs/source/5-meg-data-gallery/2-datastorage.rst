@@ -98,12 +98,14 @@ MEG-KIT files
 Depending on the experiment, many .con files can be produced by the KIT machine.
 
 #. .con files are named:
-    * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_meg.con``
+    * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_meg_split-[SPLIT_INDEX].con``
     * example: `sub-001_ses-01_task-audiovisualmotor_run-03_meg.con`
     * if you applied the `CALM` filtering or other kind of pre-processing to your con file then:
         * sub-[SUB_ID]_task-[TASK_NAME]_proc-CALMnoisereduction_meg.con or replace the `proc` value with the name of your filter
         * Example: ``sub-001_task-attention_proc-CALMnoisereduction_meg.con``
+    * the `split` label indicates when a scan is too long and has multiple acquisition files, use this label to indicate the order of the scan
     * all `.con` files should be stored under `meg`
+
 
 #. .mrk files are named:
     * ``sub-[SUB_ID]_ses-[SES_ID]_task-rest_acq-[MARKER_ORDER_NUMBER]_space-ALS_markers.mrk`` where:

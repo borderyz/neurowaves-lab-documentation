@@ -1,4 +1,4 @@
-name: Automated Testing (MNE 1.10 on all OS)
+name: Automated Testing for NYUAD Pipelines
 
 on:
   push:
