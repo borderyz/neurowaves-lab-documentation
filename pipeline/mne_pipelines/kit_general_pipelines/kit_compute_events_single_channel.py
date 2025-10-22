@@ -156,23 +156,84 @@ for sub in subjects:
 
         events = np.asarray(sorted(events_list, key=lambda r: r[0]), dtype=int)
 
+
+        # --- Build a fully disambiguating entity set for the output basename
+        out_entities = {k: v for k, v in (entities or {}).items() if v}
+
+        def set_if(val, key):
+            if val not in (None, "", "n/a"):
+                out_entities[key] = val
+
+        # Normalize BIDSPath attrs into canonical BIDS entity keys
+        set_if(getattr(raw_match, "task", None),        "task")
+        set_if(getattr(raw_match, "run", None),         "run")
+        set_if(getattr(raw_match, "acquisition", None), "acq")    # acq-*
+        set_if(getattr(raw_match, "processing", None),  "proc")   # proc-*
+        set_if(getattr(raw_match, "split", None),       "split")  # split-*
+        set_if(getattr(raw_match, "recording", None),   "rec")    # rec-*
+        # Prefer "proc" over "processing" if both exist to avoid duplicates
+        if "processing" in out_entities and "proc" in out_entities:
+            out_entities.pop("processing", None)
+
+        # --- Debug: show how we got here
+        print("[DEBUG] raw_match.fpath:", raw_path)
+        print("[DEBUG] raw_match fields:",
+              "task=", getattr(raw_match, "task", None),
+              "run=", getattr(raw_match, "run", None),
+              "acq=", getattr(raw_match, "acquisition", None),
+              "proc=", getattr(raw_match, "processing", None),
+              "rec=", getattr(raw_match, "recording", None),
+              "split=", getattr(raw_match, "split", None))
+        print("[DEBUG] entities (original):", entities)
+        print("[DEBUG] out_entities (used for naming):", out_entities)
+
+        # --- Build basename manually (don’t rely on bids_name_from_entities)
+        key_order = ["subject", "session", "task", "acq", "run", "proc", "rec", "split"]
+        prefix = {
+            "subject": "sub",
+            "session": "ses",
+            "task": "task",
+            "acq": "acq",
+            "run": "run",
+            "proc": "proc",
+            "rec": "rec",
+            "split": "split",
+        }
+        parts = []
+        for k in key_order:
+            v = out_entities.get(k, None)
+            if v not in (None, "", "n/a"):
+                parts.append(f"{prefix[k]}-{v}")
+
+        # Add desc + “events” tag to the basename (mirrors prior behavior)
+        parts.append(f"desc-{args.desc}_events")
+        base = "_".join(parts)
+
         # Output paths (BIDS-ish names in derivatives)
         out_dir = DERIV_ROOT / (f"sub-{entities.get('subject')}" if entities.get("subject") else "")
         if entities.get("session"):
             out_dir = out_dir / f"ses-{entities['session']}"
         out_dir.mkdir(parents=True, exist_ok=True)
 
-        base = bids_name_from_entities(entities, f"desc-{args.desc}_events")
         eve_path = out_dir / (base + ".eve")        # text events file
-        tsv_path = out_dir / (base + "_detail.tsv") # optional richer table for audit
+        tsv_path = out_dir / (base + "_detail.tsv") # optional richer table
+        print("[DEBUG] output base:", base)
+        print("[DEBUG] will write:", "eve=", eve_path, "tsv=", tsv_path)
+
+        # Optional guard so re-runs don’t crash if you didn’t pass --overwrite
+        if eve_path.exists() and not args.overwrite:
+            print(f"⚠️  {eve_path.name} already exists — skipping (use --overwrite to replace).")
+            continue
 
         # 1) Write the canonical MNE events file
         mne.write_events(str(eve_path), events, overwrite=args.overwrite)
         print(f"Wrote MNE events: {eve_path} (n={len(events)})")
 
-        # 2) (Optional) Rich TSV for auditability
+        # 2) Rich TSV for auditability
         pd.DataFrame(detail_rows).sort_values("sample").to_csv(tsv_path, sep="\t", index=False)
         print(f"Wrote detail TSV: {tsv_path}")
+
+
 
         index_rows.append({
             "subject": entities.get("subject"),

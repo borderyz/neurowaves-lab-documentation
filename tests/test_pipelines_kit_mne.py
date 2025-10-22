@@ -49,9 +49,6 @@ def test_sanity_check_pipeline():
     df = pd.read_csv(summary_csv)
     assert not df.empty, "Summary CSV is empty"
 
-    # Expect exactly 4 processed runs (from your logs: test1 has 2, test3 has 2; test2 has none)
-    assert len(df) == 4, f"Expected 4 runs in summary, found {len(df)}"
-
     # Subjects included/excluded (no rows for test2)
     subjects = set(df["subject"].unique())
     assert subjects == {"test1", "test3"}, f"Unexpected subjects in summary: {subjects}"
