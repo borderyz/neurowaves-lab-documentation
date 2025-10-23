@@ -8,18 +8,22 @@
 #       group i → [mrk[i], mrk[i+1]] if available, else [mrk[i]]
 #   - Never reuse a “way-before” MRK for later groups
 #
-# Robustness & dataset contracts:
+# Dataset contracts & robustness:
 #   - HSP/ELP do NOT have task in name → never filter by task/run; use per-session if present else subject-level
 #   - Apply the same HSP/ELP to all .con in that subject/session
-#   - MRK files are always sub-*_ses-*_task-rest_acq-*_space-ALS_markers.mrk
-#     → don't filter MRK by task/run (only subject [+ session] and extension)
-#   - Handles missing run/split (treated as 0 for ordering), short MRK lists, etc.
-#   - YAML uses [] by default; [] / "" / {} / None → treated as not specified
+#   - MRK filenames: sub-*_ses-*_task-rest_acq-*_space-ALS_markers.mrk → do not filter by task/run
+#   - Handles missing run/split (treated as 0), short MRK lists (groups without MRKs are skipped), [] selections in YAML
+#
+# Logging:
+#   - Root CSV: <BIDS_ROOT>/derivatives/kit2fiff/kit2fiff_summary.csv
+#   - Per-subject log (append): <BIDS_ROOT>/derivatives/kit2fiff/sub-<ID>/kit2fiff_log.txt
+#   - Each generated .fif row includes: subject/session/run/split, .con, MRK(s), HSP, ELP(edited), output .fif, status
 
 import argparse
 import os
 from pathlib import Path
 from collections import defaultdict
+from datetime import datetime
 import yaml
 import pandas as pd
 import mne
@@ -28,6 +32,7 @@ from mne_bids import find_matching_paths, get_entity_vals
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import (
     NYUAD_KIT_CONSTANTS as C,
     bids_name_from_entities,
+    build_fif_output_name_from_entities
 )
 
 DESC_TAG = "rawkit"  # desc-rawkit in output filenames
@@ -170,6 +175,17 @@ def resolve_hsp_elp_for_scope(bids_root: str, sub: str, ses: str | None):
     return Path(head_matches[0].fpath), Path(points_matches[0].fpath)
 
 
+def _ts():
+    return datetime.now().isoformat(timespec="seconds")
+
+
+def _append_subject_log(sub_log_path: Path, lines: list[str]):
+    sub_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(sub_log_path, "a", encoding="utf-8") as f:
+        for ln in lines:
+            f.write(ln.rstrip() + "\n")
+
+
 # -------------------------------
 # Main
 # -------------------------------
@@ -231,6 +247,9 @@ def main():
     DERIV_ROOT = Path(bids_root) / "derivatives" / "kit2fiff"
     DERIV_ROOT.mkdir(parents=True, exist_ok=True)
 
+    # Root summary collection
+    summary_rows = []
+
     # Cache: edited points per (subject, session, original points path)
     edited_points_cache = {}
 
@@ -271,9 +290,10 @@ def main():
         # Pair MRKs per run-group; order .con by run->split
         groups, per_group_mrks = pair_mrks_to_con_groups(raw_matches, mrk_matches)
 
-        # Subject-level derivatives root
+        # Subject-level derivatives root and subject logfile
         sub_deriv_root = DERIV_ROOT / f"sub-{sub}"
         sub_deriv_root.mkdir(parents=True, exist_ok=True)
+        sub_log = sub_deriv_root / "kit2fiff_log.txt"
 
         for (run_key, con_list), mrk_for_group in zip(groups, per_group_mrks):
             if not mrk_for_group:
@@ -311,29 +331,76 @@ def main():
                         print(f"⚠️  Failed to create edited points for {con_file}: {e}")
                         continue
 
-                print("\n--- Converting ---")
-                print(f"CON: {con_file}")
-                print(f"HSP: {hsp_path}")
-                print(f"ELP: {edited_points_path}")
-                print(f"MRK: {mrk_for_group}")
+                # Convert
+                status = "success"
+                err_msg = ""
+                out_path = None
+                try:
+                    print("\n--- Converting ---")
+                    print(f"CON: {con_file}")
+                    print(f"HSP: {hsp_path}")
+                    print(f"ELP: {edited_points_path}")
+                    print(f"MRK: {mrk_for_group}")
 
-                raw = mne.io.read_raw_kit(
-                    input_fname=str(con_file),
-                    mrk=[str(p) for p in mrk_for_group],
-                    elp=str(edited_points_path),
-                    hsp=str(hsp_path),
-                    preload=False,
-                    verbose=False,
-                )
+                    raw = mne.io.read_raw_kit(
+                        input_fname=str(con_file),
+                        mrk=[str(p) for p in mrk_for_group],
+                        elp=str(edited_points_path),
+                        hsp=str(hsp_path),
+                        preload=False,
+                        verbose=False,
+                    )
 
-                # Name includes run/split if present; desc fixed to DESC_TAG
-                out_name = bids_name_from_entities(entities, f"desc-{DESC_TAG}", "_meg_raw.fif")
-                out_path = run_deriv / out_name
-                raw.save(str(out_path), overwrite=True)
-                raw.close()
-                print(f"✓ Saved FIFF: {out_path}")
+                    out_name = build_fif_output_name_from_entities(entities, DESC_TAG)
+                    out_path = run_deriv / out_name
+                    raw.save(str(out_path), overwrite=True)
+                    raw.close()
+                    print(f"✓ Saved FIFF: {out_path}")
+                except Exception as e:
+                    status = "error"
+                    err_msg = str(e)
+                    print(f"✗ Error writing FIFF for {con_file}: {e}")
 
-    print("\nDone.")
+                # Log row (root summary)
+                row = {
+                    "timestamp": _ts(),
+                    "subject": f"{sub}",
+                    "session": f"{entities.get('session')}" if entities.get("session") else "",
+                    "run": _safe_int(entities.get("run"), 0),
+                    "split": _safe_int(entities.get("split"), 0),
+                    "con_path": str(con_file),
+                    "mrk_paths": ";".join(str(p) for p in mrk_for_group),
+                    "hsp_path": str(hsp_path),
+                    "elp_points_edited": str(edited_points_path),
+                    "fif_out": str(out_path) if out_path else "",
+                    "status": status,
+                    "error": err_msg,
+                }
+                summary_rows.append(row)
+
+                # Subject logfile (append minimal info)
+                log_lines = [
+                    f"[{row['timestamp']}] subject={row['subject']} session={row['session']} run={row['run']} split={row['split']}",
+                    f"  CON : {row['con_path']}",
+                    f"  MRK : {row['mrk_paths']}",
+                    f"  HSP : {row['hsp_path']}",
+                    f"  ELP*: {row['elp_points_edited']}  (*edited points)",
+                    f"  OUT : {row['fif_out']}",
+                    f"  STATUS: {row['status']}{'  ERR: ' + row['error'] if row['error'] else ''}",
+                    "",
+                ]
+                _append_subject_log(sub_log, log_lines)
+
+    # Write root-level summary CSV
+    summary_csv = DERIV_ROOT / "kit2fiff_summary.csv"
+    if summary_rows:
+        df = pd.DataFrame(summary_rows)
+        df.to_csv(summary_csv, index=False)
+        print(f"\nWrote summary table: {summary_csv}")
+    else:
+        print("\nNo FIFF files written; summary not created (no rows).")
+
+    print("Done.")
 
 
 if __name__ == "__main__":
