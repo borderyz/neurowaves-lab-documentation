@@ -5,10 +5,13 @@ Pipelines Overview
 Different pipelines can be built using the available software at NYUAD MEG Lab tailored to best answer your research questions.
 
 
-.. note:: Problem setting up your ethernet connection
+.. important:: Pipelines provided for use knowing that bugs could exist
 
-    Network setting up: To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
-    Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
+    Provided pipelines by the MEG lab can never be tested for all situations and cases, therefore it is for the project owner's responsability to check
+    whether or not the output of any used pipeline is correct.
+    The pipelines users should signal any suspiscious output, or suggestion about test cases to make the test benchmarks more robust by raising an issue on the repository.
+
+
 
 
 Software stack and installation

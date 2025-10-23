@@ -1,23 +1,29 @@
 # kit2fiff_from_config.py
 # Convert KIT .con to .fif using a YAML config (generic across datasets).
-# Output root is always: <BIDS_ROOT>/derivatives/kit2fiff/
+# Output root: <BIDS_ROOT>/derivatives/kit2fiff/
+#
 # Ordering & pairing:
 #   - .con grouped by run (if present), ordered by split (if present)
 #   - .mrk ordered by acquisition (acq-XX) and paired per run-group:
 #       group i → [mrk[i], mrk[i+1]] if available, else [mrk[i]]
 #   - Never reuse a “way-before” MRK for later groups
 #
-# Robustness notes:
-#   - Handles missing run and/or split (treated as 0 for ordering)
-#   - Handles missing/short MRK lists (skips groups without MRKs)
-#   - Session-aware HSP/ELP selection (per .con); falls back to subject-level if needed
-#   - Edits (drops last 3 cols) and caches ELP “_edited.txt” per (sub, ses, source)
-#   - YAML uses [] by default; [] / "" / {} / None → treated as not specified
+# Dataset contracts & robustness:
+#   - HSP/ELP do NOT have task in name → never filter by task/run; use per-session if present else subject-level
+#   - Apply the same HSP/ELP to all .con in that subject/session
+#   - MRK filenames: sub-*_ses-*_task-rest_acq-*_space-ALS_markers.mrk → do not filter by task/run
+#   - Handles missing run/split (treated as 0), short MRK lists (groups without MRKs are skipped), [] selections in YAML
+#
+# Logging:
+#   - Root CSV: <BIDS_ROOT>/derivatives/kit2fiff/kit2fiff_summary.csv
+#   - Per-subject log (append): <BIDS_ROOT>/derivatives/kit2fiff/sub-<ID>/kit2fiff_log.txt
+#   - Each generated .fif row includes: subject/session/run/split, .con, MRK(s), HSP, ELP(edited), output .fif, status
 
 import argparse
 import os
 from pathlib import Path
 from collections import defaultdict
+from datetime import datetime
 import yaml
 import pandas as pd
 import mne
@@ -26,6 +32,7 @@ from mne_bids import find_matching_paths, get_entity_vals
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import (
     NYUAD_KIT_CONSTANTS as C,
     bids_name_from_entities,
+    build_fif_output_name_from_entities
 )
 
 DESC_TAG = "rawkit"  # desc-rawkit in output filenames
@@ -59,7 +66,7 @@ def _group_cons_by_run_then_split(con_matches):
     """
     Group CON matches into ordered groups for MRK pairing.
     Primary key: run (numeric). Within each run, order by split (numeric).
-    If run is missing on all, collapse everything into run=0; still order by split (0 if missing).
+    If run is missing on all, collapse everything into run=0; split missing -> 0.
     Returns: list of (run_number, [con_matches_sorted_by_split]).
     """
     any_run = any(m.entities.get("run") is not None for m in con_matches)
@@ -113,38 +120,25 @@ def write_edited_points(points_path: Path, out_dir: Path) -> Path:
 
     # Use whitespace sep; skip a typical 3-line header if present
     df = pd.read_csv(points_path, sep=r"\s+", skiprows=3, header=None, engine="python")
-    # Safeguard: only drop if >= 6 cols
-    if df.shape[1] >= 6:
+    if df.shape[1] >= 6:  # only drop if we actually have those columns
         df = df.drop(df.columns[[3, 4, 5]], axis=1)
     df.to_csv(out_path, sep=" ", index=False, header=False)
     return out_path
 
 
-def resolve_hsp_elp_for_entities(
-    bids_root: str,
-    sub: str,
-    entities: dict,
-    sessions=None,
-    tasks=None,
-    runs=None,
-):
+def resolve_hsp_elp_for_scope(bids_root: str, sub: str, ses: str | None):
     """
-    Find HSP (headshape) and ELP (digitizer points) for the given file's entities, preferring same session.
-    Fallback order:
-      1) match subject + this session (if present)
-      2) match subject (no session constraint)
-    Returns: (hsp_path: Path, points_path: Path) or (None, None) if not found
+    Return (hsp_path, points_path) for (subject, [optional session]).
+    IMPORTANT: We NEVER filter HSP/ELP by task/run. We:
+      1) Try subject + this session (if ses provided),
+      2) Else fallback to subject-level.
     """
-    ses = entities.get("session")
-
-    # First try session-specific
+    # Try session-specific first (no task/run filtering!)
     head_matches = find_matching_paths(
         bids_root,
         datatypes=C.DATATYPE,
         subjects=sub,
-        sessions=[ses] if ses else sessions,
-        tasks=tasks,
-        runs=runs,
+        sessions=[ses] if ses else None,
         acquisitions=C.ACQ_LABEL_DIGITIZER_HEAD,
         extensions=tuple(C.HEADSHAPE_EXTENSIONS),
     )
@@ -152,23 +146,22 @@ def resolve_hsp_elp_for_entities(
         bids_root,
         datatypes=C.DATATYPE,
         subjects=sub,
-        sessions=[ses] if ses else sessions,
-        tasks=tasks,
-        runs=runs,
+        sessions=[ses] if ses else None,
         acquisitions=C.ACQ_LABEL_DIGITIZER_POINTS,
         extensions=tuple(C.HEADSHAPE_EXTENSIONS),
     )
 
-    if not head_matches or not points_matches:
-        # Fallback: subject-level search without session filter
-        head_matches = head_matches or find_matching_paths(
+    # Fallback to subject-level if needed
+    if not head_matches:
+        head_matches = find_matching_paths(
             bids_root,
             datatypes=C.DATATYPE,
             subjects=sub,
             acquisitions=C.ACQ_LABEL_DIGITIZER_HEAD,
             extensions=tuple(C.HEADSHAPE_EXTENSIONS),
         )
-        points_matches = points_matches or find_matching_paths(
+    if not points_matches:
+        points_matches = find_matching_paths(
             bids_root,
             datatypes=C.DATATYPE,
             subjects=sub,
@@ -180,6 +173,17 @@ def resolve_hsp_elp_for_entities(
         return None, None
 
     return Path(head_matches[0].fpath), Path(points_matches[0].fpath)
+
+
+def _ts():
+    return datetime.now().isoformat(timespec="seconds")
+
+
+def _append_subject_log(sub_log_path: Path, lines: list[str]):
+    sub_log_path.parent.mkdir(parents=True, exist_ok=True)
+    with open(sub_log_path, "a", encoding="utf-8") as f:
+        for ln in lines:
+            f.write(ln.rstrip() + "\n")
 
 
 # -------------------------------
@@ -204,7 +208,6 @@ def main():
 
     with open(config_path, "r") as f:
         CFG = yaml.safe_load(f) or {}
-
     print(f"Loaded config from: {config_path.resolve()}")
 
     # Resolve dataset root
@@ -232,20 +235,23 @@ def main():
     subjects = sorted(s for s in (include or all_subjects) if s not in exclude)
     print(f"Subjects to process ({len(subjects)}): {subjects}")
 
-    # Optional BIDS selections (empty arrays [] -> treated as None)
+    # Optional selections (empty arrays [] -> None)
     sel = CFG.get("bids_selection", {}) or {}
-    sessions    = _none_if_empty(sel.get("sessions"))
-    tasks       = _none_if_empty(sel.get("tasks"))
-    runs        = _none_if_empty(sel.get("runs"))
-    splits      = _none_if_empty(sel.get("splits"))
-    processings = _none_if_empty(sel.get("processings"))
+    sessions_sel = _none_if_empty(sel.get("sessions"))
+    tasks_sel    = _none_if_empty(sel.get("tasks"))
+    runs_sel     = _none_if_empty(sel.get("runs"))
+    splits_sel   = _none_if_empty(sel.get("splits"))
+    procs_sel    = _none_if_empty(sel.get("processings"))
 
-    # Fixed derivatives location (BIDS): derivatives/kit2fiff
+    # Fixed derivatives location (BIDS)
     DERIV_ROOT = Path(bids_root) / "derivatives" / "kit2fiff"
     DERIV_ROOT.mkdir(parents=True, exist_ok=True)
 
-    # Cache for edited points so we don't rewrite per file unnecessarily
-    edited_points_cache = {}  # key: (sub, session_or_None, original_points_path) -> edited_path
+    # Root summary collection
+    summary_rows = []
+
+    # Cache: edited points per (subject, session, original points path)
+    edited_points_cache = {}
 
     # Main loop
     for sub in subjects:
@@ -253,65 +259,61 @@ def main():
         print(f"Subject: {sub}")
         print("=" * 70)
 
-        # Find KIT raw files (supports sessions/tasks/runs/splits/processings)
+        # Find KIT .con files (respect selections)
         raw_matches = find_matching_paths(
             bids_root,
             datatypes=C.DATATYPE,
             subjects=sub,
-            sessions=sessions,
-            tasks=tasks,
-            runs=runs,
-            splits=splits,  # may be None
-            processings=tuple(processings) if processings else None,
+            sessions=sessions_sel,
+            tasks=tasks_sel,
+            runs=runs_sel,
+            splits=splits_sel,  # may be None
+            processings=tuple(procs_sel) if procs_sel else None,
             extensions=tuple(C.MEG_EXTENSIONS),
         )
         if not raw_matches:
             print(f"⚠️  No MEG files found for sub-{sub}.")
             continue
 
-        # Pair MRKs per run-group (we fetch MRKs subject-wide; acq-order is global for this subject/session selection)
+        # Find MRKs: ONLY subject [+ sessions] and extension. DO NOT filter by task/run.
         mrk_matches = find_matching_paths(
             bids_root,
             datatypes=C.DATATYPE,
             subjects=sub,
-            sessions=sessions,
-            tasks=tasks,
-            runs=runs,
+            sessions=sessions_sel,
             extensions=tuple(C.HEAD_POSITION_INDICATOR_EXTENSIONS),
         )
-
         if not mrk_matches:
             print(f"⚠️  Missing MRK files for sub-{sub}; skipping subject.")
             continue
 
+        # Pair MRKs per run-group; order .con by run->split
         groups, per_group_mrks = pair_mrks_to_con_groups(raw_matches, mrk_matches)
 
-        # Derivatives subject-level root
+        # Subject-level derivatives root and subject logfile
         sub_deriv_root = DERIV_ROOT / f"sub-{sub}"
         sub_deriv_root.mkdir(parents=True, exist_ok=True)
+        sub_log = sub_deriv_root / "kit2fiff_log.txt"
 
         for (run_key, con_list), mrk_for_group in zip(groups, per_group_mrks):
             if not mrk_for_group:
-                run_label = f"{run_key:02d}"
-                print(f"⚠️  No suitable MRK for run-{run_label}; skipping its {len(con_list)} file(s).")
+                print(f"⚠️  No suitable MRK for run-{run_key:02d}; skipping its {len(con_list)} file(s).")
                 continue
 
             # Convert each CON in this run-group, in split order
             for raw_match in con_list:
                 entities = raw_match.entities
                 con_file = Path(raw_match.fpath)
+                ses = entities.get("session")
 
-                # Resolve HSP/ELP per-file entities (session-aware), with fallback
-                hsp_path, points_path = resolve_hsp_elp_for_entities(
-                    bids_root, sub, entities, sessions=sessions, tasks=tasks, runs=runs
-                )
+                # Resolve HSP/ELP ONCE per (subject, session), without task/run filters
+                hsp_path, points_path = resolve_hsp_elp_for_scope(bids_root, sub, ses)
                 if not hsp_path or not points_path:
                     print(f"⚠️  Missing headshape or points for {con_file}; skipping this file.")
                     continue
 
-                # session folder if present
+                # Session subdir (if present)
                 run_deriv = sub_deriv_root
-                ses = entities.get("session")
                 if ses:
                     run_deriv = run_deriv / f"ses-{ses}"
                     run_deriv.mkdir(parents=True, exist_ok=True)
@@ -329,29 +331,76 @@ def main():
                         print(f"⚠️  Failed to create edited points for {con_file}: {e}")
                         continue
 
-                print("\n--- Converting ---")
-                print(f"CON: {con_file}")
-                print(f"HSP: {hsp_path}")
-                print(f"ELP: {edited_points_path}")
-                print(f"MRK: {mrk_for_group}")
+                # Convert
+                status = "success"
+                err_msg = ""
+                out_path = None
+                try:
+                    print("\n--- Converting ---")
+                    print(f"CON: {con_file}")
+                    print(f"HSP: {hsp_path}")
+                    print(f"ELP: {edited_points_path}")
+                    print(f"MRK: {mrk_for_group}")
 
-                raw = mne.io.read_raw_kit(
-                    input_fname=str(con_file),
-                    mrk=[str(p) for p in mrk_for_group],
-                    elp=str(edited_points_path),
-                    hsp=str(hsp_path),
-                    preload=False,
-                    verbose=False,
-                )
+                    raw = mne.io.read_raw_kit(
+                        input_fname=str(con_file),
+                        mrk=[str(p) for p in mrk_for_group],
+                        elp=str(edited_points_path),
+                        hsp=str(hsp_path),
+                        preload=False,
+                        verbose=False,
+                    )
 
-                # Name includes run and split if present; desc fixed to DESC_TAG
-                out_name = bids_name_from_entities(entities, f"desc-{DESC_TAG}", "_meg_raw.fif")
-                out_path = run_deriv / out_name
-                raw.save(str(out_path), overwrite=True)
-                raw.close()
-                print(f"✓ Saved FIFF: {out_path}")
+                    out_name = build_fif_output_name_from_entities(entities, DESC_TAG)
+                    out_path = run_deriv / out_name
+                    raw.save(str(out_path), overwrite=True)
+                    raw.close()
+                    print(f"✓ Saved FIFF: {out_path}")
+                except Exception as e:
+                    status = "error"
+                    err_msg = str(e)
+                    print(f"✗ Error writing FIFF for {con_file}: {e}")
 
-    print("\nDone.")
+                # Log row (root summary)
+                row = {
+                    "timestamp": _ts(),
+                    "subject": f"{sub}",
+                    "session": f"{entities.get('session')}" if entities.get("session") else "",
+                    "run": _safe_int(entities.get("run"), 0),
+                    "split": _safe_int(entities.get("split"), 0),
+                    "con_path": str(con_file),
+                    "mrk_paths": ";".join(str(p) for p in mrk_for_group),
+                    "hsp_path": str(hsp_path),
+                    "elp_points_edited": str(edited_points_path),
+                    "fif_out": str(out_path) if out_path else "",
+                    "status": status,
+                    "error": err_msg,
+                }
+                summary_rows.append(row)
+
+                # Subject logfile (append minimal info)
+                log_lines = [
+                    f"[{row['timestamp']}] subject={row['subject']} session={row['session']} run={row['run']} split={row['split']}",
+                    f"  CON : {row['con_path']}",
+                    f"  MRK : {row['mrk_paths']}",
+                    f"  HSP : {row['hsp_path']}",
+                    f"  ELP*: {row['elp_points_edited']}  (*edited points)",
+                    f"  OUT : {row['fif_out']}",
+                    f"  STATUS: {row['status']}{'  ERR: ' + row['error'] if row['error'] else ''}",
+                    "",
+                ]
+                _append_subject_log(sub_log, log_lines)
+
+    # Write root-level summary CSV
+    summary_csv = DERIV_ROOT / "kit2fiff_summary.csv"
+    if summary_rows:
+        df = pd.DataFrame(summary_rows)
+        df.to_csv(summary_csv, index=False)
+        print(f"\nWrote summary table: {summary_csv}")
+    else:
+        print("\nNo FIFF files written; summary not created (no rows).")
+
+    print("Done.")
 
 
 if __name__ == "__main__":

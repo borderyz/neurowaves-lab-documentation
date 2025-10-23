@@ -58,6 +58,57 @@ class _NYUADKitConstants:
 NYUAD_KIT_CONSTANTS = _NYUADKitConstants()
 
 
+def build_fif_output_name_from_entities(entities: dict, desc: str) -> str:
+    """
+    Serialize ALL present BIDS entities in a stable order to a filename stem,
+    then append desc-<desc> and the '_meg_raw.fif' suffix.
+    Example result:
+      sub-01_ses-1_task-rest_run-02_split-01_proc-CALM_desc-rawkit_meg_raw.fif
+    """
+    parts = []
+    for key in _BIDS_ENTITY_ORDER:
+        val = entities.get(key)
+        if val is None or val == "":
+            continue
+        tag = _ENTITY_TAG[key]
+        parts.append(f"{tag}-{val}")
+    # Always add desc last
+    parts.append(f"desc-{desc}")
+    return "_".join(parts) + "_meg_raw.fif"
+
+
+# Ordered, canonical-ish BIDS entity keys we want to preserve in the filename stem
+# (Includes split, processing, recording, space, etc.)
+_BIDS_ENTITY_ORDER = [
+    "subject",       # sub
+    "session",       # ses
+    "task",          # task
+    "acquisition",   # acq
+    "ceagent",       # ce (contrast agent) – harmless to include if ever present
+    "tracer",        # trc – harmless
+    "run",           # run
+    "split",         # split  ← IMPORTANT
+    "recording",     # rec
+    "space",         # space
+    "processing",    # proc
+]
+
+# Map entity key -> tag used in the filename
+_ENTITY_TAG = {
+    "subject": "sub",
+    "session": "ses",
+    "task": "task",
+    "acquisition": "acq",
+    "ceagent": "ce",
+    "tracer": "trc",
+    "run": "run",
+    "split": "split",
+    "recording": "rec",
+    "space": "space",
+    "processing": "proc",
+}
+
+
 
 def bids_name_from_entities(entities: dict, suffix: str, ext: str = "") -> str:
     parts = []
