@@ -49,6 +49,18 @@ Key documents include:
 - Peripheral-device connection guidelines
 - Access instructions for shared data and the processing workstation
 
+
+
+Ethernet connection of your device
+""""""""""""""""""""""""""""""""""
+
+.. note:: Problem setting up your ethernet connection
+
+    Network setting up: To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
+    Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
+
+
+
 ----
 
 *Adherence to these guidelines safeguards participants, protects data integrity, and ensures the MEG system remains available for all researchers. For training or questions, contact the MEG core team.*

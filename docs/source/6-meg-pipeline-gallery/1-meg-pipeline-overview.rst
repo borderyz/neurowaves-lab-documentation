@@ -13,11 +13,6 @@ Different pipelines can be built using the available software at NYUAD MEG Lab t
 
 
 
-.. note:: Problem setting up your ethernet connection
-
-    Network setting up: To connect to the internet via ethernet on network, make sure the MAC address of your ethernet interface is registered:
-    Got to `computer-registration.abudhabi.nyu.edu <https://computer-registration.abudhabi.nyu.edu>`_ and register the MAC address found in network settings, properties of the interface, replace the dash - with a column :
-
 
 Software stack and installation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
