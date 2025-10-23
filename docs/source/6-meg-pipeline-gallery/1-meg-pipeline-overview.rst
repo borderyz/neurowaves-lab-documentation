@@ -60,6 +60,7 @@ You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing 
 .. nbgallery::
     :glob:
 
+
     notebooks/mne/mne_sanity_check_single-channel
 
 FieldTrip
