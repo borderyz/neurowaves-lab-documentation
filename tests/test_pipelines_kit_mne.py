@@ -7,6 +7,7 @@ import subprocess
 import pandas as pd
 import yaml
 from unittest.mock import patch
+import mne
 
 from pipeline.box_storage.box_utilities import ensure_dataset_present
 

@@ -96,7 +96,7 @@ for sub in subjects:
         extensions=tuple(C.MEG_EXTENSIONS),
     )
     if not raw_matches:
-        print(f"⚠️  No MEG files found for sub-{sub}.")
+        print(f"No MEG files found for sub-{sub}.")
         continue
 
     for raw_match in raw_matches:
@@ -108,14 +108,14 @@ for sub in subjects:
         tbl_path, json_path, scope = resolve_events_pair_with_joint_fallback(raw_match=raw_match,
                                                                              bids_root=bids_root)
         if not (tbl_path and json_path):
-            print(f"⚠️  Missing paired events files for {raw_path} — skipping.")
+            print(f" Missing paired events files for {raw_path} — skipping.")
             continue
 
         with open(json_path, "r") as jf:
             meta = json.load(jf)
         trig_mode = str(meta.get("TriggerMode", "")).strip().lower().replace("-", "_").replace(" ", "_")
         if trig_mode != "single_channel":
-            print(f"ℹ️  TriggerMode='{trig_mode}' → not single_channel; skipping.")
+            print(f" TriggerMode='{trig_mode}' → not single_channel; skipping.")
             continue
 
         raw = mne.io.read_raw_kit(raw_path, preload=False, verbose=False)
@@ -151,7 +151,7 @@ for sub in subjects:
                 })
 
         if not events_list:
-            print(f"⚠️  No pulses detected for {raw_path} — skipping output.")
+            print(f"  No pulses detected for {raw_path} — skipping output.")
             continue
 
         events = np.asarray(sorted(events_list, key=lambda r: r[0]), dtype=int)
@@ -222,7 +222,7 @@ for sub in subjects:
 
         # Optional guard so re-runs don’t crash if you didn’t pass --overwrite
         if eve_path.exists() and not args.overwrite:
-            print(f"⚠️  {eve_path.name} already exists — skipping (use --overwrite to replace).")
+            print(f"  {eve_path.name} already exists — skipping (use --overwrite to replace).")
             continue
 
         # 1) Write the canonical MNE events file
