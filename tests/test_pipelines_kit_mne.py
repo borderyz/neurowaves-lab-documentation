@@ -203,3 +203,119 @@ def test_plot_triggers_runs_headless_without_gui(tmp_path, monkeypatch):
         # Run the script as __main__ so its top-level code executes
         result = runpy.run_path(str(script_path), run_name="__main__")
         assert result is not None
+
+
+
+def test_compute_events_single_channel_pipeline():
+    """
+    End-to-end test for building MNE events from single-channel triggers:
+      - Ensures dataset is present (local or via Box).
+      - Runs the script with the template YAML.
+      - Verifies root index CSV exists and contains expected rows.
+      - Verifies expected .eve/.tsv basenames per subject & task (proc/no-proc preserved).
+      - Verifies n_events = 400 for every output and files are readable.
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+
+    # Script path: prefer kit_compute_events_single_channel.py; fallback to kit_make_events_from_triggers.py
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_compute_events_single_channel.py"
+    if not script_path.exists():
+        script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_make_events_from_triggers.py"
+    assert script_path.exists(), f"Events script not found at {script_path}"
+
+    config_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "pipeline_config_files" / "config_template.yml"
+    assert config_path.exists(), f"Config template not found at {config_path}"
+
+    # Load config to locate BIDS
+    with open(config_path, "r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f) or {}
+    proj = cfg.get("project", {}) or {}
+    project_name = proj.get("name")
+    assert project_name, "project.name missing in config_template.yml"
+    root_env = proj.get("root_env", "MEG_DATA")
+
+    meg_data_root_str = os.getenv(root_env)
+    assert meg_data_root_str, f"{root_env} environment variable not set"
+    meg_data_root = Path(meg_data_root_str)
+
+    # Ensure dataset present
+    bids_root = ensure_dataset_present(project_name, meg_data_root)
+
+    # Run the events script (default desc=autopulses)
+    result = subprocess.run(
+        [sys.executable, str(script_path), "--config", str(config_path)],
+        capture_output=True, text=True, check=False,
+    )
+    print("\n====== STDOUT ======\n", result.stdout)
+    print("\n====== STDERR ======\n", result.stderr)
+    assert result.returncode == 0, f"Events script failed with exit code {result.returncode}"
+
+    # Index CSV under derivatives/triggers_to_events
+    deriv_root = bids_root / "derivatives" / "triggers_to_events"
+    index_csv = deriv_root / "auto_events_index.csv"
+    assert index_csv.exists(), f"Events index CSV not found at {index_csv}"
+
+    # Read and validate
+    df = pd.read_csv(index_csv)
+    assert not df.empty, "Events index CSV is empty"
+    assert {"subject", "file", "events_eve", "detail_tsv", "n_events"}.issubset(df.columns), \
+        "Index CSV missing expected columns"
+
+    # Expected subjects behavior from your sample run:
+    # - test1: outputs exist (400events no-proc + 400events proc-CALM + falsepositive)
+    # - test2: no MEG files -> no rows
+    # - test3: outputs exist (400events + falsepositive)
+    subs = set(df["subject"].dropna().astype(str))
+    assert "test1" in subs, "Expected rows for sub-test1"
+    assert "test3" in subs, "Expected rows for sub-test3"
+    assert "test2" not in subs, "Unexpected rows for sub-test2 (should have no MEG files)"
+
+    df1 = df[df["subject"] == "test1"].copy()
+    df3 = df[df["subject"] == "test3"].copy()
+
+    # Expected basenames
+    expected_test1 = {
+        "sub-test1_task-400events_desc-autopulses_events.eve",
+        "sub-test1_task-400events_proc-CALMnoisereduction_desc-autopulses_events.eve",
+        "sub-test1_task-falsepositive_desc-autopulses_events.eve",
+    }
+    expected_test3 = {
+        "sub-test3_task-400events_desc-autopulses_events.eve",
+        "sub-test3_task-falsepositive_desc-autopulses_events.eve",
+    }
+
+    got_test1 = {Path(p).name for p in df1["events_eve"].tolist()}
+    got_test3 = {Path(p).name for p in df3["events_eve"].tolist()}
+
+    missing1 = expected_test1 - got_test1
+    missing3 = expected_test3 - got_test3
+    assert not missing1, f"Missing expected test1 outputs: {missing1}"
+    assert not missing3, f"Missing expected test3 outputs: {missing3}"
+
+    # All outputs should have n_events == 400
+    assert (df1["n_events"] == 400).all(), "test1: n_events not equal to 400 for all outputs"
+    assert (df3["n_events"] == 400).all(), "test3: n_events not equal to 400 for all outputs"
+
+    # Files exist and are readable; detail TSV has expected columns
+    expected_detail_cols = {"sample", "onset_s", "channel_mne", "channel_kit", "event_id", "width_ms", "amp_max", "amp_mean"}
+
+    for _, row in pd.concat([df1, df3]).iterrows():
+        eve_path = Path(row["events_eve"])
+        tsv_path = Path(row["detail_tsv"])
+        assert eve_path.exists(), f"Missing .eve file: {eve_path}"
+        assert tsv_path.exists(), f"Missing detail TSV: {tsv_path}"
+
+        # Read .eve with MNE and confirm count
+        events = mne.read_events(str(eve_path))
+        assert events.shape[0] == int(row["n_events"]), f"Event count mismatch in {eve_path}"
+
+        # Check TSV schema minimally
+        tsv_df = pd.read_csv(tsv_path, sep="\t")
+        assert expected_detail_cols.issubset(tsv_df.columns), f"Detail TSV missing columns: {tsv_path}"
+
+    # Also ensure both tasks present per subject in index (sanity)
+    for sub, tasks in [("test1", ("400events", "falsepositive")), ("test3", ("400events", "falsepositive"))]:
+        files = df.loc[df["subject"] == sub, "file"].astype(str)
+        assert all(any(f"task-{t}" in s for s in files) for t in tasks), f"Missing expected tasks for sub-{sub}"
+
+    print("\n✅ Single-channel trigger → MNE events pipeline test passed (index, basenames, counts, files, schema).")
