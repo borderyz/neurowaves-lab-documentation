@@ -64,7 +64,8 @@ If your experiment design is based on using single-channel mode for coding your 
     :glob:
 
     notebooks/mne/mne_pipeline_kit2fiff
-    notebooks/mne/mne_sanity_check_single-channel
+    notebooks/mne/mne_pipeline_sanity_check_single-channel
+    notebooks/mne/mne_pipeline_compute-events_single-channel
 
 
 

@@ -19,7 +19,7 @@ Key features
 - **Single-channel trigger mode only**: the script requires
   ``"TriggerMode": "single_channel"`` in the paired events JSON sidecar.
 - **Robust pulse detection**: per-channel thresholds with an initial baseline
-  window and hysteresis (via :pyfunc:`detect_pulses_on_channel`).
+  window and hysteresis (via `detect_pulses_on_channel`).
 - **Entity-aware naming**: output basenames include present BIDS entities
   (``sub``, ``ses``, ``task``, ``acq``, ``run``, ``proc``, ``rec``, ``split``)
   plus a configurable ``desc-<tag>`` (default: ``desc-autopulses``).
@@ -119,15 +119,15 @@ What the script does
 2. For each candidate run:
    - **Resolve a *paired* events table + JSON** using the joint fallback policy.
    - **Require** ``TriggerMode == "single_channel"``; otherwise **skip** run.
-3. **Open KIT raw** with :pyfunc:`mne.io.read_raw_kit` (no preload).
-4. For each trigger MNE channel in :pydata:`C.trigger_channels_MNE`:
-   - **Detect pulses** with :pyfunc:`detect_pulses_on_channel` (per-channel thresholds).
+3. **Open KIT raw** with `mne.io.read_raw_kit` (no preload).
+4. For each trigger MNE channel in `C.trigger_channels_MNE`:
+   - **Detect pulses** with `detect_pulses_on_channel` (per-channel thresholds).
    - Map to **KIT channel number** (``224..231``) → event code.
 5. **Assemble MNE events array** (``[sample, 0, event_id]``), sorted by sample.
 6. **Build a BIDS-ish basename** from entities
    (``sub/ses/task/acq/run/proc/rec/split``) + ``desc-<tag>``.
 7. **Write outputs** into ``derivatives/triggers_to_events``:
-   - ``*.eve`` via :pyfunc:`mne.write_events`
+   - ``*.eve`` via `mne.write_events`
    - ``*_detail.tsv`` (audit: per-pulse metrics)
 8. **Append root index CSV** (``auto_events_index.csv``) with one row per run.
 
@@ -190,7 +190,7 @@ Troubleshooting
 - **No outputs**: verify the paired events files exist at the same scope and
   that ``TriggerMode`` is correctly set to ``single_channel``.
 - **Unexpected event counts**: inspect the ``*_detail.tsv`` and tune
-  detection parameters in :pyfunc:`detect_pulses_on_channel` if needed.
+  detection parameters in `detect_pulses_on_channel` if needed.
 - **Filename collisions**: use a distinct ``--desc`` or confirm entities are
   present on your inputs (proc, split, run).
 
