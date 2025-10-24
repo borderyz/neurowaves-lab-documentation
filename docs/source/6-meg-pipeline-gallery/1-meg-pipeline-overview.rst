@@ -57,10 +57,17 @@ Order of notebooks for general MNE-KIT pipelines
 You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing of your data:
 
 
+If your experiment design is based on using single-channel mode for coding your triggers, use the following sequence of pipelines to convert your raw file
+
+
 .. nbgallery::
     :glob:
 
-    notebooks/mne/mne_sanity_check_single-channel
+    notebooks/mne/mne_pipeline_kit2fiff
+    notebooks/mne/mne_pipeline_sanity_check_single-channel
+    notebooks/mne/mne_pipeline_compute-events_single-channel
+
+
 
 FieldTrip
 ^^^^^^^^^
