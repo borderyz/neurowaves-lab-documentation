@@ -152,7 +152,7 @@ These procedures take an estimated time of 20 mins.
 
         - Soundpixx box - all the knobs have to be set as a default to the positions on the image below:
 
-            .. figure:: figures/meg-operationprotocol/SoundPixx.jpg
+            .. figure:: /Users/hp42/Documents/GitHub/neurowaves-lab-documentation/docs/source/2-meg-kit-system/figures/meg-operationprotocol/SoundPixx.png
                 :alt: Soundpixxbox_settings
                 :align: center
                 :scale: 30%
