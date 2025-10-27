@@ -23,5 +23,5 @@ MEG Quiz
 ---------
 
 Test your knowledge. Click the next link to start the quiz, you will need to sign-in to your email.
- `Quiz form access <https://docs.google.com/forms/d/e/1FAIpQLSfpJx-E2YwoEvfH5JGNksXimtnyol8553SXU_EYrdWqzx7AtA/viewform?usp=sharing>`_
+ `Quiz form access https://forms.gle/BEFta1UU6mbhcDvk9
 
