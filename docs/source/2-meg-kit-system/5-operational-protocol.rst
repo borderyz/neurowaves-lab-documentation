@@ -150,12 +150,12 @@ These procedures take an estimated time of 20 mins.
 #. Prepare Vpixx systems:
     - Ensure that the three `Vpixx` boxes are turned on: Soundpixx, Propixx and Responsepixx
 
-        - Soundpixx box - all the knobs have to be set as a default to the positions on the image below:
+    - Soundpixx box - all the knobs have to be set as a default to the positions on the image below:
 
-         .. figure:: figures/meg-operationprotocol/soundpixx.png
-             :alt: Soundpixxbox settings
-             :align: center
-             :scale: 30%
+        .. figure:: figures/meg-operationprotocol/soundpixx.png
+           :alt: Soundpixxbox settings
+           :align: center
+           :scale: 30%
 
                Soundpixx Box knob settings
 
