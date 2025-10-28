@@ -152,11 +152,10 @@ These procedures take an estimated time of 20 mins.
 
         - Soundpixx box - all the knobs have to be set as a default to the positions on the image below:
 
-         .. image:: figures/meg-operationprotocol/soundpixx.png
+         .. figure:: figures/meg-operationprotocol/soundpixx.png
              :alt: Soundpixxbox settings
              :align: center
              :scale: 30%
-
 
                Soundpixx Box knob settings
 
