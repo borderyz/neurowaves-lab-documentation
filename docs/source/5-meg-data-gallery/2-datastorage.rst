@@ -98,7 +98,7 @@ MEG-KIT files
 Depending on the experiment, many .con files can be produced by the KIT machine.
 
 #. .con files are named:
-    * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_meg_split-[SPLIT_INDEX].con``
+    * ``sub-[SUB_ID]_ses-[SES_ID]_task-[TASK_NAME]_run-[RUN_ID]_split-[SPLIT_INDEX]_meg.con``
     * example: `sub-001_ses-01_task-audiovisualmotor_run-03_meg.con`
     * if you applied the `CALM` filtering or other kind of pre-processing to your con file then:
         * sub-[SUB_ID]_task-[TASK_NAME]_proc-CALMnoisereduction_meg.con or replace the `proc` value with the name of your filter
