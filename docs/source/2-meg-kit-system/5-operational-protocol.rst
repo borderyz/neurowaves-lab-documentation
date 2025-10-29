@@ -157,7 +157,7 @@ These procedures take an estimated time of 20 mins.
            :align: center
            :scale: 30%
 
-               Soundpixx Box knob settings
+           Soundpixx Box knob settings
 
     - Turn on the computer if it is off, boot under Windows (it will default to Ubuntu)
     - Settings of Vpixx computer. Ensure that:
