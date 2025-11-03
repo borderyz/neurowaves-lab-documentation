@@ -1,6 +1,0 @@
-export PATH=$HOME/.local/bin:$PATH
-source ~/.bashrc
-which dcm2bids
-
-module load gcc
-module avail gcc
