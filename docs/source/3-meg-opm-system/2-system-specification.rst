@@ -139,6 +139,27 @@ OPM sensors and direction of measurement
 In its current state, the OPM measures the radial magnetic field Bz but not yet the tangential directions (Bx, or By).
 The hardware is capable of measuring both, but Fieldline has not yet launched the update that would enable both directions to be measured.
 
+Dynamic Range
+^^^^^^^^^^^^^
+
+The dynamic range of a sensor is a value representing  the highest "measurable" amplitude, linearly, before the sensor reaches saturation, while removing the noise floor base
+that wouldn't allow to distinguish the measurable signal from noise.
+
+.. math::
+
+   D = \frac{B_\text{max}}{B_\text{noise}}
+
+It is often expressed in decibels (dB) as
+
+.. math::
+
+   D_\text{dB} = 20 \, \log_{10} \!\left( \frac{B_\text{max}}{B_\text{noise}} \right).
+
+
+For an MEG sensor, to compute the dynamic range of the sensor:
+- compute the highest measurable amplitude :math:`B_\text{max}` the sensor can measure, this can be done by a DC changing source and observe the measurement
+- compute the noise lever :math:`B_\text{noise}` this can be done by recording empty room data and compute the average level of the noise (this is the noise amplitude, that when the measured signal is above it, we can discern the measured signal from the sensor noise)
+
 
 
 OPM HPI Coils

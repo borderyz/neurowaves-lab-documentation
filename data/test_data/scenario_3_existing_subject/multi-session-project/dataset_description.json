@@ -1,0 +1,9 @@
+{
+  "Name": "Existing Test Project",
+  "BIDSVersion": "1.8.0",
+  "DatasetType": "raw",
+  "License": "CC0",
+  "Authors": [
+    "Test Author"
+  ]
+}

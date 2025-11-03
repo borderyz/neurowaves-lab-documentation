@@ -1,0 +1,6 @@
+﻿TrigType,nTriggers,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231
+VI_Sound start,16,1,0,0,0,0,0,0,0
+VI_Sound end,16,0,1,0,0,0,0,0,0
+VI_BG end,16,0,0,1,0,0,0,0,0
+VI_key_Resp2 respond,16,0,0,0,1,0,0,0,0
+VI_CQ_Key_Resp respond,16,0,0,0,0,1,0,0,0

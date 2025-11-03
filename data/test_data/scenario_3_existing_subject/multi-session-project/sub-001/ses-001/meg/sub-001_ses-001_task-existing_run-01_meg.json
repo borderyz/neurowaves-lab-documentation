@@ -1,0 +1,12 @@
+{
+    "TaskName": "task",
+    "InstitutionName": "Research Institution",
+    "Manufacturer": "Yokogawa",
+    "ManufacturersModelName": "KIT System",
+    "SamplingFrequency": 1000,
+    "PowerLineFrequency": 50,
+    "SoftwareFilters": "n/a",
+    "DewarPosition": "upright",
+    "DigitizedLandmarks": true,
+    "DigitizedHeadPoints": true
+  }

@@ -5,8 +5,8 @@
 
 % Experiment: Visual vs Auditory vs Motor activation
 % Description: three types of conditions randomly permuted
-    % Visual: White screen appear for two seconds
-    % Auditory: 200hz frequency audio for 0.5 second
+    % Visual: White screen appear for 500 ms
+    % Auditory: 200hz frequency audio for 500 ms
     % Motor: A button press is requested
 
 
@@ -21,7 +21,7 @@ dbstop if error;
 
 el = 0; % 1 = Eyelink on; 0 = Eyelink off;
 
-vpix_use = 1;    %Vpixx send triggers or not
+vpix_use = 0;    %Vpixx send triggers or not
 
 DEBUG = false;
 %% Experiment parameters

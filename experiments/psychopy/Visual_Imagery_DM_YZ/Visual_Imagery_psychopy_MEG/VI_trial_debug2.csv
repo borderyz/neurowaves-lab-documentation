@@ -1,0 +1,9 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer
+grey,a grey wolf,wolf,Is it an animal?,YES
+green,a green snake,snake,Is it an animal?,YES
+blue,a blue shirt,shirt,Is it a cloth?,YES
+purple,a purple dress,dress,Is it a cloth?,YES
+red,a red mailbox,mailbox,Is it a food?,NO
+grey,a grey coat,coat,Is it a food?,NO
+red,a red rose,rose,Is it an animal?,NO
+yellow,a yellow taxi,taxi,Is it a cloth?,NO

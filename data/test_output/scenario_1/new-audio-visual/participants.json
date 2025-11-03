@@ -1,0 +1,24 @@
+{
+  "participant_id": {
+    "LongName": "Participant identifier",
+    "Description": "Unique identifier for the participant"
+  },
+  "age": {
+    "LongName": "Age",
+    "Description": "Age of the participant",
+    "Units": "years"
+  },
+  "sex": {
+    "LongName": "Sex",
+    "Description": "Sex of the participant",
+    "Levels": {
+      "M": "male",
+      "F": "female",
+      "O": "other"
+    }
+  },
+  "group": {
+    "LongName": "Group",
+    "Description": "Experimental group"
+  }
+}

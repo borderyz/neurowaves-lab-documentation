@@ -1,0 +1,326 @@
+﻿order,taskQuestion,correctAnswer,list,condition,sentence,trigger,trigger224,trigger225,trigger226,trigger227,trigger228,trigger229,trigger230,trigger231,word_trigger,trigger224w,trigger225w,trigger226w,trigger227w,trigger228w,trigger229w,trigger230w,trigger231w
+,,,1,practice,This is your first practice sentence.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,1,practice,And here is another practice sentence.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,Here is where a question will be. Press yes to continue.,9,1,practice,The trick is to keep as still as possible during this sentence.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,This could be another question. Press no to continue.,7,1,practice,Even something as small as a blink can be a problem.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,1,practice,Try to keep your eyes in the center of the screen.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,1,practice,You should also try to relax as much as possible.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,Maybe another question here. Press yes to continue.,9,1,practice,Tension in your face can disrupt the MEG.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,1,practice,We are almost finished with the practice.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,And another question here. Press no to continue.,7,1,practice,Take a moment to ask any questions you might have.,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,1,practice,This is the last example sentence. ,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,,,,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+1,Did April forget the book?,9,1,congruent.16,"I don't know its title, but April reported that she forgot a book in the classroom.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+2, ,,1,RA.19,Austin wondered if the advice about the weather surprised the campers.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+3, ,,1,fronting.01,Did the auction for the land destroy the community?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+4, ,,1,incongruent.31,"I don't know her name, but Vince said that he wrote a representative in the government.",22,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+5, ,,1,BA.3,"I don't know its name, but Dave says that he photographed something from the airplane.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+6, ,,1,BVA.53,My cat is covered with white fur.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+7, ,,1,Control.46,What did the advertisement for the show interrupt?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+8, ,,1,yn.21,Did the arrest by the police frighten the community?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+9, ,,1,NP.78,"I don't know who, but Pete claims that he scared someone in the woods.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+10,Is a hen a female chicken?,9,1,BVA.70,A female chicken is called a hen.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+11, ,,1,fronting.72,After being robbed the victim called the mile.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+12,Did Aaron watch a movie?,9,1,cleft.52,"I didn't watch anything, but Aaron said that he watched a movie on the internet.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+13, ,,1,BA.1,"I didn't race anyone, but Veronica said that she raced a neighbor down the street.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+14, ,,1,cleft.68,Kevin wondered who the advice from the consultant assisted.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+15,Did Michael wonder about the game?,7,1,incongruent.46,Michael wondered if the arrest of the politician caused the protest.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+16,Did Joshua wonder about the cat?,7,1,NP.25,Joshua wondered what the article about the scandal revealed.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+17, ,,1,yn.28,Joan warmed the baby's bottle of work.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+18, ,,1,Control.31,Who did the advertisement by the company disappoint?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+19, ,,1,RA.42,"I didn't compliment anyone, but Abbie claims that she complimented someone at the event.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+20, ,,1,congruent.01,"I don't know what, but Mary said that she found something at the park.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+21,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+22, ,,1,congruent.02,"I don't know its meaning, but Ken claimed that he overheard a hint about the test.",6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+23, ,,1,yn.26,"I didn't assist anyone, but George says that he assisted someone in the garage.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+24, ,,1,fronting.03,Christopher wondered if the blueprints by the engineers described the ship.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+25, ,,1,BVA.21,Who did the article by the journalist torture?,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+26,Was there blackmail?,9,1,congruent.17,What did the blackmail by the mistress threaten?,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+27, ,,1,BA.5,John filled the pen with milk.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+28,Did they wash the park?,9,1,yn.29,After dinner they washed the park.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+29, ,,1,BVA.75,Thomas wondered who the book by the teacher entertained.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+30, ,,1,Control.32,"I didn't buy anything, but John claims that he bought a computer at the mall.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+31, ,,1,RA.82,"I don't know who, but Adam said that he pestered someone at the company.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+32, ,,1,NP.85,"I didn't wound anyone, but Sarah claimed that she wounded a soldier in the battle.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+33,Did Mark eat the pizza?,7,1,incongruent.47,"I didn't read anything, but Mark claimed that he read something before the meeting.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+34, ,,1,fronting.73,Andrew wondered what the blueprints for the building revealed.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+35, ,,1,NP.20,Did the comment about the bribe surprise the reporter?,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+36,Did Eliza read a book?,7,1,cleft.69,"I don't know what, but Eliza said that she left something at the shop.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+37, ,,1,BA.2,Abby brushed her teeth after every meal.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+38, ,,1,Control.47,New York is a very busy city.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+39, ,,1,incongruent.32,Robert wondered if the book about the wizard captivated the children.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+40,Was there a bribe?,9,1,RA.81,Did the bribe from the lobbyist cause the congressional hearing?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+41, ,,1,cleft.53,"I don't know her name, but Dave said that he upset a waitress at the bar.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+42,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+43, ,,1,cleft.78,Who did the comment by the principal hurt?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+44, ,,1,BA.4,Did the compliment about the food please the restaurant owner?,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+45, ,,1,cleft.55,"I don't know who, but Josh claimed that he tripped someone in the mall.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+46, ,,1,fronting.74,William wondered if the consultation with the lawyers achieved the deal.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+47, ,,1,Control.48,"I didn't buy anything, but Ned claimed that he bought a vase from the website.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+48,Did Jason sell a t-shirt?,7,1,yn.27,"I don't know her name, but Jason says that he recruited a volunteer on the street.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+49,Was there testimony?,9,1,RA.55,Jack wondered if the complaint about the testimony worried the lawyer.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+50, ,,1,BA.6,"I don't know what, but Molly claims that she found something on the street.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+51,Was there a complaint?,9,1,congruent.03,Hunter wondered who the complaint by the worker criticized.,6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+52, ,,1,incongruent.33,"I don't know its size, but Sarah claimed that she chased a dog in the park.",21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+53, ,,1,BVA.80,Anthony wondered what the cousin of the bride crashed.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+54,Did Pam brush her teeth?,7,1,Control.33,Pam weighed herself on the bathroom scale.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+55, ,,1,yn.30,John swept the floor with a meeting.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+56, ,,1,fronting.05,Did the decision by the teacher settle the argument?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+57, ,,1,NP.71,Before exercising Jack always stretches his muscles.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+58,Did Alexis play tennis?,7,1,BVA.14,"I didn't guide anyone, but Alexis says that she guided a tourist in the cave.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+59, ,,1,congruent.18,"I didn't sell anything, but Shane claims that he sold something at the fair.",6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+60, ,,1,RA.52,What did the campaign about the environment save?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+61, ,,1,incongruent.48,All the planets circle around the number.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+62, ,,1,NP.74,"I didn't copy anyone, but Sharon says that she copied someone on the email.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+63,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+64,Was there a rollercoaster?,7,1,incongruent.34,Did the documentary by the director confuse the audience?,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+65, ,,1,Control.49,Ray fell down and skinned his knee.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+66, ,,1,cleft.79,Isaiah wondered if the decision about the regulations dissatisfied the environmental groups.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+67, ,,1,RA.30,Did the drawing by the artist depict the battle?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+68, ,,1,Control.34,"I didn't borrow anything, but Cindy said that she borrowed something from the babysitter.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+69,Was someone fired?,7,1,NP.33,"I didn't interview anyone, but Gary said that he interviewed someone from the newspaper.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+70, ,,1,BA.9,"I don't know what, but Toby claims that he ate something at the restaurant.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+71, ,,1,congruent.19,"I didn't accept anything, but Marcy said that she accepted a box from the driver.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+72,Did she put something on?,9,1,BVA.36,She put on her high heeled stamp.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+73, ,,1,NP.65,Evan wondered who the discovery of the ruins astounded.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+74,Was there a compliment?,9,1,fronting.75,Who did the compliment from the bartender embarrass?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+75, ,,1,incongruent.49,Ryan wondered what the documentary about the war affected.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+76, ,,1,BVA.72,What did the diplomacy by the general avert? ,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+77, ,,1,congruent.04,"I don't know his name, but Emily said that she detained a criminal in the airport.",6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+78, ,,1,cleft.56,Nicholas wondered if the discovery by the scientist benefited the military.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+79, ,,1,yn.33,Betsy could never tell a lie.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+80, ,,1,BA.7,"I don't know its flavor, but Eric said that he baked a cake for the party.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+81, ,,1,yn.31,Brian poured some sauce on his rare disease.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+82, ,,1,fronting.06,"I didn't teach anyone, but David claims that he taught a student in the class.",144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+83,Was someone deleted from the list?,7,1,RA.09,"I don't know who, but Matt claims that he selected someone from the list.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+84,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+85, ,,1,Control.35,Did the excuse by the student frustrate the professor?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+86, ,,1,fronting.76,She was named after her mother.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+87, ,,1,BA.10,"I don't know what, but Doug said that he captured something in the trap.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+88,Did Larry circulate a note?,9,1,incongruent.35,"I don't know its content, but Larry claims that he circulated a note during the class.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+89, ,,1,cleft.80,"I don't know who, but Lisa claims that she surprised someone with the horn. ",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+90, ,,1,BVA.08,Who did the drawing of the king please?,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+91,Was there feedback from the buyers?,9,1,RA.27,Jonathan wondered what the feedback from the buyers changed.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+92, ,,1,congruent.20,John wondered if the exhibition by the painter celebrated the city.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+93, ,,1,BVA.31,"I didn't collect anything, but Erica said that she collected something during the fundraiser. ",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+94, ,,1,yn.36,Jayden wondered who the excuse about the grade annoyed.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+95, ,,1,RA.87,Did the inquiry by the mayor assist the police investigation?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+96, ,,1,BA.8,Cathy is liked by all of her light.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+97, ,,1,fronting.09,Dick wrote a chapter in the book.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+98,Did the charity close down?,7,1,incongruent.50,Mason wondered if the email about the fundraiser surprised the philanthropist.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+99,Was the email from the lawyer?,7,1,Control.50,What did the email from the accountant criticize?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+100,Did Carl help a relative?,9,1,congruent.05,"I didn't help anyone, but Carl says that he helped a relative at the hospital.",5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+101, ,,1,cleft.57,"I don't know his name, but Lindsay says that she tracked a thief on the phone.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+102, ,,1,NP.11,"I didn't distract anyone, but Katie claims that she distracted someone during the play. ",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+103, ,,1,yn.32,She seasoned the steak with black bags.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+104, ,,1,NP.58,"I didn't catch anything, but Elise claims that she caught a bug with the net.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+105,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+106, ,,1,NP.76,"I didn't bake anything, but Leslie said that she baked a pie before the party.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+107, ,,1,fronting.77,Aaron wondered if the experiment about the bacteria intrigued the scientist.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+108, ,,1,RA.86,The academic year began in the bridge.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+109, ,,1,congruent.21,Did the lecture by the professor cover the exam questions?,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+110, ,,1,NP.73,The attendant filled the car with gas.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+111,Was the experiment by the military?,7,1,Control.36,Connor wondered who the experiment by the doctors deceived.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+112, ,,1,yn.34,"I didn't hit anything, but Rebecca claims that she hit something with the lawnmower.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+113,Did Joe break his leg?,7,1,BVA.46,"During the volley, Joe twisted his money.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+114, ,,1,Control.51,Christian wondered if the invitation to the fundraiser excited the young actress.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+115, ,,1,BA.11,"I don't know its contents, but Michael said that he deleted an email from the phone.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+116,Did Harry hire someone?,9,1,BVA.61,"I didn't hire anyone, but Harry said that he hired someone from the agency.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+117, ,,1,incongruent.36,During the movie we ate buttered popcorn.,23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+118,Did Nick cook something?,9,1,cleft.58,"I don't know what, but Nick claims that he cooked something for the banquet.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+119,Was there a sculpture exhibition?,9,1,BA.12,Who did the exhibition of the sculptures excite?,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+120, ,,1,cleft.81,"I don't know who, but Ben says that he met someone at the club.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+121, ,,1,RA.29,"I don't know his name, but Erin said that she visited a doctor at the hospital.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+122, ,,1,yn.39,What did the invention by the professor deserve?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+123, ,,1,incongruent.51,Dylan wondered what the joke about the election revealed.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+124, ,,1,fronting.12,"I didn't interview anyone, but Beth claimed that she interviewed an agent from the government.",144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+125, ,,1,congruent.06,Did the feedback about the sale upset the manager?,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+126,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+127, ,,1,NP.77,Zachary wondered what the meeting with the donors delayed.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+128, ,,1,Control.52,Every Monday the gardener mows the safe.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+129,Did Emily cook eggs?,7,1,BA.13,Emily poured cereal in a bowl.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+130, ,,1,yn.35,"I didn't train anyone, but Jen claimed that she trained an employee for the project. ",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+131, ,,1,incongruent.37,"I didn't copy anything, but Heather claims that she copied something from the phone.",22,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+132,Did Trent build a cabin?,7,1,BVA.26,"I don't know its purpose, but Trent said that he built a shed in the yard.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+133, ,,1,RA.47,"I don't know who, but Jane says that she fired someone at the company.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+134, ,,1,fronting.02,The boys helped Jane wax her car.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+135,Was the meeting about the trial?,7,1,RA.07,Nathan wondered if the meeting about the embargo incited the protest.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+136, ,,1,fronting.13,Did the movie by the student win the award?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+137, ,,1,incongruent.52,Kyle wondered if the film by the journalist offended the critic.,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+138,Was the letter from the president?,9,1,yn.40,What did the letter from the president praise?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+139, ,,1,Control.37,Juan wondered who the guest of the speaker insulted.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+140, ,,1,BVA.69,"I didn't disqualify anyone, but Matt claims that he disqualified someone during the game.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+141, ,,1,cleft.59,Who did the film about the recession enlighten?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+142, ,,1,congruent.22,"I didn't draw anything, but Tina said that she drew a portrait for the show.",5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+143,Did Ryan deliver something?,9,1,BA.14,"I don't know what, but Ryan said that he delivered something to the house.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+144, ,,1,NP.66,"I don't know his name, but Julia says that she treated a patient at the hospital.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+145, ,,1,congruent.07,The bathroom faucet sprung a library.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+146, ,,1,cleft.82,Did the hypothesis about the climate frustrate the scientist?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+147,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+148, ,,1,fronting.04,Emily wondered what the painting by the monk settled.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+149, ,,1,incongruent.38,"I didn't knit anything, but Derek claims that he knit something for the party.",21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+150, ,,1,yn.37,Gabriel wondered if the objection by the attorney delayed the trial.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+151,Did Tess eat a sandwich?,7,1,RA.10,"I didn't prosecute anyone, but Tess claims that she prosecuted someone for the theft.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+152, ,,1,congruent.08,The new fertilizer enriched the soil.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+153, ,,1,BVA.68,Father carved the turkey with a road.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+154, ,,1,incongruent.53,"I don't know his name, but Sue said that she detained a criminal at the airport.",21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+155, ,,1,yn.41,Hal wrote her a love letter.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+156,Did the boat sink?,7,1,BA.15,The boat passed easily under the hour.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+157, ,,1,NP.67,"I don't know what, but Harry claims that he found something in the attic.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+158,Was the invention patented?,7,1,cleft.83,Did the invention of the algorithm interest the investors?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+159, ,,1,BA.16,"I don't know its purpose, but Sam said that he installed a program on the computer.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+160, ,,1,Control.38,What did the objection against the war start?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+161,Was there an inquiry about the company?,9,1,congruent.23,Morgan wondered who the inquiry about the company distracted.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+162, ,,1,BVA.59,Who did the incompetence of the doctors injure?,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+163, ,,1,fronting.14,Did the pamphlet about the disease suggest the vaccine? ,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+164, ,,1,RA.39,Adam wondered if the information about the stocks deceived the investors.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+165,Did Stacey see someone?,9,1,cleft.60,"I didn't see anyone, but Stacey says that she saw a squatter in the house.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+166, ,,1,NP.54,"I don't know who, but Neil says that he apprehended someone for the crime.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+167, ,,1,Control.53,"I didn't hide anything, but Sarah says that she hid a coat in the closet.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+168,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+169, ,,1,Control.54,Fred put the worm on a dictionary.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+170, ,,1,congruent.09,Kaitlyn wondered who the lecture about the painting captivated.,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+171, ,,1,incongruent.54,The mother fed the newborn baby.,22,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+172,Did he buy a desk?,7,1,RA.56,He bought a wall to wall carpet.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+173, ,,1,yn.42,"I don't know her name, but Scott claims that he tutored a student at the school.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+174, ,,1,BA.19,Did the letter about the attack disturb the president?,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+175, ,,1,incongruent.39,"I didn't leave anything, but Ann says that she left something in the cave.",20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+176,Did Jeff draw a symbol?,9,1,NP.64,"I don't know its meaning, but Jeff says that he drew a symbol on the wall.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+177,Was the debate canceled?,7,1,cleft.84,Did the poll about the debate uncover the winner?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+178,Did the comedian tell a joke?,9,1,BVA.02,Ella wondered if the joke by the comedian insulted the prime minister.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+179, ,,1,Control.39,What did the performance by the children receive?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+180, ,,1,BA.17,Olivia wondered if the picture of the couple accompanied the wedding invitation.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+181, ,,1,RA.38,"I didn't organize anything, but Nate claims that he organized a fundraiser in the office.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+182, ,,1,fronting.07,Who did the invitation of the actor thrill?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+183, ,,1,NP.05,"I don't know what, but Mandy says that she memorized something from the file.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+184, ,,1,congruent.24,"I didn't admire anyone, but Mandy said that she admired an executive from the company.",4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+185, ,,1,yn.38,"I don't know who, but Thomas said that he offended someone at the bar.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+186, ,,1,fronting.15,Hannah wondered what the poem by the singer won.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+187, ,,1,BVA.37,The careless smoker caused a forest thunder.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+188,Did Laura reprimand someone?,9,1,cleft.61,"I didn't reprimand anyone, but Laura says that she reprimanded someone at the office.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+189,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+190, ,,1,BA.20,"I didn't wash anything, but Clark claims that he washed something for the neighbor.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+191, ,,1,RA.23,He bought them in the candy pressure.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+192, ,,1,Control.40,"I don't know its title, but Audrey says that she traded a DVD for the book.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+193, ,,1,NP.48,"I don't know who, but Kyle says that he befriended someone from the facility.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+194,Did Duke eat the pie?,7,1,yn.46,"I didn't smuggle anything, but Duke says that he smuggled an artifact into the country.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+195, ,,1,BVA.32,Samantha wondered if the presentation by the architects facilitated the new contract.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+196, ,,1,fronting.18,Did the picture of the victim impress the editor?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+197, ,,1,incongruent.40,I added my name to the list.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+198,Was there a presentation about the climate?,9,1,cleft.63,What did the presentation about the climate predict?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+199, ,,1,Control.55,"I didn't search anyone, but Erin says that she searched someone at the airport.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+200, ,,1,BVA.03,Jennifer wondered who the performance of the play electrified.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+201,Was there a protest?,9,1,incongruent.55,Did the protest against the government interrupt the annual conference?,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+202, ,,1,BA.18,"I don't know what, but Breanne claims that she rented something from the company.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+203, ,,1,yn.43,The lecture should last about one space.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+204,Did Kristin buy a car?,7,1,NP.49,"I didn't caution anyone, but Kristin claims that she cautioned a pedestrian near the pothole.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+205, ,,1,RA.16,Who did the movie about the genocide scare?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+206, ,,1,fronting.08,The organist accompanied the church choir.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+207,Was there a problem with the book?,7,1,congruent.10,Elizabeth wondered what the problem with the engine prevented.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+208, ,,1,cleft.85,"I don't know her name, but Tim claims that he briefed a prosecutor about the case.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+209, ,,1,congruent.25,Savannah wondered if the painting of the wreckage startled the visitor.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+210,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+211, ,,1,BVA.84,The pigs wallowed in the drawer.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+212,Did Troy escort someone to the fundraiser?,9,1,incongruent.56,"I don't know who, but Troy says that he escorted someone to the fundraiser.",23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+213, ,,1,RA.12,"I don't know its size, but Diane says that she repaired a truck after the meeting.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+214, ,,1,fronting.10,Maria wondered who the portrait of the clowns scared.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+215,Did Emmay design something for the show?,9,1,Control.56,"I didn't design anything, but Emma said that she designed something for the show.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+216, ,,1,cleft.86,"I don't know her name, but Brandon says that he quoted a poet in the report.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+217, ,,1,congruent.11,The racing cars received the checkered flag.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+218, ,,1,yn.47,"I didn't rescue anyone, but Brenda said that she rescued someone from the elevator.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+219,Was the question from the lawyer?,7,1,BVA.35,Sarah wondered if the question from the chemist revealed the error.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+220, ,,1,incongruent.41,What did the protest by the workers challenge?,22,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+221, ,,1,NP.51,"I didn't build anything, but Dan said that he built a model over the break.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+222,Was there a poster?,9,1,fronting.20,Did the poster of the championship inspire the team?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+223,Was the recipe by the chef?,7,1,NP.50,Sophia wondered what the recipe by the farmer required.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+224, ,,1,BA.21,"I didn't impress anyone, but Melissa claims that she impressed a comedian with the impersonations.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+225, ,,1,cleft.64,"I don't know what, but Bill said that he lost something after the party.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+226, ,,1,BA.22,Did the rejection of the treaty hurt the trade agreements?,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+227, ,,1,RA.63,I like hot fudge with ice cream.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+228, ,,1,congruent.26,He loosened the tie around his horses.,7,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,1
+229, ,,1,Control.41,Who did the plan for the battle dissatisfy?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+230, ,,1,yn.44,Haley wondered if the poem about the pond confused the students.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+231,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+232, ,,1,congruent.12,The sprinter ran the last quarter hunt.,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+233, ,,1,cleft.65,Did the statement about the investigation complicate the election?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+234,Was the speech about the law?,9,1,congruent.27,Taylor wondered what the speech about the law incited.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+235, ,,1,BVA.90,"I don't know what, but Hector claims that he guards something near the campus.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+236,Was the president re-elected?,7,1,yn.48,Did the report about the hearing anger the president?,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+237,Did Linda record the show?,7,1,RA.43,"I don't know his name, but Linda said that she corrected a student during the speech.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+238, ,,1,Control.42,"I didn't recognize anyone, but Karen says that she recognized someone at the party.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+239, ,,1,NP.57,I ordered a ham and cheese sandwich.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+240, ,,1,yn.45,He mailed the letter without a ladder.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+241, ,,1,Control.57,"I didn't endorse anyone, but Susan claims that she endorsed a candidate at the rally.",33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+242,Did Lauren read something?,9,1,fronting.11,"I didn't read anything, but Lauren claims that she read something in the library.",144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+243, ,,1,RA.06,Who did the proof of the theorem fascinate?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+244, ,,1,fronting.22,Makayla wondered if the question about the equation stumped the students.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+245, ,,1,incongruent.42,"I don't know its location, but Laura says that she restored a house outside of town.",21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+246, ,,1,BA.25,What did the report by the investigator influence?,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+247,Was the critic fired?,7,1,NP.17,Ava wondered if the review by the critic affected the ticket sales.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+248, ,,1,incongruent.57,The ship disappeared into the thick fog.,22,0,0,0,1,0,1,1,0,1,0,0,0,0,0,0,0,1
+249, ,,1,cleft.87,Brooke wondered who the rejection by the judge infuriated.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+250, ,,1,BA.23,"I don't know who, but Dennis said that he congratulated someone at the banquet.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+251, ,,1,BVA.34,"I didn't bury anything, but Henry says that he buried a box near the river.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+252,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+253,Was the winter harsh?,9,1,congruent.13,The winter was very harsh this water.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+254, ,,1,yn.54,"I don't know its title, but Pete claims that he sang a song at the show.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+255, ,,1,RA.88,"I didn't protest anything, but Sally says that she protested something during the break.",66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+256,Was the survey about the movie?,7,1,cleft.67,Natalie wondered what the survey about the debate revealed.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+257, ,,1,Control.58,Jack ordered a hamburger and french fries.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+258, ,,1,congruent.28,What did the statue of the president block?,4,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+259, ,,1,BA.28,Addison wondered if the rumor about the governor amused the reporter.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+260,Did John assign someone to the project?,9,1,BVA.62,"I don't know who, but John said that he assigned someone to the project.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+261, ,,1,incongruent.43,Who did the review of the book interest?,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+262,Was the story about the parade?,7,1,Control.43,Chloe wondered if the story by the reporter uncovered the scandal.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+263, ,,1,BVA.89,"I didn't email anyone, but Brittany said that she emailed someone about the job.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+264, ,,1,fronting.16,Stephanie wondered who the sketch of the building offended.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+265, ,,1,NP.83,"I didn't kiss anyone, but Merissa claims that she kissed a guy at the formal.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+266,Did Lisa learn an equation?,9,1,BA.24,"I didn't learn anything, but Lisa says that she learned an equation at the conference.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+267, ,,1,NP.15,Did the testimony by the victim allege the coverup?,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+268, ,,1,cleft.88,Her new shoes were the wrong year.,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+269, ,,1,incongruent.58,"I don't know her name, but Joe said that he sketched a model for the class.",21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+270, ,,1,fronting.23,The young boy punted the football.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+271, ,,1,RA.28,Did the song about the competition inspire the composer?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+272, ,,1,yn.49,"I don't know what, but Lee said that he drank something before the game.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+273,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+274,Did the candidate drop out of the race?,7,1,Control.44,Zoe wondered if the speech by the candidate energized the volunteers.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+275, ,,1,NP.44,Karen awoke after a bad dream.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+276, ,,1,congruent.29,"I don't know its value, but Kelsey claims that she won a scholarship in the contest.",5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+277, ,,1,Control.59,Their picnic was ruined by the broom.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+278, ,,1,RA.18,Who did the song about the puppies amuse?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+279, ,,1,BA.26,"I didn't inherit anything, but Steve said that he inherited a painting from the estate.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+280, ,,1,yn.62,"I don't know what, but Sam said that he ordered something from the internet. ",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+281,Did they raise pigs?,9,1,NP.01,They raised pigs on their farm.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+282, ,,1,fronting.24,Faith wondered who the statue of the president amazed.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+283, ,,1,RA.40,Did the tutorial by the engineer save the project?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+284,Did Jennifer purchase a book?,7,1,cleft.70,"I didn't chase anyone, but Jennifer said that she chased a tenant down the hall.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+285, ,,1,BA.29,Victoria wondered what the trial of the senator proved.,34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+286,Was the theory about the comet?,9,1,incongruent.44,What did the theory about the comet reveal?,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+287, ,,1,fronting.17,Anna wondered if the theory by the physicists deserved the Nobel Prize.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+288, ,,1,BVA.79,"I don't know her name, but Oliver claimed that he debated a professor at the conference.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+289, ,,1,yn.50,"I don't know who, but Chris said that he identified someone in the lineup.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+290,Was there a story about ghosts?,7,1,incongruent.59,Did the story about the dancers entertain the girls?,20,0,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,1
+291, ,,1,cleft.89,"I didn't counsel anyone, but Megan said that she counseled someone at the office.",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+292, ,,1,BVA.13,I generally smoke filtered menthol energy.,68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+293, ,,1,congruent.14,"I didn't buy anything, but Laurel says that she bought something after the show.",6,0,0,0,0,0,1,1,0,1,0,0,0,0,0,0,0,1
+294,,,1,,break,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+295, ,,1,Control.45,It's unlucky to walk under a ship.,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+296,Did Kevin buy a video game?,7,1,yn.51,"I didn't notify anyone, but Kevin claimed that he notified an instructor about the computer.",129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+297,Did Mara unload something at the warehouse?,9,1,NP.41,"I didn't unload anything, but Mara said that she unloaded something at the warehouse.",65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+298, ,,1,BA.30,"I don't know who, but Cory said that he despised someone at the agency.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+299, ,,1,BVA.04,"I don't know its purpose, but Jack said that he investigated a cabin in the woods.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+300, ,,1,fronting.25,Did the video of the riot record the arrests?,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+301,Was there a tweet by an actress?,9,1,yn.66,Sydney wondered if the tweet by the actress mocked the movie.,129,1,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+302,Did Holly inform an attorney?,9,1,incongruent.45,"I don't know his name, but Holly says that she informed an attorney about the lawsuit. ",23,0,0,0,1,0,1,1,1,1,0,0,0,0,0,0,0,1
+303, ,,1,RA.24,Motorcycles can create a lot of noise.,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+304, ,,1,congruent.15,Alexa wondered if the thesis by the student impressed the committee members.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+305, ,,1,BVA.45,"I didn't book anyone, but Justin said that he booked someone for the festival.",68,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1
+306,Did Frank photograph the mountain?,7,1,cleft.90,"I don't know what, but Frank said that he lost something in the city. ",136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+307, ,,1,RA.60,Who did the testimony about the weapon convince?,66,0,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+308, ,,1,BA.27,"I didn't plant anything, but Madison claimed that she planted a flower in the field.",34,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,1
+309, ,,1,fronting.19,They heated the pool with solar pepper.,144,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1
+310, ,,1,incongruent.60,Jasmine wondered what the verdict from the judge caused.,21,0,0,0,1,0,1,0,1,1,0,0,0,0,0,0,0,1
+311, ,,1,Control.60,Did the video about the accident educate the young drivers?,33,0,0,1,0,0,0,0,1,1,0,0,0,0,0,0,0,1
+312, ,,1,congruent.30,Katelyn wondered who the tweet about the protest offended.,5,0,0,0,0,0,1,0,1,1,0,0,0,0,0,0,0,1
+313, ,,1,cleft.71,What did the tutorial on the internet teach?,136,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1
+314, ,,1,NP.22,Yesterday they canoed down the river.,65,0,1,0,0,0,0,0,1,1,0,0,0,0,0,0,0,1
