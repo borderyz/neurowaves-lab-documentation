@@ -15,7 +15,7 @@ from pipeline.mne_pipelines.kit_general_pipelines.utilities import (
     NYUAD_KIT_CONSTANTS as C,
     bids_name_from_entities,
     resolve_events_pair_with_joint_fallback,
-    detect_pulses_on_channel,
+    detect_pulses_on_channel, resolve_events_json_with_fallback,
 )
 
 parser = argparse.ArgumentParser(
@@ -105,10 +105,10 @@ for sub in subjects:
         print(f"\n--- Processing: {raw_path}")
 
         # Use the *paired* selection (JSON+table) from your sanity checker
-        tbl_path, json_path, scope = resolve_events_pair_with_joint_fallback(raw_match=raw_match,
+        json_path, scope = resolve_events_json_with_fallback(raw_match=raw_match,
                                                                              bids_root=bids_root)
-        if not (tbl_path and json_path):
-            print(f" Missing paired events files for {raw_path} — skipping.")
+        if not json_path:
+            print(f" Missing events.json file for {raw_path} — skipping.")
             continue
 
         with open(json_path, "r") as jf:
