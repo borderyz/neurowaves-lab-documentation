@@ -19,7 +19,7 @@ class _NYUADKitConstants:
         'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008'
     ])
     trigger_channels_KIT: List[int] = field(default_factory=lambda: [224, 225, 226, 227, 228, 229, 230, 231])
-
+    LINE_FREQUENCY = 50
     # Plotting defaults
     DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE: float = 1.5
     DEFAULT_TIME_SCALE: float = 100.0

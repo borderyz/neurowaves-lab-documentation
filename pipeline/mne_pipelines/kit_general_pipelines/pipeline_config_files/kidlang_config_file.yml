@@ -9,7 +9,7 @@ project:
 
 subjects:
   # If empty (or missing), process ALL subjects found in the BIDS root
-  include: ["Y0312"]
+  include: []
   # Always skip these (useful to omit pilot/bad subs)
   exclude: []
 
