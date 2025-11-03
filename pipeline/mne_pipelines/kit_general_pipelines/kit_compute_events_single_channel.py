@@ -9,7 +9,16 @@ import numpy as np
 import pandas as pd
 import yaml
 import mne
+
+# --- ADDED: headless plotting backend for saving figures without GUI
+import matplotlib
+import matplotlib.pyplot as plt
+matplotlib.use("Agg")
+
+
 from mne_bids import find_matching_paths, get_entity_vals
+mne.viz.set_browser_backend("matplotlib")
+
 
 from pipeline.mne_pipelines.kit_general_pipelines.utilities import (
     NYUAD_KIT_CONSTANTS as C,
@@ -57,6 +66,18 @@ else:
 project_name = proj_cfg["name"]
 bids_root = str(root / project_name)
 print(f"Resolved BIDS root: {bids_root}")
+
+
+
+# --- ADDED: plotting configuration (with sensible defaults)
+plot_cfg = (CFG.get("plots") or {})
+SAVE_STIM_PLOTS: bool = plot_cfg.get("save_stim_plots", True)
+STIM_PLOT_FORMAT: str = str(plot_cfg.get("format", "pdf")).lower()  # 'pdf' by default
+STIM_PLOT_DURATION: float = float(plot_cfg.get("duration_s", getattr(C, "DEFAULT_TIME_SCALE", 10.0)))
+STIM_PLOT_SCALING_MISC = plot_cfg.get("misc_scaling", getattr(C, "DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE", 1.0))
+STIM_PLOT_CHANNELS = plot_cfg.get("channels_mne", getattr(C, "trigger_channels_MNE", []))
+STIM_PLOT_SUBDIR = plot_cfg.get("subdir", "figures")  # keep under derivatives/.../figures
+
 
 # Subjects
 sub_cfg = CFG.get("subjects", {}) or {}
@@ -120,6 +141,70 @@ for sub in subjects:
 
         raw = mne.io.read_raw_kit(raw_path, preload=False, verbose=False)
         sfreq = raw.info["sfreq"]
+
+        if SAVE_STIM_PLOTS:
+            # Make per-file output directories consistent with your derivatives layout
+            out_dir = DERIV_ROOT / (f"sub-{entities.get('subject')}" if entities.get("subject") else "")
+            if entities.get("session"):
+                out_dir = out_dir / f"ses-{entities['session']}"
+            fig_dir = out_dir / STIM_PLOT_SUBDIR
+            fig_dir.mkdir(parents=True, exist_ok=True)
+
+            # Build a base name consistent with events files below
+            out_entities = {k: v for k, v in (entities or {}).items() if v}
+
+            def set_if(val, key):
+                if val not in (None, "", "n/a"):
+                    out_entities[key] = val
+
+            set_if(getattr(raw_match, "task", None),        "task")
+            set_if(getattr(raw_match, "run", None),         "run")
+            set_if(getattr(raw_match, "acquisition", None), "acq")
+            set_if(getattr(raw_match, "processing", None),  "proc")
+            set_if(getattr(raw_match, "split", None),       "split")
+            if "processing" in out_entities and "proc" in out_entities:
+                out_entities.pop("processing", None)
+
+            key_order = ["subject", "session", "task", "acq", "run", "proc", "rec", "split"]
+            prefix = {"subject": "sub", "session": "ses", "task": "task", "acq": "acq",
+                      "run": "run", "proc": "proc", "rec": "rec", "split": "split"}
+
+            parts = []
+            for k in key_order:
+                v = out_entities.get(k, None)
+                if v not in (None, "", "n/a"):
+                    parts.append(f"{prefix[k]}-{v}")
+            # Keep parallel naming with events (but use 'stimplot' descriptor)
+            parts.append("desc-stimplot")
+            base_plot = "_".join(parts)
+
+            # Final path
+            stim_plot_path = fig_dir / f"{base_plot}.{STIM_PLOT_FORMAT}"
+
+            # Choose channels to plot: default to your trigger MNE names
+            picks = [ch for ch in (STIM_PLOT_CHANNELS or []) if ch in raw.ch_names]
+            if not picks:
+                print("  [PLOT] No requested stim/trigger channels present — skipping plot save.")
+            else:
+                print(f"  [PLOT] Saving stimulus/trigger channels plot → {stim_plot_path.name}")
+                try:
+                    # Use non-interactive browser; save the figure
+                    browser = raw.plot(
+                        picks=picks,
+                        block=False,   # do not block execution
+                        show=False,    # do not open a GUI window
+                        scalings={"misc": STIM_PLOT_SCALING_MISC},
+                        duration=STIM_PLOT_DURATION,
+                    )
+                    # mne's browser object has a `.fig` attribute; be defensive
+                    fig = getattr(browser, "fig", browser)
+                    fig.savefig(stim_plot_path, dpi=300, bbox_inches="tight")
+                    # Explicit close to free memory in batch runs
+                    import matplotlib.pyplot as plt
+                    plt.close(fig)
+                except Exception as err:
+                    print(f"  [PLOT] Failed to save stim plot ({type(err).__name__}): {err}")
+
 
         # Detect pulses on each trigger channel and assemble events array
         events_list = []
@@ -234,13 +319,13 @@ for sub in subjects:
         print(f"Wrote detail TSV: {tsv_path}")
 
 
-
         index_rows.append({
             "subject": entities.get("subject"),
             "file": str(raw_path),
             "events_eve": str(eve_path),
             "detail_tsv": str(tsv_path),
             "n_events": int(len(events)),
+            "stim_plot": str((out_dir / STIM_PLOT_SUBDIR / f"{base.replace(f'desc-{args.desc}_events', 'desc-stimplot')}.{STIM_PLOT_FORMAT}")) if SAVE_STIM_PLOTS else ""
         })
 
 # Write an index file

@@ -9,9 +9,12 @@ project:
 
 subjects:
   # If empty (or missing), process ALL subjects found in the BIDS root
-  include: []
+  include: ["Y0312"]
   # Always skip these (useful to omit pilot/bad subs)
   exclude: []
+
+plots:
+  save_stim_plots: true     # default true; set to false to disable saving
 
 # Optional selection filters (empty => all)
 bids_selection:

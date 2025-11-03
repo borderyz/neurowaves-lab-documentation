@@ -16,7 +16,14 @@ subjects:
 
 plots:
   save_stim_plots: true     # default true; set to false to disable saving
-
+  format: pdf               # pdf|png|svg
+  duration_s: 10.0          # window duration, defaults to C.DEFAULT_TIME_SCALE
+  misc_scaling: 1.0         # defaults to C.DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE
+  channels_mne:             # defaults to C.trigger_channels_MNE (meaning, plots all trigger channels) if omitted
+    - MISC 1
+    - MISC 2
+    - MISC 3
+  subdir: figures           # saved under derivatives/triggers_to_events/.../figures
 
 # Optional selection filters (empty => all)
 bids_selection:
