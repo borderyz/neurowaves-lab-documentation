@@ -1,0 +1,4 @@
+quarto render report.qmd \
+  -P dataset:"script-testing-dataset" \
+  -P config:"pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml" \
+  --to html,pdf

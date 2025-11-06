@@ -1,0 +1,58 @@
+---
+title: "Test 2: Correct Parameter Access"
+format: html
+params:
+  config_file: null
+---
+
+## 1. Checking Parameter
+
+This block tests the *correct* way to access the parameter.
+
+```{python}
+#| echo: true
+#| output: as-is
+
+import yaml
+import os
+from pathlib import Path
+
+print("--- Starting Python execution ---")
+
+# 1. Get the parameter
+# The 'config_file' variable is injected globally by Quarto.
+# We must check if it was defined.
+
+if 'config_file' not in locals() and 'config_file' not in globals():
+    print("ERROR: The 'config_file' variable was not injected into the notebook.")
+else:
+    # 'config_file' exists, now get its value.
+    # We assign it to a new name just for clarity.
+    config_file_path_str = config_file
+
+    print(f"Got param 'config_file': {config_file_path_str}")
+
+    if not config_file_path_str:
+        print("ERROR: 'config_file' param is None. Stopping.")
+    else:
+        # 2. Check if file exists
+        config_path = Path(config_file_path_str)
+        print(f"Converted to Path: {config_path}")
+
+        if not config_path.exists():
+            print(f"ERROR: File does not exist at path: {config_path}")
+        else:
+            print("SUCCESS: Config file was found.")
+
+            # 3. Try to load with YAML
+            try:
+                with open(config_path, 'r') as f:
+                    CFG = yaml.safe_load(f)
+                print("SUCCESS: YAML file was loaded.")
+                print("\n--- Config 'project' section: ---")
+                print(CFG.get('project'))
+            except Exception as e:
+                print(f"ERROR: Failed to load YAML file. Error: {e}")
+
+print("\n--- Python execution finished ---")
+```

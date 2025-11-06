@@ -1,0 +1,47 @@
+---
+title: "Test 3: Environment Variable"
+format: html
+---
+
+## 1. Checking Environment Variable
+
+This block tests reading a path from an environment variable.
+
+```{python}
+#| echo: true
+#| output: as-is
+
+import yaml
+import os
+from pathlib import Path
+
+print("--- Starting Python execution ---")
+
+# 1. Get the environment variable
+env_var_name = "MY_CONFIG_PATH"
+config_file_path_str = os.environ.get(env_var_name)
+
+if not config_file_path_str:
+    print(f"ERROR: The environment variable '{env_var_name}' is not set.")
+else:
+    print(f"SUCCESS: Got path from env var: {config_file_path_str}")
+
+    # 2. Check if file exists
+    config_path = Path(config_file_path_str)
+    print(f"Converted to Path: {config_path}")
+
+    if not config_path.exists():
+        print(f"ERROR: File does not exist at path: {config_path}")
+    else:
+        print("SUCCESS: Config file was found.")
+
+        # 3. Try to load with YAML
+        try:
+            with open(config_path, 'r') as f:
+                CFG = yaml.safe_load(f)
+            print("SUCCESS: YAML file was loaded.")
+        except Exception as e:
+            print(f"ERROR: Failed to load YAML file. Error: {e}")
+
+print("\n--- Python execution finished ---")
+```

@@ -1,0 +1,126 @@
+---
+title: "MEG Pipeline Report (Debug Mode)"
+format:
+  html:
+    toc: true
+    toc-float: true
+    theme: cosmo
+    embed-resources: true
+  pdf:
+    toc: true
+---
+
+## 1. Setup and Configuration
+
+This code chunk reads the config file, resolves paths, and prints its
+progress.
+
+```{python}
+#| echo: false
+#| output: as-is
+
+import yaml
+import os
+from pathlib import Path
+import pandas as pd
+from IPython.display import display, Markdown, Image
+
+print("--- DEBUG: Starting Setup Block ---")
+
+def read_config_and_find_paths():
+    """
+    Reads config path from env var, resolves BIDS root, and returns
+    a dict of paths to all expected result files.
+    """
+    print("DEBUG: Inside read_config_and_find_paths()")
+    config_path_str = os.environ.get("MY_CONFIG_PATH")
+
+    if not config_path_str:
+        print("DEBUG ERROR: 'MY_CONFIG_PATH' environment variable is not set.")
+        return None, {}
+    print(f"DEBUG: Found MY_CONFIG_PATH: {config_path_str}")
+
+    config_path = Path(config_path_str)
+    if not config_path.exists():
+        print(f"DEBUG ERROR: Config file not found at: {config_path}")
+        return None, {}
+    print(f"DEBUG: Config file exists at: {config_path}")
+
+    with open(config_path, 'r') as f:
+        CFG = yaml.safe_load(f)
+    print("DEBUG: Successfully loaded YAML.")
+
+    # --- 1. Resolve BIDS Root Path ---
+    print("DEBUG: Resolving BIDS root...")
+    root_path_str = CFG['project'].get('root_override')
+    if root_path_str:
+        print(f"DEBUG: Using root_override: {root_path_str}")
+    else:
+        env_var = CFG['project'].get('root_env')
+        print(f"DEBUG: No root_override. Checking root_env: '{env_var}'")
+        if not env_var:
+            print("DEBUG ERROR: 'root_env' is not defined in config.")
+            return CFG, {}
+
+        if env_var not in os.environ:
+            print(f"DEBUG ERROR: 'root_env' ('{env_var}') is not set as a system-wide environment variable.")
+            return CFG, {}
+
+        root_path_str = os.environ[env_var]
+        print(f"DEBUG: Found env var '{env_var}' with value: {root_path_str}")
+
+    root_path = Path(root_path_str)
+    dataset_name = CFG['project']['name']
+    bids_root = root_path / dataset_name
+    deriv_root = bids_root / "derivatives"
+    print(f"DEBUG: Calculated BIDS root: {bids_root}")
+    print(f"DEBUG: Calculated derivatives root: {deriv_root}")
+
+    # --- 2. Define all expected summary file paths ---
+    paths = {
+        "bids_root": bids_root,
+        "deriv_root": deriv_root,
+        "kit2fiff_summary": deriv_root / "kit2fiff" / "kit2fiff_summary.csv",
+        "filter_summary": deriv_root / "filtered_data" / "filter_summary.csv",
+        "sanity_summary": deriv_root / "sanity_check" / "sanity_summary.csv",
+    }
+    print("DEBUG: Successfully built file paths.")
+    return CFG, paths
+
+def show_file(path):
+    """Safely displays a file (CSV, PNG, or TXT/LOG)"""
+    if not path or not Path(path).exists():
+        print(f"DEBUG ERROR: show_file() called, but file not found at: {path}")
+        display(Markdown(f"*File not found: `{path}`*"))
+        return
+
+    print(f"DEBUG: show_file() is displaying: {path}")
+    try:
+        if path.suffix == ".csv":
+            display(pd.read_csv(path))
+        elif path.suffix == ".png":
+            display(Image(filename=path))
+        elif path.suffix in [".txt", ".log"]:
+            with open(path, 'r') as f:
+                print(f.read())
+        else:
+            display(Markdown(f"*Cannot display file type: `{path.suffix}`*"))
+    except Exception as e:
+        display(Markdown(f"*Error reading `{path}`: {e}*"))
+
+# --- Main execution ---
+print("DEBUG: --- Main execution ---")
+try:
+    CFG, PATHS = read_config_and_find_paths()
+    if CFG is None:
+        print("DEBUG: CFG is None, stopping.")
+    if not PATHS:
+        print("DEBUG: PATHS is empty, stopping.")
+except Exception as e:
+    print(f"DEBUG CRITICAL ERROR: An exception occurred in the main setup block: {e}")
+    CFG = None
+    PATHS = {}
+
+print("DEBUG: --- Setup Block Finished ---")
+
+```
