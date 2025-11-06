@@ -1,0 +1,38 @@
+---
+title: "NYUAD MEG Pipeline Report"
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: false
+    embed-resources: true
+  pdf:
+    documentclass: scrreprt
+    toc: true
+params:
+  dataset: null        # e.g., "script-testing-dataset" (overrides YAML project.name)
+  config: "pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+  root_env: "MEG_DATA" # only used by your YAML (we keep it visible here for clarity)
+execute:
+  echo: false
+  warning: false
+  error: true
+jupyter: python3
+---
+
+```{python}
+#| label: setup
+# Import helpers (assuming this file is at reports/report.qmd)
+from pathlib import Path
+import yaml
+from utils_report import (
+    load_config, resolve_bids_root, load_derivative_tables,
+    build_static_figures, build_interactive_html_blocks, copy_config_snapshot
+)
+
+cfg_path = params["config"]
+CFG = load_config(cfg_path)
+
+# Resolve dataset via params.dataset (if provided) or YAML project.name
+bids_root, dataset_name = resolve_bids_root(CFG, params.get("dataset"))
+bids_root, dataset_name

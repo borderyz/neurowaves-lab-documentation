@@ -28,8 +28,8 @@ Every stimulis occurrence  is spaced from the next one by an Inter-Stimulus Inte
 
 
 
-Code access
-^^^^^^^^^^^
+Stimulus Code access
+^^^^^^^^^^^^^^^^^^^^
 
 :github-file:`Auditory vs Visual vs Motor Experiment Code <experiments/psychtoolbox/auditory-vs-visual>`
 

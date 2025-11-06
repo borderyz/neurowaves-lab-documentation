@@ -61,8 +61,8 @@ The .mat file outputs a table with relevant information about the trials, such a
 
 
 
-Code access
-^^^^^^^^^^^
+Stimulus Code access
+^^^^^^^^^^^^^^^^^^^^
 
 :github-file:`Visual Crowd Preview <experiments/psychtoolbox/visual_crowding_preview>`
 

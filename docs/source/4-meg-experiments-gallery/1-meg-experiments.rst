@@ -35,4 +35,13 @@ Psychopy
    experiments/psychopy/*
 
 
+Presentation
+^^^^^^^^^^^^
+
+.. nbgallery::
+   :glob:
+
+   experiments/presentation/*
+
+
 

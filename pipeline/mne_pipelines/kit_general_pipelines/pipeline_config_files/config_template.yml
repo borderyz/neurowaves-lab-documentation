@@ -30,7 +30,7 @@ filters:
 
   bandpass:
     l_freq: 1.0           # default: 1.0 Hz
-    h_freq: 40.0          # default: 40.0 Hz
+    h_freq: 100.0          # default: 40.0 Hz
     # kwargs:              # optional extra args passed to raw.filter
     #   method: fir
     #   phase: zero
