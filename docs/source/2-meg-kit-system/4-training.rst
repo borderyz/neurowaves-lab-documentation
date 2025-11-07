@@ -9,9 +9,9 @@ Training Procedure
 ------------------
 
 1. **Request for Training**
-   Send an email request for training to
-   `Haidee Paterson <mailto:haidee.paterson@nyu.edu>`_ or
-   `Hadi Zaatiti <mailto:hadi.zaatiti@nyu.edu>`_.
+   Send an email request for training to:
+   `<mailto:nyuad.meg@nyu.edu>`_
+
    Please include details about your project and proposed timelines.
 
 2. **Download the MEG Lab Manual**
@@ -32,8 +32,7 @@ Training Procedure
 
 6. **Competency Assessment**
    When you feel confident with all aspects of MEG data acquisition, contact
-   `Haidee Paterson <mailto:haidee.paterson@nyu.edu>`_ or
-   `Hadi Zaatiti <mailto:hadi.zaatiti@nyu.edu>`_
+   ``<mailto:nyuad.meg@nyu.edu>`_
    to arrange an assessment.
 
 7. **Authorization**
@@ -49,18 +48,14 @@ Completion Requirements
 Once all training sessions are completed, please complete the **MEG Quiz** and submit the required forms listed below.
 These requirements are in line with the **Core Technology Platform (CTP)** training guidelines.
 
-MEG Quiz
---------
 
-**Test your knowledge!**
-Click the link below to begin the quiz. You will need to sign in with your NYU email account.
+.. **Test your knowledge!**::
 
-`Quiz Form Access <https://forms.gle/BEFta1UU6mbhcDvk9>`_
+   `Quiz Form Access <https://forms.gle/BEFta1UU6mbhcDvk9>`_
 
-.. note::
+.. **Complete the forms below**::
 
    `Access the CTP Training Attendance Form <https://docs.google.com/forms/d/e/1FAIpQLScLW1MOvo-9aAwX2_04FcyLGPR9xtDso9hu9SEixUy2VzuAiw/viewform>`_
 
    `Access the MEG Training Validation Form <https://docs.google.com/forms/d/e/1FAIpQLSd1njYqrKPcR_2rEsWsQhmnY1Sz7XyXA4k5PYxjqC_XDqcIxw/viewform?usp=dialog>`_
-
 
