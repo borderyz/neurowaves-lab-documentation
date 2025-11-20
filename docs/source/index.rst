@@ -209,8 +209,6 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    :hidden:
 
    9-meg-standard-operating-procedure/1-standard operating procedures
-   9-meg-standard-operating-procedure/2-emergency operating procedures
-   9-meg-standard-operating-procedure/3-risk assessments
 
 .. toctree::
    :maxdepth: 2
