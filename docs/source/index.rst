@@ -204,11 +204,11 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
    8-meg-operations/2-meg-emergency
 
 .. toctree::
-   :maxdepth: 2
-   :caption: MEG Operations
-   :hidden:
+   :maxdepth: 1
+   :caption: 9. MEG Standard Operating Procedure
 
-   9-meg-standard-operating-procedure/1-standard operating procedures
+   9-meg-standard-operating-procedure/standard-operating-procedures
+
 
 .. toctree::
    :maxdepth: 2
