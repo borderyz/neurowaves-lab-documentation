@@ -149,6 +149,16 @@ These procedures take an estimated time of 20 mins.
 
 #. Prepare Vpixx systems:
     - Ensure that the three `Vpixx` boxes are turned on: Soundpixx, Propixx and Responsepixx
+
+    - Soundpixx box - all the knobs have to be set as a default to the positions on the image below:
+
+        .. figure:: figures/meg-operationprotocol/soundpixx.png
+           :alt: Soundpixxbox settings
+           :align: center
+           :scale: 30%
+
+           Soundpixx Box knob settings
+
     - Turn on the computer if it is off, boot under Windows (it will default to Ubuntu)
     - Settings of Vpixx computer. Ensure that:
         - Screens are in multiple displays (not mirror display)
