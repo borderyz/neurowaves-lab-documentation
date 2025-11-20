@@ -55,6 +55,9 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+
+.quarto
+_output
 # Unit test / coverage reports
 htmlcov/
 .tox/

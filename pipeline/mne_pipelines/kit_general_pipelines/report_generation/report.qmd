@@ -1,38 +1,150 @@
 ---
-title: "NYUAD MEG Pipeline Report"
-format:
-  html:
-    theme: cosmo
-    toc: true
-    code-fold: false
-    embed-resources: true
-  pdf:
-    documentclass: scrreprt
-    toc: true
-params:
-  dataset: null        # e.g., "script-testing-dataset" (overrides YAML project.name)
-  config: "pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
-  root_env: "MEG_DATA" # only used by your YAML (we keep it visible here for clarity)
-execute:
-  echo: false
-  warning: false
-  error: true
-jupyter: python3
+title: "Configuration Report"
+date: today
+author: "NeuroWaves Lab"
+jupyter: neurowaves
 ---
 
 ```{python}
-#| label: setup
-# Import helpers (assuming this file is at reports/report.qmd)
-from pathlib import Path
+#| echo: false
 import yaml
-from utils_report import (
-    load_config, resolve_bids_root, load_derivative_tables,
-    build_static_figures, build_interactive_html_blocks, copy_config_snapshot
-)
+import pandas as pd
+import os
+import mne_bids
+from IPython.display import display, Markdown
 
-cfg_path = params["config"]
-CFG = load_config(cfg_path)
+# Path to the config file
+config_path = "../pipeline_config_files/config_template.yml"
 
-# Resolve dataset via params.dataset (if provided) or YAML project.name
-bids_root, dataset_name = resolve_bids_root(CFG, params.get("dataset"))
-bids_root, dataset_name
+try:
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+except FileNotFoundError:
+    config = {"Error": "Config file not found at " + config_path}
+
+def dict_to_markdown(d, level=1):
+    md = ""
+    for k, v in d.items():
+        md += f"{'#' * level} {k}\n\n"
+        if isinstance(v, dict):
+            md += dict_to_markdown(v, level + 1)
+        elif isinstance(v, list):
+            for item in v:
+                md += f"- {item}\n"
+            md += "\n"
+        else:
+            md += f"**Value:** `{v}`\n\n"
+    return md
+
+```
+
+# Introduction
+
+This report details the configuration settings found in `config_template.yml`.
+
+# Configuration Details
+
+```{python}
+#| echo: false
+#| output: asis
+
+if "Error" in config:
+    print(config["Error"])
+else:
+    # Manually formatting specific sections for better readability if needed, 
+    # or just dumping the structure.
+    
+    # Project Section
+    display(Markdown("## Project"))
+    p = config.get('project', {})
+    display(Markdown(f"**Name:** {p.get('name')}"))
+    display(Markdown(f"**Root Env:** `{p.get('root_env')}`"))
+    display(Markdown(f"**Root Override:** `{p.get('root_override')}`"))
+    
+    # Subjects
+    display(Markdown("## Subjects"))
+    s = config.get('subjects', {})
+    display(Markdown(f"**Include:** {s.get('include')}"))
+    display(Markdown(f"**Exclude:** {s.get('exclude')}"))
+
+    # BIDS Selection
+    display(Markdown("## BIDS Selection"))
+    b = config.get('bids_selection', {})
+    for k, v in b.items():
+        display(Markdown(f"- **{k}:** {v}"))
+
+    # Filters
+    display(Markdown("## Filters"))
+    f = config.get('filters', {})
+    for filter_name, filter_settings in f.items():
+        display(Markdown(f"### {filter_name}"))
+        for k, v in filter_settings.items():
+             display(Markdown(f"- **{k}:** {v}"))
+
+    # Events
+    display(Markdown("## Events"))
+    e = config.get('events', {})
+    display(Markdown(f"**Description:** {e.get('desc')}"))
+
+    # Epoching
+    display(Markdown("## Epoching"))
+    ep = config.get('epoching', {})
+    display(Markdown("### Global Defaults"))
+    for k, v in ep.items():
+        if k != 'windows':
+             display(Markdown(f"- **{k}:** {v}"))
+    
+    if 'windows' in ep:
+        display(Markdown("### Per-event Overrides"))
+        for code, settings in ep['windows'].items():
+            display(Markdown(f"#### Event `{code}`"))
+            for k, v in settings.items():
+                display(Markdown(f"- **{k}:** {v}"))
+
+    # Plots
+    display(Markdown("## Plots"))
+    pl = config.get('plots', {})
+    for k, v in pl.items():
+        display(Markdown(f"- **{k}:** {v}"))
+
+```
+
+# Dataset Report
+
+```{python}
+#| echo: false
+#| output: asis
+
+# Calculate BIDS root
+project_name = config.get('project', {}).get('name')
+root_env = config.get('project', {}).get('root_env')
+root_override = config.get('project', {}).get('root_override')
+
+bids_root = None
+if root_override:
+    bids_root = root_override
+elif root_env:
+    env_path = os.environ.get(root_env)
+    if env_path:
+        bids_root = os.path.join(env_path, project_name)
+
+if bids_root and os.path.exists(bids_root):
+    display(Markdown(f"**BIDS Root:** `{bids_root}`"))
+    try:
+        report_md = mne_bids.make_report(bids_root)
+        display(Markdown(report_md))
+    except Exception as e:
+        display(Markdown(f"**Error generating BIDS report:** {e}"))
+else:
+    display(Markdown(f"**Warning:** Could not determine valid BIDS root. Env: `{root_env}`, Override: `{root_override}`, Calculated: `{bids_root}`"))
+```
+
+
+# Raw Configuration
+
+For reference, here is the raw configuration content:
+
+```{python}
+#| echo: false
+print(yaml.dump(config, default_flow_style=False))
+```

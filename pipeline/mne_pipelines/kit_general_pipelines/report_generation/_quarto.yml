@@ -1,19 +1,13 @@
-# _quarto.yml
 project:
-  type: default
-  output-dir: _report_output
+  title: "Pipeline Configuration Report"
+  output-dir: _output
 
 format:
   html:
     theme: cosmo
     toc: true
-    embed-resources: true
+    code-fold: true
   pdf:
     toc: true
-    documentclass: scrreprt
-
-execute:
-  echo: false
-  warning: false
-  error: true
-  freeze: auto  # cache execution if nothing changed
+    number-sections: true
+    colorlinks: true
