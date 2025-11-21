@@ -1,5 +1,5 @@
-9. KIT-MEG SOP
-==============
+KIT-MEG SOP
+===========
 
 Purpose
 -------
