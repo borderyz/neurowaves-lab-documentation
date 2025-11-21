@@ -1,1 +1,1 @@
-quarto render report.qmd
+C:\Users\hz3752\AppData\Local\miniconda3\condabin\conda.bat run -n neurowaves quarto render report.qmd -P config_path:"../pipeline_config_files/config_template.yml"

@@ -1,0 +1,132 @@
+
+Starting neurowaves kernel...Done
+
+Executing 'report.quarto_ipynb'
+  Cell 1/5: ''...Done
+  Cell 2/5: ''...Done
+  Cell 3/5: ''...Done
+  Cell 4/5: ''...Done
+  Cell 5/5: ''...
+
+An error occurred while executing the following cell:
+------------------
+
+# Determine paths
+project_name = config.get('project', {}).get('name')
+root_env = config.get('project', {}).get('root_env')
+root_override = config.get('project', {}).get('root_override')
+
+bids_root = None
+if root_override:
+    bids_root = root_override
+elif root_env:
+    env_path = os.environ.get(root_env)
+    if env_path:
+        bids_root = os.path.join(env_path, project_name)
+
+if bids_root and os.path.exists(bids_root):
+    deriv_root = os.path.join(bids_root, "derivatives")
+    kit2fiff_dir = os.path.join(deriv_root, "kit2fiff")
+    plot_dir = os.path.join(deriv_root, "sensor_digitization_coregistration")
+    summary_csv = os.path.join(kit2fiff_dir, "kit2fiff_summary.csv")
+
+    # Display Log Table
+    if os.path.exists(summary_csv):
+        display(Markdown("## Conversion Logs"))
+        try:
+            df_log = pd.read_csv(summary_csv)
+            # Select relevant columns for display
+            cols_to_show = ['subject', 'session', 'run', 'status', 'error', 'fif_out']
+            # Filter columns that exist
+            cols_to_show = [c for c in cols_to_show if c in df_log.columns]
+            display(Markdown(df_log[cols_to_show].to_markdown(index=False)))
+            
+            # Display Plots
+            display(Markdown("## Alignment Plots"))
+            
+            # Iterate through rows to find corresponding plots
+            # Logic: The plot script mirrors the relative path of the fif file from kit2fiff_dir
+            # fif_out path in log might be absolute.
+            
+            for index, row in df_log.iterrows():
+                fif_path = row.get('fif_out')
+                if not fif_path or pd.isna(fif_path):
+                    continue
+                
+                fif_path = str(fif_path)
+                # Check if fif_path is inside kit2fiff_dir
+                # If absolute, make relative
+                if kit2fiff_dir in fif_path:
+                    rel_path = os.path.relpath(fif_path, kit2fiff_dir)
+                else:
+                    # Fallback: try to guess from sub/ses/filename
+                    # This depends on how kit2fiff stores paths.
+                    # Let's assume standard structure if path manipulation fails.
+                    fname = os.path.basename(fif_path)
+                    sub = row.get('subject')
+                    ses = row.get('session')
+                    # Construct relative path: sub-XX/ses-YY/fname
+                    # Handle session being NaN or empty
+                    if pd.isna(ses) or str(ses) == 'nan' or str(ses) == '':
+                         rel_path = os.path.join(f"sub-{sub}", fname)
+                    else:
+                         rel_path = os.path.join(f"sub-{sub}", f"ses-{ses}", fname)
+
+                # Construct plot path
+                # Replace extension with .png
+                base, _ = os.path.splitext(rel_path)
+                plot_rel_path = base + ".png"
+                plot_path = os.path.join(plot_dir, plot_rel_path)
+                
+                if os.path.exists(plot_path):
+                    display(Markdown(f"### {os.path.basename(fif_path)}"))
+                    display(Markdown(f"**Subject:** {row.get('subject')}, **Session:** {row.get('session')}, **Run:** {row.get('run')}"))
+                    # Embed image
+                    # We need a relative path for the HTML report or an absolute one?
+                    # Quarto handles absolute paths usually, but relative to the qmd file is safer if they are in the same project.
+                    # report.qmd is in report_generation/
+                    # plots are in derivatives/sensor_digitization_coregistration/
+                    # relative path from report.qmd to plot: ../../../derivatives/...
+                    # Actually, let's use the absolute path for simplicity in local rendering, 
+                    # or construct the relative path if we want it portable.
+                    # Given the complexity of relative paths across drives/folders, absolute path with file:/// might be easiest for local view,
+                    # but for portable HTML, we should copy images or use relative.
+                    # Quarto will embed images if they are local.
+                    
+                    # Let's try to make it relative to the report file directory.
+                    # report_dir = os.path.dirname(os.path.abspath(config_path)) # No, config_path is passed.
+                    # Current working dir is report_generation/
+                    
+                    # Calculate relative path from CWD (report_generation) to plot_path
+                    try:
+                        rel_plot_path_for_md = os.path.relpath(plot_path, os.getcwd())
+                        # Escape backslashes for Markdown
+                        rel_plot_path_for_md = rel_plot_path_for_md.replace("\\", "/")
+                        display(Markdown(f"![Alignment Plot]({rel_plot_path_for_md})"))
+                    except ValueError:
+                        # If on different drives, use absolute
+                        display(Markdown(f"![Alignment Plot]({plot_path.replace('\\', '/')})"))
+                    
+                    display(Markdown("\n---\n"))
+                else:
+                    # display(Markdown(f"*Plot not found for {rel_path}*"))
+                    pass
+
+        except Exception as e:
+            display(Markdown(f"**Error reading logs or plots:** {e}"))
+    else:
+        display(Markdown(f"**No conversion logs found at:** `{summary_csv}`"))
+else:
+    display(Markdown("**BIDS Root not found, cannot display logs or plots.**"))
+------------------
+
+
+  Cell In[5], line 95
+    display(Markdown(f"![Alignment Plot]({plot_path.replace('\\', '/')})"))
+                                                                         ^
+SyntaxError: f-string expression part cannot include a backslash
+
+
+WARN: Error encountered when rendering files
+
+ERROR conda.cli.main_run:execute(127): `conda run quarto render report.qmd -P config_path:../pipeline_config_files/config_template.yml` failed. (See above for error)

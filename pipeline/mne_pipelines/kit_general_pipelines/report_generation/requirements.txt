@@ -1,0 +1,8 @@
+mne
+mne-bids
+pandas
+papermill
+tabulate
+pyyaml
+ipykernel
+jupyter
