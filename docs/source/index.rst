@@ -206,7 +206,7 @@ Download the latest lab documentation and lab manual from `Release v-report-docs
 
 .. toctree::
    :maxdepth: 1
-   :caption:  MEG Standard Operating Procedure
+   :caption: MEG Standard Operating Procedure
 
    9-meg-standard-operating-procedure/standard-operating-procedures
 
