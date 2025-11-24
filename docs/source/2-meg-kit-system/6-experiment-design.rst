@@ -65,6 +65,22 @@ Depending on the number of different event types that you require for your exper
 
 
 
+Saving your event file
+----------------------
+
+Your experiment should save a tabular event file (.csv or .tsv) with the following columns:
+
+- `onset`: the onset time of the event in seconds (do not fill this column from your experiment code, it will be filled later when pre-processing your data)
+- `duration`: the duration of the event in seconds (if relevant for the research question, if not leave blank)
+- `trial_type`: the trial type defined as a string symbolising the type of trial (no need to be very detailed: example: cat, dog, afraid, fruit, emotion etc...). This information is used to average trials with the same type together.
+
+Additionally,
+- if you are using TriggerMode: `single_channel` then add the following column:
+   - `channel`: the channel on which the trigger is sent
+- if you are using TriggerMode: `binary_coded` then add the following column:
+   - `binary_code`: the binary code associated to the event type
+
+
 Files produced by the experiment design
 ---------------------------------------
 
