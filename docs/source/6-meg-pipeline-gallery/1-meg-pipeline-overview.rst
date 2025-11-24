@@ -57,18 +57,18 @@ Order of notebooks for general MNE-KIT pipelines
 You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing of your data:
 
 
-If your experiment design is based on using single-channel mode for coding your triggers, use the following sequence of pipelines to:
+If your experiment design is based on using `single-channel mode`` for coding your triggers, use the following sequence of pipelines to:
 
 - convert the raw KIT .con files (with and without CALM noise reduction processing) into .fif
-- [Optional but recommended] perform sanity check (trigger count and trigger sequence check), this pipeline ensures no triggers are lost and that they are detected correctly
+- [Optional but highly recommended] perform trigger count sanity check (trigger count and trigger sequence check), this pipeline ensures no triggers are lost and that they are detected correctly
 - compute event sample onset and save .eve files
 
 .. nbgallery::
     :glob:
 
-    notebooks/mne/mne_pipeline_kit2fiff
-    notebooks/mne/mne_pipeline_sanity_check_single-channel
-    notebooks/mne/mne_pipeline_compute-events_single-channel
+    notebooks/mne/1-mne_pipeline_kit2fiff
+    notebooks/mne/2-mne_pipeline_trigger_count_sanity_check_single-channel
+    notebooks/mne/3-mne_pipeline_compute-events_single-channel
 
 
 

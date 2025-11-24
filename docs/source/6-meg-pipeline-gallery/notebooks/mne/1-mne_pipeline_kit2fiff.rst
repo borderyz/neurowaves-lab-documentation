@@ -38,30 +38,9 @@ Key features
 What you need to provide
 ------------------------
 
-A BIDS-like KIT dataset with, at minimum:
+A BIDS-like KIT dataset named following the BIDS standard and the additional NYUAD-naming constraints found at :ref:`data_naming`.
 
-- **MEG recordings** (KIT):
 
-  .. code-block:: text
-
-     sub-<id>/meg/sub-<id>[_ses-<id>]_task-<task>[_run-<run>][_split-<n>][... ]_meg.con
-
-- **Headshape (HSP)** and **Digitizer points (ELP)**:
-
-  .. code-block:: text
-
-     sub-<id>/meg/sub-<id>[_ses-<id>]_acq-head_headshape.txt
-     sub-<id>/meg/sub-<id>[_ses-<id>]_acq-points_headshape.txt
-
-  These do **not** contain task/run and are applied to all runs for that scope.
-
-- **Marker files (MRK)**:
-
-  .. code-block:: text
-
-     sub-<id>/meg/sub-<id>[_ses-<id>]_task-rest_acq-<N>_space-ALS_markers.mrk
-
-  Pairing uses the numeric ``acq-<N>`` order, independent of task/run.
 
 Configuration file
 ------------------

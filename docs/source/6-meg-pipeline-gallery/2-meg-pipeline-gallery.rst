@@ -10,7 +10,7 @@ MNE-Python Pipeline Notebooks
 .. nbgallery::
     :glob:
 
-    notebooks/mne/mne*
+    notebooks/mne/*mne*
 
 FieldTrip MATLAB Pipeline Notebooks
 -----------------------------------

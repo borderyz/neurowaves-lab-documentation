@@ -151,11 +151,8 @@ if bids_root and os.path.exists(bids_root):
                     except Exception:
                         pass
 
-            # Select relevant columns for display
-            cols_to_show = ['subject', 'session', 'run', 'status', 'error', 'fif_out']
-            # Filter columns that exist
-            cols_to_show = [c for c in cols_to_show if c in df_log.columns]
-            display(Markdown(df_log[cols_to_show].to_markdown(index=False)))
+            # Display full dataframe
+            display(Markdown(df_log.to_markdown(index=False)))
             
             # Display Plots
             display(Markdown("## Alignment Plots"))
@@ -241,10 +238,8 @@ if bids_root and os.path.exists(bids_root):
                      try: df_filt[col] = df_filt[col].astype(str).str.replace('\\', '/')
                      except: pass
             
-            # Select columns
-            cols = ['subject', 'session', 'run', 'status', 'notch_enabled', 'bandpass_l_freq', 'bandpass_h_freq', 'error']
-            cols = [c for c in cols if c in df_filt.columns]
-            display(Markdown(df_filt[cols].to_markdown(index=False)))
+            # Display full dataframe
+            display(Markdown(df_filt.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading filter logs: {e}"))
 
@@ -262,9 +257,8 @@ if bids_root and os.path.exists(bids_root):
                      try: df_san[col] = df_san[col].astype(str).str.replace('\\', '/')
                      except: pass
             
-            cols = ['subject', 'file', 'pass', 'counts_match', 'row_order_match', 'csv_events', 'detected_events']
-            cols = [c for c in cols if c in df_san.columns]
-            display(Markdown(df_san[cols].to_markdown(index=False)))
+            # Display full dataframe
+            display(Markdown(df_san.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading sanity check logs: {e}"))
 
@@ -282,9 +276,8 @@ if bids_root and os.path.exists(bids_root):
                      try: df_eve[col] = df_eve[col].astype(str).str.replace('\\', '/')
                      except: pass
             
-            cols = ['subject', 'file', 'n_events', 'events_eve']
-            cols = [c for c in cols if c in df_eve.columns]
-            display(Markdown(df_eve[cols].to_markdown(index=False)))
+            # Display full dataframe
+            display(Markdown(df_eve.to_markdown(index=False)))
             
             # Plots
             display(Markdown("### Stimulus Channel Plots"))
@@ -317,9 +310,8 @@ if bids_root and os.path.exists(bids_root):
                      try: df_epo[col] = df_epo[col].astype(str).str.replace('\\', '/')
                      except: pass
             
-            cols = ['subject', 'session', 'run', 'ev_code', 'n_epochs', 'tmin', 'tmax', 'epochs_out']
-            cols = [c for c in cols if c in df_epo.columns]
-            display(Markdown(df_epo[cols].to_markdown(index=False)))
+            # Display full dataframe
+            display(Markdown(df_epo.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading epochs logs: {e}"))
 
