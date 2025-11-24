@@ -158,17 +158,34 @@ def main():
     windows_cfg = _normalize_windows_dict(ep_cfg.get("windows", {}))
 
     # Input roots: prefer filtered → fallback to kit2fiff
-    SRC_FILTERED = Path(bids_root) / "derivatives" / "filtered_data"
-    SRC_KIT2FIFF = Path(bids_root) / "derivatives" / "kit2fiff"
+    # Look for renamed folders first
+    SRC_FILTERED = Path(bids_root) / "derivatives" / "4-kit_apply_filters"
+    if not SRC_FILTERED.exists():
+        SRC_FILTERED = Path(bids_root) / "derivatives" / "filtered_data"
+
+    SRC_KIT2FIFF = Path(bids_root) / "derivatives" / "2-kit_con_to_fif"
+    if not SRC_KIT2FIFF.exists():
+        SRC_KIT2FIFF = Path(bids_root) / "derivatives" / "kit2fiff"
 
     # Events root
-    EVE_ROOT = Path(bids_root) / "derivatives" / "triggers_to_events"
+    EVE_ROOT = Path(bids_root) / "derivatives" / "5-kit_compute_events_single_channel"
+    if not EVE_ROOT.exists():
+        EVE_ROOT = Path(bids_root) / "derivatives" / "triggers_to_events"
+    
     if not EVE_ROOT.exists():
         raise FileNotFoundError(f"Events derivatives not found: {EVE_ROOT}")
 
     # Output root
-    OUT_ROOT = Path(bids_root) / "derivatives" / "epochs_evoked"
+    script_name = Path(__file__).stem
+    OUT_ROOT = Path(bids_root) / "derivatives" / script_name
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # Save a copy of the config file with timestamp
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    config_save_path = OUT_ROOT / f"config_{timestamp_str}.yml"
+    with open(config_save_path, 'w') as f:
+        yaml.dump(CFG, f, default_flow_style=False)
+    print(f"Saved copy of config to: {config_save_path}")
 
     # Discover subjects from available FIFFs
     sub_dirs = []
@@ -190,12 +207,12 @@ def main():
         # Pick subject source (prefer filtered)
         sub_src = (SRC_FILTERED / f"sub-{sub}") if (SRC_FILTERED / f"sub-{sub}").exists() else (SRC_KIT2FIFF / f"sub-{sub}")
         if not sub_src.exists():
-            print(f"⚠️  No FIFFs found for sub-{sub}; skipping.")
+            print(f"No FIFFs found for sub-{sub}; skipping.")
             continue
 
         fif_files = sorted(sub_src.rglob("*.fif"))
         if not fif_files:
-            print(f"⚠️  No FIFF files under {sub_src}; skipping.")
+            print(f"No FIFF files under {sub_src}; skipping.")
             continue
 
         sub_out_root = OUT_ROOT / f"sub-{sub}"
@@ -218,7 +235,7 @@ def main():
             eve_base = _events_basename_from_entities(ent, events_desc)
             eve_path = eve_dir / f"{eve_base}.eve"
             if not eve_path.exists():
-                print(f"  ⚠️  Missing events file for {fif_path.name}: {eve_path.name} — skipping.")
+                print(f"Missing events file for {fif_path.name}: {eve_path.name} — skipping.")
                 continue
 
             # Base output names (we'll add _ev<code> for epochs files when windows differ)
@@ -232,7 +249,7 @@ def main():
                 raw = mne.io.read_raw_fif(fif_path, preload=True, verbose=False)
                 events_all = mne.read_events(str(eve_path))
             except Exception as e:
-                print(f"✗ Error loading inputs for {fif_path.name}: {e}")
+                print(f"Error loading inputs for {fif_path.name}: {e}")
                 continue
 
             # Group by event code (3rd column)
@@ -301,15 +318,15 @@ def main():
                     })
 
                 except Exception as e:
-                    print(f"✗ Epoching failed for code {code_str} in {fif_path.name}: {e}")
+                    print(f"Epoching failed for code {code_str} in {fif_path.name}: {e}")
 
             # Save all evokeds (one file containing multiple conditions)
             if evokeds_for_file:
                 if evoked_out.exists() and not args.overwrite:
-                    print(f"  Exists → {evoked_out.name} (skip; use --overwrite)")
+                    print(f"Exists → {evoked_out.name} (skip; use --overwrite)")
                 else:
                     mne.write_evokeds(str(evoked_out), evokeds_for_file, overwrite=True)
-                    print(f"✓ Saved evoked: {evoked_out}  (n={len(evokeds_for_file)})")
+                    print(f"Saved evoked: {evoked_out}  (n={len(evokeds_for_file)})")
 
             # Log & summary
             for info in per_code_info:
@@ -350,7 +367,7 @@ def main():
                 pass
 
     # Root summary
-    summary_csv = Path(bids_root) / "derivatives" / "epochs_evoked" / "epochs_evoked_summary.csv"
+    summary_csv = OUT_ROOT / "epochs_evoked_summary.csv"
     if summary_rows:
         pd.DataFrame(summary_rows).to_csv(summary_csv, index=False)
         print(f"\nWrote summary table: {summary_csv}")

@@ -54,16 +54,29 @@ def main():
     print(f"Resolved BIDS root: {bids_root}")
 
     # Input: kit2fiff derivatives
-    kit2fiff_dir = bids_root / "derivatives" / "kit2fiff"
+    # Look for renamed folders first
+    kit2fiff_dir = bids_root / "derivatives" / "2-kit_con_to_fif"
+    if not kit2fiff_dir.exists():
+        kit2fiff_dir = bids_root / "derivatives" / "kit2fiff"
+
     if not kit2fiff_dir.exists():
         print(f"No kit2fiff derivatives found at {kit2fiff_dir}")
         return
 
     # Output: sensor_digitization_coregistration
     # "make sure ur saving in the derivatives that is under the dataset path"
-    out_dir = bids_root / "derivatives" / "sensor_digitization_coregistration"
+    script_name = Path(__file__).stem
+    out_dir = bids_root / "derivatives" / script_name
     out_dir.mkdir(parents=True, exist_ok=True)
     print(f"Output directory: {out_dir}")
+
+    # Save a copy of the config file with timestamp
+    from datetime import datetime
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    config_save_path = out_dir / f"config_{timestamp_str}.yml"
+    with open(config_save_path, 'w') as f:
+        yaml.dump(CFG, f, default_flow_style=False)
+    print(f"Saved copy of config to: {config_save_path}")
 
     # Find all .fif files in kit2fiff
     # We look for files ending in .fif

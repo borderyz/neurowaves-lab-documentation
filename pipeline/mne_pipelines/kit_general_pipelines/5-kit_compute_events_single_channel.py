@@ -94,8 +94,16 @@ tasks    = sel.get("tasks") or None
 runs     = sel.get("runs") or None
 
 # Output root
-DERIV_ROOT = Path(bids_root) / "derivatives" / "triggers_to_events"
+script_name = Path(__file__).stem
+DERIV_ROOT = Path(bids_root) / "derivatives" / script_name
 DERIV_ROOT.mkdir(parents=True, exist_ok=True)
+
+# Save a copy of the config file with timestamp
+timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+config_save_path = DERIV_ROOT / f"config_{timestamp_str}.yml"
+with open(config_save_path, 'w') as f:
+    yaml.dump(CFG, f, default_flow_style=False)
+print(f"Saved copy of config to: {config_save_path}")
 
 # Event ID mapping: use KIT channel number as event code (224..231)
 KIT_EVENT_CODE = {kit: kit for kit in C.trigger_channels_KIT}

@@ -244,8 +244,18 @@ def main():
     procs_sel    = _none_if_empty(sel.get("processings"))
 
     # Fixed derivatives location (BIDS)
-    DERIV_ROOT = Path(bids_root) / "derivatives" / "kit2fiff"
+    # Output folder name matches script name
+    script_name = Path(__file__).stem
+    # If script name starts with number (e.g. 2-kit...), use it directly
+    DERIV_ROOT = Path(bids_root) / "derivatives" / script_name
     DERIV_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # Save a copy of the config file with timestamp
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    config_save_path = DERIV_ROOT / f"config_{timestamp_str}.yml"
+    with open(config_save_path, 'w') as f:
+        yaml.dump(CFG, f, default_flow_style=False)
+    print(f"Saved copy of config to: {config_save_path}")
 
     # Root summary collection
     summary_rows = []
@@ -272,7 +282,7 @@ def main():
             extensions=tuple(C.MEG_EXTENSIONS),
         )
         if not raw_matches:
-            print(f"⚠️  No MEG files found for sub-{sub}.")
+            print(f"No MEG files found for sub-{sub}.")
             continue
 
         # Find MRKs: ONLY subject [+ sessions] and extension. DO NOT filter by task/run.
@@ -284,7 +294,7 @@ def main():
             extensions=tuple(C.HEAD_POSITION_INDICATOR_EXTENSIONS),
         )
         if not mrk_matches:
-            print(f"⚠️  Missing MRK files for sub-{sub}; skipping subject.")
+            print(f"Missing MRK files for sub-{sub}; skipping subject.")
             continue
 
         # Pair MRKs per run-group; order .con by run->split
@@ -297,7 +307,7 @@ def main():
 
         for (run_key, con_list), mrk_for_group in zip(groups, per_group_mrks):
             if not mrk_for_group:
-                print(f"⚠️  No suitable MRK for run-{run_key:02d}; skipping its {len(con_list)} file(s).")
+                print(f"No suitable MRK for run-{run_key:02d}; skipping its {len(con_list)} file(s).")
                 continue
 
             # Convert each CON in this run-group, in split order
@@ -309,7 +319,7 @@ def main():
                 # Resolve HSP/ELP ONCE per (subject, session), without task/run filters
                 hsp_path, points_path = resolve_hsp_elp_for_scope(bids_root, sub, ses)
                 if not hsp_path or not points_path:
-                    print(f"⚠️  Missing headshape or points for {con_file}; skipping this file.")
+                    print(f"Missing headshape or points for {con_file}; skipping this file.")
                     continue
 
                 # Session subdir (if present)
@@ -328,7 +338,7 @@ def main():
                         edited_points_cache[cache_key] = edited_points_path
                         print(f"Edited points saved: {edited_points_path}")
                     except Exception as e:
-                        print(f"⚠️  Failed to create edited points for {con_file}: {e}")
+                        print(f"Failed to create edited points for {con_file}: {e}")
                         continue
 
                 # Convert

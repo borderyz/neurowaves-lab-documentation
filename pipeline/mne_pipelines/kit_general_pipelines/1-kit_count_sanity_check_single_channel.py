@@ -85,8 +85,20 @@ runs     = sel.get("runs") or None
 # -------------------------------
 # Derivatives / logging setup
 # -------------------------------
-DERIV_ROOT = Path(bids_root) / "derivatives" / "sanity_check"
+# Derivatives / logging setup
+# -------------------------------
+script_name = Path(__file__).stem
+DERIV_ROOT = Path(bids_root) / "derivatives" / script_name
 DERIV_ROOT.mkdir(parents=True, exist_ok=True)
+
+# Save a copy of the config file with timestamp
+timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+# Import datetime if not already imported (it's not in the original imports)
+from datetime import datetime
+config_save_path = DERIV_ROOT / f"config_{timestamp_str}.yml"
+with open(config_save_path, 'w') as f:
+    yaml.dump(CFG, f, default_flow_style=False)
+print(f"Saved copy of config to: {config_save_path}")
 
 
 

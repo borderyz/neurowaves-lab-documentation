@@ -14,7 +14,7 @@ from pipeline.box_storage.box_utilities import ensure_dataset_present
 
 def test_sanity_check_pipeline():
     repo_root = Path(__file__).resolve().parents[1]
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_count_sanity_check_single_channel.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "1-kit_count_sanity_check_single_channel.py"
     config_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "pipeline_config_files" / "config_template.yml"
 
     # Load config to get project + MEG_DATA location
@@ -43,7 +43,8 @@ def test_sanity_check_pipeline():
     assert result.returncode == 0, f"Script failed with exit code {result.returncode}"
 
     # Summary CSV presence
-    summary_csv = bids_root / "derivatives" / "sanity_check" / "sanity_check_overview.csv"
+    # Updated to match script name folder
+    summary_csv = bids_root / "derivatives" / "1-kit_count_sanity_check_single_channel" / "sanity_check_overview.csv"
     assert summary_csv.exists(), f"Summary CSV not found at {summary_csv}"
 
     # Validate summary contents
@@ -85,7 +86,7 @@ def test_kit2fiff_conversion_pipeline():
     """
     repo_root = Path(__file__).resolve().parents[1]
     # Update script name/path if yours differs:
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_con_to_fif.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "2-kit_con_to_fif.py"
     config_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "pipeline_config_files" / "config_template.yml"
 
     # Load config to locate BIDS
@@ -112,8 +113,8 @@ def test_kit2fiff_conversion_pipeline():
     print("\n====== STDERR ======\n", result.stderr)
     assert result.returncode == 0, f"kit2fiff script failed with exit code {result.returncode}"
 
-    # Paths under derivatives/kit2fiff
-    kit2fiff_root = bids_root / "derivatives" / "kit2fiff"
+    # Paths under derivatives/2-kit_con_to_fif
+    kit2fiff_root = bids_root / "derivatives" / "2-kit_con_to_fif"
     summary_csv = kit2fiff_root / "kit2fiff_summary.csv"
     assert summary_csv.exists(), f"Summary CSV not found at {summary_csv}"
 
@@ -219,7 +220,7 @@ def test_compute_events_single_channel_pipeline():
     repo_root = Path(__file__).resolve().parents[1]
 
     # Script path: prefer kit_compute_events_single_channel.py; fallback to kit_make_events_from_triggers.py
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_compute_events_single_channel.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "5-kit_compute_events_single_channel.py"
     if not script_path.exists():
         script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_make_events_from_triggers.py"
     assert script_path.exists(), f"Events script not found at {script_path}"
@@ -251,8 +252,8 @@ def test_compute_events_single_channel_pipeline():
     print("\n====== STDERR ======\n", result.stderr)
     assert result.returncode == 0, f"Events script failed with exit code {result.returncode}"
 
-    # Index CSV under derivatives/triggers_to_events
-    deriv_root = bids_root / "derivatives" / "triggers_to_events"
+    # Index CSV under derivatives/5-kit_compute_events_single_channel
+    deriv_root = bids_root / "derivatives" / "5-kit_compute_events_single_channel"
     index_csv = deriv_root / "auto_events_index.csv"
     assert index_csv.exists(), f"Events index CSV not found at {index_csv}"
 

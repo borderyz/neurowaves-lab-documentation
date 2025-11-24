@@ -1,5 +1,5 @@
 ---
-title: "MEG Pipeline Configuration and Execution Report"
+title: "NeuroWaves MEG Lab at NYUAD: Pipeline execution report"
 date: today
 author: "Hadi Zaatiti, Haidee Paterson, Osama Abdullah, NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms "
 jupyter: neurowaves
@@ -41,6 +41,8 @@ def dict_to_markdown(d, level=1):
 
 # Dataset Report
 
+This section contains information about the dataset used in the pipeline.
+
 ```{python}
 #| echo: false
 #| output: asis
@@ -71,52 +73,6 @@ else:
     display(Markdown(f"**Warning:** Could not determine valid BIDS root. Env: `{root_env}`, Override: `{root_override}`, Calculated: `{bids_root}`"))
 ```
 
-# Configuration Details
-
-This report details the configuration settings found in `config_template.yml`.
-
-```{python}
-#| echo: false
-#| output: asis
-
-def print_config_section(d, level=2):
-    # Separate simple values from nested dictionaries
-    simple_values = {}
-    nested_sections = {}
-    
-    for k, v in d.items():
-        if isinstance(v, dict):
-            nested_sections[k] = v
-        else:
-            simple_values[k] = v
-            
-    # Display simple values as a table if any exist
-    if simple_values:
-        df = pd.DataFrame(list(simple_values.items()), columns=['Parameter', 'Value'])
-        display(Markdown(df.to_markdown(index=False)))
-        display(Markdown("\n")) # Add some spacing
-        
-    # Recurse for nested sections
-    for section_name, section_content in nested_sections.items():
-        # Create header
-        header = "#" * level + " " + str(section_name)
-        display(Markdown(header))
-        print_config_section(section_content, level + 1)
-
-if "Error" in config:
-    print(config["Error"])
-else:
-    print_config_section(config, level=2)
-```
-
-# Sensor to Digitized Head/Fiducials coregistration
-
-This section displays the logs from the `kit2fiff` conversion and the sensor alignment plots.
-
-```{python}
-#| echo: false
-#| output: asis
-
 # Determine paths
 project_name = config.get('project', {}).get('name')
 root_env = config.get('project', {}).get('root_env')
@@ -130,115 +86,146 @@ elif root_env:
     if env_path:
         bids_root = os.path.join(env_path, project_name)
 
+def get_latest_config(dir_path):
+    """Finds the latest config_*.yml file in the directory."""
+    if not os.path.exists(dir_path):
+        return None, None
+    
+    config_files = [f for f in os.listdir(dir_path) if f.startswith("config_") and f.endswith(".yml")]
+    if not config_files:
+        return None, None
+        
+    # Sort by timestamp in filename (config_YYYYMMDD_HHMMSS.yml)
+    config_files.sort(reverse=True)
+    latest_file = config_files[0]
+    
+    try:
+        with open(os.path.join(dir_path, latest_file), 'r') as f:
+            cfg = yaml.safe_load(f)
+        return latest_file, cfg
+    except Exception as e:
+        return None, None
+
+def display_config_info(filename, cfg, relevant_keys=None):
+    """Displays common config info and specific relevant keys."""
+    if not cfg:
+        return
+    
+    display(Markdown(f"**Configuration File:** `{filename}`"))
+    
+    # Common info
+    proj = cfg.get('project', {})
+    sub = cfg.get('subjects', {})
+    sel = cfg.get('bids_selection', {})
+    
+    md = ""
+    md += f"- **Project:** {proj.get('name')} (Root: `{proj.get('root_env')}`)\n"
+    md += f"- **Subjects:** Include: `{sub.get('include')}`, Exclude: `{sub.get('exclude')}`\n"
+    md += f"- **BIDS Selection:** {sel}\n"
+    
+    if relevant_keys:
+        for key in relevant_keys:
+            if key in cfg:
+                md += f"- **{key.capitalize()}:** `{cfg[key]}`\n"
+    
+    display(Markdown(md))
+
 if bids_root and os.path.exists(bids_root):
     deriv_root = os.path.join(bids_root, "derivatives")
-    kit2fiff_dir = os.path.join(deriv_root, "kit2fiff")
-    plot_dir = os.path.join(deriv_root, "sensor_digitization_coregistration")
+    
+    # ---------------------------------------------------------
+    # Sensor to Digitized Head/Fiducials coregistration
+    # ---------------------------------------------------------
+    # Folder: 2-kit_con_to_fif (fallback to kit2fiff)
+    kit2fiff_dir = os.path.join(deriv_root, "2-kit_con_to_fif")
+    if not os.path.exists(kit2fiff_dir):
+        kit2fiff_dir = os.path.join(deriv_root, "kit2fiff")
+        
     summary_csv = os.path.join(kit2fiff_dir, "kit2fiff_summary.csv")
+    
+    # Folder: 3-kit_fif_plot_headshape_sensor_alignment (fallback to sensor_digitization_coregistration)
+    plot_dir = os.path.join(deriv_root, "3-kit_fif_plot_headshape_sensor_alignment")
+    if not os.path.exists(plot_dir):
+        plot_dir = os.path.join(deriv_root, "sensor_digitization_coregistration")
 
-    # Display Log Table
     if os.path.exists(summary_csv):
-        display(Markdown("## Conversion Logs"))
+        display(Markdown("# Sensor to Digitized Head/Fiducials coregistration"))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(kit2fiff_dir)
+        if cfg:
+            display(Markdown("### Configuration Used (Conversion)"))
+            display_config_info(fname, cfg)
+            
+        # Also check for config in plot dir
+        fname_plot, cfg_plot = get_latest_config(plot_dir)
+        if cfg_plot:
+            display(Markdown("### Configuration Used (Alignment Plots)"))
+            display_config_info(fname_plot, cfg_plot)
+            
+        display(Markdown("### Conversion Logs"))
         try:
             df_log = pd.read_csv(summary_csv)
-            
-            # Sanitize paths in dataframe for display (replace backslashes with forward slashes)
-            # This prevents LaTeX errors when rendering PDF
             for col in df_log.columns:
                 if df_log[col].dtype == object:
-                    try:
-                        df_log[col] = df_log[col].astype(str).str.replace('\\', '/')
-                    except Exception:
-                        pass
-
-            # Display full dataframe
+                    try: df_log[col] = df_log[col].astype(str).str.replace('\\', '/')
+                    except: pass
             display(Markdown(df_log.to_markdown(index=False)))
             
-            # Display Plots
-            display(Markdown("## Alignment Plots"))
-            
-            # Iterate through rows to find corresponding plots
-            # Logic: The plot script mirrors the relative path of the fif file from kit2fiff_dir
-            # fif_out path in log might be absolute.
-            
+            display(Markdown("### Alignment Plots"))
             for index, row in df_log.iterrows():
                 fif_path = row.get('fif_out')
-                if not fif_path or pd.isna(fif_path):
-                    continue
+                if not fif_path or pd.isna(fif_path): continue
                 
                 fif_path = str(fif_path)
-                # Check if fif_path is inside kit2fiff_dir
-                # If absolute, make relative
                 if kit2fiff_dir in fif_path:
                     rel_path = os.path.relpath(fif_path, kit2fiff_dir)
                 else:
-                    # Fallback: try to guess from sub/ses/filename
-                    # This depends on how kit2fiff stores paths.
-                    # Let's assume standard structure if path manipulation fails.
                     fname = os.path.basename(fif_path)
                     sub = row.get('subject')
                     ses = row.get('session')
-                    # Construct relative path: sub-XX/ses-YY/fname
-                    # Handle session being NaN or empty
                     if pd.isna(ses) or str(ses) == 'nan' or str(ses) == '':
                          rel_path = os.path.join(f"sub-{sub}", fname)
                     else:
                          rel_path = os.path.join(f"sub-{sub}", f"ses-{ses}", fname)
 
-                # Construct plot path
-                # Replace extension with .png
                 base, _ = os.path.splitext(rel_path)
-                plot_rel_path = base + ".png"
-                plot_path = os.path.join(plot_dir, plot_rel_path)
+                plot_path = os.path.join(plot_dir, base + ".png")
                 
                 if os.path.exists(plot_path):
-                    display(Markdown(f"### {os.path.basename(fif_path)}"))
+                    display(Markdown(f"#### {os.path.basename(fif_path)}"))
                     display(Markdown(f"**Subject:** {row.get('subject')}, **Session:** {row.get('session')}, **Run:** {row.get('run')}"))
-                    # Embed image
-                    # We need a relative path for the HTML report or an absolute one?
-                    # Quarto handles absolute paths usually, but relative to the qmd file is safer if they are in the same project.
-                    # report.qmd is in report_generation/
-                    # plots are in derivatives/sensor_digitization_coregistration/
-                    # relative path from report.qmd to plot: ../../../derivatives/...
-                    # Actually, let's use the absolute path for simplicity in local rendering, 
-                    # or construct the relative path if we want it portable.
-                    # Given the complexity of relative paths across drives/folders, absolute path with file:/// might be easiest for local view,
-                    # but for portable HTML, we should copy images or use relative.
-                    # Quarto will embed images if they are local.
-                    
-                    # Let's try to make it relative to the report file directory.
-                    # report_dir = os.path.dirname(os.path.abspath(config_path)) # No, config_path is passed.
-                    # Current working dir is report_generation/
-                    
-                    # Use absolute path with forward slashes to avoid relative path issues in LaTeX
                     plot_path_fixed = plot_path.replace('\\', '/')
                     display(Markdown(f"![Alignment Plot]({plot_path_fixed})"))
-                    
                     display(Markdown("\n---\n"))
-                else:
-                    # display(Markdown(f"*Plot not found for {rel_path}*"))
-                    pass
-
         except Exception as e:
             display(Markdown(f"**Error reading logs or plots:** {e}"))
-    else:
-        display(Markdown(f"**No conversion logs found at:** `{summary_csv}`"))
 
     # ---------------------------------------------------------
     # Filtering Section
     # ---------------------------------------------------------
-    filter_summary_csv = os.path.join(deriv_root, "filtered_data", "filter_summary.csv")
+    # Folder: 4-kit_apply_filters (fallback to filtered_data)
+    filt_dir = os.path.join(deriv_root, "4-kit_apply_filters")
+    if not os.path.exists(filt_dir):
+        filt_dir = os.path.join(deriv_root, "filtered_data")
+        
+    filter_summary_csv = os.path.join(filt_dir, "filter_summary.csv")
+    
     if os.path.exists(filter_summary_csv):
-        display(Markdown("## Filtering"))
+        display(Markdown("# Filtering"))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(filt_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['filters'])
+
         try:
             df_filt = pd.read_csv(filter_summary_csv)
-            # Sanitize
             for col in df_filt.columns:
                 if df_filt[col].dtype == object:
-                     try: df_filt[col] = df_filt[col].astype(str).str.replace('\\', '/')
-                     except: pass
-            
-            # Display full dataframe
+                    try: df_filt[col] = df_filt[col].astype(str).str.replace('\\', '/')
+                    except: pass
             display(Markdown(df_filt.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading filter logs: {e}"))
@@ -246,18 +233,28 @@ if bids_root and os.path.exists(bids_root):
     # ---------------------------------------------------------
     # Sanity Check Section
     # ---------------------------------------------------------
-    sanity_csv = os.path.join(deriv_root, "sanity_check", "sanity_check_overview.csv")
+    # Folder: 1-kit_count_sanity_check_single_channel (fallback to sanity_check)
+    san_dir = os.path.join(deriv_root, "1-kit_count_sanity_check_single_channel")
+    if not os.path.exists(san_dir):
+        san_dir = os.path.join(deriv_root, "sanity_check")
+        
+    sanity_csv = os.path.join(san_dir, "sanity_check_overview.csv")
+    
     if os.path.exists(sanity_csv):
-        display(Markdown("## Single Channel Sanity Check"))
+        display(Markdown("# Single Channel Sanity Check"))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(san_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg) # No specific params usually, maybe trigger channels but those are constants
+
         try:
             df_san = pd.read_csv(sanity_csv)
-            # Sanitize
             for col in df_san.columns:
                 if df_san[col].dtype == object:
-                     try: df_san[col] = df_san[col].astype(str).str.replace('\\', '/')
-                     except: pass
-            
-            # Display full dataframe
+                    try: df_san[col] = df_san[col].astype(str).str.replace('\\', '/')
+                    except: pass
             display(Markdown(df_san.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading sanity check logs: {e}"))
@@ -265,31 +262,37 @@ if bids_root and os.path.exists(bids_root):
     # ---------------------------------------------------------
     # Events Section
     # ---------------------------------------------------------
-    events_csv = os.path.join(deriv_root, "triggers_to_events", "auto_events_index.csv")
+    # Folder: 5-kit_compute_events_single_channel (fallback to triggers_to_events)
+    eve_dir = os.path.join(deriv_root, "5-kit_compute_events_single_channel")
+    if not os.path.exists(eve_dir):
+        eve_dir = os.path.join(deriv_root, "triggers_to_events")
+        
+    events_csv = os.path.join(eve_dir, "auto_events_index.csv")
+    
     if os.path.exists(events_csv):
-        display(Markdown("## Single Channel Events"))
+        display(Markdown("# Single Channel Events"))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(eve_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['plots', 'events'])
+
         try:
             df_eve = pd.read_csv(events_csv)
-            # Sanitize
             for col in df_eve.columns:
                 if df_eve[col].dtype == object:
-                     try: df_eve[col] = df_eve[col].astype(str).str.replace('\\', '/')
-                     except: pass
-            
-            # Display full dataframe
+                    try: df_eve[col] = df_eve[col].astype(str).str.replace('\\', '/')
+                    except: pass
             display(Markdown(df_eve.to_markdown(index=False)))
             
-            # Plots
             display(Markdown("### Stimulus Channel Plots"))
             if 'stim_plot' in df_eve.columns:
                 for idx, row in df_eve.iterrows():
                     plot_path = row.get('stim_plot')
                     if plot_path and str(plot_path).lower() != 'nan' and str(plot_path).strip() != '':
-                        # It's likely absolute path from the script
-                        # Check if file exists
                         if os.path.exists(plot_path):
                             display(Markdown(f"#### {os.path.basename(row.get('file', 'Unknown File'))}"))
-                            # Use absolute path with forward slashes to avoid relative path issues in LaTeX
                             plot_path_fixed = str(plot_path).replace('\\', '/')
                             display(Markdown(f"![Stim Plot]({plot_path_fixed})"))
                             display(Markdown("\n---\n"))
@@ -299,22 +302,31 @@ if bids_root and os.path.exists(bids_root):
     # ---------------------------------------------------------
     # Epochs & Evoked Section
     # ---------------------------------------------------------
-    epo_csv = os.path.join(deriv_root, "epochs_evoked", "epochs_evoked_summary.csv")
+    # Folder: 6-kit_evoked_response_single_channel (fallback to epochs_evoked)
+    epo_dir = os.path.join(deriv_root, "6-kit_evoked_response_single_channel")
+    if not os.path.exists(epo_dir):
+        epo_dir = os.path.join(deriv_root, "epochs_evoked")
+        
+    epo_csv = os.path.join(epo_dir, "epochs_evoked_summary.csv")
+    
     if os.path.exists(epo_csv):
-        display(Markdown("## Epochs and Evoked (Single Channel)"))
+        display(Markdown("# Epochs and Evoked (Single Channel)"))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(epo_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['epoching'])
+
         try:
             df_epo = pd.read_csv(epo_csv)
-            # Sanitize
             for col in df_epo.columns:
                 if df_epo[col].dtype == object:
-                     try: df_epo[col] = df_epo[col].astype(str).str.replace('\\', '/')
-                     except: pass
-            
-            # Display full dataframe
+                    try: df_epo[col] = df_epo[col].astype(str).str.replace('\\', '/')
+                    except: pass
             display(Markdown(df_epo.to_markdown(index=False)))
         except Exception as e:
             display(Markdown(f"Error reading epochs logs: {e}"))
 
 else:
     display(Markdown("**BIDS Root not found, cannot display logs or plots.**"))
-```

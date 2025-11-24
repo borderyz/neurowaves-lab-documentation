@@ -162,13 +162,29 @@ def main():
     bp_kwargs = bp_cfg.get("kwargs", {}) or {}  # allow method='fir', phase, fir_window, etc.
 
     # Inputs live here (output of kit2fiff)
-    SRC_ROOT = Path(bids_root) / "derivatives" / "kit2fiff"
+    # Assuming kit2fiff script is named '2-kit_con_to_fif.py' -> derivatives/2-kit_con_to_fif
+    # If the previous step used a different name, adjust accordingly.
+    # We look for the folder that matches the kit2fiff script name.
+    SRC_ROOT = Path(bids_root) / "derivatives" / "2-kit_con_to_fif"
     if not SRC_ROOT.exists():
-        raise FileNotFoundError(f"Source derivatives not found: {SRC_ROOT}")
+        # Fallback for backward compatibility or if name differs
+        SRC_ROOT_ALT = Path(bids_root) / "derivatives" / "kit2fiff"
+        if SRC_ROOT_ALT.exists():
+            SRC_ROOT = SRC_ROOT_ALT
+        else:
+            raise FileNotFoundError(f"Source derivatives not found: {SRC_ROOT} or {SRC_ROOT_ALT}")
 
     # Outputs go here
-    OUT_ROOT = Path(bids_root) / "derivatives" / "filtered_data"
+    script_name = Path(__file__).stem
+    OUT_ROOT = Path(bids_root) / "derivatives" / script_name
     OUT_ROOT.mkdir(parents=True, exist_ok=True)
+
+    # Save a copy of the config file with timestamp
+    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+    config_save_path = OUT_ROOT / f"config_{timestamp_str}.yml"
+    with open(config_save_path, 'w') as f:
+        yaml.dump(CFG, f, default_flow_style=False)
+    print(f"Saved copy of config to: {config_save_path}")
 
     # Root summary
     summary_rows = []
@@ -186,13 +202,13 @@ def main():
 
         sub_src = SRC_ROOT / f"sub-{sub}"
         if not sub_src.exists():
-            print(f"⚠️  No kit2fiff outputs for sub-{sub}; skipping.")
+            print(f"No kit2fiff outputs for sub-{sub}; skipping.")
             continue
 
         # Find all .fif files recursively under this subject
         fif_files = sorted(sub_src.rglob("*.fif"))
         if not fif_files:
-            print(f"⚠️  No FIFF files under {sub_src}; skipping.")
+            print(f"No FIFF files under {sub_src}; skipping.")
             continue
 
         # Per-subject log
