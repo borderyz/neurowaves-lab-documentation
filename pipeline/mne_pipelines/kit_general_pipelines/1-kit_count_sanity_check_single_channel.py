@@ -114,7 +114,7 @@ for sub in subjects:
         extensions=tuple(C.MEG_EXTENSIONS),
     )
     if not raw_matches:
-        print(f"⚠️  No MEG files found for sub-{sub}.")
+        print(f"No MEG files found for sub-{sub}.")
         continue
 
     for raw_match in raw_matches:
@@ -126,7 +126,7 @@ for sub in subjects:
         events_table_path, events_json_path, scope = resolve_events_pair_with_joint_fallback(raw_match, bids_root)
 
         if not events_json_path:
-            print(f"⚠️  No suitable events JSON (paired) for: {raw_path} — skipping.")
+            print(f"No suitable events JSON (paired) for: {raw_path} — skipping.")
             summary_records.append({
                 "subject": sub, "file": raw_path, "pass": False,
                 "comments": "Missing/invalid events JSON (no paired scope)"
@@ -134,7 +134,7 @@ for sub in subjects:
             continue
 
         if not events_table_path:
-            print(f"⚠️  Single-channel requires events table, but none found (paired) for: {raw_path}")
+            print(f"Single-channel requires events table, but none found (paired) for: {raw_path}")
             summary_records.append({
                 "subject": sub, "file": raw_path, "pass": False,
                 "comments": "Missing events table (no paired scope)"
@@ -147,7 +147,7 @@ for sub in subjects:
 
         trigger_mode = str(metadata_events.get("TriggerMode", "")).strip().lower().replace("-", "_").replace(" ", "_")
         if trigger_mode != "single_channel":
-            print(f"ℹ️  TriggerMode='{trigger_mode}' → not single_channel; skipping run.")
+            print(f"TriggerMode='{trigger_mode}' → not single_channel; skipping run.")
             summary_records.append({
                 "subject": sub, "file": raw_path, "pass": False,
                 "comments": f"Skipped (TriggerMode={trigger_mode})"

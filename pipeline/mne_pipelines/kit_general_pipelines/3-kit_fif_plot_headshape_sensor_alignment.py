@@ -56,7 +56,7 @@ def main():
     # Input: kit2fiff derivatives
     kit2fiff_dir = bids_root / "derivatives" / "kit2fiff"
     if not kit2fiff_dir.exists():
-        print(f"⚠️  No kit2fiff derivatives found at {kit2fiff_dir}")
+        print(f"No kit2fiff derivatives found at {kit2fiff_dir}")
         return
 
     # Output: sensor_digitization_coregistration
@@ -126,12 +126,12 @@ def main():
                     if hasattr(fig, 'close'):
                         fig.close()
                 except AttributeError:
-                    print(f"  ⚠️  Could not save figure for {fif_path.name}: Unknown figure type {type(fig)}")
+                    print(f" Could not save figure for {fif_path.name}: Unknown figure type {type(fig)}")
 
             print(f"  Saved plot: {save_path}")
             
         except Exception as e:
-            print(f"  ✗ Error processing {fif_path.name}: {e}")
+            print(f" Error processing {fif_path.name}: {e}")
             # Continue to next file
 
     print("Done.")

@@ -21,7 +21,7 @@ bids_selection:
   splits: [] # e.g., ["01","02"] to constrain splits
   processings: []
 
-filters:
+filters: # Used when executing kit_apply_filters.py
   notch:
     enabled: true # default: true
     # freqs: [50, 100, 150]  # optional explicit list; if omitted we use harmonics of C.LINE_FREQUENCY up to Nyquist
@@ -36,10 +36,10 @@ filters:
     #   phase: zero
     #   fir_window: hamming
 
-events:
+events: # Used when executing kit_compute_events_single_channel.py
   desc: autopulses # must match the desc used when writing .eve (default: autopulses)
 
-epoching:
+epoching: # Used when executing kit_evoked_response_single_channel.py
   # Global defaults (used when an event code is not listed below)
   tmin: -0.2
   tmax: 0.8
