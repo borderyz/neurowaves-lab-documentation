@@ -1,6 +1,4 @@
 {
     "python.envFile": "${workspaceFolder}/.env",
-    "python.analysis.extraPaths": [
-        "${workspaceFolder}"
-    ]
+    "git.requireCommitMessage": true
 }
