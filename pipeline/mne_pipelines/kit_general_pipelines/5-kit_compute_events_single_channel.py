@@ -98,6 +98,9 @@ script_name = Path(__file__).stem
 DERIV_ROOT = Path(bids_root) / "derivatives" / script_name
 DERIV_ROOT.mkdir(parents=True, exist_ok=True)
 
+
+from datetime import datetime
+
 # Save a copy of the config file with timestamp
 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
 config_save_path = DERIV_ROOT / f"config_{timestamp_str}.yml"
