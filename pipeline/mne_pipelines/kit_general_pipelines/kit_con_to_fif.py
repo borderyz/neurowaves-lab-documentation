@@ -355,11 +355,11 @@ def main():
                     out_path = run_deriv / out_name
                     raw.save(str(out_path), overwrite=True)
                     raw.close()
-                    print(f"✓ Saved FIFF: {out_path}")
+                    print(f"Saved FIFF: {out_path}")
                 except Exception as e:
                     status = "error"
                     err_msg = str(e)
-                    print(f"✗ Error writing FIFF for {con_file}: {e}")
+                    print(f"Error writing FIFF for {con_file}: {e}")
 
                 # Log row (root summary)
                 row = {

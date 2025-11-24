@@ -68,7 +68,12 @@ def _compute_harmonics(line_freq: float, sfreq: float) -> np.ndarray:
     if line_freq is None or line_freq <= 0:
         return np.array([])
     nyq = sfreq / 2.0
-    kmax = int(nyq // line_freq)
+    # Ensure strictly below Nyquist (minus small epsilon to be safe against float errors/notch width)
+    kmax = int((nyq - 1e-5) // line_freq)
+    # Limit to at most 3 harmonics (fundamental + 2 harmonics, or just first 3 multiples)
+    # User requested "3 harmonics ... at most"
+    if kmax > 3:
+        kmax = 3
     if kmax <= 0:
         return np.array([])
     return np.array([k * line_freq for k in range(1, kmax + 1)], dtype=float)
@@ -223,9 +228,9 @@ def main():
 
             status = "success"
             err_msg = ""
-            try:
-                raw = mne.io.read_raw_fif(fif_path, preload=True, verbose=False)
 
+            raw = mne.io.read_raw_fif(fif_path, preload=True, verbose=False)
+            try:
                 # Notch filter (line frequency + harmonics)
                 if notch_enabled:
                     if custom_notch_freqs:
@@ -235,18 +240,24 @@ def main():
                     if freqs.size:
                         raw.notch_filter(freqs=freqs, verbose=False, **notch_kwargs)
 
+            except Exception as e:
+                status = "error"
+                err_msg = str(e)
+                print(f"Error notchfiltering {fif_path}: {e}")
+
+            try:
                 # Band-pass filter
                 raw.filter(l_freq=l_freq, h_freq=h_freq, verbose=False, **bp_kwargs)
-
-                # Save
-                raw.save(out_path, overwrite=True)
-                raw.close()
-                print(f"✓ Saved filtered FIFF: {out_path}")
 
             except Exception as e:
                 status = "error"
                 err_msg = str(e)
-                print(f"✗ Error filtering {fif_path}: {e}")
+                print(f"Error bandpassfiltering {fif_path}: {e}")
+
+            # Save
+            raw.save(out_path, overwrite=True)
+            raw.close()
+            print(f"Saved filtered FIFF: {out_path}")
 
             # Summary row
             summary_rows.append({
