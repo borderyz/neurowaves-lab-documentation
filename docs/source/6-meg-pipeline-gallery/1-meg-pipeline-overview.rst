@@ -130,7 +130,6 @@ Computing the inverse of C (used for the solution) requires that C is not rank d
 
 
 
-
 Continuous stimulus
 """""""""""""""""""
 
@@ -342,60 +341,6 @@ Pause: it stops after a step in oredr for tghe user to check for things or take 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Installation
-^^^^^^^^^^^^
-
-To use MEG-Pipeline, first install it using pip:
-
-.. code-block:: console
-
-   (.venv) $ pip install megpipeline
-
-Reading the Raw Data
-""""""""""""""""""""
-
-The ``kind`` parameter should be either ``"raw"``, ``"fif"``,
-or ``"fll"``.
-
-
-.. literalinclude:: ../../../pipeline/import_raw_data.py
-  :language: python
-
-The above script will later be implemented as part of the following class :py:class:`MEGpipeline` and function :py:func:`megpipeline.get_raw_data`.
-
-
-.. autoclass::MEGpipeline
-
-The ``kind`` parameter should be either ``"raw"``, ``"fif"``,
-or ``"fll"``. Otherwise, :py:func:`megpipeline.get_raw_data`
-will raise an exception.
-
-
-
-For example:
-
->>> import megpipeline
->>> megpipeline.get_raw_data()
-['a', 'b', 'c']
-
-
-
 Manual labelling of "bad" channels
 """"""""""""""""""""""""""""""""""
 
@@ -450,21 +395,6 @@ Brain Source Estimate
 """""""""""""""""""""
 
 When neurons become active, they do so in large groups.
-
-
-
-
-Code Overview
-"""""""""""""
-
-The code for an example.
-
-.. code-block:: python
-    :caption: This installs dependencies
-
-    # Install required Meg-pipeline dependencies
-    import matplotlib as plt
-    import mne
 
 
 

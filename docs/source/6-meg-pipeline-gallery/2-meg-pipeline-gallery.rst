@@ -22,4 +22,10 @@ FieldTrip MATLAB Pipeline Notebooks
 
 
 
+Statistics
+----------
 
+.. nbgallery::
+    :glob:
+
+    notebooks/statistics/*
