@@ -19,13 +19,3 @@ FieldTrip MATLAB Pipeline Notebooks
     :glob:
 
     notebooks/fieldtrip/fieldtrip*
-
-
-
-Statistics
-----------
-
-.. nbgallery::
-    :glob:
-
-    notebooks/statistics/*
