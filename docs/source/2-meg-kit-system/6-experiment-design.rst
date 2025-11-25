@@ -76,10 +76,9 @@ Your experiment should save a tabular event file (.csv or .tsv) with the followi
 
 Additionally,
 - if you are using TriggerMode: `single_channel` then add the following column:
-   - `channel`: the channel on which the trigger is sent
+- `channel`: the channel on which the trigger is sent
 - if you are using TriggerMode: `binary_coded` then add the following column:
-   - `binary_code`: the binary code associated to the event type
-
+- `binary_code`: the binary code associated to the event type
 
 Files produced by the experiment design
 ---------------------------------------

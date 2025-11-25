@@ -32,10 +32,14 @@ def test_sanity_check_pipeline():
     # Ensure dataset exists locally or fetch from Box
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the sanity script
     result = subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     # Do not assert specific stdout; print for debugging only
     print("\n====== STDOUT ======\n", result.stdout)
@@ -104,10 +108,14 @@ def test_kit2fiff_pipeline():
     # Ensure dataset present
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the conversion script
-    result = subprocess.run(
+    result =subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     print("\n====== STDOUT ======\n", result.stdout)
     print("\n====== STDERR ======\n", result.stderr)
@@ -209,10 +217,14 @@ def test_compute_events_single_channel_pipeline():
     # Ensure dataset present
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the events script (default desc=autopulses)
     result = subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     print("\n====== STDOUT ======\n", result.stdout)
     print("\n====== STDERR ======\n", result.stderr)
