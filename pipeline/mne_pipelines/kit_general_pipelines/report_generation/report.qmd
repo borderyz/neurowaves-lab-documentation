@@ -1,8 +1,8 @@
 ---
 title: "NeuroWaves MEG Lab at NYUAD: Pipeline execution report"
+subtitle: "NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms, New York University Abu Dhabi"
 date: today
-author: "Hadi Zaatiti, Haidee Paterson, Osama Abdullah, 
-NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms "
+author: "Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
 jupyter: neurowaves
 ---
 
