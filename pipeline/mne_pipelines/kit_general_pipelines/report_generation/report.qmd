@@ -73,6 +73,12 @@ else:
     display(Markdown(f"**Warning:** Could not determine valid BIDS root. Env: `{root_env}`, Override: `{root_override}`, Calculated: `{bids_root}`"))
 ```
 
+```{python}
+#| echo: false
+#| output: asis
+#| warning: false
+#| message: false
+
 # Determine paths
 project_name = config.get('project', {}).get('name')
 root_env = config.get('project', {}).get('root_env')
@@ -188,21 +194,26 @@ if bids_root and os.path.exists(bids_root):
                          rel_path = os.path.join(f"sub-{sub}", fname)
                     else:
                          rel_path = os.path.join(f"sub-{sub}", f"ses-{ses}", fname)
-
+                
+                # Construct plot path
+                # Replace extension with .png
                 base, _ = os.path.splitext(rel_path)
-                plot_path = os.path.join(plot_dir, base + ".png")
+                plot_rel_path = base + ".png"
+                plot_path = os.path.join(plot_dir, plot_rel_path)
                 
                 if os.path.exists(plot_path):
-                    display(Markdown(f"#### {os.path.basename(fif_path)}"))
+                    display(Markdown(f"### {os.path.basename(fif_path)}"))
                     display(Markdown(f"**Subject:** {row.get('subject')}, **Session:** {row.get('session')}, **Run:** {row.get('run')}"))
+                    
+                    # Use absolute path for images to avoid issues with PDF generation
                     plot_path_fixed = plot_path.replace('\\', '/')
                     display(Markdown(f"![Alignment Plot]({plot_path_fixed})"))
+                    
                     display(Markdown("\n---\n"))
-        except Exception as e:
-            display(Markdown(f"**Error reading logs or plots:** {e}"))
 
-    # ---------------------------------------------------------
-    # Filtering Section
+        except Exception as e:
+            display(Markdown(f"Error reading logs or plots: {e}"))
+
     # ---------------------------------------------------------
     # Folder: 4-kit_apply_filters (fallback to filtered_data)
     filt_dir = os.path.join(deriv_root, "4-kit_apply_filters")
@@ -330,3 +341,4 @@ if bids_root and os.path.exists(bids_root):
 
 else:
     display(Markdown("**BIDS Root not found, cannot display logs or plots.**"))
+```
