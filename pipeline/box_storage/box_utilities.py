@@ -35,7 +35,18 @@ def _box_find_dataset_folder_id_direct(client, *, parent_folder_id: str, dataset
         f"Dataset '{dataset_name}' not found directly under Box folder {parent_folder_id}."
     )
 
-def _box_mirror_folder(client, folder_id: str, out_dir: Path) -> None:
+def _box_mirror_folder(client, folder_id: str, out_dir: Path, exclude_folders: list = None) -> None:
+    """Mirror a Box folder to local directory, optionally excluding specified folders.
+    
+    Args:
+        client: Box client instance
+        folder_id: Box folder ID to mirror
+        out_dir: Local output directory
+        exclude_folders: List of folder names to skip (e.g., ["derivatives"])
+    """
+    if exclude_folders is None:
+        exclude_folders = []
+    
     out_dir.mkdir(parents=True, exist_ok=True)
     def _walk(fid: str, local: Path):
         local.mkdir(parents=True, exist_ok=True)
@@ -51,7 +62,9 @@ def _box_mirror_folder(client, folder_id: str, out_dir: Path) -> None:
                     with open(tgt, "wb") as fh:
                         client.file(item.id).download_to(fh)
                 elif item.type == "folder":
-                    _walk(item.id, local / item.name)
+                    # Skip excluded folders
+                    if item.name not in exclude_folders:
+                        _walk(item.id, local / item.name)
             if count < limit:
                 break
             offset += limit
@@ -80,7 +93,8 @@ def ensure_dataset_present(project_name: str, meg_data_root: Path) -> Path:
             client, parent_folder_id=parent_folder_id, dataset_name=project_name
         )
 
-    _box_mirror_folder(client, dataset_folder_id, bids_root)
+    # Exclude derivatives folder to ensure tests generate fresh outputs
+    _box_mirror_folder(client, dataset_folder_id, bids_root, exclude_folders=["derivatives"])
     if not _has_local_dataset(bids_root):
         raise AssertionError(f"Downloaded dataset appears empty at {bids_root}")
     return bids_root

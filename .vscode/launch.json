@@ -87,6 +87,20 @@
             "env": {
                 "PYTHONPATH": "${workspaceFolder}"
             }
+        },
+        {
+            "name": "Run Tests",
+            "type": "python",
+            "module": "pytest",
+            "request": "launch",
+            "args": [
+                "-q",
+                "tests/test_pipelines_kit_mne.py"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
         }
     ]
 }
