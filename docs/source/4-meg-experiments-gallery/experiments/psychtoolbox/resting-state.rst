@@ -20,8 +20,8 @@ In MNE reference:
 - Channel 225 in KIT indexing corresponds to `MISC 002`
 
 
-Code access
-^^^^^^^^^^^
+Stimulus Code access
+^^^^^^^^^^^^^^^^^^^^
 
 :github-file:`Resting State Eyes Closed <experiments/psychtoolbox/restingstate/resting_state_meg_EYES_CLOSED.m>`
 

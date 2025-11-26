@@ -1,3 +1,5 @@
+.. _data_naming:
+
 -----------------------
 Data Naming and Storing
 -----------------------

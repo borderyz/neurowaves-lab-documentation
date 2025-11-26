@@ -8,13 +8,13 @@ Datasets
 
 
 Head surface scan generates:
-- _basic.txt  : is a laser scan head points
-- _points.txt : is the fiducial points recorded in the order described under the `Operation Protocol`
-- .fsn : complete laser scan project (from this one we generate the two above file)
+- a .txt laser scan head points
+- a .txt fiducial points sequence recorded in the order described under the `Operation Protocol`
+- a .fsn complete laser scan project (from this one we generate the two above file)
 
 MEGLab acquisition generates via the `MEG160` software provided by Yokogawa:
-- .con file
-- _NR.con file (after analysing noise reduction)
+- .con file of raw data
+- .con file edited after applying noise reduction algorithms
 - .mrk : an experiment will produce atleast 2 .mrk files, they contain the markers data
 
 

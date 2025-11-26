@@ -1,0 +1,90 @@
+
+Starting neurowaves kernel...Done
+
+Executing 'report.quarto_ipynb'
+  Cell 1/4: ''...Done
+  Cell 2/4: ''...Done
+  Cell 3/4: ''...Done
+  Cell 4/4: ''...Done
+
+pandoc 
+  to: html
+  output-file: report.html
+  standalone: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  theme: cosmo
+  title: 'NeuroWaves MEG Lab at NYUAD: Pipeline execution report'
+  date: today
+  author: 'Hadi Zaatiti, Haidee Paterson, Osama Abdullah, NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms '
+  jupyter: neurowaves
+  
+
+Starting neurowaves kernel...Done
+
+Executing 'report.quarto_ipynb'
+  Cell 1/4: ''...Done
+  Cell 2/4: ''...Done
+  Cell 3/4: ''...Done
+  Cell 4/4: ''...Done
+
+pandoc 
+  to: latex
+  output-file: report.tex
+  standalone: true
+  pdf-engine: lualatex
+  variables:
+    graphics: true
+    tables: true
+  default-image-extension: pdf
+  toc: true
+  number-sections: true
+  
+metadata
+  documentclass: scrartcl
+  classoption:
+    - DIV=11
+    - numbers=noendperiod
+  papersize: letter
+  header-includes:
+    - \KOMAoption{captions}{tableheading}
+  block-headings: true
+  colorlinks: true
+  geometry:
+    - top=20mm
+    - bottom=20mm
+    - left=20mm
+    - right=20mm
+  title: 'NeuroWaves MEG Lab at NYUAD: Pipeline execution report'
+  date: today
+  author: 'Hadi Zaatiti, Haidee Paterson, Osama Abdullah, NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms '
+  jupyter: neurowaves
+  
+
+Rendering PDF
+running lualatex - 1
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  
+running lualatex - 2
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  
+running lualatex - 3
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  
+
+Output created: _output\report.html
+
+

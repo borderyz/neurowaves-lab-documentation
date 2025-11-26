@@ -1,0 +1,413 @@
+---
+title: "NeuroWaves MEG Lab at NYUAD: Pipeline execution report"
+subtitle: "NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms, New York University Abu Dhabi"
+date: today
+author: "Hadi Zaatiti, Haidee Paterson, Osama Abdullah"
+jupyter: neurowaves
+---
+
+```{python}
+#| echo: false
+#| tags: [parameters]
+import yaml
+import pandas as pd
+import os
+import mne_bids
+from IPython.display import display, Markdown
+
+# Path to the config file
+config_path = "../pipeline_config_files/config_template.yml"
+
+try:
+    with open(config_path, 'r') as file:
+        config = yaml.safe_load(file)
+except FileNotFoundError:
+    config = {"Error": "Config file not found at " + config_path}
+
+def dict_to_markdown(d, level=1):
+    md = ""
+    for k, v in d.items():
+        md += f"{'#' * level} {k}\n\n"
+        if isinstance(v, dict):
+            md += dict_to_markdown(v, level + 1)
+        elif isinstance(v, list):
+            for item in v:
+                md += f"- {item}\n"
+            md += "\n"
+        else:
+            md += f"**Value:** `{v}`\n\n"
+    return md
+
+```
+
+# Pipeline Information
+
+This report was generated using the **NeuroWaves MEG Pipeline** for the MEG-KIT system data processing at NYUAD.
+
+**GitHub Repository:** [NeuroWaves GitHub Repository](https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation)
+
+**Documentation:** [NeuroWaves ReadTheDocs](https://neurowaves.readthedocs.io/)
+
+All scripts mentioned in this report are located under `pipeline/mne_pipelines/kit_general_pipelines/` relative to the GitHub repository root.
+
+---
+
+# Dataset Report
+
+This section contains information about the dataset used in the pipeline.
+
+```{python}
+#| echo: false
+#| output: asis
+# Display dataset name
+project_name = config.get('project', {}).get('name')
+if project_name:
+    display(Markdown(f"**Dataset Name:** {project_name}"))
+```
+
+```{python}
+#| echo: false
+#| output: asis
+#| warning: false
+#| message: false
+
+# Calculate BIDS root
+project_name = config.get('project', {}).get('name')
+root_env = config.get('project', {}).get('root_env')
+root_override = config.get('project', {}).get('root_override')
+
+bids_root = None
+if root_override:
+    bids_root = root_override
+elif root_env:
+    env_path = os.environ.get(root_env)
+    if env_path:
+        bids_root = os.path.join(env_path, project_name)
+
+if bids_root and os.path.exists(bids_root):
+    display(Markdown(f"**BIDS Root:** `{bids_root}`"))
+    try:
+        report_md = mne_bids.make_report(bids_root)
+        display(Markdown(report_md))
+    except Exception as e:
+        display(Markdown(f"**Error generating BIDS report:** {e}"))
+else:
+    display(Markdown(f"**Warning:** Could not determine valid BIDS root. Env: `{root_env}`, Override: `{root_override}`, Calculated: `{bids_root}`"))
+```
+
+```{python}
+#| echo: false
+#| output: asis
+#| warning: false
+#| message: false
+
+# Determine paths
+project_name = config.get('project', {}).get('name')
+root_env = config.get('project', {}).get('root_env')
+root_override = config.get('project', {}).get('root_override')
+
+bids_root = None
+if root_override:
+    bids_root = root_override
+elif root_env:
+    env_path = os.environ.get(root_env)
+    if env_path:
+        bids_root = os.path.join(env_path, project_name)
+
+def get_latest_config(dir_path):
+    """Finds the latest config_*.yml file in the directory."""
+    if not os.path.exists(dir_path):
+        return None, None
+    
+    config_files = [f for f in os.listdir(dir_path) if f.startswith("config_") and f.endswith(".yml")]
+    if not config_files:
+        return None, None
+        
+    # Sort by timestamp in filename (config_YYYYMMDD_HHMMSS.yml)
+    config_files.sort(reverse=True)
+    latest_file = config_files[0]
+    
+    try:
+        with open(os.path.join(dir_path, latest_file), 'r') as f:
+            cfg = yaml.safe_load(f)
+        return latest_file, cfg
+    except Exception as e:
+        return None, None
+
+def display_config_info(filename, cfg, relevant_keys=None):
+    """Displays common config info and specific relevant keys as a table."""
+    if not cfg:
+        return
+    
+    from IPython.display import HTML
+    
+    display(Markdown(f"**Configuration File:** `{filename}`"))
+    
+    # Common info
+    proj = cfg.get('project', {})
+    sub = cfg.get('subjects', {})
+    sel = cfg.get('bids_selection', {})
+    
+    # Build HTML table for better rendering
+    html = '<table border="1" style="border-collapse: collapse; width: 100%;">'
+    html += '<tr><th style="padding: 8px; text-align: left; background-color: #f2f2f2;">Parameter</th>'
+    html += '<th style="padding: 8px; text-align: left; background-color: #f2f2f2;">Value</th></tr>'
+    
+    # Project info
+    project_value = f"{proj.get('name', 'N/A')} (Root: {proj.get('root_env', 'N/A')})"
+    html += f'<tr><td style="padding: 8px;"><strong>Project</strong></td><td style="padding: 8px;">{project_value}</td></tr>'
+    
+    # Subjects info
+    subjects_include = sub.get('include', [])
+    subjects_exclude = sub.get('exclude', [])
+    subjects_value = f"Include: {subjects_include}, Exclude: {subjects_exclude}"
+    html += f'<tr><td style="padding: 8px;"><strong>Subjects</strong></td><td style="padding: 8px;">{subjects_value}</td></tr>'
+    
+    # BIDS Selection
+    if sel:
+        bids_parts = []
+        for k, v in sel.items():
+            bids_parts.append(f"'{k}': {v}")
+        bids_value = "{" + ", ".join(bids_parts) + "}"
+        html += f'<tr><td style="padding: 8px;"><strong>BIDS Selection</strong></td><td style="padding: 8px;">{bids_value}</td></tr>'
+    
+    # Add relevant keys if provided
+    if relevant_keys:
+        for key in relevant_keys:
+            if key in cfg:
+                value = cfg[key]
+                value_str = str(value)
+                html += f'<tr><td style="padding: 8px;"><strong>{key.capitalize()}</strong></td><td style="padding: 8px;">{value_str}</td></tr>'
+    
+    html += '</table>'
+    display(HTML(html))
+
+if bids_root and os.path.exists(bids_root):
+    deriv_root = os.path.join(bids_root, "derivatives")
+    
+    # ---------------------------------------------------------
+    # Single Channel Sanity Check Section (MOVED TO FIRST)
+    # ---------------------------------------------------------
+    # Folder: 1-kit_count_sanity_check_single_channel (fallback to sanity_check)
+    san_dir = os.path.join(deriv_root, "1-kit_count_sanity_check_single_channel")
+    if not os.path.exists(san_dir):
+        san_dir = os.path.join(deriv_root, "sanity_check")
+        
+    sanity_csv = os.path.join(san_dir, "sanity_check_overview.csv")
+    
+    if os.path.exists(sanity_csv):
+        display(Markdown("# Single Channel Trigger Mode Sanity Check"))
+        display(Markdown("*Generated by script: `1-kit_count_sanity_check_single_channel.py`*"))
+        display(Markdown(""))
+        display(Markdown("This step of the pipeline ensures that the number of trigger events from the recorded MEG data matches the expected number of events from your `events.csv` file counted using the `channel` column. This step is optional but **highly recommended**."))
+        display(Markdown(""))
+        display(Markdown("The single channel trigger mode is used in your experiment design when each channel is used separately to encode an event via a short pulse signal."))
+        display(Markdown(""))
+        display(Markdown("If the sanity check fails, you should check your experiment design and the `events.csv` file to ensure that the number of trigger events matches the expected number of events."))
+        display(Markdown(""))
+        # Display Config Info
+        fname, cfg = get_latest_config(san_dir)
+        if cfg:
+            display(Markdown("## Configuration Used when Sanity Check was executed"))
+            display_config_info(fname, cfg)
+            display(Markdown(""))
+        try:
+            display(Markdown("## Sanity Check Results"))
+            df_san = pd.read_csv(sanity_csv)
+            for col in df_san.columns:
+                if df_san[col].dtype == object:
+                    try: df_san[col] = df_san[col].astype(str).str.replace('\\', '/')
+                    except: pass
+            display(Markdown(df_san.to_markdown(index=False)))
+        except Exception as e:
+            display(Markdown(f"Error reading sanity check logs: {e}"))
+    
+    # ---------------------------------------------------------
+    # Sensor to Digitized Head/Fiducials coregistration
+    # ---------------------------------------------------------
+    # Folder: 2-kit_con_to_fif (fallback to kit2fiff)
+    kit2fiff_dir = os.path.join(deriv_root, "2-kit_con_to_fif")
+    if not os.path.exists(kit2fiff_dir):
+        kit2fiff_dir = os.path.join(deriv_root, "kit2fiff")
+        
+    summary_csv = os.path.join(kit2fiff_dir, "kit2fiff_summary.csv")
+    
+    # Folder: 3-kit_fif_plot_headshape_sensor_alignment (fallback to sensor_digitization_coregistration)
+    plot_dir = os.path.join(deriv_root, "3-kit_fif_plot_headshape_sensor_alignment")
+    if not os.path.exists(plot_dir):
+        plot_dir = os.path.join(deriv_root, "sensor_digitization_coregistration")
+
+    if os.path.exists(summary_csv):
+        display(Markdown("# Sensor to Digitized Head/Fiducials coregistration"))
+        display(Markdown("*Generated by scripts: `2-kit_con_to_fif.py` and `3-kit_fif_plot_headshape_sensor_alignment.py`*"))
+        display(Markdown(""))
+        display(Markdown("This step of the pipeline converts the raw MEG data from the KIT system format (.con), marker coil files (.mrk), digitized headshape from laser scan (.txt) and digitized fiducials from laser scan(.txt) into the MNE-compatible format (.fif)"))
+        display(Markdown(""))
+        # Display Config Info for conversion
+        fname, cfg = get_latest_config(kit2fiff_dir)
+        if cfg:
+            display(Markdown("## KIT to FIF conversion"))
+            display(Markdown(""))
+            display(Markdown("### Configuration Used (Conversion)"))
+            display_config_info(fname, cfg)
+            
+        display(Markdown("### Conversion Logs"))
+        try:
+            df_log = pd.read_csv(summary_csv)
+            for col in df_log.columns:
+                if df_log[col].dtype == object:
+                    try: df_log[col] = df_log[col].astype(str).str.replace('\\', '/')
+                    except: pass
+            display(Markdown(df_log.to_markdown(index=False)))
+            
+            # Display Config Info for alignment plots before the plots
+            fname_plot, cfg_plot = get_latest_config(plot_dir)
+            if cfg_plot:
+                display(Markdown("## Sensor to headshape coregistration results"))
+                display(Markdown(""))
+                display(Markdown("### Configuration Used (Alignment Plots)"))
+                display_config_info(fname_plot, cfg_plot)
+            
+            display(Markdown("### Alignment Plots"))
+            for index, row in df_log.iterrows():
+                fif_path = row.get('fif_out')
+                if not fif_path or pd.isna(fif_path): continue
+                
+                fif_path = str(fif_path)
+                if kit2fiff_dir in fif_path:
+                    rel_path = os.path.relpath(fif_path, kit2fiff_dir)
+                else:
+                    fname = os.path.basename(fif_path)
+                    sub = row.get('subject')
+                    ses = row.get('session')
+                    if pd.isna(ses) or str(ses) == 'nan' or str(ses) == '':
+                         rel_path = os.path.join(f"sub-{sub}", fname)
+                    else:
+                         rel_path = os.path.join(f"sub-{sub}", f"ses-{ses}", fname)
+                
+                # Construct plot path
+                # Replace extension with .png
+                base, _ = os.path.splitext(rel_path)
+                plot_rel_path = base + ".png"
+                plot_path = os.path.join(plot_dir, plot_rel_path)
+                
+                if os.path.exists(plot_path):
+                    display(Markdown(f"### {os.path.basename(fif_path)}"))
+                    display(Markdown(f"**Subject:** {row.get('subject')}, **Session:** {row.get('session')}, **Run:** {row.get('run')}"))
+                    
+                    # Use absolute path for images to avoid issues with PDF generation
+                    plot_path_fixed = plot_path.replace('\\', '/')
+                    display(Markdown(f"![Alignment Plot]({plot_path_fixed})"))
+                    
+                    display(Markdown("\n---\n"))
+
+        except Exception as e:
+            display(Markdown(f"Error reading logs or plots: {e}"))
+
+    # ---------------------------------------------------------
+    # Folder: 4-kit_apply_filters (fallback to filtered_data)
+    filt_dir = os.path.join(deriv_root, "4-kit_apply_filters")
+    if not os.path.exists(filt_dir):
+        filt_dir = os.path.join(deriv_root, "filtered_data")
+        
+    filter_summary_csv = os.path.join(filt_dir, "filter_summary.csv")
+    
+    if os.path.exists(filter_summary_csv):
+        display(Markdown("# Filtering"))
+        display(Markdown("*Generated by script: `4-kit_apply_filters.py`*"))
+        display(Markdown(""))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(filt_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['filters'])
+
+        try:
+            df_filt = pd.read_csv(filter_summary_csv)
+            for col in df_filt.columns:
+                if df_filt[col].dtype == object:
+                    try: df_filt[col] = df_filt[col].astype(str).str.replace('\\', '/')
+                    except: pass
+            display(Markdown(df_filt.to_markdown(index=False)))
+        except Exception as e:
+            display(Markdown(f"Error reading filter logs: {e}"))
+
+    # (Single Channel Sanity Check section moved to appear first, after Dataset Report)
+
+    # ---------------------------------------------------------
+    # Events Section
+    # ---------------------------------------------------------
+    # Folder: 5-kit_compute_events_single_channel (fallback to triggers_to_events)
+    eve_dir = os.path.join(deriv_root, "5-kit_compute_events_single_channel")
+    if not os.path.exists(eve_dir):
+        eve_dir = os.path.join(deriv_root, "triggers_to_events")
+        
+    events_csv = os.path.join(eve_dir, "auto_events_index.csv")
+    
+    if os.path.exists(events_csv):
+        display(Markdown("# Single Channel Events"))
+        display(Markdown("*Generated by script: `5-kit_compute_events_single_channel.py`*"))
+        display(Markdown(""))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(eve_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['plots', 'events'])
+
+        try:
+            df_eve = pd.read_csv(events_csv)
+            for col in df_eve.columns:
+                if df_eve[col].dtype == object:
+                    try: df_eve[col] = df_eve[col].astype(str).str.replace('\\', '/')
+                    except: pass
+            display(Markdown(df_eve.to_markdown(index=False)))
+            
+            display(Markdown("### Stimulus Channel Plots"))
+            if 'stim_plot' in df_eve.columns:
+                for idx, row in df_eve.iterrows():
+                    plot_path = row.get('stim_plot')
+                    if plot_path and str(plot_path).lower() != 'nan' and str(plot_path).strip() != '':
+                        if os.path.exists(plot_path):
+                            display(Markdown(f"#### {os.path.basename(row.get('file', 'Unknown File'))}"))
+                            plot_path_fixed = str(plot_path).replace('\\', '/')
+                            display(Markdown(f"![Stim Plot]({plot_path_fixed})"))
+                            display(Markdown("\n---\n"))
+        except Exception as e:
+            display(Markdown(f"Error reading events logs: {e}"))
+
+    # ---------------------------------------------------------
+    # Epochs & Evoked Section
+    # ---------------------------------------------------------
+    # Folder: 6-kit_evoked_response_single_channel (fallback to epochs_evoked)
+    epo_dir = os.path.join(deriv_root, "6-kit_evoked_response_single_channel")
+    if not os.path.exists(epo_dir):
+        epo_dir = os.path.join(deriv_root, "epochs_evoked")
+        
+    epo_csv = os.path.join(epo_dir, "epochs_evoked_summary.csv")
+    
+    if os.path.exists(epo_csv):
+        display(Markdown("# Epochs and Evoked (Single Channel)"))
+        display(Markdown("*Generated by script: `6-kit_evoked_response_single_channel.py`*"))
+        display(Markdown(""))
+        
+        # Display Config Info
+        fname, cfg = get_latest_config(epo_dir)
+        if cfg:
+            display(Markdown("### Configuration Used"))
+            display_config_info(fname, cfg, relevant_keys=['epoching'])
+
+        try:
+            df_epo = pd.read_csv(epo_csv)
+            for col in df_epo.columns:
+                if df_epo[col].dtype == object:
+                    try: df_epo[col] = df_epo[col].astype(str).str.replace('\\', '/')
+                    except: pass
+            display(Markdown(df_epo.to_markdown(index=False)))
+        except Exception as e:
+            display(Markdown(f"Error reading epochs logs: {e}"))
+
+else:
+    display(Markdown("**BIDS Root not found, cannot display logs or plots.**"))
+```

@@ -1,0 +1,20 @@
+project:
+  title: "Pipeline Configuration Report"
+  output-dir: _output
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    code-fold: true
+  pdf:
+    toc: true
+    number-sections: true
+    colorlinks: true
+    geometry:
+      - top=20mm
+      - bottom=20mm
+      - left=20mm
+      - right=20mm
+    fig-align: center
+    code-overflow: wrap

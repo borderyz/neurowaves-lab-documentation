@@ -1,0 +1,70 @@
+ERROR conda.cli.main_run:execute(127): `conda run pytest -v -s tests/test_pipelines_kit_mne.py::test_plot_triggers_runs_headless_without_gui` failed. (See above for error)
+============================= test session starts =============================
+platform win32 -- Python 3.10.19, pytest-8.4.2, pluggy-1.5.0 -- C:\Users\hz3752\AppData\Local\miniconda3\envs\neurowaves\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\hz3752\neurowaves-lab-documentation
+configfile: pyproject.toml
+plugins: anyio-4.10.0
+collecting ... collected 1 item
+
+tests/test_pipelines_kit_mne.py::test_plot_triggers_runs_headless_without_gui FAILED
+
+================================== FAILURES ===================================
+________________ test_plot_triggers_runs_headless_without_gui _________________
+
+tmp_path = WindowsPath('C:/Users/hz3752/AppData/Local/Temp/pytest-of-hz3752/pytest-13/test_plot_triggers_runs_headle0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026F44D41510>
+
+    def test_plot_triggers_runs_headless_without_gui(tmp_path, monkeypatch):
+        """
+        Executes kit_plot_stim_channels.py headlessly:
+          - Ensures dataset present locally or downloads from Box.
+          - Forces a non-interactive backend.
+          - Patches Raw.plot to avoid opening a window (block=True in the script).
+        """
+        repo_root = Path(__file__).resolve().parents[1]
+        script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_plot_stim_channels.py"
+    
+        # The script hardcodes:
+        project_name = "script-testing-dataset"
+    
+        # Headless plotting: force non-GUI backend
+        monkeypatch.setenv("MPLBACKEND", "Agg")
+    
+        # MEG_DATA root (provided by CI env; local users already have it)
+        meg_data_root = os.getenv("MEG_DATA")
+        assert meg_data_root, "MEG_DATA environment variable not set"
+        meg_data_root = Path(meg_data_root)
+    
+        # Ensure dataset exists (local or Box)
+        ensure_dataset_present(project_name, meg_data_root)
+    
+        # Patch mne Raw.plot to a no-op so the script doesn't block on GUI
+        def _noop_plot(*args, **kwargs):
+            return None
+    
+        with patch("mne.io.base.BaseRaw.plot", side_effect=_noop_plot):
+            # Run the script as __main__ so its top-level code executes
+>           result = runpy.run_path(str(script_path), run_name="__main__")
+
+tests\test_pipelines_kit_mne.py:206: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+..\AppData\Local\miniconda3\envs\neurowaves\lib\runpy.py:288: in run_path
+    code, fname = _get_code_from_file(run_name, path_name)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+run_name = '__main__'
+fname = 'C:\\Users\\hz3752\\neurowaves-lab-documentation\\pipeline\\mne_pipelines\\kit_general_pipelines\\kit_plot_stim_channels.py'
+
+    def _get_code_from_file(run_name, fname):
+        # Check for a compiled file first
+        from pkgutil import read_code
+        decoded_path = os.path.abspath(os.fsdecode(fname))
+>       with io.open_code(decoded_path) as f:
+E       FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\hz3752\\neurowaves-lab-documentation\\pipeline\\mne_pipelines\\kit_general_pipelines\\kit_plot_stim_channels.py'
+
+..\AppData\Local\miniconda3\envs\neurowaves\lib\runpy.py:252: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/test_pipelines_kit_mne.py::test_plot_triggers_runs_headless_without_gui
+============================== 1 failed in 4.47s ==============================
+

@@ -19,7 +19,7 @@ class _NYUADKitConstants:
         'MISC 005', 'MISC 006', 'MISC 007', 'MISC 008'
     ])
     trigger_channels_KIT: List[int] = field(default_factory=lambda: [224, 225, 226, 227, 228, 229, 230, 231])
-
+    LINE_FREQUENCY = 50
     # Plotting defaults
     DEFAULT_MISC_CHANNELS_AMPLITUDE_SCALE: float = 1.5
     DEFAULT_TIME_SCALE: float = 100.0
@@ -262,6 +262,68 @@ def resolve_events_pair_with_joint_fallback(raw_match, bids_root):
 
     # No paired files at any scope
     return None, None, None
+
+
+
+def resolve_events_json_with_fallback(raw_match, bids_root):
+    """
+    Return (events_json_path, scope_dict) where a JSON sidecar exists and its
+    entity scope matches the fallback order below.
+
+    Fallback order (most specific → least), always keeping subject/session fixed until dataset root:
+      1) exact: subject[/session][task][run][acq]
+      2) subject[/session][task]         (drop run,acq)
+      3) subject[/session]               (drop task,run,acq)
+      4) dataset root                    (no subject/session/task/run/acq)
+
+    Rules:
+      - Never borrow files from another subject/session/task/run.
+      - Accept a level only if the JSON exists at that same level.
+      - Dataset-root files must have NO entities (apply to all data).
+    """
+    e = getattr(raw_match, "entities", None) or {}
+    subj = e.get("subject")
+    sess = e.get("session")
+    task = e.get("task")
+    run  = e.get("run")
+    acq  = e.get("acquisition")
+
+    # Build candidate scopes (most specific → least)
+    scopes = [
+        dict(subject=subj, session=sess, task=task, run=run, acquisition=acq),
+        dict(subject=subj, session=sess, task=task, run=None, acquisition=None),
+        dict(subject=subj, session=sess, task=None, run=None, acquisition=None),
+        dict(subject=None, session=None, task=None, run=None, acquisition=None),  # dataset root
+    ]
+
+    for scope in scopes:
+        at_root = all(scope.get(k) is None for k in ("subject", "session", "task", "run", "acquisition"))
+        # Match the original logic: at dataset root, search without constraining datatype.
+        dtype = None if at_root else NYUAD_KIT_CONSTANTS.DATATYPE
+
+        # Look for JSON at this exact scope
+        js = _first_matching_path_exact(
+            bids_root=bids_root,
+            subjects=scope["subject"],
+            sessions=scope["session"],
+            tasks=scope["task"],
+            acquisitions=scope["acquisition"],
+            runs=scope["run"],
+            extensions=tuple(NYUAD_KIT_CONSTANTS.METADATA_EXTENSIONS),
+            datatypes=dtype,
+        )
+
+        # Explicit dataset-root fallback: "<bids_root>/events.json"
+        if not js and at_root:
+            cand = Path(bids_root) / "events.json"
+            if cand.exists():
+                js = str(cand)
+
+        if js:
+            return js, scope
+
+    # No JSON found at any scope
+    return None, None
 
 
 # -------------------------------

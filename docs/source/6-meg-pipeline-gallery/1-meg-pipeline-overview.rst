@@ -57,18 +57,18 @@ Order of notebooks for general MNE-KIT pipelines
 You have acquired MEG-KIT data from NYUAD and wish to start your pre-processing of your data:
 
 
-If your experiment design is based on using single-channel mode for coding your triggers, use the following sequence of pipelines to:
+If your experiment design is based on using `single-channel mode`` for coding your triggers, use the following sequence of pipelines to:
 
 - convert the raw KIT .con files (with and without CALM noise reduction processing) into .fif
-- [Optional but recommended] perform sanity check (trigger count and trigger sequence check), this pipeline ensures no triggers are lost and that they are detected correctly
+- [Optional but highly recommended] perform trigger count sanity check (trigger count and trigger sequence check), this pipeline ensures no triggers are lost and that they are detected correctly
 - compute event sample onset and save .eve files
 
 .. nbgallery::
     :glob:
 
-    notebooks/mne/mne_pipeline_kit2fiff
-    notebooks/mne/mne_pipeline_sanity_check_single-channel
-    notebooks/mne/mne_pipeline_compute-events_single-channel
+    notebooks/mne/1-mne_pipeline_kit2fiff
+    notebooks/mne/2-mne_pipeline_trigger_count_sanity_check_single-channel
+    notebooks/mne/3-mne_pipeline_compute-events_single-channel
 
 
 
@@ -127,7 +127,6 @@ W and S are unknowns, minimising var(S) requires knowing W, but there is a relat
 (In fieldtrip, the configuration points to LCMV  or DICS(for frequency analysis) algorithm to use this beamformer)
 
 Computing the inverse of C (used for the solution) requires that C is not rank deficient (a measure of the dependency between the rows/columns), small time window, ICA can increase deficiency
-
 
 
 
@@ -342,60 +341,6 @@ Pause: it stops after a step in oredr for tghe user to check for things or take 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Installation
-^^^^^^^^^^^^
-
-To use MEG-Pipeline, first install it using pip:
-
-.. code-block:: console
-
-   (.venv) $ pip install megpipeline
-
-Reading the Raw Data
-""""""""""""""""""""
-
-The ``kind`` parameter should be either ``"raw"``, ``"fif"``,
-or ``"fll"``.
-
-
-.. literalinclude:: ../../../pipeline/import_raw_data.py
-  :language: python
-
-The above script will later be implemented as part of the following class :py:class:`MEGpipeline` and function :py:func:`megpipeline.get_raw_data`.
-
-
-.. autoclass::MEGpipeline
-
-The ``kind`` parameter should be either ``"raw"``, ``"fif"``,
-or ``"fll"``. Otherwise, :py:func:`megpipeline.get_raw_data`
-will raise an exception.
-
-
-
-For example:
-
->>> import megpipeline
->>> megpipeline.get_raw_data()
-['a', 'b', 'c']
-
-
-
 Manual labelling of "bad" channels
 """"""""""""""""""""""""""""""""""
 
@@ -450,21 +395,6 @@ Brain Source Estimate
 """""""""""""""""""""
 
 When neurons become active, they do so in large groups.
-
-
-
-
-Code Overview
-"""""""""""""
-
-The code for an example.
-
-.. code-block:: python
-    :caption: This installs dependencies
-
-    # Install required Meg-pipeline dependencies
-    import matplotlib as plt
-    import mne
 
 
 

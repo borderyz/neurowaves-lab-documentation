@@ -19,20 +19,20 @@ os.makedirs(output_dir, exist_ok=True)
 # Function to create dashboard for each system
 for csv_file in csv_files:
     # Read the CSV file into a pandas DataFrame
-    df = pd.read_csv(csv_file)
+    LOG_DATA_FRAME = pd.read_csv(csv_file)
 
     # Extract the system name from the CSV file name
     system_name = os.path.splitext(os.path.basename(csv_file))[0].replace("-", " ").title()
 
     # Get unique timestamps (weeks) for the dropdown
-    timestamps = df["Timestamp"].unique()
+    timestamps = LOG_DATA_FRAME["Timestamp"].unique()
 
     # Create a figure
     fig = go.Figure()
 
     # Add a trace for each timestamp (week)
     for timestamp in timestamps:
-        filtered_df = df[df["Timestamp"] == timestamp]
+        filtered_df = LOG_DATA_FRAME[LOG_DATA_FRAME["Timestamp"] == timestamp]
         status = filtered_df["Status"].tolist()
         system_names = filtered_df["System Name"].tolist()
 
