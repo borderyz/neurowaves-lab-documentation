@@ -1,1 +1,0 @@
-This folder contain files built by psychopy GUI, they are not revised for MEG coding and could work on PC.

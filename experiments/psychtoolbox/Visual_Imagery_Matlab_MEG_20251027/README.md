@@ -1,0 +1,1 @@
+Always remember to land the introduction page(the page just before the first trial) first, then start MEG recording. When it's done, stop MEG recording first, then esc to exit the experiment.
