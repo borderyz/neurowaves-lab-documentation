@@ -22,12 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          which python
-          python --version
-          which pip
           python -m pip install --upgrade pip
-          python -m pip install "boxsdk[jwt]"
-          python -c "import sys; print(sys.path)"
+          pip install "boxsdk[jwt]==3.14.0"
           python -c "import boxsdk; print(f'boxsdk version: {boxsdk.__version__}')"
 
       - name: Run Box Info Script
