@@ -24,15 +24,30 @@ Before Participant Arrival
 .. checklist::
 
     - [ ] Disinfect surfaces (bed, helmet), HPI-coils (gently), and earphones using disinfectant wipes.
-    - [ ] Assemble bedsheet, new earphone covers, and pillow cover.
+    - [ ] Place clean bedsheet, pillow cover and new earphone covers.
     - [ ] Cut 15 pieces of tape (~3-inches in length) for attaching HPI coils.
     - [ ] Switch on EyeLink and Eye-tracking computer (if applicable).
     - [ ] Test speakers, microphones, response boxes, and screen inside Magnetically Shielded Room (MSR).
+    - [ ]
     - [ ] Call security to request switching off all devices until the session is completed.
     - If the participant wears hijab:
         - [ ] Request all male researchers to leave the lab for the session duration.
         - [ ] Put up the “ladies only” sign on the outside of the lab door.
         - [ ] Set up the divider near the door.
+
+MSR Preparation
+^^^^^^^^^^^^^^^
+
+.. checklist::
+
+    - [ ] Ensure that the Marker Box is switched on.
+    - [ ] Switch on the ProPixx screen from the stimulus computer.
+    - [ ] Test the speaker and microphone by asking the participant if they are able to hear you.
+    - [ ] Test the eye-tracker calibration (if applicable).
+
+
+    - [ ] SWITCH OFF THE HEATER
+
 
 Participant Preparation
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -48,27 +63,18 @@ Participant Preparation
     - [ ] Set all devices to Airplane Mode (phones, smart watches).
     - [ ] Briefly explain the laser scan process.
     - [ ] Equip the participant with a tight-fitting cap to smooth their head shape.
-    - [ ] Mark the participant's head with a felt-tip marker.
+    - [ ] Place brace around participant's neck covered with paper towel for hygiene
+    - [ ] Draw the Marker points on the participants head with a felt-tip marker.
     - [ ] Ask the participant to close their eyes and remain still during the laser scan.
     - [ ] Conduct the laser scan (sweeps and points).
     - [ ] Guide the participant to the MSR.
     - [ ] Explain the process of attaching HPI coils and the study setup (bed, screen, eye-tracker).
     - [ ] Attach the coils to the participant’s head using the guide on the wall and the cable labels.
     - [ ] Help the participant lie down carefully on the bed, ensuring the coils do not detach or shift.
-    - [ ] Equip the participant with one earphone.
+    - [ ] Equip the participant with earphones.
     - [ ] Provide the participant with the leg pillow and blanket for comfort.
-
-MSR Preparation
-^^^^^^^^^^^^^^^
-
-.. checklist::
-
-    - [ ] Ensure that the Marker Box is switched on.
-    - [ ] Switch on the ProPixx screen from the stimulus computer.
-    - [ ] Test the speaker and microphone by asking the participant if they are able to hear you.
-    - [ ] Test the eye-tracker calibration (if applicable).
     - [ ] Switch off the lights and shut the MSR door.
-    - [ ] Switch off the heater.
+
 
 MEG Recording
 ^^^^^^^^^^^^^
@@ -78,9 +84,10 @@ At the MEG Main Computer:
 .. checklist::
 
     - [ ] Open MEGLaboratory: click Acquire > Autotuning > OK and wait for the autotuning process to complete.
-    - [ ] Click Acquire > MEG Measurement > Sensor Check and wait 1–2 minutes until signals stabilise.
+    - [ ] Click Acquire > MEG Measurement > Sensor Check and perform for 30 secs to 1 minute.
     - [ ] While waiting, fill in subject details (e.g., “sub-007”).
     - [ ] Create the subject folder and copy/paste the folder path so that the data is saved correctly.
+    - [ ] Disable Sensor Check button
     - [ ] Once signals are stable, click Lock.
     - [ ] Wait for Lock to complete and for the signals to stabilise again.
     - [ ] Take a marker measurement: click MEG Measurement > Marker Measurement > Start.
@@ -98,7 +105,8 @@ After MEG Session
     - [ ] Save the .con file to the participant folder.
     - [ ] Take a second marker measurement: click Acquire > MEG Measurement > Marker Measurement.
     - [ ] Once the MEG measurement is complete, click Unlock.
-    - [ ] Open the MSR door. Assist the participant in sitting up and carefully remove the HPI coils.
+    - [ ] Switch on the lights and open the MSR door.
+    - [ ] Assist the participant in sitting up and carefully remove the HPI coils.
     - [ ] Guide the participant back to the laser scan room and instruct them to change back into their clothes and collect all belongings.
     - [ ] Switch the heater back on.
     - [ ] Provide the participant with compensation (if applicable).
@@ -112,6 +120,7 @@ After Participant Leaves
     - [ ] Remove and stow used bedsheets and pillow covers in the laundry basket, and used earphone covers in the bin.
     - [ ] Disinfect MSR surfaces (bed, helmet), HPI coils (gently), and earphones using disinfectant wipes.
     - [ ] Call security to inform them that the session is complete (if finished early).
+    - [ ] Replace the 15 pieces of tape - ready for the next experiment
 
 Saving The Data
 ^^^^^^^^^^^^^^^
