@@ -1,11 +1,16 @@
 %% Visual Imagery Official
 clear; clc; close all;
 
-% set VPIXX to DisablePixelMode
-Datapixx('Open');
-Datapixx('DisablePixelMode');
-Datapixx('RegWr');
 
+USE_VPIXX = true;
+USE_DEBUG_TRIALS = false;
+
+if USE_VPIXX
+    % set VPIXX to DisablePixelMode
+    Datapixx('Open');
+    Datapixx('DisablePixelMode');
+    Datapixx('RegWr');
+end
 %% Setup 
 Screen('Preference', 'SkipSyncTests', 1);  % only for debugging
 white = [255 255 255];
@@ -90,10 +95,11 @@ QuestionRespTrig = trig.QuestionResp;
 %-------------------------------------------
 % VPIXX SETUP
 %-------------------------------------------
-Datapixx('Open');
-Datapixx('EnablePixelMode');
-Datapixx('RegWr');
-
+if USE_VPIXX
+    Datapixx('Open');
+    Datapixx('EnablePixelMode');
+    Datapixx('RegWr');
+end
 %% set up buttons for MEG controller
 % set button for rate
 % Map from button ('box|color') to resp we will record
@@ -147,12 +153,19 @@ Screen('FillRect', win, white);
 Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 
-% Load block file
-blockFiles = {
-    'VI_B1_trials.csv'
-    'VI_B2_trials.csv'
-};
-
+if USE_DEBUG_TRIALS
+    % Load block file
+    blockFiles = {
+        'VI_B1_trials_DEBUG.csv'
+        'VI_B2_trials_DEBUG.csv'
+    };
+else
+    % Load block file
+    blockFiles = {
+        'VI_B1_trials.csv'
+        'VI_B2_trials.csv'
+    };
+end
 %% Assign one random imagine_time per block
 nBlocks = numel(blockFiles);  
 
@@ -215,10 +228,10 @@ for b = 1:nBlocks
 
         
 
-
-        % Blocking call: waits until a valid button press is detected
-        pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
-
+        if USE_VPIXX
+            % Blocking call: waits until a valid button press is detected
+            pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
+        end
 
         %  Stage 2: Cue Audio
         % (If you have a special Cue file)
@@ -308,32 +321,33 @@ for b = 1:nBlocks
         Rate_Onset = Screen('Flip', win);
     
         rating = NaN;
-
-        while true
-            % allow to esc at this stage
-            [~, ~, keyCode] = KbCheck;
-            if  keyCode(escapeKey)
-
-                Screen('CloseAll'); 
-                PsychPortAudio('Close', pahandle); 
-                error('Experiment terminated by user.'); %%%%% well, seems we need to press esc for many times to escape
-            end
-            
-            % Blocking call: waits until a valid button press is detected
-            pair_rate = getButtonColor(selection_rate,true);  
-
-            % Build key string
-            key = sprintf('%s|%s', pair_rate{1}, pair_rate{2});
-
-            % Map to rating
-            if isKey(buttonMap, key)
-                rating = buttonMap(key);
-                break;
-            else
-                % continue looping until a mapped button is pressed
+        
+        if USE_VPIXX
+            while true
+                % allow to esc at this stage
+                [~, ~, keyCode] = KbCheck;
+                if  keyCode(escapeKey)
+    
+                    Screen('CloseAll'); 
+                    PsychPortAudio('Close', pahandle); 
+                    error('Experiment terminated by user.'); %%%%% well, seems we need to press esc for many times to escape
+                end
+                
+                % Blocking call: waits until a valid button press is detected
+                pair_rate = getButtonColor(selection_rate,true);  
+    
+                % Build key string
+                key = sprintf('%s|%s', pair_rate{1}, pair_rate{2});
+    
+                % Map to rating
+                if isKey(buttonMap, key)
+                    rating = buttonMap(key);
+                    break;
+                else
+                    % continue looping until a mapped button is pressed
+                end
             end
         end
-
 %         %% set up keyboard for rating
 %         % Wait for numeric key 1-5
 %         validKeys = [KbName('1!') KbName('2@') KbName('3#') KbName('4$') KbName('5%')];
@@ -372,33 +386,35 @@ for b = 1:nBlocks
         CatchQuestion_Onset = Screen('Flip', win);
     
         catchAnswer = '';
+        
 
-        % set button for MEG controller (catch question)
-        while true
-            
-            % allow to esc at this stage
-            [~, ~, keyCode] = KbCheck;
-            if  keyCode(escapeKey)
-                Screen('CloseAll'); 
-                PsychPortAudio('Close', pahandle); 
-                error('Experiment terminated by user.');
-            end
-
-            % Blocking call: waits until a valid button press is detected
-            pair_CatchQuestion = getButtonColor(selection_CatchQuestion,true);  % blocking = true
-
-            % Build key string
-            key = sprintf('%s|%s', pair_CatchQuestion{1}, pair_CatchQuestion{2});
-
-            % Map to resp to CatchQuestion
-            if isKey(buttonMap, key)
-                catchAnswer = buttonMap(key);
-                break;
-            else
-                % continue looping until a mapped button is pressed
+        if USE_VPIXX
+            % set button for MEG controller (catch question)
+            while true
+                
+                % allow to esc at this stage
+                [~, ~, keyCode] = KbCheck;
+                if  keyCode(escapeKey)
+                    Screen('CloseAll'); 
+                    PsychPortAudio('Close', pahandle); 
+                    error('Experiment terminated by user.');
+                end
+    
+                % Blocking call: waits until a valid button press is detected
+                pair_CatchQuestion = getButtonColor(selection_CatchQuestion,true);  % blocking = true
+    
+                % Build key string
+                key = sprintf('%s|%s', pair_CatchQuestion{1}, pair_CatchQuestion{2});
+    
+                % Map to resp to CatchQuestion
+                if isKey(buttonMap, key)
+                    catchAnswer = buttonMap(key);
+                    break;
+                else
+                    % continue looping until a mapped button is pressed
+                end
             end
         end
-
         %% set for keyboard for CatchQuestion
 %         % Wait for key s/d/f
 %         key_s = KbName('s');
@@ -488,11 +504,12 @@ Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbWait([], 2);
 
+if USE_VPIXX
 % switch off trigger
-Datapixx('DisablePixelMode'); 
-Datapixx('RegWr');
-Datapixx('Close');
-
+    Datapixx('DisablePixelMode'); 
+    Datapixx('RegWr');
+    Datapixx('Close');
+end
 %% Cleanup 
 PsychPortAudio('Close', pahandle);
 Screen('CloseAll');
