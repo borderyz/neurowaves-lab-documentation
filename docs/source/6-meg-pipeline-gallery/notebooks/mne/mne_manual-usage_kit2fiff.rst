@@ -20,6 +20,12 @@ Kit2Fiff
     This has been tested with MNE version 1.7.0.
     `mne kit2fiff` seems to have a bug with newer version of MNE
 
+
+
+`kit2fiff` is a mne python GUI that converts .con/.sqd to .fif format
+The code launching this command is found in `mne.commands.mne_kit2fiff`
+
+
 The first step is to convert the recording into a standard format for analysis in MNE, the premier software suite for M/EEG analysis.
 
 1. Launch your terminal and activate your anaconda environment for MNE analysis. If you haven’t set up an environment yet, do so.

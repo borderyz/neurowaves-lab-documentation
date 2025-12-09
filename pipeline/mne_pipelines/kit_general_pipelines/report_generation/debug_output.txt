@@ -1,0 +1,97 @@
+
+Starting neurowaves kernel...Done
+
+Executing 'report.quarto_ipynb'
+  Cell 1/4: ''...Done
+  Cell 2/4: ''...Done
+  Cell 3/4: ''...Done
+  Cell 4/4: ''...Done
+
+pandoc 
+  to: html
+  output-file: report.html
+  standalone: true
+  section-divs: true
+  html-math-method: mathjax
+  wrap: none
+  default-image-extension: png
+  toc: true
+  variables: {}
+  
+metadata
+  document-css: false
+  link-citations: true
+  date-format: long
+  lang: en
+  theme: cosmo
+  title: 'NeuroWaves MEG Lab at NYUAD: Pipeline execution report'
+  date: today
+  author: 'Hadi Zaatiti, Haidee Paterson, Osama Abdullah, NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms '
+  jupyter: neurowaves
+  
+
+Starting neurowaves kernel...Done
+
+Executing 'report.quarto_ipynb'
+  Cell 1/4: ''...Done
+  Cell 2/4: ''...Done
+  Cell 3/4: ''...Done
+  Cell 4/4: ''...Done
+
+pandoc 
+  to: latex
+  output-file: report.tex
+  standalone: true
+  pdf-engine: lualatex
+  variables:
+    graphics: true
+    tables: true
+  default-image-extension: pdf
+  toc: true
+  number-sections: true
+  
+metadata
+  documentclass: scrartcl
+  classoption:
+    - DIV=11
+    - numbers=noendperiod
+  papersize: letter
+  header-includes:
+    - \KOMAoption{captions}{tableheading}
+  block-headings: true
+  colorlinks: true
+  geometry:
+    - top=20mm
+    - bottom=20mm
+    - left=20mm
+    - right=20mm
+  title: 'NeuroWaves MEG Lab at NYUAD: Pipeline execution report'
+  date: today
+  author: 'Hadi Zaatiti, Haidee Paterson, Osama Abdullah, NeuroWaves Lab, Bio-Medical Imaging Core, Core Technology Platforms '
+  jupyter: neurowaves
+  
+
+Rendering PDF
+running lualatex - 1
+  This is LuaHBTeX, Version 1.22.0 (TeX Live 2025) 
+   restricted system commands enabled.
+  
+updating tlmgr
+
+updating existing packages
+ERROR: 
+compilation failed- error
+Package luatex.def Error: File `../../../../../Box/MEG/Data/script-testing-dataset/derivatives/3-kit_fif_plot_headshape_sensor_alignment/sub-test1/sub-test1_task-400events_desc-rawkit_meg_raw.png' not found: using draft setting.
+
+See the luatex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.302 ...t1_task-400events_desc-rawkit_meg_raw.png}}
+                                                  
+
+
+see C:\Users\hz3752\neurowaves-lab-documentation\pipeline\mne_pipelines\kit_general_pipelines\report_generation\report.log for more information.
+WARN: Error encountered when rendering files
+
+ERROR conda.cli.main_run:execute(127): `conda run quarto render report.qmd -P config_path:../pipeline_config_files/config_template.yml` failed. (See above for error)

@@ -1,0 +1,106 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "KIT Sanity Check Single Channel",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/1-kit_count_sanity_check_single_channel.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "CON to FIF",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/2-kit_con_to_fif.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "PLOT coreg sensor-laserhead",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/3-kit_fif_plot_headshape_sensor_alignment.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Apply filters",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/4-kit_apply_filters.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Compute events single channel",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/5-kit_compute_events_single_channel.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Compute evoked response",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/6-kit_evoked_response_single_channel.py",
+            "console": "integratedTerminal",
+            "args": [
+                "-c",
+                "${workspaceFolder}/pipeline/mne_pipelines/kit_general_pipelines/pipeline_config_files/config_template.yml"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Run Tests",
+            "type": "python",
+            "module": "pytest",
+            "request": "launch",
+            "args": [
+                "-q",
+                "tests/test_pipelines_kit_mne.py"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    ]
+}

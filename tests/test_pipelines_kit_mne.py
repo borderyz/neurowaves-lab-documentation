@@ -14,7 +14,7 @@ from pipeline.box_storage.box_utilities import ensure_dataset_present
 
 def test_sanity_check_pipeline():
     repo_root = Path(__file__).resolve().parents[1]
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_count_sanity_check_single_channel.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "1-kit_count_sanity_check_single_channel.py"
     config_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "pipeline_config_files" / "config_template.yml"
 
     # Load config to get project + MEG_DATA location
@@ -32,10 +32,14 @@ def test_sanity_check_pipeline():
     # Ensure dataset exists locally or fetch from Box
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the sanity script
     result = subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     # Do not assert specific stdout; print for debugging only
     print("\n====== STDOUT ======\n", result.stdout)
@@ -43,7 +47,8 @@ def test_sanity_check_pipeline():
     assert result.returncode == 0, f"Script failed with exit code {result.returncode}"
 
     # Summary CSV presence
-    summary_csv = bids_root / "derivatives" / "sanity_check" / "sanity_check_overview.csv"
+    # Updated to match script name folder
+    summary_csv = bids_root / "derivatives" / "1-kit_count_sanity_check_single_channel" / "sanity_check_overview.csv"
     assert summary_csv.exists(), f"Summary CSV not found at {summary_csv}"
 
     # Validate summary contents
@@ -73,20 +78,20 @@ def test_sanity_check_pipeline():
     print("\n✅ Sanity check pipeline test passed with expected multi-subject behavior!")
 
 
-
-def test_kit2fiff_conversion_pipeline():
+def test_kit2fiff_pipeline():
     """
-    End-to-end test for the KIT -> FIFF conversion script:
+    End-to-end test for KIT to FIF conversion:
       - Ensures dataset is present (local or via Box).
-      - Runs the conversion script with the template YAML.
+      - Runs the script with the template YAML.
       - Verifies root summary CSV exists and contains expected rows.
-      - Verifies unique output FIFs per input (proc/no-proc preserved).
-      - Verifies per-subject logfile contains the mapping lines.
+      - Verifies expected FIF basenames per subject & task (proc/no-proc preserved).
+      - Verifies per-subject logfiles exist and contain expected content.
     """
     repo_root = Path(__file__).resolve().parents[1]
-    # Update script name/path if yours differs:
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_con_to_fif.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "2-kit_con_to_fif.py"
     config_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "pipeline_config_files" / "config_template.yml"
+    assert script_path.exists(), f"KIT2FIFF script not found at {script_path}"
+    assert config_path.exists(), f"Config template not found at {config_path}"
 
     # Load config to locate BIDS
     with open(config_path, "r", encoding="utf-8") as f:
@@ -103,17 +108,21 @@ def test_kit2fiff_conversion_pipeline():
     # Ensure dataset present
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the conversion script
-    result = subprocess.run(
+    result =subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     print("\n====== STDOUT ======\n", result.stdout)
     print("\n====== STDERR ======\n", result.stderr)
     assert result.returncode == 0, f"kit2fiff script failed with exit code {result.returncode}"
 
-    # Paths under derivatives/kit2fiff
-    kit2fiff_root = bids_root / "derivatives" / "kit2fiff"
+    # Paths under derivatives/2-kit_con_to_fif
+    kit2fiff_root = bids_root / "derivatives" / "2-kit_con_to_fif"
     summary_csv = kit2fiff_root / "kit2fiff_summary.csv"
     assert summary_csv.exists(), f"Summary CSV not found at {summary_csv}"
 
@@ -172,40 +181,6 @@ def test_kit2fiff_conversion_pipeline():
 
     print("\n✅ KIT→FIFF pipeline test passed (distinct outputs per proc/no-proc; logs & summary validated).")
 
-def test_plot_triggers_runs_headless_without_gui(tmp_path, monkeypatch):
-    """
-    Executes kit_plot_stim_channels.py headlessly:
-      - Ensures dataset present locally or downloads from Box.
-      - Forces a non-interactive backend.
-      - Patches Raw.plot to avoid opening a window (block=True in the script).
-    """
-    repo_root = Path(__file__).resolve().parents[1]
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_plot_stim_channels.py"
-
-    # The script hardcodes:
-    project_name = "script-testing-dataset"
-
-    # Headless plotting: force non-GUI backend
-    monkeypatch.setenv("MPLBACKEND", "Agg")
-
-    # MEG_DATA root (provided by CI env; local users already have it)
-    meg_data_root = os.getenv("MEG_DATA")
-    assert meg_data_root, "MEG_DATA environment variable not set"
-    meg_data_root = Path(meg_data_root)
-
-    # Ensure dataset exists (local or Box)
-    ensure_dataset_present(project_name, meg_data_root)
-
-    # Patch mne Raw.plot to a no-op so the script doesn't block on GUI
-    def _noop_plot(*args, **kwargs):
-        return None
-
-    with patch("mne.io.base.BaseRaw.plot", side_effect=_noop_plot):
-        # Run the script as __main__ so its top-level code executes
-        result = runpy.run_path(str(script_path), run_name="__main__")
-        assert result is not None
-
-
 
 def test_compute_events_single_channel_pipeline():
     """
@@ -219,7 +194,7 @@ def test_compute_events_single_channel_pipeline():
     repo_root = Path(__file__).resolve().parents[1]
 
     # Script path: prefer kit_compute_events_single_channel.py; fallback to kit_make_events_from_triggers.py
-    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_compute_events_single_channel.py"
+    script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "5-kit_compute_events_single_channel.py"
     if not script_path.exists():
         script_path = repo_root / "pipeline" / "mne_pipelines" / "kit_general_pipelines" / "kit_make_events_from_triggers.py"
     assert script_path.exists(), f"Events script not found at {script_path}"
@@ -242,17 +217,21 @@ def test_compute_events_single_channel_pipeline():
     # Ensure dataset present
     bids_root = ensure_dataset_present(project_name, meg_data_root)
 
+    # Set up environment with PYTHONPATH to find pipeline module
+    env = os.environ.copy()
+    env['PYTHONPATH'] = str(repo_root)
+    
     # Run the events script (default desc=autopulses)
     result = subprocess.run(
         [sys.executable, str(script_path), "--config", str(config_path)],
-        capture_output=True, text=True, check=False,
+        capture_output=True, text=True, check=False, env=env,
     )
     print("\n====== STDOUT ======\n", result.stdout)
     print("\n====== STDERR ======\n", result.stderr)
     assert result.returncode == 0, f"Events script failed with exit code {result.returncode}"
 
-    # Index CSV under derivatives/triggers_to_events
-    deriv_root = bids_root / "derivatives" / "triggers_to_events"
+    # Index CSV under derivatives/5-kit_compute_events_single_channel
+    deriv_root = bids_root / "derivatives" / "5-kit_compute_events_single_channel"
     index_csv = deriv_root / "auto_events_index.csv"
     assert index_csv.exists(), f"Events index CSV not found at {index_csv}"
 

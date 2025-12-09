@@ -1,1 +1,0 @@
-sbatch --output= fmriprep_job.log run_fmriprep.sh

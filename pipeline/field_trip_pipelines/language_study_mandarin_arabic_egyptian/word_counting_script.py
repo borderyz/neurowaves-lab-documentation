@@ -31,14 +31,14 @@ for trialIndex in range(len(trialList)):
             longestWord = word
 
 # Convert trialList to a DataFrame
-df = pd.DataFrame(trialList)
+LOG_DATA_FRAME = pd.DataFrame(trialList)
 
 # Add the word counts as a new column
-df['wordcount'] = word_counts
+LOG_DATA_FRAME['wordcount'] = word_counts
 
 # Save the updated DataFrame to a new CSV file with proper encoding
 
-df.to_csv(output_file, index=False, encoding='utf-8-sig')
+LOG_DATA_FRAME.to_csv(output_file, index=False, encoding='utf-8-sig')
 
 print(f"Updated file saved as {output_file}")
 print(f"The longest word is '{longestWord}' with {longestWordCount} characters.")
