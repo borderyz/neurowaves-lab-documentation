@@ -39,3 +39,64 @@ Trial 4: Stimulus presented at 1027270.6334
 } 
 save_matlab_output
 Experiment cancelled by user.
+matlab.codetools.internal.edit.editRelativeNameOrOpen(['getButtonColor'], ['C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\Visual_Imagery_Matlab_MEG_20251027\VI_MEG_20251027.m']);
+VI_MEG_20251027
+{Invalid MEX-file 'C:\Users\hz3752\Documents\Psychtoolbox\PsychBasic\Datapixx.mexw64': The specified module could not be found.
+
+Error in <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('VI_MEG_20251027', 'C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\Visual_Imagery_Matlab_MEG_20251027\VI_MEG_20251027.m', 10)" style="font-weight:bold">VI_MEG_20251027</a> (<a href="matlab: opentoline('C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\Visual_Imagery_Matlab_MEG_20251027\VI_MEG_20251027.m',10,0)">line 10</a>)
+    Datapixx('Open');
+    ^^^^^^^^^^^^^^^^
+} 
+VI_MEG_20251027
+
+beh_datafolder =
+
+    'C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\Visual_Imagery_Matlab_MEG_20251027\Beh_Data'
+
+
+
+PTB-INFO: This is Psychtoolbox-3 for Microsoft Windows, under Matlab 64-Bit Intel (Version 3.0.22 - Build date: May 24 2025).
+PTB-INFO: OS support status: Windows 11 (Version 11.0) is not supported.
+PTB-INFO: For information about paid support and other commercial services, please type 'PsychPaidSupportAndServices'.
+PTB-INFO: Most parts of the Psychtoolbox distribution are licensed to you under terms of the MIT license, with some
+PTB-INFO: restrictions. See file 'License.txt' in the Psychtoolbox root folder for the exact licensing conditions.
+PTB-INFO: Psychtoolbox and its prebuilt mex files are distributed in the hope that they will be useful, but WITHOUT
+PTB-INFO: ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+PTB-INFO: The detected endline of the vertical blank interval is equal or lower than the startline. This indicates
+PTB-INFO: that i couldn't detect the duration of the vertical blank interval and won't be able to correct timestamps
+PTB-INFO: for it. This will introduce a very small and constant offset (typically << 1 msec). Read 'help BeampositionQueries'
+PTB-INFO: for how to correct this, should you really require that last few microseconds of precision.
+PTB-INFO: Btw. this can also mean that your systems beamposition queries are slightly broken. It may help timing precision to
+PTB-INFO: enable the beamposition workaround, as explained in 'help ConserveVRAMSettings', section 'kPsychUseBeampositionQueryWorkaround'.
+
+
+PTB-INFO: OpenGL-Renderer is NVIDIA Corporation :: NVIDIA T1000 8GB/PCIe/SSE2 :: 4.6.0 NVIDIA 581.80
+PTB-INFO: Screen 0 : Window 10 : VBL startline = 1440 : VBL Endline = 1439
+PTB-INFO: Measured monitor refresh interval from beamposition = 16.672722 ms [59.978207 Hz].
+PTB-INFO: Will use beamposition query for accurate Flip time stamping.
+PTB-INFO: Measured monitor refresh interval from VBLsync = 16.674010 ms [59.973576 Hz]. (50 valid samples taken, stddev=0.009911 ms.)
+PTB-INFO: Reported monitor refresh interval from operating system = 16.666667 ms [60.000000 Hz].
+PTB-INFO: ==============================================================================================================================
+PTB-INFO: WINDOWS DWM DESKTOP COMPOSITOR IS ACTIVE. On this Windows-10 or later system, Psychtoolbox can no longer reliably detect if
+PTB-INFO: this will cause trouble for timing and integrity of visual stimuli or not. You might be just fine, or you could be in trouble.
+PTB-INFO: Use external measurement equipment and independent procedures to verify reliability of timing if you care about proper timing.
+PTB-INFO: ==============================================================================================================================
+
+
+PTB-ERROR: Screen('Flip'); beamposition timestamping computed an *impossible stimulus onset value* of 1028636.575136 secs, which would indicate that
+PTB-ERROR: stimulus onset happened *before* it was actually requested! (Earliest theoretically possible 1028636.581257 secs).
+
+PTB-ERROR: Some more diagnostic values (only for experts): rawTimestamp = 1028636.582019, scanline = 594
+PTB-ERROR: Some more diagnostic values (only for experts): line_pre_swaprequest = 527, line_post_swaprequest = 573, time_post_swaprequest = 1028636.581786
+PTB-ERROR: Some more diagnostic values (only for experts): preflip_vblcount = 0, preflip_vbltimestamp = 1028636.575159
+PTB-ERROR: Some more diagnostic values (only for experts): postflip_vblcount = 0, postflip_vbltimestamp = -1.000000, vbltimestampquery_retrycount = 0
+
+PTB-ERROR: This error can be due to either of the following causes:
+PTB-ERROR: Very unlikely: Something is broken in your systems beamposition timestamping. I've disabled high precision
+PTB-ERROR: timestamping for now. Returned timestamps will be less robust and accurate.
+
+PTB-ERROR: The most likely cause would be that Synchronization of stimulus onset (buffer swap) to the
+PTB-ERROR: vertical blank interval VBL is not working properly, or swap completion signalling to PTB is broken.
+PTB-ERROR: Please run the script PerceptualVBLSyncTest to check this. With non-working sync to VBL, all stimulus timing
+PTB-ERROR: is futile. Also run OSXCompositorIdiocyTest on macOS. Also read 'help SyncTrouble' !

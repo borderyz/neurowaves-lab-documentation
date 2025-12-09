@@ -1,0 +1,8 @@
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+PTB-INFO: New audio device -1 with handle 0 opened as PortAudio stream:
+PTB-INFO: For 2 channels Playback: Audio subsystem is Windows WASAPI, Audio device name is DELL S3425DW (NVIDIA High Definition Audio)
+PTB-INFO: Real samplerate 48000.000000 Hz. Input latency 0.000000 msecs, Output latency 22.000000 msecs.
+PTB-INFO: Using PortAudio V19.7.0-devel, revision unknown
+PTB-INFO: New audio device -1 with handle 0 opened as PortAudio stream:
+PTB-INFO: For 2 channels Playback: Audio subsystem is Windows WASAPI, Audio device name is DELL S3425DW (NVIDIA High Definition Audio)
+PTB-INFO: Real samplerate 48000.000000 Hz. Input latency 0.000000 msecs, Output latency 22.000000 msecs.

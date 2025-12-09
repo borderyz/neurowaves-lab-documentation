@@ -177,3 +177,6 @@ pipeline/mne_pipelines/kit_general_pipelines/report_generation/ROADMAP.md
 test_results.txt
 test_output_detailed.txt
 experiments/psychtoolbox/general/logs/sub-test_task-visualimagery_desc-console_log.txt
+experiments/psychtoolbox/Visual_Imagery_Matlab_MEG_20251027/Beh_Data/Sub0_Visual_Imagery_MEG.csv
+experiments/psychtoolbox/Visual_Imagery_Matlab_MEG_20251027/Beh_Data/Sub0_TrigCheck_Visual_Imagery_MEG.csv
+experiments/psychtoolbox/general/logs/sub-0_task-visualimagery_desc-matlabconsole_log.txt

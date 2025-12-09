@@ -2,8 +2,8 @@
 clear; clc; close all;
 
 
-USE_VPIXX = true;
-USE_DEBUG_TRIALS = false;
+USE_VPIXX = false;
+USE_DEBUG_TRIALS = true;
 
 if USE_VPIXX
     % set VPIXX to DisablePixelMode
@@ -11,14 +11,7 @@ if USE_VPIXX
     Datapixx('DisablePixelMode');
     Datapixx('RegWr');
 end
-%% Setup 
-Screen('Preference', 'SkipSyncTests', 1);  % only for debugging
-white = [255 255 255];
-black = [0 0 0];
-KbName('UnifyKeyNames');
-black_rgb = [0 0 0];
-% Keys
-escapeKey = KbName('ESCAPE');
+
 
 %% Participant Data
 name1 = 'Participant Data';
@@ -63,6 +56,17 @@ logFilePath = fullfile(logDir, logFileName);
 % Turn on diary to start recording command window output
 diary(logFilePath);
 
+
+%% Setup 
+Screen('Preference', 'SkipSyncTests', 1);  % only for debugging
+white = [255 255 255];
+black = [0 0 0];
+KbName('UnifyKeyNames');
+black_rgb = [0 0 0];
+% Keys
+escapeKey = KbName('ESCAPE');
+
+responsewaittime = 0.2;
 
 %% Triggers setup
 
@@ -231,6 +235,8 @@ for b = 1:nBlocks
         if USE_VPIXX
             % Blocking call: waits until a valid button press is detected
             pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
+        else
+            WaitSecs(responsewaittime);
         end
 
         %  Stage 2: Cue Audio
@@ -347,7 +353,10 @@ for b = 1:nBlocks
                     % continue looping until a mapped button is pressed
                 end
             end
+        else
+            WaitSecs(responsewaittime);
         end
+
 %         %% set up keyboard for rating
 %         % Wait for numeric key 1-5
 %         validKeys = [KbName('1!') KbName('2@') KbName('3#') KbName('4$') KbName('5%')];
@@ -414,6 +423,8 @@ for b = 1:nBlocks
                     % continue looping until a mapped button is pressed
                 end
             end
+        else
+            WaitSecs(responsewaittime);
         end
         %% set for keyboard for CatchQuestion
 %         % Wait for key s/d/f
@@ -491,12 +502,7 @@ for b = 1:nBlocks
     end
 end
 
-%% Stop MATLAB console output recording
 
-% Turn off diary to stop recording and close the file
-diary off;
-
-fprintf('Console output saved to: %s\n', logFilePath);
 
 %%  Stage 7: End Page 
 DrawFormattedText(win, 'End. Please wait for experimenter for further action.', 'center', 'center', black);
@@ -515,3 +521,10 @@ PsychPortAudio('Close', pahandle);
 Screen('CloseAll');
 
 % fprintf('Results saved to %s\n', filename);
+
+%% Stop MATLAB console output recording
+
+% Turn off diary to stop recording and close the file
+diary off;
+
+fprintf('Console output saved to: %s\n', logFilePath);
