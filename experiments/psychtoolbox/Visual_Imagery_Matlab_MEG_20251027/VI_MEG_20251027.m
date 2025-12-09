@@ -42,9 +42,25 @@ TrigCheck_filename = fullfile(beh_datafolder, sprintf('Sub%s_TrigCheck_Visual_Im
 [screenX, screenY] = RectSize(rect);
 Screen('TextSize', win, 40);
 
-%-------------------------------------------
-% TRIGGERS SETUP
-%-------------------------------------------
+%% MATLAB console output data saving
+taskName = 'visualimagery';
+
+% Construct filename
+logFileName = sprintf('sub-%s_task-%s_desc-matlabconsole_log.txt', subNumStr, taskName);
+
+% Define full path - creating a 'logs' directory if it doesn't exist
+logDir = fullfile(pwd, 'logs');
+if ~exist(logDir, 'dir')
+    mkdir(logDir);
+end
+logFilePath = fullfile(logDir, logFileName);
+
+% Turn on diary to start recording command window output
+diary(logFilePath);
+
+
+%% Triggers setup
+
 % % Define trigger pixels for all usable MEG channels
 % trig.ch224 = [4  0  0]; %224 meg channel
 % trig.ch225 = [16  0  0];  %225 meg channel
@@ -197,22 +213,12 @@ for b = 1:nBlocks
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
 
-        while true
+        
 
-            % Blocking call: waits until a valid button press is detected
-            pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
 
-            % Build key string
-            key = sprintf('%s|%s', pair_CloseEyes{1}, pair_CloseEyes{2});
+        % Blocking call: waits until a valid button press is detected
+        pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
 
-            % Map to resp to CatchQuestion
-            if isKey(buttonMap, key)
-%                 catchAnswer = buttonMap(key);
-                break;
-            else
-                % continue looping until a mapped button is pressed
-            end
-        end
 
         %  Stage 2: Cue Audio
         % (If you have a special Cue file)
@@ -312,7 +318,7 @@ for b = 1:nBlocks
                 PsychPortAudio('Close', pahandle); 
                 error('Experiment terminated by user.'); %%%%% well, seems we need to press esc for many times to escape
             end
-
+            
             % Blocking call: waits until a valid button press is detected
             pair_rate = getButtonColor(selection_rate,true);  
 
@@ -455,7 +461,7 @@ for b = 1:nBlocks
         % Save as CSV
         writetable(resultsTable, filename);
         writetable(TrigCheck_resultsTable, TrigCheck_filename);
-
+        
         trialCounter = trialCounter + 1;
     end
 
@@ -468,6 +474,13 @@ for b = 1:nBlocks
         KbStrokeWait;
     end
 end
+
+%% Stop MATLAB console output recording
+
+% Turn off diary to stop recording and close the file
+diary off;
+
+fprintf('Console output saved to: %s\n', logFilePath);
 
 %%  Stage 7: End Page 
 DrawFormattedText(win, 'End. Please wait for experimenter for further action.', 'center', 'center', black);

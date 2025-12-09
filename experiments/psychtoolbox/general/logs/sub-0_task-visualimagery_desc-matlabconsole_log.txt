@@ -1,0 +1,41 @@
+================================================
+     PSYCHTOOLBOX EXPERIMENT LOG
+================================================
+Log file: C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\general\logs\sub-0_task-visualimagery_desc-matlabconsole_log.txt
+Date/Time: 09-Dec-2025 12:15:03
+
+--- Participant Info ---
+Subject Number: 0
+Subject ID:     
+Sex:            
+Age:            NaN
+Nationality:    
+================================================
+
+Initializing Experiment...
+Setup Complete.
+
+--- Starting Trial 1 of 5 ---
+Trial 1: Stimulus presented at 1027268.2317
+Trial 1: Response received.
+Trial 1: Reaction Time = 0.9138 seconds
+--- Trial 1 Complete ---
+
+--- Starting Trial 2 of 5 ---
+Trial 2: Stimulus presented at 1027269.1462
+Trial 2: Response received.
+Trial 2: Reaction Time = 0.7723 seconds
+--- Trial 2 Complete ---
+
+--- Starting Trial 3 of 5 ---
+Trial 3: Stimulus presented at 1027269.9191
+Trial 3: Response received.
+Trial 3: Reaction Time = 0.7136 seconds
+--- Trial 3 Complete ---
+
+--- Starting Trial 4 of 5 ---
+Trial 4: Stimulus presented at 1027270.6334
+{Operation terminated by user during <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('save_matlab_output', 'C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\general\save_matlab_output.m', 84)" style="font-weight:bold">save_matlab_output</a> (<a href="matlab: opentoline('C:\Users\hz3752\neurowaves-lab-documentation\experiments\psychtoolbox\general\save_matlab_output.m',84,0)">line 84</a>)
+} 
+save_matlab_output
+Experiment cancelled by user.

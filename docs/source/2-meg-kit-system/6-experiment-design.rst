@@ -76,9 +76,9 @@ Your experiment should save a tabular event file (.csv or .tsv) with the followi
 
 Additionally,
 - if you are using TriggerMode: `single_channel` then add the following column:
-- `channel`: the channel on which the trigger is sent
+- `channel`: an ordered sequence of the channels on which any trigger is sent in their chronological order
 - if you are using TriggerMode: `binary_coded` then add the following column:
-- `binary_code`: the binary code associated to the event type
+- `binary_code`: the binary code associated to the event type, in its chronological order
 
 Files produced by the experiment design
 ---------------------------------------
@@ -101,6 +101,13 @@ All experiments that uses the Vpixx pixel mode should follow these rules:
 
 - Once the experiment script is run, the experiment should land on an `Introduction page` that requires a button press to be able to continue by the project owner (the participant should not be able to continue through this page)
 - Prior to landing on the `Introduction page` within your script, you should deactivate the Vpixx Pixel Mode, otherwise there could be false trigger events in the data recording
+
+
+"Psychtoolbox" based experiments
+--------------------------------
+
+- Ensure that if you want to flip a visual to the screen, without triggering, that every `Screen('Flip', win);` is preceded by `Screen('FillRect', win, black_rgb, trigRect);` (i.e. the top left pixel of the screen is black = no triggers)
+- Ensure saving the MATLAB console output in your experiment, a sample script to do that can be found here `experiments\psychtoolbox\general\save_matlab_output.m`
 
 
 "Presentation" based experiments
