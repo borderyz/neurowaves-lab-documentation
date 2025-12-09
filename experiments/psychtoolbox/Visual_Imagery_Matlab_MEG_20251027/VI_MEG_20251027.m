@@ -1,7 +1,7 @@
 %% Visual Imagery Official
-clear; clc; close all;
+clear all; clc; close all;
 
-
+    
 USE_VPIXX = false;
 USE_DEBUG_TRIALS = true;
 
@@ -35,10 +35,7 @@ beh_datafolder = fullfile(pwd, 'Beh_Data')
 filename = fullfile(beh_datafolder, sprintf('Sub%s_Visual_Imagery_MEG.csv', subNumStr));
 TrigCheck_filename = fullfile(beh_datafolder, sprintf('Sub%s_TrigCheck_Visual_Imagery_MEG.csv', subNumStr));
 
-% Open window (use 'win' consistently)
-[win, rect] = PsychImaging('OpenWindow', max(Screen('Screens')), white);
-[screenX, screenY] = RectSize(rect);
-Screen('TextSize', win, 40);
+
 
 %% MATLAB console output data saving
 taskName = 'visualimagery';
@@ -65,6 +62,11 @@ KbName('UnifyKeyNames');
 black_rgb = [0 0 0];
 % Keys
 escapeKey = KbName('ESCAPE');
+% Open window (use 'win' consistently)
+[win, rect] = PsychImaging('OpenWindow', max(Screen('Screens')), white);
+[screenX, screenY] = RectSize(rect);
+Screen('TextSize', win, 40);
+
 
 responsewaittime = 0.2;
 
