@@ -213,3 +213,4 @@ pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_fi
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_files/libs/quarto-html/tippy.umd.min.js
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_files/libs/quarto-html/axe/axe-check.js
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_files/libs/quarto-html/tabsets/tabsets.js
+experiments/psychtoolbox/general/logs/sub-test_task-visualimagery_desc-console_log.txt
