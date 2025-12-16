@@ -170,6 +170,18 @@ training/moodledata/
 
 training/.backupenv
 box_secret/
+
+pipeline/mne_pipelines/kit_general_pipelines/report_generation/.vdoc.98cb592f-2e0c-47a0-b503-ea7758ba44e4.py
+pipeline/mne_pipelines/kit_general_pipelines/report_generation/.vdoc.a2e063a9-3f62-4870-8be8-d2bf1e33fb54.py
+pipeline/mne_pipelines/kit_general_pipelines/report_generation/.vdoc.d73b8f31-013d-4f0e-a3c2-c19b11cca030.py
+pipeline/mne_pipelines/kit_general_pipelines/report_generation/ROADMAP.md
+test_results.txt
+test_output_detailed.txt
+experiments/psychtoolbox/general/logs/sub-test_task-visualimagery_desc-console_log.txt
+experiments/psychtoolbox/Visual_Imagery_Matlab_MEG_20251027/Beh_Data/Sub0_Visual_Imagery_MEG.csv
+experiments/psychtoolbox/Visual_Imagery_Matlab_MEG_20251027/Beh_Data/Sub0_TrigCheck_Visual_Imagery_MEG.csv
+experiments/psychtoolbox/general/logs/sub-0_task-visualimagery_desc-matlabconsole_log.txt
+
 test_output_detailed.txt
 test_results.txt
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/.vdoc.98cb592f-2e0c-47a0-b503-ea7758ba44e4.py
@@ -214,3 +226,4 @@ pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_fi
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_files/libs/quarto-html/axe/axe-check.js
 pipeline/mne_pipelines/kit_general_pipelines/report_generation/_output/report_files/libs/quarto-html/tabsets/tabsets.js
 experiments/psychtoolbox/general/logs/sub-test_task-visualimagery_desc-console_log.txt
+

@@ -1,0 +1,6 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer,Animacy,Category
+black,a black suit,suit,Is it a cloth?,YES,Inanimate,Cloth
+black,a black spider,spider,Is it a tool?,NO,Animate,Animal
+black,a black laptop,laptop,Is it a food?,NO,Inanimate,Tool
+black,a black wallet,wallet,Is it a furniture?,NO,Inanimate,Cloth
+blue,a blue shirt,shirt,Is it a cloth?,YES,Inanimate,Cloth

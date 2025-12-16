@@ -1,0 +1,11 @@
+Block,BlockImagineTime,Prompt,Object,Rate,Rate_RT,Question_Resp,Question_CorAnswer,Question_RT
+1,4,a black camera,camera,NaN,0.242931399960071,,NO,0.200368199963123
+1,4,a black belt,belt,NaN,0.200443700072356,,YES,0.200406100018881
+1,4,a black truck,truck,NaN,0.200419200002216,,NO,0.200339199975133
+1,4,a black bear,bear,NaN,0.200324899982661,,YES,0.20027090003714
+1,4,a blue butterfly,butterfly,NaN,0.200757900020108,,NO,0.200633900007233
+2,4,a black suit,suit,NaN,0.200237200013362,,YES,0.200127799995244
+2,4,a black laptop,laptop,NaN,0.200240300036967,,NO,0.200130600016564
+2,4,a black spider,spider,NaN,0.200129400007427,,NO,0.200109399971552
+2,4,a black wallet,wallet,NaN,0.20020389999263,,NO,0.200086200027727
+2,4,a blue shirt,shirt,NaN,0.20019839995075,,YES,0.200098000001162

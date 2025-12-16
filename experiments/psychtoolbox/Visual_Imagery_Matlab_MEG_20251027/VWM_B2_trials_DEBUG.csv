@@ -1,0 +1,9 @@
+Color,ObjectPrompt,Object,Animacy,Category
+black,a black suit,suit,Inanimate,Cloth
+black,a black spider,spider,Animate,Animal
+black,a black laptop,laptop,Inanimate,Tool
+black,a black wallet,wallet,Inanimate,Cloth
+blue,a blue shirt,shirt,Inanimate,Cloth
+blue,a blue bottle,bottle,Inanimate,Tool
+blue,a blue door,door,Inanimate,Furniture
+blue,a blue ruler,ruler,Inanimate,Tool

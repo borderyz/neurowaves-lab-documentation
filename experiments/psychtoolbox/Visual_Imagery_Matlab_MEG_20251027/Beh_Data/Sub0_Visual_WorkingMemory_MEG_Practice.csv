@@ -1,0 +1,7 @@
+Block,BlockRecallTime,TargetPrompt,TargetObject,TargetOrder,DistractObject,Question_CorIMG,Question_Resp,Question_RT
+1,4,a yellow sunflower,sunflower,2,pineapple,8,NO,0.555573499999809
+1,4,a red strawberry,strawberry,1,bus,8,NO,0.910962899999504
+1,4,a red bus,bus,2,strawberry,50,NO,0.594511399998737
+1,4,a red bus,bus,2,strawberry,50,YES,0.559241299999485
+1,4,a yellow sunflower,sunflower,1,pineapple,5,NO,0.727009800000815
+1,4,a yellow pineapple,pineapple,2,sunflower,5,NO,0.629845700001169

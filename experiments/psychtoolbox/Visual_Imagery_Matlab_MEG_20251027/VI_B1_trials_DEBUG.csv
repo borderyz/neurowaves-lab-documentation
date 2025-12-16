@@ -1,0 +1,6 @@
+﻿Color,ObjectPrompt,Object,CatchQuestion,CorrectAnswer,Animacy,Category
+black,a black belt,belt,Is it a cloth?,YES,Inanimate,Cloth
+black,a black bear,bear,Is it an animal?,YES,Animate,Animal
+black,a black truck,truck,Is it a cloth?,NO,Inanimate,Vechile
+black,a black camera,camera,Is it a food?,NO,Inanimate,Tool
+blue,a blue butterfly,butterfly,Is it a tool?,NO,Animate,Animal

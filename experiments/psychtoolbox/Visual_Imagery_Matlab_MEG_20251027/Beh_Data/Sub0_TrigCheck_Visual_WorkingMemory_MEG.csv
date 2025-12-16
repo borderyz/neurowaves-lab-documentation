@@ -1,0 +1,17 @@
+Block,TargetPrompt,TargetObject,TargetOrder,DistractObject,Onset,Duration,Channel,Trial_Type
+1,a black bear,bear,2,belt,1,,224,Animal
+1,a black bear,bear,2,belt,2,,225,Animal
+1,a black bear,bear,2,belt,3,,226,Animal
+1,a black bear,bear,2,belt,4,,227,Animal
+1,a black bear,bear,2,belt,5,,228,Animal
+1,a black bear,bear,2,belt,6,,229,Animal
+1,a black bear,bear,2,belt,7,,230,Animal
+1,a black bear,bear,2,belt,8,,231,Animal
+1,a black belt,belt,2,bear,9,,224,Cloth
+1,a black belt,belt,2,bear,10,,225,Cloth
+1,a black belt,belt,2,bear,11,,226,Cloth
+1,a black belt,belt,2,bear,12,,227,Cloth
+1,a black belt,belt,2,bear,13,,228,Cloth
+1,a black belt,belt,2,bear,14,,229,Cloth
+1,a black belt,belt,2,bear,15,,230,Cloth
+1,a black belt,belt,2,bear,16,,231,Cloth
