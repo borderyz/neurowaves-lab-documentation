@@ -340,4 +340,22 @@ disp(T);
 
 
 
+%% Spatio-temporal clustering
+
+% The idea is to compare conditions by identifying clusters in space or
+% time
+% Define a sample as a pair (channel x time point)
+% Say a trial is of 4 seconds and the MEG system has 207 channels
+% With a sampling rate of 1Khz, we have 4000 time points and so 207x4000
+% pairs
+% For each pair we can assign the measurement value whether it is for
+% condition 1 or 2 or 3
+% Let us consider conditions 1 and 2 for now:
+% Consider a dataset from a single subject
+% t-test computation: for each sample compute the t-values for 
+
+
+
+
+
 
