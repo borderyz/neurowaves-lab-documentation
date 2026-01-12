@@ -491,11 +491,9 @@ timelock_motor = ft_timelockanalysis(cfg, trials_motor)
 
 %% Permutation tests
 
-
-
 cfg = [];
 cfg.method='montecarlo'; % we will define a certain number of permutation and perform purely randomly number of permutations
-cfg.statistic = 'indepsamplesT'; % t-value is attributed per sample
+cfg.statistic = 'indepamplesT' % t-value is attributed per sample
 
 cfg.correctm = 'cluster';
 cfg.clusteralpha = 0.05;   % threshold level for identifying "good" samples with best t-values
@@ -505,42 +503,25 @@ cfg.minnbchan = 2;  % Minimum number of channels that are in the neighborhood of
 
 cfg.tail = 0;  % one-sided or two sided test
 cfg.clusterail=0;
-
-% Neighbours prepare
-ncfg = [];
-ncfg.method = 'distance';
-ncfg.grad = timelock_visual.grad;
-neighbours = ft_prepare_neighbours(ncfg);
-
-cfg.neighbours = neighbours;
+cfg.
 cfg.alpha = 0.025;  % threshold of the permutation test (not exactly sure what that is)
-cfg.numrandomization = 10000;
+cfg.numrandomization = 100;  
 
-n_visual = size(timelock_visual.trial, 1);
+n_visual = size(timelock_visual, 1);
 
-n_motor = size(timelock_motor.trial, 1);
+n_motor = size(timelock_motor, 1);
 
 cfg.design           = [ones(1,n_visual), ones(1,n_motor)*2]; % design matrix
 cfg.ivar             = 1; % number or list with indices indicating the independent variable(s)
 
-cfg.channel       = {'AG*'};     % cell-array with selected channel labels
-cfg.latency       = [0 1];       % time interval over which the experimental
-                                 % conditions must be compared (in seconds)
 
 
-%% Execute the statistical tests
-
-[stat] = ft_timelockstatistics(cfg, timelock_visual, timelock_motor);
 
 
-save stat_visual_motor stat;
 
 
-%% Clusters values
 
-stat.posclusters(1)
 
-stat.negclusters(1)
 
 
 %% TODO
