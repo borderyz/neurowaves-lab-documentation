@@ -543,6 +543,81 @@ stat.posclusters(1)
 stat.negclusters(1)
 
 
+% this will print out statistics about the clusters and their definition
+
+
+%% Plotting clustering results
+
+% Average the trials
+cfg = [];
+avg_visual = ft_timelockanalysis(cfg, trials_visual);
+avg_motor = ft_timelockanalysis(cfg, trials_motor);
+
+% Find the difference of the average
+cfg = [];
+cfg.operation = 'subtract';
+cfg.parameter = 'avg';
+raweffectVisualvsMotor = ft_math(cfg, avg_visual, avg_motor);
+
+%% Select the clusters that satisfy the alpha criterion with p < 0.025
+
+pos_cluster_pvals = [stat.posclusters(:).prob];
+
+pos_clust = find(pos_cluster_pvals<0.025);
+pos = ismember(stat.posclusterslabelmat, pos_clust);
+
+% and now for the negative clusters...
+neg_cluster_pvals = [stat.negclusters(:).prob];
+neg_clust         = find(neg_cluster_pvals < 0.025);
+neg               = ismember(stat.negclusterslabelmat, neg_clust);
+
+
+
+
+%% Plotting
+
+timestep      = 0.05; % timestep between time windows for each subplot (in seconds)
+sampling_rate = trials_visual.fsample; % Data has a temporal resolution of 300 Hz
+sample_count  = length(stat.time);
+% number of temporal samples in the statistics object
+j = [0:timestep:1]; % Temporal endpoints (in seconds) of the ERP average computed in each subplot
+m = [1:timestep*sampling_rate:sample_count]; % temporal endpoints in M/EEG samples
+
+
+
+%% plot loop
+
+% First ensure the channels to have the same order in the average and in the statistical output.
+% This might not be the case, because ft_math might shuffle the order
+[i1,i2] = match_str(raweffectVisualvsMotor.label, stat.label);
+
+for k = 1:20
+   subplot(4,5,k);
+   cfg = [];
+   cfg.xlim = [j(k) j(k+1)];   % time interval of the subplot
+   cfg.zlim = [-2.5e-13 2.5e-13];
+   % If a channel is in a to-be-plotted cluster, then
+   % the element of pos_int with an index equal to that channel
+   % number will be set to 1 (otherwise 0).
+
+   % Next, check which channels are in the clusters over the
+   % entire time interval of interest.
+   pos_int = zeros(numel(raweffectVisualvsMotor.label),1);
+   neg_int = zeros(numel(raweffectVisualvsMotor.label),1);
+   pos_int(i1) = all(pos(i2, m(k):m(k+1)), 2);
+   neg_int(i1) = all(neg(i2, m(k):m(k+1)), 2);
+
+   cfg.highlight   = 'on';
+   % Get the index of the to-be-highlighted channel
+   cfg.highlightchannel = find(pos_int | neg_int);
+   cfg.comment     = 'xlim';
+   cfg.commentpos  = 'title';
+   cfg.layout      = kit_layout;
+   cfg.interactive = 'no';
+   cfg.figure      = 'gca'; % plots in the current axes, here in a subplot
+   ft_topoplotER(cfg, raweffectVisualvsMotor);
+end
+
 %% TODO
 
 % Make sure that the index in TRIALS_STIM_REJ corresponds to the order of
