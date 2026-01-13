@@ -22,9 +22,9 @@ BIDS Validation
 
    Validates datasets against the BIDS standard.
 
-Automated Testing
-   .. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml/badge.svg
-      :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/automated-testing.yml
-      :alt: Automated Testing Action
+Automated Testing for NYUAD Pipelines
+   .. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/test_pipelines.yml/badge.svg
+      :target https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/test_pipelines.yml
+      :alt: Automated Testing for NYUAD Pipelines
 
-   Runs the test suite automatically on pushes/PRs.
+
