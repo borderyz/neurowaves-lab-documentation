@@ -101,6 +101,8 @@ disp('Data concatenation complete.');
 
 %% Filtering data
 
+APPLY_FILTERS = true;
+
 if APPLY_FILTERS
     % Notch filter the data at 50 Hz
     cfg = [];
