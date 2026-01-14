@@ -189,9 +189,7 @@ save TRIALS_STIM_REJ TRIALS_STIM_REJ
 
 
 %% Averaging
-load TRIALS_STIM_REJ.mat TRIALS_STIM_REJ
 
-%%
 AVG_TRIALS = cell( length(trigger_channels),1);
 
 for tr = 1:length(AVG_TRIALS)
@@ -633,35 +631,11 @@ cfg.neighbours     = neighbours; % also here, neighbouring sensors needs to be d
 timelock_visual_planar = ft_megplanar(cfg, timelock_visual);
 timelock_motor_planar  = ft_megplanar(cfg, timelock_motor);
 
-timelock_visual_planar_cmb = ft_combineplanar(cfg, timelock_visual_planar);
-timelock_motor_planar_cmb  = ft_combineplanar(cfg, timelock_motor_planar);
+timelock_visual_planar_cmb = ft_combineplanar(cfg, timelockFIC_planar);
+timelock_motor_planar_cmb  = ft_combineplanar(cfg, timelockFC_planar);
 
-timelock_visual_planar_cmb.grad = timelock_visual.grad;  % add the gradiometer structure
-timelock_motor_planar_cmb.grad  = timelock_motor.grad;
-
-
-
-%% Average 
-
-
-
-    cfg = [];
-    cfg.xlim = [0.05 1.2];
-    cfg.colorbar = 'yes';
-    cfg.layout = kit_layout;
-    cfg.readbids = 'no';
-    ft_topoplotER(cfg, timelock_visual);
-    shg;            % "Show Graph" - forces the window to the front
-
-    cfg = [];
-    cfg.xlim = [0.05 1.2];
-    cfg.colorbar = 'yes';
-    cfg.layout = kit_layout;
-    cfg.readbids = 'no';
-    ft_topoplotER(cfg, timelock_visual_planar_cmb);
-    shg;
-
-
+timelockFIC_planar_cmb.grad = timelockFIC.grad;  % add the gradiometer structure
+timelockFC_planar_cmb.grad  = timelockFC.grad;
 
 
 %% TODO
