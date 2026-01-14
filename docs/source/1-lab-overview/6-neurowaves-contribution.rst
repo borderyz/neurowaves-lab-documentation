@@ -195,4 +195,58 @@ Example with sections
       - [ ] Changelog
       - [ ] Tag and publish
 
+
+Setting up MATLAB Kernel for Jupyter
+====================================
+
+To run MATLAB code within Jupyter Notebooks, you need to set up the MATLAB kernel in your environment.
+
+Prerequisites
+^^^^^^^^^^^^^
+
+- Ensure you have **MATLAB R2025b** installed (required for Python 3.12+ compatibility).
+- Your conda environment should be using **Python 3.12**.
+
+Installation Steps
+^^^^^^^^^^^^^^^^^^
+
+1. **Activate your environment**:
+   
+   .. code-block:: bash
+
+      conda activate neurowaves-lab-documentation
+
+2. **Install Jupyter and the MATLAB Kernel**:
+
+   .. code-block:: bash
+
+      conda install notebook jupyter_client
+      pip install matlab_kernel
+
+3. **Install the MATLAB Engine for Python**:
+   Navigate to your MATLAB installation folder (e.g., ``C:\Program Files\MATLAB\R2025b\extern\engines\python``) and install the engine:
+
+   .. code-block:: bash
+
+      cd "C:\Program Files\MATLAB\R2025b\extern\engines\python"
+      python -m pip install .
+
+Using the Kernels
+^^^^^^^^^^^^^^^^
+
+Two kernels will be available in Jupyter:
+
+- **Matlab**: Starts a new, independent MATLAB session for the notebook.
+- **Matlab (Connection)**: Connects to an already running MATLAB instance, allowing you to share the workspace.
+
+To use the **Connection** kernel:
+
+1. In your standalone MATLAB Command Window, run:
+
+   .. code-block:: matlab
+
+      matlab.engine.shareEngine
+
+2. In Jupyter, select the **Matlab (Connection)** kernel. You can now access variables from your standalone MATLAB session using commands like ``who`` or simply typing the variable name.
+
 Thank you for your contribution!

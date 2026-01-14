@@ -472,6 +472,9 @@ trials_visual = TRIALS_STIM_REJ{1}
 trials_auditory = TRIALS_STIM_REJ{2}
 trials_motor = TRIALS_STIM_REJ{3}
 
+
+%% Save 
+
 save trials_visual trials_visual
 save trials_auditory trials_auditory
 save trials_motor trials_motor
@@ -651,7 +654,7 @@ timelock_motor_planar_cmb.grad  = timelock_motor.grad;
     cfg.layout = kit_layout;
     cfg.readbids = 'no';
     ft_topoplotER(cfg, timelock_visual);
-    shg;            % "Show Graph" - forces the window to the front
+    %shg;            % "Show Graph" - forces the window to the front
 
     cfg = [];
     cfg.xlim = [0.05 1.2];
@@ -659,12 +662,9 @@ timelock_motor_planar_cmb.grad  = timelock_motor.grad;
     cfg.layout = kit_layout;
     cfg.readbids = 'no';
     ft_topoplotER(cfg, timelock_visual_planar_cmb);
-    shg;
+    %shg;
 
 
 
 
-%% TODO
 
-% Make sure that the index in TRIALS_STIM_REJ corresponds to the order of
-% visual/auditory/motor
