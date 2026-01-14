@@ -101,6 +101,8 @@ disp('Data concatenation complete.');
 
 %% Filtering data
 
+APPLY_FILTERS = true;
+
 if APPLY_FILTERS
     % Notch filter the data at 50 Hz
     cfg = [];
@@ -169,7 +171,7 @@ end
 
 
 
-%% Visual Inspection ALTL
+%% Visual Inspection of audio/visual/motor trials
 
 TRIALS_STIM_REJ = cell( length(trigger_channels),1);
 
@@ -340,4 +342,285 @@ disp(T);
 
 
 
+%% Spatio-temporal clustering
 
+% The idea is to compare conditions from the MEG measurements by identifying clusters in space or
+% time. Identifying clusters solves the MCP (Multiple Comparison Problems)
+% = I have two phenomena to compare, but each phenomena is characterized by
+% a big number of features, how to compare efficiently?
+% Say we have two conditions 1 and 2
+% - This can be done within subject, showing how a set of trials of condition
+% 1  and a set of trials of condition 2 can be used to represent an
+% efficient comparison for conditions 1 and 2 ==> In this case the
+% observation is the measurements for each trial (not averaged)
+% - Or this can be done between subject, in this case the measurement is
+% the average of the trials for a condition within the subject
+
+%% Within subject clustering
+%
+% Define a sample as a pair (nchannel x ntime point)
+% Say a trial is of 4 seconds and the MEG system has 207 channels
+% With a sampling rate of 1Khz, we have 4000 time points and so 207x4000
+% pairs
+% For each pair we can assign the measurement value from each trial whether it is for
+% condition 1 or 2 or 3, this could be in the form of a tensor that would
+% be in the shape (ntrials x nchannels x ntimepoints)
+% Let us consider conditions 1 and 2 for now (tensor 1 and tensor 2)
+% Consider a dataset from a single subject
+% t-test computation: for each sample, for each two sets (ntrials) of measurements from conditions 1 and 2 
+% - compute the t-values
+% The t-value is:
+% - computed by several available formulas in fieldtrip but all representing how this
+% sample shows a significant difference in the conditions or not, while dividing by the spread (representing noise) across trials. The
+% closer the t-value is to 0, it means less difference.
+% Say we have 100 trials for each condition
+% So if I have (207x4000) samples and 100 measurements for each condition 1 and
+% 2, then the t-values can be represented as a single matrix of size
+% (207x4000) where each value in the matrix is the t-value computed from
+% 100 measurement of condition 1 and 100 measurements of condition 2.
+% We care about the samples who have "good" t-values, what does "good"
+% mean, basically the ones who can differentiate better the conditions and
+% that is not random. (i.e. the differentiation cannot be high because of
+% random noise but because of a correct design)
+% Therefore, good samples are those who exceed a certain threshold
+% condition.
+% Those good samples will form the clusters.
+% The test could be one sided or two sided:
+% - one sided t-test: find a value t that represents how large is the
+% difference between measurements at a given sample from condition 1 and
+% condition 2 (t is always positive)
+% - two sided t-test: find a value t that represents if the measurement at the sample for condition 1 is much
+% higher or much lower than condition 2. The t-value can be positive or
+% negative, positive means condition 1 higher than 2, negative means
+% condition 2 higher than 1
+
+% Define cfg.clusteralpha = 0.05, for a one-sided test it means we will
+% consider the top 5% in the t-values as the best samples to be used to
+% form clusters
+% or cfg.clusteralpha= 0.05 in the case of a two-sided test, it means we
+% will take the 2.5% lowest and 2.5% highest samples with the highest
+% t-values to consider for forming clusters
+
+% Once the "good samples" are identified, then we will form clusters made
+% of sets of samples that are connected:
+% - for the channel variable, this means adjacency in space
+% - for the time variable, this means adjacency in time
+% So we need information about location of the channels and the time-order
+% (just a linear scale) to model the adjancey information
+% Once a cluster is formed, the sum of the t-values over the samples forming the cluster can be
+% computed to find out a t-value for the whole cluster 
+% cfg.clusterstatistic = maxsum, would consider the clusters with highest
+% t-values, maximum value of the sum of the smaples forming the cluster
+%
+% This is set to indicate that the Multiple Comparison Problem (MCP) is
+% beign solved using clusters
+% cfg.correctm = 'cluster'
+
+% Asessment of the "good" sample clusters"
+% Say we identified a number of "good clusters" (is there a threshold to
+% decide this in fieldtrip? idk)
+% The second question is, what is the likelihood that they are good out of
+% chance and not because of an actual difference in conditions 1 and 2?
+% What if we take the measurements and label them incorrectly, do we still
+% get the same good clusters? or not?
+% The idea then is to take a percentage of the trials and change (permute) their
+% labels from condition 1 to condition 2
+% then compute again the t-values with this permutation, and get clusters
+% what we hope to see, is that the good clusters without any permutation
+% scores "best" than with permutation. The scoring is a p-value
+% (significance probability value)
+% This is repeated multiple times, such that we permute alot of times
+% number of permutation is a parameter cfg.numrandomization
+% Use Monte-Carlo significance probability cfg.method = 'montecarlo'
+% Knowing how many trials are there in condition 1 and 2 = 100:
+% make a set containing both set of trials
+% randomly draw 100 trials and label as condition 1, put the rest as
+% condition 2
+% compute the t-values
+% Find the good-clusters with same thresholding level as before, compute
+% the maxsum value for the cluster
+% Make a histogram placing all the permutation-clusters and the
+% real-clusters (x-axis is cluster index and y-value is the maxsum t-value
+% for the cluster)
+% basically you have alot of clusters now and you want to visualise the
+% t-value distribution, so plot the t-value on the x-axis. and on
+% the y-axis i want to see how many clusters have a similar t-value and
+% plot this distribution
+% Then we want to identify the non-permuted clusters, and find their
+% p-value basically reflecting that they are in the top p percentage of the
+% distribution
+% the assigned p-value of the observed cluster is then the percentage of
+% permuted-clusters that have a better t-value than the observed cluster's
+% t-value. If the p-value is very low, this is a good indicator, if it is
+% too high than there is a flaw in the design
+
+
+% To start spatio-temporal clustering we need the following data structures
+% from condition 1 and 2, for this notebook we will go with 
+
+
+
+
+%% Prepare the data
+
+% trials after rejecting bad trials but before averaging can be found here:
+% TRIALS_STIM_REJ
+
+trials_visual = TRIALS_STIM_REJ{1}
+trials_auditory = TRIALS_STIM_REJ{2}
+trials_motor = TRIALS_STIM_REJ{3}
+
+save trials_visual trials_visual
+save trials_auditory trials_auditory
+save trials_motor trials_motor
+
+
+%% Compute the average for the trials while keeping the data of each trial
+
+cfg = [];
+cfg.keeptrials = 'yes';
+
+timelock_visual = ft_timelockanalysis(cfg, trials_visual)
+timelock_auditory = ft_timelockanalysis(cfg, trials_auditory)
+timelock_motor = ft_timelockanalysis(cfg, trials_motor)
+
+
+% At this stage, we have the average of the trials per condition but also
+% kept the trial data
+% We are ready for computing t-values
+
+
+
+%% Permutation tests
+
+
+
+cfg = [];
+cfg.method='montecarlo'; % we will define a certain number of permutation and perform purely randomly number of permutations
+cfg.statistic = 'indepsamplesT'; % t-value is attributed per sample
+
+cfg.correctm = 'cluster';
+cfg.clusteralpha = 0.05;   % threshold level for identifying "good" samples with best t-values
+cfg.clusterstatistic= 'maxsum';
+cfg.minnbchan = 2;  % Minimum number of channels that are in the neighborhood of a sample, to be included in the clustering algorithm
+% (It will still have to pass the alpha threshold constraint)
+
+cfg.tail = 0;  % one-sided or two sided test
+cfg.clusterail=0;
+
+% Neighbours prepare
+ncfg = [];
+ncfg.method = 'distance';
+ncfg.grad = timelock_visual.grad;
+neighbours = ft_prepare_neighbours(ncfg);
+
+cfg.neighbours = neighbours;
+cfg.alpha = 0.025;  % threshold of the permutation test (not exactly sure what that is)
+cfg.numrandomization = 10000;
+
+n_visual = size(timelock_visual.trial, 1);
+
+n_motor = size(timelock_motor.trial, 1);
+
+cfg.design           = [ones(1,n_visual), ones(1,n_motor)*2]; % design matrix
+cfg.ivar             = 1; % number or list with indices indicating the independent variable(s)
+
+cfg.channel       = {'AG*'};     % cell-array with selected channel labels
+cfg.latency       = [0 1];       % time interval over which the experimental
+                                 % conditions must be compared (in seconds)
+
+
+%% Execute the statistical tests
+
+[stat] = ft_timelockstatistics(cfg, timelock_visual, timelock_motor);
+
+
+save stat_visual_motor stat;
+
+
+%% Clusters values
+
+stat.posclusters(1)
+
+stat.negclusters(1)
+
+
+% this will print out statistics about the clusters and their definition
+
+
+%% Plotting clustering results
+
+% Average the trials
+cfg = [];
+avg_visual = ft_timelockanalysis(cfg, trials_visual);
+avg_motor = ft_timelockanalysis(cfg, trials_motor);
+
+% Find the difference of the average
+cfg = [];
+cfg.operation = 'subtract';
+cfg.parameter = 'avg';
+raweffectVisualvsMotor = ft_math(cfg, avg_visual, avg_motor);
+
+%% Select the clusters that satisfy the alpha criterion with p < 0.025
+
+pos_cluster_pvals = [stat.posclusters(:).prob];
+
+pos_clust = find(pos_cluster_pvals<0.025);
+pos = ismember(stat.posclusterslabelmat, pos_clust);
+
+% and now for the negative clusters...
+neg_cluster_pvals = [stat.negclusters(:).prob];
+neg_clust         = find(neg_cluster_pvals < 0.025);
+neg               = ismember(stat.negclusterslabelmat, neg_clust);
+
+
+
+
+%% Plotting
+
+timestep      = 0.05; % timestep between time windows for each subplot (in seconds)
+sampling_rate = trials_visual.fsample; % Data has a temporal resolution of 300 Hz
+sample_count  = length(stat.time);
+% number of temporal samples in the statistics object
+j = [0:timestep:1]; % Temporal endpoints (in seconds) of the ERP average computed in each subplot
+m = [1:timestep*sampling_rate:sample_count]; % temporal endpoints in M/EEG samples
+
+
+
+%% plot loop
+
+% First ensure the channels to have the same order in the average and in the statistical output.
+% This might not be the case, because ft_math might shuffle the order
+[i1,i2] = match_str(raweffectVisualvsMotor.label, stat.label);
+
+for k = 1:20
+   subplot(4,5,k);
+   cfg = [];
+   cfg.xlim = [j(k) j(k+1)];   % time interval of the subplot
+   cfg.zlim = [-2.5e-13 2.5e-13];
+   % If a channel is in a to-be-plotted cluster, then
+   % the element of pos_int with an index equal to that channel
+   % number will be set to 1 (otherwise 0).
+
+   % Next, check which channels are in the clusters over the
+   % entire time interval of interest.
+   pos_int = zeros(numel(raweffectVisualvsMotor.label),1);
+   neg_int = zeros(numel(raweffectVisualvsMotor.label),1);
+   pos_int(i1) = all(pos(i2, m(k):m(k+1)), 2);
+   neg_int(i1) = all(neg(i2, m(k):m(k+1)), 2);
+
+   cfg.highlight   = 'on';
+   % Get the index of the to-be-highlighted channel
+   cfg.highlightchannel = find(pos_int | neg_int);
+   cfg.comment     = 'xlim';
+   cfg.commentpos  = 'title';
+   cfg.layout      = kit_layout;
+   cfg.interactive = 'no';
+   cfg.figure      = 'gca'; % plots in the current axes, here in a subplot
+   ft_topoplotER(cfg, raweffectVisualvsMotor);
+end
+
+%% TODO
+
+% Make sure that the index in TRIALS_STIM_REJ corresponds to the order of
+% visual/auditory/motor
