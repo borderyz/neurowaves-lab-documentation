@@ -232,7 +232,7 @@ Installation Steps
       python -m pip install .
 
 Using the Kernels
-^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^
 
 Two kernels will be available in Jupyter:
 
