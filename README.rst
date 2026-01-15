@@ -24,7 +24,7 @@ BIDS Validation
 
 Automated Testing for NYUAD Pipelines
    .. image:: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/test_pipelines.yml/badge.svg
-      :target https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/test_pipelines.yml
+      :target: https://github.com/BioMedicalImaging-Core-NYUAD/neurowaves-lab-documentation/actions/workflows/test_pipelines.yml
       :alt: Automated Testing for NYUAD Pipelines
 
 
