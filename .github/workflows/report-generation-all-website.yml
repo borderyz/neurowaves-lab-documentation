@@ -54,7 +54,7 @@ jobs:
       - name: Install TeX Live for LaTeX PDF generation
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex latexmk
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex texlive-luatex texlive-plain-generic latexmk
 
       - name: Sanitize generated LaTeX
         working-directory: rtd-build-output/pdf
