@@ -59,7 +59,7 @@ jobs:
       - name: Build PDF from LaTeX
         working-directory: rtd-build-output/pdf
         run: |
-          latexmk -r latexmkrc -pdf -f -dvi- -ps- -jobname=meg-pipeline -interaction=nonstopmode || true
+          latexmk -pdfxe -f -dvi- -ps- -jobname=meg-pipeline -interaction=nonstopmode || true
 
       - name: Rename PDF for Release
         run: |
