@@ -110,6 +110,9 @@ html_css_files = ["custom.css",
 # -- Options for EPUB output
 epub_show_urls = "footnote"
 
+# -- Options for LaTeX output
+latex_engine = 'xelatex'
+
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""
     logger = logging.getLogger(__name__)
