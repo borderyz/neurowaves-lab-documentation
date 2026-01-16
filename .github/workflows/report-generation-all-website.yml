@@ -10,7 +10,7 @@ jobs:
   build-docs:
     runs-on: ubuntu-22.04
     permissions:
-      contents: write  # Required for managing releases
+      contents: write # Required for managing releases
     env:
       BOX_CLIENT_ID: ${{ secrets.BOX_CLIENT_ID }}
       BOX_CLIENT_SECRET: ${{ secrets.BOX_CLIENT_SECRET }}
@@ -18,13 +18,13 @@ jobs:
       BOX_PUBLIC_KEY_ID: ${{ secrets.BOX_PUBLIC_KEY_ID }}
       BOX_PRIVATE_KEY: ${{ secrets.BOX_PRIVATE_KEY }}
       BOX_PASSPHRASE: ${{ secrets.BOX_PASSPHRASE }}
-      PDF_GENERATION_INDEX: "ALL_WEBSITE"  # Your new variable
+      PDF_GENERATION_INDEX: "ALL_WEBSITE" # Your new variable
 
     steps:
       - name: Check out the code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history for all branches
+          fetch-depth: 0 # Fetch all history for all branches
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -55,6 +55,72 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex latexmk
+
+      - name: Sanitize generated LaTeX
+        working-directory: rtd-build-output/pdf
+        run: |
+          cat <<EOF > fix_tex.py
+          import os
+          import re
+
+          # Path to the generated TeX file (relative to working-directory)
+          tex_file_path = "neurowaves-documentation.tex"
+
+          def clean_tex_file(file_path):
+              print(f"Sanitizing TeX file: {file_path}")
+              
+              if not os.path.exists(file_path):
+                  print(f"Error: File not found at {file_path}")
+                  return False
+
+              try:
+                  with open(file_path, 'r', encoding='utf-8') as f:
+                      content = f.read()
+                  
+                  original_len = len(content)
+                  
+                  # 1. Remove invalid control characters
+                  content = content.replace('\x08', '')
+                  
+                  # 2. Fix Windows paths in \sphinxincludegraphics
+                  def replace_backslashes(match):
+                      return match.group(0).replace('\\\\', '/')
+
+                  content = re.sub(r'\{\{[a-zA-Z]:\\\\[^}]+\}\}', replace_backslashes, content)
+                  
+                  # 3. Fix unescaped Windows paths in text
+                  content = content.replace(r'\Users', r'/Users')
+                  content = content.replace(r'\Box', r'/Box')
+                  content = content.replace(r'\Data', r'/Data')
+                  content = content.replace(r'\MEG', r'/MEG')
+                  content = content.replace(r'\user', r'/user')
+
+                  # 4. Remove massive repetitive output blocks
+                  content = re.sub(r'(computing statistic \d+ from \d+\s*){10,}', r'[... truncated repetitive output ...]\n', content)
+
+                  # 5. Remove SVG images (badges) which xdvipdfmx cannot handle
+                  content = re.sub(r'\\\\sphinxincludegraphics\[.*?\]\{\{.*?\.svg\}\}', r'[Badge]', content)
+                  
+                  if len(content) != original_len:
+                      print(f"Removed {original_len - len(content)} invalid characters/lines.")
+                  else:
+                      print("No invalid characters found (or length unchanged).")
+                      
+                  with open(file_path, 'w', encoding='utf-8') as f:
+                      f.write(content)
+                      
+                  print("TeX file sanitized successfully.")
+                  return True
+
+              except Exception as e:
+                  print(f"An error occurred while cleaning TeX: {e}")
+                  return False
+
+          if __name__ == "__main__":
+              clean_tex_file(tex_file_path)
+          EOF
+
+          python fix_tex.py
 
       - name: Build PDF from LaTeX
         working-directory: rtd-build-output/pdf

@@ -6,8 +6,10 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
-data/localdata/
 
+local/
+data/localdata/
+rtd-build-output
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
