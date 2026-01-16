@@ -59,7 +59,7 @@ jobs:
       - name: Build PDF from LaTeX
         working-directory: rtd-build-output/pdf
         run: |
-          latexmk -pdfxe -f -dvi- -ps- -jobname=meg-lab-manual -interaction=nonstopmode || true
+          latexmk -pdflua -f -dvi- -ps- -jobname=meg-lab-manual -interaction=nonstopmode || true
 
       - name: Create or Update GitHub Release and Upload PDF
         if: ${{ success() && (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}

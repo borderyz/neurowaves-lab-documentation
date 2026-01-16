@@ -111,7 +111,7 @@ html_css_files = ["custom.css",
 epub_show_urls = "footnote"
 
 # -- Options for LaTeX output
-latex_engine = 'xelatex'
+latex_engine = 'lualatex'
 
 latex_documents = []
 if PDF_GENERATION_INDEX == 'LABMANUAL':
