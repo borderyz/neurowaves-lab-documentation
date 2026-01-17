@@ -101,6 +101,9 @@ jobs:
                   # 5. Remove SVG images (badges) which xdvipdfmx cannot handle
                   content = re.sub(r'\\\\sphinxincludegraphics\[.*?\]\{\{.*?\.svg\}\}', r'[Badge]', content)
                   
+                  # 6. Sanitize specific Google Drive URL crashing LuaLaTeX
+                  content = re.sub(r'https://drive\.google\.com/drive/folders/[a-zA-Z0-9_\\\\?=&]+', r'[Link to SOPs]', content)
+                  
                   if len(content) != original_len:
                       print(f"Removed {original_len - len(content)} invalid characters/lines.")
                   else:

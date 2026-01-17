@@ -113,6 +113,14 @@ epub_show_urls = "footnote"
 # -- Options for LaTeX output
 latex_engine = 'lualatex'
 
+latex_elements = {
+    'fontpkg': r'''
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+''',
+}
+
 latex_documents = []
 if PDF_GENERATION_INDEX == 'LABMANUAL':
     latex_documents = [
