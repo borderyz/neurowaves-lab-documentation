@@ -111,7 +111,28 @@ html_css_files = ["custom.css",
 epub_show_urls = "footnote"
 
 # -- Options for LaTeX output
-latex_engine = 'xelatex'
+latex_engine = 'lualatex'
+
+latex_elements = {
+    'fontpkg': r'''
+\setmainfont{Latin Modern Roman}
+\setsansfont{Latin Modern Sans}
+\setmonofont{Latin Modern Mono}
+''',
+}
+
+latex_documents = []
+if PDF_GENERATION_INDEX == 'LABMANUAL':
+    latex_documents = [
+        (master_doc, 'meg-lab-manual.tex', 'MEG Lab Manual',
+         'NeuroWaves', 'manual'),
+    ]
+elif PDF_GENERATION_INDEX == 'ALL_WEBSITE':
+    latex_documents = [
+        (master_doc, 'neurowaves-documentation.tex', 'NeuroWaves Documentation',
+         'NeuroWaves', 'manual'),
+    ]
+
 
 def run_generate_system_status_dashboards_script(app: Sphinx):
     """Run the dashboard generation script."""

@@ -10,7 +10,7 @@ jobs:
   build-docs:
     runs-on: ubuntu-22.04
     permissions:
-      contents: write  # Required for managing releases
+      contents: write # Required for managing releases
     env:
       BOX_CLIENT_ID: ${{ secrets.BOX_CLIENT_ID }}
       BOX_CLIENT_SECRET: ${{ secrets.BOX_CLIENT_SECRET }}
@@ -24,7 +24,7 @@ jobs:
       - name: Check out the code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Fetch all history for all branches
+          fetch-depth: 0 # Fetch all history for all branches
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -54,16 +54,14 @@ jobs:
       - name: Install TeX Live for LaTeX PDF generation
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex latexmk
+          sudo apt-get install -y texlive-latex-base texlive-latex-extra texlive-fonts-recommended texlive-xetex texlive-luatex texlive-plain-generic latexmk
 
       - name: Build PDF from LaTeX
         working-directory: rtd-build-output/pdf
+        env:
+          LATEXOPTS: ""
         run: |
-          latexmk -r latexmkrc -pdf -f -dvi- -ps- -jobname=meg-pipeline -interaction=nonstopmode || true
-
-      - name: Rename PDF for Release
-        run: |
-          mv rtd-build-output/pdf/meg-pipeline.pdf rtd-build-output/pdf/meg-lab-manual.pdf
+          latexmk -pdflua -f -dvi- -ps- -jobname=meg-lab-manual -interaction=nonstopmode || true
 
       - name: Create or Update GitHub Release and Upload PDF
         if: ${{ success() && (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'pull_request' && github.event.pull_request.merged == true) }}

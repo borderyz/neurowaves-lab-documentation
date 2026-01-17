@@ -1,0 +1,151 @@
+WARNING: [autosummary] failed to import megpipeline.
+Possible hints:
+* ValueError: not enough values to unpack (expected 2, got 1)
+* ModuleNotFoundError: No module named 'megpipeline'
+* KeyError: 'megpipeline'
+
+Traceback (most recent call last):
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbsphinx\__init__.py", line 653, in parse
+    rststring, resources = exporter.from_notebook_node(nb, resources)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbsphinx\__init__.py", line 423, in from_notebook_node
+    rststr, resources = super(Exporter, self).from_notebook_node(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbconvert\exporters\templateexporter.py", line 429, in from_notebook_node
+    output = self.template.render(nb=nb_copy, resources=resources)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "<template>", line 131, in top-level template code
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\rst\index.rst.j2", line 1, in top-level template code
+    {%- extends 'display_priority.j2' -%}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\base\display_priority.j2", line 1, in top-level template code
+    {%- extends 'base/null.j2' -%}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\base\null.j2", line 26, in top-level template code
+    {%- block body -%}
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\base\null.j2", line 29, in block 'body'
+    {%- block body_loop -%}
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\base\null.j2", line 31, in block 'body_loop'
+    {%- block any_cell scoped -%}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<template>", line 17, in block 'any_cell'
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\base\null.j2", line 87, in block 'any_cell'
+    {%- block markdowncell scoped-%} {%- endblock markdowncell -%}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<template>", line 168, in block 'markdowncell'
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\share\jupyter\nbconvert\templates\rst\index.rst.j2", line 102, in block 'markdowncell'
+    {{ cell.source | convert_pandoc("markdown", "rst") }}
+    ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbsphinx\__init__.py", line 905, in convert_pandoc
+    return markdown2rst(text)
+           ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbsphinx\__init__.py", line 1064, in markdown2rst
+    v = nbconvert.utils.pandoc.get_pandoc_version()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbconvert\utils\pandoc.py", line 75, in get_pandoc_version
+    raise PandocMissing()
+nbconvert.utils.pandoc.PandocMissing: Pandoc wasn't found.
+Please check that pandoc is installed:
+https://pandoc.org/installing.html
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\cmd\build.py", line 290, in build_main
+    app.build(args.force_all, args.filenames)
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\application.py", line 351, in build
+    self.builder.build_update()
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\builders\__init__.py", line 287, in build_update
+    self.build(['__all__'], to_build)
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\builders\__init__.py", line 310, in build
+    updated_docnames = set(self.read())
+                           ^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\builders\__init__.py", line 417, in read
+    self._read_serial(docnames)
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\builders\__init__.py", line 438, in _read_serial
+    self.read_doc(docname)
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\builders\__init__.py", line 494, in read_doc
+    publisher.publish()
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\docutils\core.py", line 217, in publish
+    self.document = self.reader.read(self.source, self.parser,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\sphinx\io.py", line 104, in read
+    self.parse()
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\docutils\readers\__init__.py", line 78, in parse
+    self.parser.parse(self.input, document)
+  File "C:\Users\hz3752\.conda\envs\neurowaves-lab-documentation\Lib\site-packages\nbsphinx\__init__.py", line 662, in parse
+    raise NotebookError(
+nbsphinx.NotebookError: PandocMissing in 6-meg-pipeline-gallery\notebooks\fieldtrip\fieldtrip_general_analyse_triggers_combined.ipynb:
+Pandoc wasn't found.
+Please check that pandoc is installed:
+https://pandoc.org/installing.html
+
+Notebook error:
+PandocMissing in 6-meg-pipeline-gallery\notebooks\fieldtrip\fieldtrip_general_analyse_triggers_combined.ipynb:
+Pandoc wasn't found.
+Please check that pandoc is installed:
+https://pandoc.org/installing.html
+
+ERROR conda.cli.main_run:execute(127): `conda run python -m sphinx -T -b latex -d ..\..\rtd-build-output\_build\doctrees -D language=en . ..\..\rtd-build-output\pdf` failed. (See above for error)
+Running Sphinx v7.1.2
+Global variable ALL_WEBSITE
+[autosummary] generating autosummary for: 1-lab-overview\0-neurowaves-lab-presentation.rst, 1-lab-overview\1-neurowaves-general-policies.rst, 1-lab-overview\2-neurowaves-processes.rst, 1-lab-overview\3-neurowaves-publications.rst, 1-lab-overview\4-neurowaves-collaborations.rst, 1-lab-overview\5-neurowaves-useful-links.rst, 1-lab-overview\6-neurowaves-contribution.rst, 2-meg-kit-system\1-technology-overview.rst, 2-meg-kit-system\2-system-specification.rst, 2-meg-kit-system\3-main-applications.rst, ..., 7-meg-class-talks-demos\demos\1-meg-class-demo.rst, 7-meg-class-talks-demos\demos\2-meg-biopsychology-class-tour.rst, 7-meg-class-talks-demos\demos\3-meg-bioengineering-class.rst, 8-meg-operations\1-meg-maintenance.rst, 8-meg-operations\2-meg-emergency.rst, 9-meg-standard-operating-procedure\standard-operating-procedures.rst, api.rst, glossary.rst, index.rst, index_lab_manual.rst
+loading intersphinx inventory from https://docs.python.org/3/objects.inv...
+loading intersphinx inventory from https://www.sphinx-doc.org/en/master/objects.inv...
+building [mo]: targets for 0 po files that are out of date
+writing output... 
+building [latex]: all documents
+updating environment: [new config] 72 added, 0 changed, 0 removed
+reading sources... [  1%] 1-lab-overview/0-neurowaves-lab-presentation
+reading sources... [  3%] 1-lab-overview/1-neurowaves-general-policies
+reading sources... [  4%] 1-lab-overview/2-neurowaves-processes
+reading sources... [  6%] 1-lab-overview/3-neurowaves-publications
+reading sources... [  7%] 1-lab-overview/4-neurowaves-collaborations
+reading sources... [  8%] 1-lab-overview/5-neurowaves-useful-links
+reading sources... [ 10%] 1-lab-overview/6-neurowaves-contribution
+reading sources... [ 11%] 2-meg-kit-system/1-technology-overview
+reading sources... [ 12%] 2-meg-kit-system/2-system-specification
+reading sources... [ 14%] 2-meg-kit-system/3-main-applications
+reading sources... [ 15%] 2-meg-kit-system/4-training
+reading sources... [ 17%] 2-meg-kit-system/5-operational-protocol
+reading sources... [ 18%] 2-meg-kit-system/5-operational-protocol-meg-session-checklist
+reading sources... [ 19%] 2-meg-kit-system/6-experiment-design
+reading sources... [ 21%] 2-meg-kit-system/7-dashboards
+reading sources... [ 22%] 3-meg-opm-system/1-technology-overview
+reading sources... [ 24%] 3-meg-opm-system/2-system-specification
+reading sources... [ 25%] 3-meg-opm-system/3-main-applications
+reading sources... [ 26%] 3-meg-opm-system/4-training
+reading sources... [ 28%] 3-meg-opm-system/5-operational-protocol
+reading sources... [ 29%] 3-meg-opm-system/6-experiment-design
+reading sources... [ 31%] 3-meg-opm-system/7-dashboards
+reading sources... [ 32%] 4-meg-experiments-gallery/1-meg-experiments
+reading sources... [ 33%] 4-meg-experiments-gallery/experiments/general/responsebox
+reading sources... [ 35%] 4-meg-experiments-gallery/experiments/presentation/kidlang
+reading sources... [ 36%] 4-meg-experiments-gallery/experiments/psychopy/face-inversion-psychopy
+reading sources... [ 38%] 4-meg-experiments-gallery/experiments/psychopy/language-studies
+reading sources... [ 39%] 4-meg-experiments-gallery/experiments/psychopy/trigger-psychopy
+reading sources... [ 40%] 4-meg-experiments-gallery/experiments/psychtoolbox/attention-experiment
+reading sources... [ 42%] 4-meg-experiments-gallery/experiments/psychtoolbox/auditory-vs-visual
+reading sources... [ 43%] 4-meg-experiments-gallery/experiments/psychtoolbox/exp-sound
+reading sources... [ 44%] 4-meg-experiments-gallery/experiments/psychtoolbox/go-no-go
+reading sources... [ 46%] 4-meg-experiments-gallery/experiments/psychtoolbox/photodiode
+reading sources... [ 47%] 4-meg-experiments-gallery/experiments/psychtoolbox/resting-state
+reading sources... [ 49%] 4-meg-experiments-gallery/experiments/psychtoolbox/trigger-psychtoolbox
+reading sources... [ 50%] 4-meg-experiments-gallery/experiments/psychtoolbox/visual-crowd-preview
+reading sources... [ 51%] 5-meg-data-gallery/1-datafiles
+reading sources... [ 53%] 5-meg-data-gallery/2-datastorage
+reading sources... [ 54%] 6-meg-pipeline-gallery/1-meg-pipeline-overview
+reading sources... [ 56%] 6-meg-pipeline-gallery/2-meg-pipeline-gallery
+reading sources... [ 57%] 6-meg-pipeline-gallery/notebooks/fieldtrip/fieldtrip_general_analyse_triggers_combined
+
+====================== slowest reading durations =======================
+0.234 2-meg-kit-system/5-operational-protocol
+0.066 4-meg-experiments-gallery/experiments/psychopy/trigger-psychopy
+0.038 2-meg-kit-system/7-dashboards
+0.037 2-meg-kit-system/2-system-specification
+0.035 5-meg-data-gallery/2-datastorage
+
