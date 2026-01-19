@@ -304,12 +304,15 @@ for b = 1:nBlocks
 %         Screen('Flip', win);
         ts = Screen('Flip', win);
 
-        % immediately record trigger for ending audio
-        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 224, ts, ObjCategory);
-        TrigCounter = TrigCounter + 1;
+
 
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+        
+                % immediately record trigger for ending audio
+        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 224, ts, ObjCategory);
+        TrigCounter = TrigCounter + 1;
+
         PsychPortAudio('Start', pahandle, 1, 0, 1);   % start audio
         
         PsychPortAudio('Stop', pahandle, 1);    % stop audio
@@ -317,12 +320,14 @@ for b = 1:nBlocks
 %         Screen('Flip', win);
         ts = Screen('Flip', win);
 
-        % immediately record trigger for ending audio
-        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 225, ts, ObjCategory);
-        TrigCounter = TrigCounter + 1;
+
 
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+
+                % immediately record trigger for ending audio
+        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 225, ts, ObjCategory);
+        TrigCounter = TrigCounter + 1;
 
         %% Stage 4: Imagination period
         Screen('FillRect', win, white); 
@@ -335,13 +340,14 @@ for b = 1:nBlocks
 
         ts = Screen('Flip', win);
 
-        % immediately record trigger for imagine end
-        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 226, ts, ObjCategory);
-        TrigCounter = TrigCounter + 1;
 
         Screen('FillRect', win, black_rgb, trigRect); 
         Screen('Flip', win); 
+        
 
+        % record trigger for catch question response
+        TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 228, ts, ObjCategory);
+        TrigCounter = TrigCounter + 1;
 
         % play cue again to let participants open eyes
         cueData = audioCache('Cue');
@@ -384,13 +390,15 @@ for b = 1:nBlocks
 
         ts = Screen('Flip', win);
 
+
+
+        %WaitSecs(0.005); % Short trigger pulse
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win);
+        
         % record trigger for rate
         TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 227, ts, ObjCategory);
         TrigCounter = TrigCounter + 1;
-
-        WaitSecs(0.005); % Short trigger pulse
-        Screen('FillRect', win, black_rgb, trigRect);
-        Screen('Flip', win);
 
         %% Stage 6: Catch Question
         question = T.CatchQuestion{tr};
@@ -426,14 +434,16 @@ for b = 1:nBlocks
 
         ts = Screen('Flip', win);
 
+
+        %WaitSecs(0.005); % Short trigger pulse
+        Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
+        Screen('Flip', win);
+        
         % record trigger for catch question response
         TrigCheck_results = logTrig(TrigCheck_results, TrigCounter, b, objPrompt, objName, 228, ts, ObjCategory);
         TrigCounter = TrigCounter + 1;
 
-        WaitSecs(0.005); % Short trigger pulse
-        Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
-        Screen('Flip', win);
-    
+
         % Save trial results into the preallocated struct array
         results(trialCounter).Block = b;
         results(trialCounter).BlockImagineTime = imagine_time;
