@@ -338,13 +338,7 @@ for b = 1:nBlocks
         Screen('FillRect', win, trigImg1Start, trigRect); %% set trigger for img1 start
         ts = Screen('Flip', win);
 
-        TrigCheck_results = logTrig( ...
-            TrigCheck_results, TrigCounter, b, ...
-            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
-            224, ts, ObjCategory);
 
-        TrigCounter = TrigCounter + 1;
-        
         % present img1 again after flip, we want it to stay, or the image just flash
         tex = Screen('MakeTexture', win, img1);
         Screen('DrawTexture', win, tex, [], ...
@@ -352,20 +346,29 @@ for b = 1:nBlocks
         
         Screen('FillRect', win, black_rgb, trigRect); % turn off trigger for img1 start
         Screen('Flip', win);
+        
+        TrigCheck_results = logTrig( ...
+        TrigCheck_results, TrigCounter, b, ...
+        TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+        224, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
 
         WaitSecs(imageDur); % present img1
 
         Screen('FillRect', win, trigImg1End, trigRect); %% set trigger for img1 end
         ts = Screen('Flip', win);
 
+
+        Screen('FillRect', win, black_rgb, trigRect);
+        Screen('Flip', win);
+        
         TrigCheck_results = logTrig( ...
             TrigCheck_results, TrigCounter, b, ...
             TargetObjPrompt, TargetObjName, target_order, distractObj, ...
             225, ts, ObjCategory);
 
         TrigCounter = TrigCounter + 1;
-        Screen('FillRect', win, black_rgb, trigRect);
-        Screen('Flip', win);
 
         % Clear texture
         if exist('tex','var')
@@ -387,12 +390,7 @@ for b = 1:nBlocks
         Screen('FillRect', win, trigImg2Start, trigRect); %% set trigger for Img2 start
         ts = Screen('Flip', win);
 
-        TrigCheck_results = logTrig( ...
-            TrigCheck_results, TrigCounter, b, ...
-            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
-            226, ts, ObjCategory);
 
-        TrigCounter = TrigCounter + 1;
 
         % present img2 again after flip
         tex = Screen('MakeTexture', win, img2);
@@ -401,20 +399,29 @@ for b = 1:nBlocks
 
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+        
+        TrigCheck_results = logTrig( ...
+    TrigCheck_results, TrigCounter, b, ...
+    TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+    226, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
 
         WaitSecs(imageDur);
 
         Screen('FillRect', win, trigImg2End, trigRect); %% set trigger for Img2 end
         ts = Screen('Flip', win);
 
-        TrigCheck_results = logTrig( ...
-            TrigCheck_results, TrigCounter, b, ...
-            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
-            227, ts, ObjCategory);
 
-        TrigCounter = TrigCounter + 1;
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+        TrigCheck_results, TrigCounter, b, ...
+        TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+        227, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
         
         % Clear texture
         if exist('tex','var')
@@ -458,30 +465,34 @@ for b = 1:nBlocks
         Screen('FillRect', win, trigPromptStart, trigRect); %% set trigger for prompt start
         ts = Screen('Flip', win);
 
-        TrigCheck_results = logTrig( ...
-            TrigCheck_results, TrigCounter, b, ...
-            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
-            228, ts, ObjCategory);
 
-        TrigCounter = TrigCounter + 1;
         
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+        
+        TrigCheck_results = logTrig( ...
+        TrigCheck_results, TrigCounter, b, ...
+        TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+        228, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
         PsychPortAudio('Start', pahandle, 1, 0, 1);   % start playback
 
         PsychPortAudio('Stop', pahandle, 1);          % wait until done
         Screen('FillRect', win, trigPromptEnd, trigRect); %% set trigger for prompt end
         ts = Screen('Flip', win);
 
-        TrigCheck_results = logTrig( ...
-            TrigCheck_results, TrigCounter, b, ...
-            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
-            229, ts, ObjCategory);
-
-        TrigCounter = TrigCounter + 1;        
+       
         
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
+        
+        TrigCheck_results = logTrig( ...
+    TrigCheck_results, TrigCounter, b, ...
+    TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+    229, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1; 
 
         %% Stage 5: Memory period
         Screen('FillRect', win, white); 
@@ -493,15 +504,17 @@ for b = 1:nBlocks
         Screen('FillRect', win, trigRecallEnd, trigRect); %% set trigger for recall end
         ts = Screen('Flip', win);
 
+      
+        
+        Screen('FillRect', win, black_rgb, trigRect); 
+        Screen('Flip', win); 
+
         TrigCheck_results = logTrig( ...
             TrigCheck_results, TrigCounter, b, ...
             TargetObjPrompt, TargetObjName, target_order, distractObj, ...
             230, ts, ObjCategory);
 
-        TrigCounter = TrigCounter + 1;        
-        
-        Screen('FillRect', win, black_rgb, trigRect); 
-        Screen('Flip', win); 
+        TrigCounter = TrigCounter + 1;  
 
         % play cue again to let participants open eyes
         PsychPortAudio('FillBuffer', pahandle, cueData.wave);
