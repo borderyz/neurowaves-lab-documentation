@@ -565,15 +565,16 @@ for b = 1:nBlocks
         Screen('FillRect', win, trigQuestionResp, trigRect); %% trigger for question resp
         ts = Screen('Flip', win);
 
+        Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
+        Screen('Flip', win);
+        
+
         TrigCheck_results = logTrig( ...
             TrigCheck_results, TrigCounter, b, ...
             TargetObjPrompt, TargetObjName, target_order, distractObj, ...
             231, ts, ObjCategory);
 
         TrigCounter = TrigCounter + 1;
-
-        Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
-        Screen('Flip', win);
 
         CatchQuestion_Resptime = GetSecs();
     
