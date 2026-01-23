@@ -268,7 +268,7 @@ for b = 1:nBlocks
         % Stage 2: Cue Audio
         % (If you have a special Cue file)
         try
-            [cueWave, cueFs] = audioread(fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt\', 'Cue.mp3'));
+            [cueWave, cueFs] = audioread(fullfile('AuditoryPrompt', 'Cue.mp3'));
             % Ensure cueWave is channels x samples for PsychPortAudio:
             PsychPortAudio('FillBuffer', pahandle, cueWave'); % audioread gives samples x ch
             PsychPortAudio('Start', pahandle, 1, 0, 1);
@@ -283,7 +283,7 @@ for b = 1:nBlocks
         objPrompt = string(T.ObjectPrompt{tr}); 
         objName = string(T.Object{tr}); % ensure we use table row 'tr' 
 
-        audioFile = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\AuditoryPrompt', objName + ".mp3"); 
+        audioFile = fullfile('AuditoryPrompt', objName + ".mp3"); 
         numChannels = 2;   % must match pahandle
         [y, Fs] = audioread(audioFile);
         numSamples = min(round(1.5*Fs), size(y,1));
@@ -352,7 +352,7 @@ for b = 1:nBlocks
         yPos = (screenY*0.5) - (imgHeight*0.5);
 
         for i = 1:numel(imgNums)
-            imgPath = fullfile('C:\Users\vpixx\PycharmProjects\neurowaves-lab-documentation\experiments\psychopy\Visual_Imagery_DM_YZ\imgs_diffusion\', ...
+            imgPath = fullfile('imgs_diffusion', ...
                 [randObj, num2str(imgNums(i)), '.jpg']);
             if exist(imgPath, 'file')
                 img = imread(imgPath);

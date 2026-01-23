@@ -1,10 +1,24 @@
 %% Visual Working Memory Official
-clear; clc; close all;
+clear all; clc; close all;
 
-% set VPIXX to DisablePixelMode
-Datapixx('Open');
-Datapixx('DisablePixelMode');  % disable pixelmodel at the beginning
-Datapixx('RegWr');
+% ===== Run mode (edit this only) =====
+RUN_MODE = 'MEG';  
+% 'MEG' | 'SIMULATE_VPIXX' | 'SIMULATE_LAPTOP'
+
+USE_VPIXX = any(strcmp(RUN_MODE, {'MEG','SIMULATE_VPIXX'}));
+USE_SIM   = any(strcmp(RUN_MODE, {'SIMULATE_VPIXX','SIMULATE_LAPTOP'}));
+
+% USE_DEBUG_TRIALS = USE_SIM;
+
+% DEBUG trials ONLY for laptop testing
+USE_DEBUG_TRIALS = strcmp(RUN_MODE, 'SIMULATE_LAPTOP');
+
+% set VPIXX
+if USE_VPIXX
+    Datapixx('Open');
+    Datapixx('EnablePixelMode');
+    Datapixx('RegWr');
+end
 
 %% Setup 
 Screen('Preference', 'SkipSyncTests', 1);  % only for debugging
@@ -35,8 +49,26 @@ subNumStr = answer1{1};  % e.g., '07'
 beh_datafolder = fullfile(pwd, 'Beh_Data')
 
 % Build filename
-filename = fullfile(beh_datafolder, sprintf('Sub%s_Visual_WorkingMemory_MEG.csv', subNumStr));
-TrigCheck_filename = fullfile(beh_datafolder, sprintf('Sub%s_TrigCheck_Visual_WorkingMemory_MEG.csv', subNumStr));
+filename = fullfile(beh_datafolder, sprintf('sub-%s_task-VWM_split-4_trials.csv', subNumStr));
+TrigCheck_filename = fullfile(beh_datafolder, sprintf('sub-%s_task-VWM_split-4_events.csv', subNumStr));
+
+%% MATLAB console output data saving
+taskName = 'visualworkingmemory';
+
+% Construct filename
+logFileName = sprintf('sub-%s_task-%s_desc-matlabconsole_log.txt', subNumStr, taskName);
+
+% Define full path - creating a 'logs' directory if it doesn't exist
+logDir = fullfile(pwd, 'logs');
+if ~exist(logDir, 'dir')
+    mkdir(logDir);
+end
+logFilePath = fullfile(logDir, logFileName);
+
+% Turn on diary to start recording command window output
+diary(logFilePath);
+
+%% Setup
 % Open window (use 'win' consistently)
 [win, rect] = PsychImaging('OpenWindow', max(Screen('Screens')), white);
 [screenX, screenY] = RectSize(rect);
@@ -65,12 +97,13 @@ trigPromptEnd = [0 16 0];  % ch229
 trigRecallEnd = [0 64 0]; % ch230 
 trigQuestionResp = [0 0  1]; % ch231 
 
-%-------------------------------------------
 % VPIXX SETUP
-%-------------------------------------------    
-Datapixx('Open');
-Datapixx('EnablePixelMode');   % open pixel model
-Datapixx('RegWr');
+% set VPIXX
+if USE_VPIXX
+    Datapixx('Open');
+    Datapixx('EnablePixelMode');
+    Datapixx('RegWr');
+end
 
 %% set up buttons for MEG controller
 % set button for CatchQuestion
@@ -89,12 +122,12 @@ pahandle = PsychPortAudio('Open', [], 1, 1, 48000, 2); % playback device, freq 4
 
 %% Experiment constants (tweak if needed)
 blankTime = 0.5; % inter-trial blank interval (seconds)
-imageDur = 2.0;   % seconds to show each image
+imageDur = 2.0;   % seconds to show each image, should be 2s here
 cuePlaySecs = 1.0; % seconds to play cue
 audioTrimSecs = 1.5; % how long to trim object audio for playback
 imgNums = [1, 3, 5, 7, 10];  % as in your code
 imgWidth = 380; imgHeight = 380;
-recall_time = 4.0; 
+recall_time = 4.0; % seconds to recall, should be 4s here
 textYPos = round(screenY*0.8);    % rating text lower
 
 %% ------------------- Stage 1: Instruction -------------------
@@ -110,13 +143,19 @@ Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 
 % Load block file
-blockFiles = {
-    'VWM_B1_trials.csv'
-    'VWM_B2_trials.csv'
-};
-
-% audio cue file
-[cueWave, cueFs] = audioread(fullfile('AuditoryPrompt', 'Cue.mp3'));
+if USE_DEBUG_TRIALS
+    % Load block file
+    blockFiles = {
+        'VWM_B1_trials_DEBUG.csv'
+        'VWM_B2_trials_DEBUG.csv'
+    };
+else
+    % Load block file
+    blockFiles = {
+        'VWM_B1_trials.csv'
+        'VWM_B2_trials.csv'
+    };
+end
 
 %% Assign one random imagine_time per block
 nBlocks = numel(blockFiles);  
@@ -137,8 +176,84 @@ TrigCheck_results = repmat(struct('Block',NaN, 'TargetPrompt','','TargetObject',
 
 HideCursor;
 trialCounter = 1;
+TrigCounter = 1;
 
-%% ------------------- Block loop -------------------
+%% Preload all stimuli
+disp('Preloading all images and audio ...');
+
+% Containers
+imageCache = containers.Map;   % key: 'object_imgnum'
+audioCache = containers.Map;   % key: object name
+
+% Preload cue audio
+cueFile = fullfile('AuditoryPrompt', 'Cue.mp3');
+[cueWave, cueFs] = audioread(cueFile);
+audioCache('Cue') = struct('wave', cueWave', 'Fs', cueFs);
+
+% Collect all objects used across blocks
+allObjects = {};
+for b = 1:nBlocks
+    T = T_blocks{b};
+    objs = T.Object;
+    allObjects = [allObjects; objs];
+end
+allObjects = unique(string(allObjects));
+
+% Preload all object audio
+for i = 1:numel(allObjects)
+    objName = strtrim(allObjects{i});
+    audioFile = fullfile('AuditoryPrompt', objName + ".mp3");
+
+    try
+        [y, Fs] = audioread(audioFile);
+
+        % Trim and convert to 2-channel (stereo)
+        numSamples = min(round(1.5*Fs), size(y,1));
+        y_trim = y(1:numSamples, :);
+
+        if size(y_trim,2) == 1
+            y_trim = repmat(y_trim, 1, 2);
+        end
+
+        % Transpose to channels × samples for PsychPortAudio
+        y_trim = y_trim';
+
+        % Normalize
+        if max(abs(y_trim(:))) > 1
+            y_trim = y_trim / max(abs(y_trim(:)));
+        end
+
+        audioCache(objName) = struct('wave', y_trim, 'Fs', Fs);
+
+    catch ME
+        warning('Could not load %s: %s', audioFile, ME.message);
+    end
+end
+
+% Preload all images
+imgNumsToLoad = [6 8 10];   % used for memory test
+imgNumsPercept = [10];      % fixed in your code
+
+allImgNums = unique([imgNumsToLoad imgNumsPercept]);
+
+for i = 1:numel(allObjects)
+    objName = char(strtrim(allObjects{i}));
+
+    for n = allImgNums
+        key = sprintf('%s_%d', objName, n);
+        imgPath = fullfile('imgs_diffusion', [objName num2str(n) '.jpg']);
+
+        try
+            imageCache(key) = imread(imgPath);
+        catch
+            warning('Missing image: %s', imgPath);
+        end
+    end
+end
+
+disp('Preloading complete.');
+
+%%  Block loop 
 for b = 1:nBlocks
     T = T_blocks{b};
 
@@ -156,6 +271,11 @@ for b = 1:nBlocks
     %%  Trial Loop
     for idx = 1:height(T)
         tr = trialOrder(idx);
+
+        % Define prompt here
+        TargetObjPrompt = string(T.ObjectPrompt{tr});  % The spoken cue (object name)
+        TargetObjName   = string(T.Object{tr});  % The actual target object
+
         
         % check esc
         [~, ~, keyCode] = KbCheck;
@@ -172,28 +292,8 @@ for b = 1:nBlocks
         WaitSecs(blankTime);
 
         %% Stage 2: Image perception
-        % --- Choose target object and distractor object ---
+        % Choose target object and distractor object
 
-
-%         % Randomly pick distractor object offset (+/-10, 20, 30)
-%         offsetOptions = [10, 20, 30];
-% 
-%         valid = false;
-%         while ~valid
-%             offset = offsetOptions(randi(numel(offsetOptions)));
-% 
-%             % Randomly decide whether to add or subtract
-%             if rand < 0.5
-%                 distractIdx = tr + offset;
-%             else
-%                 distractIdx = tr - offset;
-%             end
-% 
-%             % Check validity
-%             if distractIdx >= 1 && distractIdx <= height(T)
-%                 valid = true;
-%             end
-%         end
         targetObj = strtrim(T.Object{tr});  % Target object name
         targetImgNum = 10;  % always imgNums(10)
         targetColor = strtrim(T.Color{tr});
@@ -204,7 +304,7 @@ for b = 1:nBlocks
         distractImgNum = 10;
         ObjCategory = strtrim(T.Category{tr});
 
-        % --- Randomize order of presentation (target first or distractor first) ---
+        % Randomize order of presentation (target first or distractor first)
         if rand < 0.5
             order = {'target','distract'};
         else
@@ -225,22 +325,11 @@ for b = 1:nBlocks
         Obj2 = char(Obj2);
 
         % Load and show the image
-        imgPath = fullfile('imgs_diffusion', ...
-            [Obj1, num2str(10), '.jpg']);
-        
-        img1 = imread(imgPath);
+        key1 = sprintf('%s_%d', Obj1, 10);
+        key2 = sprintf('%s_%d', Obj2, 10);
 
-        imgPath = fullfile('imgs_diffusion', ...
-            [Obj2, num2str(10), '.jpg']);
-        
-        img2 = imread(imgPath);
-
-        % load audio file in advance, so loading won't
-        % affect timing for trigger
-        TargetObjPrompt = string(T.ObjectPrompt{tr}); 
-        TargetObjName = string(T.Object{tr}); % ensure we use table row 'tr' 
-        audioFile = fullfile('AuditoryPrompt', TargetObjName + ".mp3"); 
-        [y, Fs] = audioread(audioFile);
+        img1 = imageCache(key1);
+        img2 = imageCache(key2);
 
         % present img1
         tex = Screen('MakeTexture', win, img1);
@@ -250,7 +339,14 @@ for b = 1:nBlocks
         % Flip and show
         % the next 4 lines is a whole process of turn on and turn off a trigger
         Screen('FillRect', win, trigImg1Start, trigRect); %% set trigger for img1 start
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            224, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
         
         % present img1 again after flip, we want it to stay, or the image just flash
         tex = Screen('MakeTexture', win, img1);
@@ -263,7 +359,14 @@ for b = 1:nBlocks
         WaitSecs(imageDur); % present img1
 
         Screen('FillRect', win, trigImg1End, trigRect); %% set trigger for img1 end
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            225, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
 
@@ -285,7 +388,14 @@ for b = 1:nBlocks
         
         % Flip and show
         Screen('FillRect', win, trigImg2Start, trigRect); %% set trigger for Img2 start
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            226, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
 
         % present img2 again after flip
         tex = Screen('MakeTexture', win, img2);
@@ -298,7 +408,14 @@ for b = 1:nBlocks
         WaitSecs(imageDur);
 
         Screen('FillRect', win, trigImg2End, trigRect); %% set trigger for Img2 end
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            227, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
         
@@ -322,68 +439,50 @@ for b = 1:nBlocks
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
 
-        while true
-
-            % Blocking call: waits until a valid button press is detected
-            pair_CloseEyes = getButtonColor(selection_CloseEyes,true);  % blocking = true
-
-            % Build key string
-            key = sprintf('%s|%s', pair_CloseEyes{1}, pair_CloseEyes{2});
-
-            % Map to resp to CatchQuestion
-            if isKey(buttonMap, key)
-                %                 catchAnswer = buttonMap(key);
-                break;
-            else
-                % continue looping until a mapped button is pressed
-            end
+        if USE_SIM
+            WaitSecs(0.2); % fake reaction time
+            pair_CloseEyes = {'right box','white'};
+        else
+            pair_CloseEyes = getButtonColor(selection_CloseEyes,true);
         end
 
-        %  Stage 3: Cue Audio 
-        % (If you have a special Cue file)
-        try
-            % Ensure cueWave is channels x samples for PsychPortAudio:
-            PsychPortAudio('FillBuffer', pahandle, cueWave'); % audioread gives samples x ch
-            PsychPortAudio('Start', pahandle, 1, 0, 1);
-            WaitSecs(cuePlaySecs);
-            PsychPortAudio('Stop', pahandle);
-        catch ME
-            % If cue file missing, continue but warn
-            warning('Cue audio not played: %s', ME.message);
-        end
-    
+        %  Stage 3: Cue Audio         
+        cueData = audioCache('Cue');
+        PsychPortAudio('FillBuffer', pahandle, cueData.wave);
+        PsychPortAudio('Start', pahandle, 1, 0, 1);
+        WaitSecs(cuePlaySecs);
+        PsychPortAudio('Stop', pahandle);
+
         % Stage 4: Target Object Audio
-        numChannels = 2;   % must match pahandle
-
-        numSamples = min(round(1.5*Fs), size(y,1));
-
-        y_trim = y(1:numSamples, :);   % samples × channels
-
-        % If mono audio, replicate to stereo
-        if size(y_trim,2) == 1 && numChannels == 2
-            y_trim = repmat(y_trim, 1, 2);   % now samples × 2
-        end
-
-        % Transpose to channels × samples
-        y_trim = y_trim';
-
-        % Ensure double and normalize
-        y_trim = double(y_trim);
-        if max(abs(y_trim(:))) > 1
-            y_trim = y_trim / max(abs(y_trim(:)));
-        end
-
-        PsychPortAudio('FillBuffer', pahandle, y_trim);
+        TargetObjName = string(T.Object{tr});  
+        audioData = audioCache(TargetObjName);
+        PsychPortAudio('FillBuffer', pahandle, audioData.wave);
 
         Screen('FillRect', win, trigPromptStart, trigRect); %% set trigger for prompt start
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            228, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
+        
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
         PsychPortAudio('Start', pahandle, 1, 0, 1);   % start playback
 
         PsychPortAudio('Stop', pahandle, 1);          % wait until done
         Screen('FillRect', win, trigPromptEnd, trigRect); %% set trigger for prompt end
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            229, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;        
+        
         Screen('FillRect', win, black_rgb, trigRect);
         Screen('Flip', win);
 
@@ -395,32 +494,31 @@ for b = 1:nBlocks
         WaitSecs(recall_time);
         
         Screen('FillRect', win, trigRecallEnd, trigRect); %% set trigger for recall end
-        Screen('Flip', win);
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            230, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;        
+        
         Screen('FillRect', win, black_rgb, trigRect); 
         Screen('Flip', win); 
 
         % play cue again to let participants open eyes
-        try
-            [cueWave, cueFs] = audioread(fullfile('AuditoryPrompt', 'Cue.mp3'));
-            % Ensure cueWave is channels x samples for PsychPortAudio:
-            PsychPortAudio('FillBuffer', pahandle, cueWave'); % audioread gives samples x ch
-            PsychPortAudio('Start', pahandle, 1, 0, 1);
-            WaitSecs(cuePlaySecs);
-            PsychPortAudio('Stop', pahandle);
-        catch ME
-            % If cue file missing, continue but warn
-            warning('Cue audio not played: %s', ME.message);
-        end
+        PsychPortAudio('FillBuffer', pahandle, cueData.wave);
+        PsychPortAudio('Start', pahandle, 1, 0, 1);
+        WaitSecs(cuePlaySecs);
+        PsychPortAudio('Stop', pahandle);
 
         %% Stage 6: Memory Test
         % present target object
         testImgNum = randsample([6 8 10], 1);
 
-        targetImgPath = fullfile('imgs_diffusion', ...
-            [targetObj, num2str(testImgNum), '.jpg']);
+        keyTest = sprintf('%s_%d', targetObj, testImgNum);
+        img = imageCache(keyTest);
 
-        tex = [];
-        img = imread(targetImgPath);
         tex = Screen('MakeTexture', win, img);
         % Draw target image centered at top half of the screen
         Screen('DrawTexture', win, tex, [], ...
@@ -438,55 +536,45 @@ for b = 1:nBlocks
         catchAnswer = '';
 
         % set button for MEG controller (catch question)
-        while true
-            
-            % set escape
-            [~, ~, keyCode] = KbCheck;
-            if  keyCode(escapeKey)
 
-                Screen('CloseAll'); 
-                PsychPortAudio('Close', pahandle); 
-                error('Experiment terminated by user.'); %%%%% well, seems we need to press esc for many times to escape
-            end
+        % Simulate response for catch question
+        if USE_SIM
+            % Simulate button press
+            catchAnswer = randsample({'YES'},1);
+            % Simulate reaction time
+            CatchQuestion_Resptime = 0.2 ;
+            % Simulate onset time (for logging)
+            CatchQuestion_Onset = GetSecs();
+        else
 
-            % Blocking call: waits until a valid button press is detected
-            pair_CatchQuestion = getButtonColor(selection_CatchQuestion,true);  % blocking = true
+            while true
 
-            % Build key string
-            key = sprintf('%s|%s', pair_CatchQuestion{1}, pair_CatchQuestion{2});
+                % Blocking call: waits until a valid button press is detected
+                pair_CatchQuestion = getButtonColor(selection_CatchQuestion,true);  % blocking = true
 
-            % Map to resp to CatchQuestion
-            if isKey(buttonMap, key)
-                catchAnswer = buttonMap(key);
-                break;
-            else
-                % continue looping until a mapped button is pressed
+                % Build key string
+                key = sprintf('%s|%s', pair_CatchQuestion{1}, pair_CatchQuestion{2});
+
+                % Map to resp to CatchQuestion
+                if isKey(buttonMap, key)
+                    catchAnswer = buttonMap(key);
+                    break;
+                else
+                    % continue looping until a mapped button is pressed
+                end
             end
         end
 
-%         %% set for keyboard resp of CatchQuestion
-%         % Wait for key s/d/f
-%         key_s = KbName('s');
-%         key_d = KbName('d');
-%         keyPressed = false;
-%         while ~keyPressed
-%             [~, ~, keyCode] = KbCheck;
-%             if keyCode(escapeKey)
-%                 Screen('CloseAll'); PsychPortAudio('Close', pahandle); error('Experiment terminated by user (ESC pressed).');
-%             end
-%             if keyCode(key_s)
-%                 catchAnswer = 'YES';
-%                 keyPressed = true;
-%             elseif keyCode(key_d)
-%                 catchAnswer = 'NO';
-%                 keyPressed = true;
-%             end
-%             WaitSecs(0.001);
-%         end
-
         Screen('FillRect', win, trigQuestionResp, trigRect); %% trigger for question resp
-        Screen('Flip', win);
-        %WaitSecs(0.005); % Short trigger pulse
+        ts = Screen('Flip', win);
+
+        TrigCheck_results = logTrig( ...
+            TrigCheck_results, TrigCounter, b, ...
+            TargetObjPrompt, TargetObjName, target_order, distractObj, ...
+            231, ts, ObjCategory);
+
+        TrigCounter = TrigCounter + 1;
+
         Screen('FillRect', win, black_rgb, trigRect); %% trigger for question resp
         Screen('Flip', win);
 
@@ -503,16 +591,16 @@ for b = 1:nBlocks
         results(trialCounter).Question_CorIMG = testImgNum;
         results(trialCounter).Question_RT = CatchQuestion_Resptime - CatchQuestion_Onset;
 
-        for TrigIdx = 0:7
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Channel = 224 + TrigIdx;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Block = b;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetPrompt = TargetObjPrompt;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetObject = TargetObjName;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetOrder = target_order;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).DistractObject = distractObj;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Onset = (trialCounter - 1) * 8 + TrigIdx + 1;
-            TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Trial_Type = ObjCategory;
-        end
+%         for TrigIdx = 0:7
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Channel = 224 + TrigIdx;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Block = b;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetPrompt = TargetObjPrompt;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetObject = TargetObjName;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).TargetOrder = target_order;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).DistractObject = distractObj;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Onset = (trialCounter - 1) * 8 + TrigIdx + 1;
+%             TrigCheck_results((trialCounter - 1) * 8 + TrigIdx + 1).Trial_Type = ObjCategory;
+%         end
 
         % Convert results struct to table
         resultsTable = struct2table(results);
@@ -543,10 +631,38 @@ Screen('FillRect', win, black_rgb, trigRect);
 Screen('Flip', win);
 KbWait([], 2);
 
+% switch off trigger
+if USE_VPIXX
+    Datapixx('DisablePixelMode');
+    Datapixx('RegWr');
+    Datapixx('Close');
+end
+
 %% ------------------- Cleanup -------------------
 PsychPortAudio('Close', pahandle);
 Screen('CloseAll');
 
-%% save results
+%% Stop MATLAB console output recording
 
-% fprintf('Results saved to %s\n', filename);
+% Turn off diary to stop recording and close the file
+diary off;
+
+fprintf('Console output saved to: %s\n', logFilePath);
+
+function TrigCheck_results = logTrig(TrigCheck_results, index, block, ...
+    objPrompt, objName, targetOrder, distractObj, channelNum, onset_time, trialType)
+
+    TrigCheck_results(index).Block         = block;
+    TrigCheck_results(index).TargetPrompt  = objPrompt;
+    TrigCheck_results(index).TargetObject  = objName;
+    TrigCheck_results(index).TargetOrder   = targetOrder;
+    TrigCheck_results(index).DistractObject = distractObj;
+
+    % Channel number (224–231)
+    TrigCheck_results(index).Channel       = channelNum;
+
+    % Time of the trigger flip
+    TrigCheck_results(index).Onset         = onset_time;
+
+    TrigCheck_results(index).Trial_Type    = trialType;
+end
