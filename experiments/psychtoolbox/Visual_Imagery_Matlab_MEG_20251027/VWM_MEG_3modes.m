@@ -2,7 +2,7 @@
 clear all; clc; close all;
 
 % ===== Run mode (edit this only) =====
-RUN_MODE = 'SIMULATE_VPIXX';  
+RUN_MODE = 'MEG';  
 % 'MEG' | 'SIMULATE_VPIXX' | 'SIMULATE_LAPTOP'
 
 USE_VPIXX = any(strcmp(RUN_MODE, {'MEG','SIMULATE_VPIXX'}));

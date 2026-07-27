@@ -1,4 +1,4 @@
- clearvars
+clearvars
 
 vpix_use = 1; % 0 if vpixx is not conected
 
